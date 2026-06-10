@@ -6,11 +6,29 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 100%; height: 100%; overflow: hidden; background: transparent; }
-    div[data-us-project] { width: 100% !important; height: 100% !important; }
+
+    /* SQUARE STAGE — matches the Unicorn scene's native 1080×1080 artboard.
+       The scene always renders in the largest square that fits the iframe,
+       centered. Square = the diamond never deforms. Smaller screens get a
+       smaller square (dots shrink, structure identical). */
+    .sq-wrap {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sq {
+      width: min(100vw, 100vh);
+      height: min(100vw, 100vh);
+      flex: none;
+    }
+    .sq > div[data-us-project] { width: 100% !important; height: 100% !important; }
   </style>
 </head>
 <body>
-  <div style="width: 100%; height: 100%" data-us-project="XWV3sYIxk6mMu5ztDqQS"></div>
+  <div class="sq-wrap">
+    <div class="sq">
+      <div data-us-project="XWV3sYIxk6mMu5ztDqQS"></div>
+    </div>
+  </div>
   <script type="text/javascript">!function(){var u=window.UnicornStudio;if(u&&u.init){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){u.init()})}else{u.init()}}else{window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v2.1.3/dist/unicornStudio.umd.js",i.onload=function(){if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",function(){UnicornStudio.init()})}else{UnicornStudio.init()}},(document.head||document.body).appendChild(i)}}();</script>
 </body>
 </html>
