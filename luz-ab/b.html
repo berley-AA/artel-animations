@@ -405,6 +405,12 @@ class Component extends DCLogic {
     const sec = document.getElementById('lineup-sec');
     if (sec && below(sec) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { sec.classList.add('lu-reset'); sec.classList.remove('lu-go'); void sec.offsetWidth; sec.classList.remove('lu-reset'); if (this._pods) this._pods.reset(); }
   }
+  syncVids() {   // carousel: only the film in front plays, and only while the carousel is on screen
+    const tr = this._track; if (!tr) return;
+    Array.from(tr.children).forEach((card, i) => { const v = card.querySelector('video'); if (!v) return;
+      const want = i === this.state.slide && this.state.carIn && this.state.playing && !document.hidden;
+      try { if (want && v.paused) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else if (!want && !v.paused) v.pause(); } catch (x) {} });
+  }
   loopStep(y) {
     const L = this._loopEl || (this._loopEl = document.getElementById('loop')), card = this._loopCard || (this._loopCard = document.getElementById('loopCard'));
     if (!L || !card) return; const vh = window.innerHeight || 900, top = L.getBoundingClientRect().top;
@@ -450,7 +456,7 @@ class Component extends DCLogic {
       { label: 'Hands off to your team', where: 'ANY BUSINESS', lang: 'en', msgs: [me('I’d like a quote for 40 units for my gym.', 'k1'), luz('That one’s for the team. I’ve sent them our conversation, so you won’t repeat yourself.', 'k2'), luz('Sarah will email you today.', 'k3'), me('Great, thank you.', 'k4')] }
     ];
     const scrollToCard = (i) => { const tr = this._track; if (!tr || !tr.children[i]) return; this._progUntil = performance.now() + 900; tr.scrollTo({ left: tr.children[i].offsetLeft - tr.children[0].offsetLeft, behavior: 'smooth' }); this.setState({ slide: i }); };
-    this._carGo = scrollToCard; this._carN = CARDS.length; let rmo = false; try { rmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    this._carGo = scrollToCard; this._carN = CARDS.length; Promise.resolve().then(() => this.syncVids()); let rmo = false; try { rmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     const auto = !this.state.carManual && !rmo, take = () => { if (!this.state.carManual) this.setState({ carManual: true }); };
     return {
       navBg: this.state.scrolled || this.state.menu ? 'rgba(245,245,247,0.86)' : 'rgba(245,245,247,0)',
@@ -485,8 +491,8 @@ class Component extends DCLogic {
 }
 
 dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": true}, document.getElementById('dc-root'));
-/* only play the films that are on screen (saves battery and data on phones) */
-(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()})},{threshold:0.2});
-function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v.__io){v.__io=1;io.observe(v)}})}scan();new MutationObserver(scan).observe(document.getElementById('dc-root'),{childList:true,subtree:true});})();
+/* only play the films that are on screen (saves battery and data on phones); carousel films are run by the page: only the slide in front plays */
+(function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting&&e.intersectionRatio>=0.2){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()})},{threshold:0.2});
+function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v.__io&&!v.closest('#hlTrack')){v.__io=1;io.observe(v)}})}scan();new MutationObserver(scan).observe(document.getElementById('dc-root'),{childList:true,subtree:true});})();
 </script>
 </body></html>
