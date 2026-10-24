@@ -132,8 +132,8 @@ function lineup(cv,opts){
   const AT=opts.at||[0,0.65,1.3,1.95,2.6,2.925];      // film seconds: the Luz orb is there, then one more per 8th note
   const cam=new THREE.PerspectiveCamera(20,1,0.1,400);
   const SP=2.35,clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),eio=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
-  let w=0,h=0,raf=0,alive=true,running=false,t0=0,last=0,vis=false,idle=0;
-  const dprMax=matchMedia('(pointer: coarse)').matches?1.5:2;
+  let w=0,h=0,raf=0,alive=true,running=false,t0=0,vis=false;
+  const dprMax=matchMedia('(pointer: coarse)').matches?1:1.25;   // the beads are grainy by design: a lighter canvas looks the same and costs a third
   function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,dprMax);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     const AR=w/h,MV=Math.pow(Math.max(1,(16/9)/AR),0.62),m=AR>1.2?1.7:MV*(AR<0.7?2.0:1.65);
@@ -146,15 +146,19 @@ function lineup(cv,opts){
       c.visible=true;c.position.set(i*SP,Math.sin(t*0.8+i*0.9)*0.02,0);c.scale.setScalar(pop);c.rotation.set(0,0,lean);
       c.children[0].rotation.y=0.35+i*0.9+t*0.05;U.uGradient.value=tex[i];renderer.clearDepth();renderer.render(scene,cam);}
     pods.forEach(p=>p.visible=false);}
-  function frame(now){if(!alive)return;raf=0;if(!vis&&!running)return;raf=requestAnimationFrame(frame);
-    if(now-last<(dprMax<2?30:14))return;last=now;size();const t=now/1000;
+  function frame(now){if(!alive)return;raf=0;size();const t=now/1000;
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);
-    const v=running?(now-t0)/1000:-1;draw(v,t);}
+    const v=running?(now-t0)/1000:-1;draw(v,t);
+    // render only while the line is landing; once it has settled the last frame simply stays on screen
+    if(vis&&running&&v<AT[AT.length-1]+1.2)raf=requestAnimationFrame(frame);}
   function kick(){if(!raf&&alive)raf=requestAnimationFrame(frame);}
   let io=null;if(opts.manual){}else if('IntersectionObserver' in window){io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)kick();});io.observe(cv);}else vis=true;
   draw(-1,0);
+  const warm=()=>{try{pods.forEach(p=>p.visible=true);renderer.compile(scene,cam);pods.forEach(p=>p.visible=false);}catch(e){}};
+  if(window.requestIdleCallback)requestIdleCallback(warm,{timeout:1500});else setTimeout(warm,300);
+  const onR=()=>kick();window.addEventListener('resize',onR);
   return {still(v,t){size();U.uTime.value=t||3;draw(v,t||3);},play(){running=true;t0=performance.now();kick();},reset(){running=false;kick();},
-    destroy(){alive=false;cancelAnimationFrame(raf);if(io)io.disconnect();try{renderer.dispose();}catch(e){}}};
+    destroy(){alive=false;cancelAnimationFrame(raf);if(io)io.disconnect();window.removeEventListener('resize',onR);try{renderer.dispose();}catch(e){}}};
 }
 
 window.ArtelLineup={mount:lineup};

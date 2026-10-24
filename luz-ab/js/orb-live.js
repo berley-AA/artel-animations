@@ -107,13 +107,14 @@ function mount(cv,opts){
   function onUp(e){const was=drag;drag=null;if(was&&performance.now()-was.t>90){spinV=0;pitchV=0;}pitchV=Math.max(-8,Math.min(8,pitchV));spinV=Math.max(-14,Math.min(14,spinV));if(was&&moved<6){const p=local(e);U.uClk.value.set(p.x*1.1,p.y*1.4,0.8);U.uClkT.value=0;U.uClkA.value=1;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
   function onLeave(){tx=0;ty=0;exT=0;}
   cv.addEventListener('pointermove',onMove);cv.addEventListener('pointerdown',onDown);cv.addEventListener('pointerup',onUp);cv.addEventListener('pointerleave',onLeave);
-  function frame(now){if(!alive)return;raf=requestAnimationFrame(frame);size();const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
+  function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);size();const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
     tiltX+=(tx-tiltX)*0.06;tiltY+=(ty-tiltY)*0.06;excite+=(exT-excite)*0.05;if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;spin+=(spinV+0.05)*dt;pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
     floatG.rotation.set(0.16+tiltX+pitch,0.4+tiltY,0);grp.rotation.y=spin;floatG.position.y=Math.sin(t*0.8)*h*0.006;
     renderer.render(scene,cam3);}
+  let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{onScr=es[es.length-1].isIntersecting;wake();});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
   raf=requestAnimationFrame(frame);
-  return {destroy(){alive=false;cancelAnimationFrame(raf);cv.removeEventListener('pointermove',onMove);cv.removeEventListener('pointerdown',onDown);cv.removeEventListener('pointerup',onUp);cv.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
+  return {destroy(){alive=false;cancelAnimationFrame(raf);if(vio)vio.disconnect();document.removeEventListener('visibilitychange',wake);cv.removeEventListener('pointermove',onMove);cv.removeEventListener('pointerdown',onDown);cv.removeEventListener('pointerup',onUp);cv.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
 }
 window.ArtelOrb={mount};
 })();
