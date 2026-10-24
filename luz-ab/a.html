@@ -61,6 +61,11 @@ main{overflow-x:clip}
 @media (max-width: 767px){.aaf{gap:48px;padding-top:72px}.aaf-grid{grid-template-columns:minmax(0,1fr)}.aaf-idx{order:-1}}
 @media (pointer: coarse){.aaf-sm{min-height:44px}}
 @media (prefers-reduced-motion: reduce){.aaf-lc{transition:none}}
+/* colour line-up */
+.lu-w{display:inline-block;opacity:0;transform:translate3d(0,.28em,0);filter:blur(.12em);color:#FF7B00;transition-property:opacity,transform,filter,color;transition-duration:.34s,.34s,.34s,.65s;transition-timing-function:cubic-bezier(.33,1,.68,1),cubic-bezier(.33,1,.68,1),ease-out,linear}
+.lu-go .lu-w{opacity:1;transform:none;filter:none;color:#1D1D1F}
+.lu-reset .lu-w,[data-m].m-reset{transition:none!important}
+@media (prefers-reduced-motion: reduce){.lu-w{opacity:1;transform:none;filter:none;color:#1D1D1F;transition:none}}
 .track{scrollbar-width:none}.track::-webkit-scrollbar{display:none}
 .navlinks{display:flex}.navburger{display:none}
 @media (max-width: 860px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}}
@@ -175,6 +180,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   </div>
 </section>
 
+<section id="lineup-sec" aria-label="Dressed in your brand" style="position: relative; height: min(100svh, 900px); min-height: 560px; overflow: hidden; box-sizing: border-box;"><canvas id="podsCv" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;"></canvas><div style="position: relative; z-index: 1; padding: clamp(72px, 14vh, 140px) clamp(20px, 4vw, 64px) 0; text-align: center;"><h2 style="margin: 0; font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; font-size: clamp(40px, 5.6vw, 84px); text-wrap: balance;" aria-label="Dressed in your brand."><span class="lu-w" style="transition-delay: 0.6500s, 0.6500s, 0.6500s, 0.6500s;">Dressed</span> <span class="lu-w" style="transition-delay: 0.8125s, 0.8125s, 0.8125s, 0.8125s;">in</span> <span class="lu-w" style="transition-delay: 0.9750s, 0.9750s, 0.9750s, 0.9750s;">your</span> <span class="lu-w" style="transition-delay: 1.1375s, 1.1375s, 1.1375s, 1.1375s;">brand.</span></h2></div></section>
 <section aria-label="Why Luz" style="padding: clamp(80px, 12vh, 140px) clamp(20px, 4vw, 64px) clamp(56px, 8vh, 96px); box-sizing: border-box;">
   <div style="max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px;">
     <span style="font-size: 17px; font-weight: 500; color: #3A3A3C;">Why Luz</span>
@@ -322,9 +328,9 @@ class Component extends DCLogic {
       const fmt = (v) => (comma ? Math.round(v).toLocaleString('en-US') : String(Math.round(v)));
       const step = (t) => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = m[1] + fmt(target * e) + m[3]; if (k < 1) requestAnimationFrame(step); };
       el.textContent = m[1] + fmt(0) + m[3]; requestAnimationFrame(step); };
-    if (reduce || !('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('m-in')); return; }
+    if (reduce || !('IntersectionObserver' in window)) { els.forEach((e) => e.classList.add('m-in')); this.initPods(); return; }
     this._mio = new IntersectionObserver((es) => es.forEach((en) => { if (!en.isIntersecting) return; en.target.classList.add('m-in'); this._mio.unobserve(en.target); }), { threshold: 0.16, rootMargin: '0px 0px -6% 0px' });
-    els.forEach((e) => this._mio.observe(e));
+    els.forEach((e) => this._mio.observe(e)); this._mEls = els; this._mCounters = counters;
     this._cio = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting) { count(en.target); this._cio.unobserve(en.target); } }), { threshold: 0.6 });
     counters.forEach((e) => this._cio.observe(e));
     // the film grows from the content width to the full width as it rises into view
@@ -339,7 +345,7 @@ class Component extends DCLogic {
     const once = Array.from(document.querySelectorAll('video[data-playonce]'));
     if (once.length) { this._vio = new IntersectionObserver((es) => es.forEach((en) => { if (!en.isIntersecting) return; const v = en.target; this._vio.unobserve(v); try { v.muted = true; v.currentTime = 0; const q = v.play(); if (q && q.catch) q.catch(() => {}); } catch (x) {} }), { threshold: 0.55 });
       once.forEach((v) => this._vio.observe(v)); }
-    this.initLineup();
+    this.initLineup(); this.initPods();
   }
   initLineup() {
     const cv = document.getElementById('lineup'); if (!cv || !cv.getContext) return;
@@ -383,6 +389,26 @@ class Component extends DCLogic {
       if (d && d.type === 'luz:fullscreen') { this._chatOpen = !!d.on; fit(); } };
     window.addEventListener('message', this._chatMsg); window.addEventListener('resize', fit); fit();
   }
+  initPods() {
+    const sec = document.getElementById('lineup-sec'), cv = document.getElementById('podsCv'); if (!sec || !cv) return;
+    let reduce = false; try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    const mountPods = () => { if (this._pods || !window.ArtelLineup || !window.THREE) return !!this._pods; this._pods = window.ArtelLineup.mount(cv, { manual: reduce }); if (this._pods && reduce) this._pods.still(4); return true; };
+    const need = () => { if (window.ArtelLineup) return; if (document.getElementById('luScript')) return; const s = document.createElement('script'); s.id = 'luScript'; s.src = 'js/orb-lineup.js'; document.head.appendChild(s); };
+    if (reduce) { sec.classList.add('lu-go'); }
+    const go = () => { sec.classList.add('lu-go'); const tryPlay = () => { if (mountPods() && this._pods) { if (!reduce) this._pods.play(); } else setTimeout(tryPlay, 200); }; tryPlay(); };
+    need(); const wait = () => { if (!mountPods()) setTimeout(wait, 250); }; wait();
+    if (!('IntersectionObserver' in window)) { go(); return; }
+    this._luio = new IntersectionObserver((es) => es.forEach((en) => { if (en.isIntersecting && !sec.classList.contains('lu-go')) go(); }), { threshold: 0.45 });
+    this._luio.observe(sec);
+  }
+  rearm() {   // after the loop lands back on the hero, everything below plays again on the way down
+    const vh = window.innerHeight || 900, below = (el) => el.getBoundingClientRect().top > vh;
+    (this._mEls || []).forEach((el) => { if (!below(el) || !el.classList.contains('m-in')) return; el.classList.add('m-reset'); el.classList.remove('m-in'); void el.offsetWidth; el.classList.remove('m-reset'); if (this._mio) this._mio.observe(el); });
+    (this._mCounters || []).forEach((el) => { if (!below(el)) return; el._counted = false; if (this._cio) this._cio.observe(el); });
+    document.querySelectorAll('video[data-playonce]').forEach((v) => { try { v.pause(); v.currentTime = 0; } catch (x) {} if (this._vio) this._vio.observe(v); });
+    const sec = document.getElementById('lineup-sec');
+    if (sec && below(sec) && !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) { sec.classList.add('lu-reset'); sec.classList.remove('lu-go'); void sec.offsetWidth; sec.classList.remove('lu-reset'); if (this._pods) this._pods.reset(); }
+  }
   loopStep(y) {
     const L = this._loopEl || (this._loopEl = document.getElementById('loop')), card = this._loopCard || (this._loopCard = document.getElementById('loopCard'));
     if (!L || !card) return; const vh = window.innerHeight || 900, top = L.getBoundingClientRect().top;
@@ -390,12 +416,13 @@ class Component extends DCLogic {
     card.style.transform = 'scale(' + (0.84 + 0.16 * e) + ')'; card.style.filter = 'brightness(' + (0.8 + 0.2 * e) + ')';
     if (top <= 2 && !this._jumping) { this._jumping = true;   // the card now sits exactly where the hero is: go back to the top without a cut
       if (this._lenis) this._lenis.scrollTo(0, { immediate: true, force: true }); else window.scrollTo(0, 0);
+      try { this.rearm(); } catch (x) {}
       setTimeout(() => { this._jumping = false; }, 300); return; }
     const down = y >= (this._lastY || 0); this._lastY = y; clearTimeout(this._pullT);
     if (down && k > 0.55 && top > 2 && !this._jumping) { this._pullT = setTimeout(() => {   // they stopped near the end: pull them the rest of the way
       if (this._lenis) this._lenis.scrollTo(L, { duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 3) }); else L.scrollIntoView({ behavior: 'smooth' }); }, 140); }
   }
-  componentWillUnmount() { this._t.forEach(clearTimeout); (this._it || []).forEach(clearTimeout); clearInterval(this._cv); clearTimeout(this._pullT); try { if (this._io) this._io.disconnect(); if (this._orb) this._orb.destroy(); if (this._lenis) this._lenis.destroy(); window.removeEventListener('scroll', this._scroll); if (this._fill) window.removeEventListener('scroll', this._fill); if (this._chatMsg) window.removeEventListener('message', this._chatMsg); if (this._mio) this._mio.disconnect(); if (this._track) this._track.removeEventListener('scroll', this._ts); } catch (e) {} }
+  componentWillUnmount() { this._t.forEach(clearTimeout); (this._it || []).forEach(clearTimeout); clearInterval(this._cv); clearTimeout(this._pullT); try { if (this._io) this._io.disconnect(); if (this._orb) this._orb.destroy(); if (this._lenis) this._lenis.destroy(); window.removeEventListener('scroll', this._scroll); if (this._fill) window.removeEventListener('scroll', this._fill); if (this._chatMsg) window.removeEventListener('message', this._chatMsg); if (this._mio) this._mio.disconnect(); if (this._luio) this._luio.disconnect(); if (this._pods) this._pods.destroy(); if (this._track) this._track.removeEventListener('scroll', this._ts); } catch (e) {} }
   renderVals() {
     const ph = this.state.phase, chat = (this.props.orbClick ?? 'play') === 'chat';
     const CARDS = [
