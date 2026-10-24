@@ -66,6 +66,10 @@ main{overflow-x:clip}
 .lu-go .lu-w{opacity:1;transform:none;filter:none;color:#1D1D1F}
 .lu-reset .lu-w,[data-m].m-reset{transition:none!important}
 @media (prefers-reduced-motion: reduce){.lu-w{opacity:1;transform:none;filter:none;color:#1D1D1F;transition:none}}
+/* carousel controls */
+@keyframes lpfill{from{width:0}to{width:28px}}
+.car-bar.is-paused .dfill,.car-bar:hover .dfill,section:has(.track:hover) .dfill{animation-play-state:paused!important}
+.car-arr svg{transition:stroke .2s ease}.car-arr:hover svg{stroke:#FF7B00}.car-arr:focus-visible{outline:2px solid #FF7B00;outline-offset:-6px}
 .track{scrollbar-width:none}.track::-webkit-scrollbar{display:none}
 .navlinks{display:flex}.navburger{display:none}
 @media (max-width: 860px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}}
@@ -159,9 +163,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     </sc-for>
   </div>
   <div style="margin-top: 28px; display: flex; justify-content: center; align-items: center; gap: 14px;">
-    <div style="display: flex; gap: 0; align-items: center; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 0 6px; height: 44px; box-sizing: border-box;">
-      <sc-for list="{{dots}}" as="d" hint-placeholder-count="4"><button type="button" class="dot" aria-label="{{d.label}}" aria-current="{{d.on}}" onClick="{{d.go}}" style="width: {{d.w}}; height: 8px; padding: 0; border: 0; background: {{d.bg}}; cursor: pointer; transition: width .4s cubic-bezier(.22,1,.36,1), background .3s ease;"></button></sc-for>
-    </div>
+    <div class="{{carCls}}" style="display: flex; gap: 0; align-items: center; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 0 2px; height: 44px; box-sizing: border-box;"><button type="button" class="car-arr" aria-label="Previous client" aria-controls="hlTrack" onClick="{{prevCard}}" style="width: 40px; height: 42px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg aria-hidden="true" width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="square"><path d="M7 1L1 7l6 6"></path></svg></button><sc-for list="{{dots}}" as="d" hint-placeholder-count="4"><button type="button" class="dot" aria-label="{{d.label}}" aria-current="{{d.on}}" onClick="{{d.go}}" style="width: {{d.w}}; height: 8px; padding: 0; border: 0; background: {{d.bg}}; cursor: pointer; position: relative; transition: width .4s cubic-bezier(.22,1,.36,1), background .3s ease;"><span class="dfill" aria-hidden="true" style="position: absolute; left: 10px; top: 18px; height: 8px; width: {{d.fw}}; background: #1D1D1F; animation: {{d.anim}};"></span></button></sc-for><button type="button" class="car-arr" aria-label="Next client" aria-controls="hlTrack" onClick="{{nextCard}}" style="width: 40px; height: 42px; padding: 0; border: 0; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg aria-hidden="true" width="8" height="14" viewBox="0 0 8 14" fill="none" stroke="#1D1D1F" stroke-width="1.5" stroke-linecap="square"><path d="M1 1l6 6-6 6"></path></svg></button></div>
+    <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 44px; height: 44px; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;"><sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="#1D1D1F"><rect x="1.5" y="1" width="3" height="10"></rect><rect x="7.5" y="1" width="3" height="10"></rect></svg></sc-if><sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="#1D1D1F"><path d="M2 1l9 5-9 5z"></path></svg></sc-if></button>
   </div>
 </section>
 
@@ -257,7 +260,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <script>
 
 class Component extends DCLogic {
-  constructor(props) { super(props); this.state = { sent: false, phase: 0, inkIn: false, det: false, menu: false, scrolled: false, slide: 0, playing: true, conv: 0 }; this._t = []; }
+  constructor(props) { super(props); this.state = { sent: false, phase: 0, inkIn: false, det: false, menu: false, scrolled: false, slide: 0, playing: true, conv: 0, carManual: false, carIn: false }; this._t = []; }
   later(fn, ms) { this._t.push(setTimeout(fn, ms)); }
   go(p) { if (this.state.phase < p) this.setState({ phase: p }); }
   componentDidMount() {
@@ -292,7 +295,13 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._scroll, { passive: true });
     // highlights: which card is in view
     const tr = document.getElementById('hlTrack');
-    if (tr) { this._track = tr; this._ts = () => { const w = tr.firstElementChild ? tr.firstElementChild.getBoundingClientRect().width + 20 : 1; const i = Math.round(tr.scrollLeft / w); if (i !== this.state.slide) this.setState({ slide: Math.max(0, Math.min(3, i)) }); }; tr.addEventListener('scroll', this._ts, { passive: true }); }
+    if (tr) { this._track = tr; this._ts = () => { if (performance.now() < (this._progUntil || 0)) return; const w = tr.firstElementChild ? tr.firstElementChild.getBoundingClientRect().width + 20 : 1; const i = Math.round(tr.scrollLeft / w); if (i !== this.state.slide) this.setState({ slide: Math.max(0, Math.min(3, i)) }); }; tr.addEventListener('scroll', this._ts, { passive: true }); }
+    if (tr) { const man = () => { if (!this.state.carManual) this.setState({ carManual: true }); };
+      tr.addEventListener('pointerdown', man, { passive: true }); tr.addEventListener('touchstart', man, { passive: true });
+      tr.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) man(); }, { passive: true });
+      if ('IntersectionObserver' in window) { this._carIo = new IntersectionObserver((es) => es.forEach((en) => { const v = en.isIntersecting && en.intersectionRatio > 0.35; if (v !== this.state.carIn) this.setState({ carIn: v }); }), { threshold: [0, 0.35, 0.6] }); this._carIo.observe(tr); } else this.setState({ carIn: true });
+      this._carEnd = (e) => { if (e.animationName !== 'lpfill' || this.state.carManual || !this.state.playing || !this._carGo) return; this._carGo((this.state.slide + 1) % this._carN); };
+      document.addEventListener('animationend', this._carEnd); }
     try { const d = document.getElementById('highlights');
       if (d && 'IntersectionObserver' in window) { this._io = new IntersectionObserver((es) => { es.forEach((en) => { if (en.isIntersecting && en.intersectionRatio > 0.15) this.setState({ det: true }); }); }, { threshold: [0, 0.15, 0.4] }); this._io.observe(d); }
       else this.setState({ det: true }); } catch (e) { this.setState({ det: true }); }
@@ -407,7 +416,7 @@ class Component extends DCLogic {
     if (down && k > 0.55 && top > 2 && !this._jumping) { this._pullT = setTimeout(() => {   // they stopped near the end: pull them the rest of the way
       if (this._lenis) this._lenis.scrollTo(L, { duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 3) }); else L.scrollIntoView({ behavior: 'smooth' }); }, 140); }
   }
-  componentWillUnmount() { this._t.forEach(clearTimeout); (this._it || []).forEach(clearTimeout); clearInterval(this._cv); clearTimeout(this._pullT); try { if (this._io) this._io.disconnect(); if (this._orb) this._orb.destroy(); if (this._lenis) this._lenis.destroy(); window.removeEventListener('scroll', this._scroll); if (this._fill) window.removeEventListener('scroll', this._fill); if (this._chatMsg) window.removeEventListener('message', this._chatMsg); if (this._mio) this._mio.disconnect(); if (this._luio) this._luio.disconnect(); if (this._pods) this._pods.destroy(); if (this._track) this._track.removeEventListener('scroll', this._ts); } catch (e) {} }
+  componentWillUnmount() { if (this._carEnd) document.removeEventListener('animationend', this._carEnd); if (this._carIo) this._carIo.disconnect(); this._t.forEach(clearTimeout); (this._it || []).forEach(clearTimeout); clearInterval(this._cv); clearTimeout(this._pullT); try { if (this._io) this._io.disconnect(); if (this._orb) this._orb.destroy(); if (this._lenis) this._lenis.destroy(); window.removeEventListener('scroll', this._scroll); if (this._fill) window.removeEventListener('scroll', this._fill); if (this._chatMsg) window.removeEventListener('message', this._chatMsg); if (this._mio) this._mio.disconnect(); if (this._luio) this._luio.disconnect(); if (this._pods) this._pods.destroy(); if (this._track) this._track.removeEventListener('scroll', this._ts); } catch (e) {} }
   renderVals() {
     const ph = this.state.phase, chat = (this.props.orbClick ?? 'play') === 'chat';
     const CARDS = [
@@ -426,7 +435,9 @@ class Component extends DCLogic {
       { label: 'Starts a return', where: 'ONLINE STORE', lang: 'en', msgs: [me('This doesn’t fit. How do I return it?', 'k1'), luz('No problem. You’re within the 30 days, so here’s your return label.', 'k2'), luz('Drop it at any Canada Post. Your refund goes out once it arrives.', 'k3'), me('Easy. Thanks.', 'k4')] },
       { label: 'Hands off to your team', where: 'ANY BUSINESS', lang: 'en', msgs: [me('I’d like a quote for 40 units for my gym.', 'k1'), luz('That one’s for the team. I’ve sent them our conversation, so you won’t repeat yourself.', 'k2'), luz('Sarah will email you today.', 'k3'), me('Great, thank you.', 'k4')] }
     ];
-    const scrollToCard = (i) => { const tr = this._track; if (!tr || !tr.children[i]) return; tr.scrollTo({ left: tr.children[i].offsetLeft - tr.children[0].offsetLeft, behavior: 'smooth' }); this.setState({ slide: i }); };
+    const scrollToCard = (i) => { const tr = this._track; if (!tr || !tr.children[i]) return; this._progUntil = performance.now() + 900; tr.scrollTo({ left: tr.children[i].offsetLeft - tr.children[0].offsetLeft, behavior: 'smooth' }); this.setState({ slide: i }); };
+    this._carGo = scrollToCard; this._carN = CARDS.length; let rmo = false; try { rmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    const auto = !this.state.carManual && !rmo, take = () => { if (!this.state.carManual) this.setState({ carManual: true }); };
     return {
       navBg: this.state.scrolled || this.state.menu ? 'rgba(245,245,247,0.86)' : 'rgba(245,245,247,0)',
       navBlur: this.state.scrolled ? 'saturate(180%) blur(18px)' : 'none',
@@ -444,9 +455,11 @@ class Component extends DCLogic {
       orbHintCaps: chat ? 'TAP LUZ TO CHAT' : 'DRAG OR TAP LUZ',
       detO: this.state.det ? 1 : 0, detT: this.state.det ? 'none' : 'translateY(28px)',
       cards: CARDS,
-      dots: CARDS.map((c, i) => ({ label: 'Show ' + c.tag.toLowerCase(), on: i === this.state.slide ? 'true' : 'false', w: i === this.state.slide ? '28px' : '8px', bg: i === this.state.slide ? '#1D1D1F' : 'rgba(29,29,31,0.25)', go: () => scrollToCard(i) })),
-      playing: this.state.playing, paused: !this.state.playing, playLabel: this.state.playing ? 'Pause the videos' : 'Play the videos',
-      togglePlay: () => { const p = !this.state.playing; try { document.querySelectorAll('video.hlv').forEach((v) => { if (p) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else v.pause(); }); } catch (e) {} this.setState({ playing: p }); },
+      dots: CARDS.map((c, i) => ({ label: 'Slide ' + (i + 1) + ' of ' + CARDS.length, on: i === this.state.slide ? 'true' : 'false', w: i === this.state.slide ? '28px' : '8px', bg: 'rgba(29,29,31,0.25)', fw: i === this.state.slide && !auto ? '28px' : '0px', anim: i === this.state.slide && auto ? 'lpfill 7s linear forwards' : 'none', go: () => { take(); scrollToCard(i); } })),
+      carCls: !this.state.playing || !this.state.carIn ? 'car-bar is-paused' : 'car-bar',
+      prevCard: () => { take(); scrollToCard((this.state.slide + CARDS.length - 1) % CARDS.length); }, nextCard: () => { take(); scrollToCard((this.state.slide + 1) % CARDS.length); },
+      playing: this.state.playing, paused: !this.state.playing, playLabel: this.state.playing ? 'Pause' : 'Play',
+      togglePlay: () => { const p = !this.state.playing; try { document.querySelectorAll('#hlTrack video.hlv').forEach((v) => { if (p) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else v.pause(); }); } catch (e) {} this.setState({ playing: p }); },
       openFilm: (e) => { if (e && e.preventDefault) e.preventDefault(); try { const v = document.getElementById('film'); if (v) { v.currentTime = 0; v.muted = false; const q = v.play(); if (q && q.catch) q.catch(() => {}); } } catch (x) {} },
       convs: C.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0'), on: i === this.state.conv ? 'true' : 'false', disp: i === this.state.conv ? 'flex' : 'none',
         tabBg: i === this.state.conv ? '#1D1D1F' : '#FFFFFF', tabInk: i === this.state.conv ? '#FFFFFF' : '#1D1D1F', tabLine: i === this.state.conv ? '#1D1D1F' : 'rgba(29,29,31,0.14)',
