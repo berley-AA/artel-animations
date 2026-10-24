@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luz · A (Chapters v3) · staging</title><meta name="robots" content="noindex, nofollow">
+<style>
+@font-face{font-family:'ABC Areal';src:url('https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/fonts/6aca3bcfbdc34936a7d20f74-ABCArealVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'ABC Areal Mono';src:url('https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/fonts/6aca428b826532f990ada299-ABCArealMonoVariable.woff2') format('woff2');font-weight:400 700;font-style:normal;font-display:swap}
+html{-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}body{background:#F5F5F7;overflow-x:hidden}
+#ask iframe{height:100%}
+@media (max-width: 600px){#ask{min-height:620px!important}#ask iframe{min-height:580px!important}}
+
+body{margin:0}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+a{color:#1D1D1F}a:hover{color:#FF7B00}
+*{border-radius:0}
+.roll{display:inline-block;overflow:hidden;height:1em;line-height:1;vertical-align:middle}
+.roll-c{display:block;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.roll-c span{display:block;height:1em;line-height:1}
+a:hover .roll-c,a:focus-visible .roll-c{transform:translateY(-1em)}
+@keyframes k1{0%,3%{opacity:0;transform:translateY(8px)}7%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes k2{0%,19%{opacity:0;transform:translateY(8px)}23%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes k3{0%,35%{opacity:0;transform:translateY(8px)}39%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes k4{0%,51%{opacity:0;transform:translateY(8px)}55%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+.cv .k1,.cv .k2,.cv .k3,.cv .k4{opacity:0;animation-duration:13s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+.cv .k1{animation-name:k1}.cv .k2{animation-name:k2}.cv .k3{animation-name:k3}.cv .k4{animation-name:k4}
+@media (prefers-reduced-motion: reduce){.cv .k1,.cv .k2,.cv .k3,.cv .k4{animation:none;opacity:1}.roll-c{transition:none}}
+.track{scrollbar-width:none}.track::-webkit-scrollbar{display:none}
+.navlinks{display:flex}.navburger{display:none}
+@media (max-width: 860px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}}
+input,select,textarea{font:inherit}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FF7B00;outline-offset:2px}
+
+</style>
+<script src="js/three.min.js"></script><script src="js/orb-live.js"></script><script src="js/lenis.min.js"></script><script src="js/dcrt.js"></script>
+</head><body>
+<div id="dc-root"></div>
+<template id="dc-tpl">
+<main style="background: #F5F5F7; color: #1D1D1F; font-family: 'ABC Areal','Helvetica Neue',Helvetica,sans-serif;">
+
+<header style="position: fixed; top: 0; left: 0; right: 0; z-index: 20; opacity: {{navO}}; pointer-events: {{navPE}}; background: {{navBg}}; backdrop-filter: {{navBlur}}; -webkit-backdrop-filter: {{navBlur}}; border-bottom: 1px solid {{navLine}}; transition: background .4s ease, border-color .4s ease, opacity 1.2s ease;">
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; align-items: center; height: 68px; padding: 0 clamp(20px, 3vw, 54px); max-width: 1920px; margin: 0 auto; box-sizing: border-box;">
+    <div style="display: grid; grid-template-columns: 58% minmax(0, 1fr); align-items: center;">
+      <a href="/" aria-label="Artel, home" style="display: inline-flex; color: #1D1D1F; width: 87px;"><svg aria-hidden="true" width="87" height="20" viewBox="0 0 87 20" fill="currentColor" style="display: block;"><circle cx="1.62" cy="17.78" r="1.22"></circle><circle cx="1.6" cy="15.05" r="1.22"></circle><circle cx="1.6" cy="12.34" r="1.22"></circle><circle cx="1.59" cy="9.63" r="1.22"></circle><circle cx="1.59" cy="6.9" r="1.22"></circle><circle cx="1.58" cy="4.19" r="1.22"></circle><circle cx="4.75" cy="12.39" r="1.22"></circle><circle cx="4.72" cy="1.53" r="1.22"></circle><circle cx="7.95" cy="12.33" r="1.22"></circle><circle cx="7.93" cy="1.46" r="1.22"></circle><circle cx="11.01" cy="12.32" r="1.22"></circle><circle cx="10.99" cy="1.44" r="1.22"></circle><circle cx="14.19" cy="17.81" r="1.22"></circle><circle cx="14.18" cy="15.09" r="1.22"></circle><circle cx="14.18" cy="12.38" r="1.22"></circle><circle cx="14.18" cy="9.65" r="1.22"></circle><circle cx="14.17" cy="6.94" r="1.22"></circle><circle cx="14.16" cy="4.23" r="1.22"></circle><circle cx="19.79" cy="17.78" r="1.22"></circle><circle cx="19.78" cy="15.05" r="1.22"></circle><circle cx="19.78" cy="12.34" r="1.22"></circle><circle cx="19.77" cy="9.63" r="1.22"></circle><circle cx="19.77" cy="6.9" r="1.22"></circle><circle cx="19.76" cy="4.19" r="1.22"></circle><circle cx="19.76" cy="1.47" r="1.22"></circle><circle cx="22.91" cy="9.68" r="1.22"></circle><circle cx="22.9" cy="1.53" r="1.22"></circle><circle cx="26.12" cy="9.6" r="1.22"></circle><circle cx="26.1" cy="1.46" r="1.22"></circle><circle cx="29.19" cy="9.6" r="1.22"></circle><circle cx="29.16" cy="1.44" r="1.22"></circle><circle cx="32.37" cy="17.81" r="1.22"></circle><circle cx="32.36" cy="15.09" r="1.22"></circle><circle cx="32.36" cy="12.38" r="1.22"></circle><circle cx="32.34" cy="6.94" r="1.22"></circle><circle cx="32.33" cy="4.23" r="1.22"></circle><circle cx="37.91" cy="1.47" r="1.22"></circle><circle cx="41.05" cy="1.53" r="1.22"></circle><circle cx="44.29" cy="17.76" r="1.22"></circle><circle cx="44.28" cy="15.04" r="1.22"></circle><circle cx="44.28" cy="12.33" r="1.22"></circle><circle cx="44.27" cy="9.6" r="1.22"></circle><circle cx="44.27" cy="6.89" r="1.22"></circle><circle cx="44.26" cy="4.18" r="1.22"></circle><circle cx="44.26" cy="1.46" r="1.22"></circle><circle cx="47.32" cy="1.44" r="1.22"></circle><circle cx="50.49" cy="1.5" r="1.22"></circle><circle cx="55.4" cy="17.78" r="1.22"></circle><circle cx="55.38" cy="15.05" r="1.22"></circle><circle cx="55.38" cy="12.34" r="1.22"></circle><circle cx="55.37" cy="9.63" r="1.22"></circle><circle cx="55.37" cy="6.9" r="1.22"></circle><circle cx="55.36" cy="4.19" r="1.22"></circle><circle cx="55.36" cy="1.47" r="1.22"></circle><circle cx="58.53" cy="17.84" r="1.22"></circle><circle cx="58.52" cy="9.68" r="1.22"></circle><circle cx="58.5" cy="1.53" r="1.22"></circle><circle cx="61.74" cy="17.76" r="1.22"></circle><circle cx="61.72" cy="9.6" r="1.22"></circle><circle cx="61.71" cy="1.46" r="1.22"></circle><circle cx="64.82" cy="17.75" r="1.22"></circle><circle cx="64.79" cy="9.6" r="1.22"></circle><circle cx="64.77" cy="1.44" r="1.22"></circle><circle cx="67.97" cy="17.81" r="1.22"></circle><circle cx="67.96" cy="9.65" r="1.22"></circle><circle cx="67.94" cy="1.5" r="1.22"></circle><circle cx="72.28" cy="17.78" r="1.22"></circle><circle cx="72.27" cy="15.05" r="1.22"></circle><circle cx="72.27" cy="12.34" r="1.22"></circle><circle cx="72.26" cy="9.63" r="1.22"></circle><circle cx="72.26" cy="6.9" r="1.22"></circle><circle cx="72.25" cy="4.19" r="1.22"></circle><circle cx="72.25" cy="1.47" r="1.22"></circle><circle cx="75.41" cy="17.84" r="1.22"></circle><circle cx="78.63" cy="17.76" r="1.22"></circle><circle cx="81.7" cy="17.75" r="1.22"></circle><circle cx="84.86" cy="17.81" r="1.22"></circle></svg></a>
+      <a href="/" class="navmark" aria-label="Artel" style="display: inline-flex; color: #1D1D1F; width: 24px;"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="display: block;"><ellipse cx="6.82" cy="7" rx="1.95" ry="2"></ellipse><ellipse cx="11.7" cy="2" rx="1.95" ry="2"></ellipse><ellipse cx="16.57" cy="7" rx="1.95" ry="2"></ellipse><ellipse cx="11.7" cy="22" rx="1.95" ry="2"></ellipse><ellipse cx="16.57" cy="17" rx="1.95" ry="2"></ellipse><ellipse cx="21.44" cy="12" rx="1.95" ry="2"></ellipse><ellipse cx="6.82" cy="17" rx="1.95" ry="2"></ellipse><ellipse cx="1.95" cy="12" rx="1.95" ry="2"></ellipse></svg></a>
+    </div>
+    <nav aria-label="Main" class="navlinks" style="gap: clamp(24px, 2.6vw, 44px); padding-left: 21%; font-size: 14px;">
+      <a href="/labs" style="text-decoration: none; color: #1D1D1F;"><span class="roll"><span class="roll-c"><span>The —Lab</span><span style="color: #FF7B00;">The —Lab</span></span></span></a>
+      <a href="/#selected-work" style="text-decoration: none; color: #1D1D1F;"><span class="roll"><span class="roll-c"><span>Results</span><span style="color: #FF7B00;">Results</span></span></span></a>
+      <a href="/#team" style="text-decoration: none; color: #1D1D1F;"><span class="roll"><span class="roll-c"><span>About</span><span style="color: #FF7B00;">About</span></span></span></a>
+      <a href="/#process" style="text-decoration: none; color: #1D1D1F;"><span class="roll"><span class="roll-c"><span>Process</span><span style="color: #FF7B00;">Process</span></span></span></a>
+      <a href="/faq" style="text-decoration: none; color: #1D1D1F;"><span class="roll"><span class="roll-c"><span>FAQ</span><span style="color: #FF7B00;">FAQ</span></span></span></a>
+    </nav>
+    <div style="display: flex; align-items: center; gap: 16px; justify-content: flex-end;">
+      <a href="https://app.artelagency.com" class="navlinks" style="text-decoration: none; color: #1D1D1F; font-size: 14px;"><span class="roll"><span class="roll-c"><span>Login</span><span style="color: #FF7B00;">Login</span></span></span></a>
+      <button type="button" class="navburger" aria-label="{{menuLabel}}" aria-expanded="{{menuOpen}}" onClick="{{toggleMenu}}" style="width: 44px; height: 44px; align-items: center; justify-content: center; background: transparent; border: 0; padding: 0; cursor: pointer;"><svg aria-hidden="true" width="22" height="12" viewBox="0 0 22 12" fill="none" stroke="#1D1D1F" stroke-width="1.4"><path d="M0 1h22M0 11h22"></path></svg></button>
+    </div>
+  </div>
+  <sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+  <nav aria-label="Menu" style="background: #F5F5F7; border-top: 1px solid rgba(29,29,31,0.12); padding: 12px clamp(20px, 3vw, 54px) 28px; display: flex; flex-direction: column;">
+    <a href="/labs" style="display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; color: #6E6E73;">01</span>The Lab</a>
+    <a href="/#selected-work" style="display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; color: #6E6E73;">02</span>Results</a>
+    <a href="/#team" style="display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; color: #6E6E73;">03</span>About</a>
+    <a href="/#process" style="display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; color: #6E6E73;">04</span>Process</a>
+    <a href="/faq" style="display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; color: #6E6E73;">05</span>FAQ</a>
+    <div style="display: flex; gap: 18px; padding-top: 18px; font-size: 14px;"><a href="https://app.artelagency.com">Login</a><a href="#">Français</a></div>
+  </nav>
+  </sc-if>
+</header>
+
+<section id="hero" aria-label="Luz" style="position: relative; height: min(100svh, 1000px); min-height: 680px; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;">
+  <sc-if value="{{showReplay}}" hint-placeholder-val="{{true}}"><button type="button" onClick="{{replay}}" aria-label="Replay the intro" style="position: absolute; z-index: 3; top: 84px; right: clamp(20px, 3vw, 54px); display: inline-flex; align-items: center; gap: 8px; min-height: 36px; padding: 0 12px; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.14); font-family: 'ABC Areal Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: #1D1D1F; cursor: pointer; opacity: {{hintO}}; transition: opacity 1.2s ease;"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#1D1D1F" stroke-width="1.3"><path d="M10.5 6A4.5 4.5 0 1 1 9.2 2.8"></path><path d="M10 0.8v2.6H7.4"></path></svg>REPLAY INTRO</button></sc-if>
+  <div id="heroStage" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 68px 0 clamp(190px, 28vh, 290px); box-sizing: border-box; pointer-events: none; will-change: transform, opacity;">
+    <div style="position: relative; width: min(54vh, 540px); max-width: 82vw; aspect-ratio: 1 / 1;">
+      <video id="ink" src="{{inkSrc}}" muted="" playsinline="" preload="auto" aria-hidden="true" style="position: absolute; inset: -6%; width: 112%; height: 112%; -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 58%, rgba(0,0,0,0) 70%); mask-image: radial-gradient(circle at 50% 50%, #000 58%, rgba(0,0,0,0) 70%); opacity: {{inkO}}; transform: {{inkS}}; transition: opacity 1.6s ease, transform {{inkDur}} cubic-bezier(.16,1,.3,1);"></video>
+      <canvas id="orb" role="img" aria-label="Luz, the Artel assistant. {{orbHint}}" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: {{orbO}}; transform: {{orbT}}; transition: opacity 2.4s ease, transform 2.8s cubic-bezier(.16,1,.3,1); pointer-events: {{orbPE}}; cursor: grab; touch-action: pan-y;"></canvas>
+      <span style="position: absolute; left: 0; right: 0; bottom: -6px; text-align: center; font-family: 'ABC Areal Mono', monospace; font-size: 9px; letter-spacing: 0.18em; color: #6E6E73; opacity: {{hintO}}; transition: opacity 1.2s ease;">{{orbHintCaps}}</span>
+    </div>
+  </div>
+  <div style="position: relative; z-index: 1; width: 100%; max-width: 1920px; margin: 0 auto; box-sizing: border-box; padding: 0 clamp(20px, 3vw, 54px) clamp(40px, 7vh, 76px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px; pointer-events: none;">
+    <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; opacity: {{textO}}; transform: {{textT}}; transition: opacity 1.3s ease, transform 1.5s cubic-bezier(.16,1,.3,1);">
+      <span style="font-size: clamp(19px, 1.7vw, 26px); font-weight: 500; letter-spacing: -0.012em; line-height: 1.15;">Luz</span>
+      <h1 style="margin: clamp(4px, 0.5vw, 8px) 0 0; font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; font-size: clamp(38px, 4.3vw, 64px); max-width: 16ch;">Every customer answered. Without you.</h1>
+      <p style="margin: clamp(8px, 0.7vw, 12px) 0 0; font-size: clamp(19px, 1.7vw, 26px); font-weight: 500; letter-spacing: -0.012em; line-height: 1.2; color: #3A3A3C; max-width: 30ch;">Day and night, in English and French.</p>
+    </div>
+    <div style="flex: 0 1 auto; display: flex; align-items: center; gap: 20px; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 10px 10px 10px 22px; pointer-events: auto; opacity: {{ctaO}}; transform: {{ctaT}}; transition: opacity 1.1s ease, transform 1.3s cubic-bezier(.16,1,.3,1);">
+      <span style="font-size: 15px; line-height: 1.4; color: #1D1D1F;">A free 30-minute call.<br>We show you Luz on your own business.</span>
+      <a href="#ask" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; background: #FF7B00; color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 500; white-space: nowrap;">Book</a>
+    </div>
+  </div>
+</section>
+
+<section id="highlights" aria-label="Watch Luz work" style="padding: clamp(72px, 10vh, 120px) 0 clamp(56px, 8vh, 96px); box-sizing: border-box;">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 64px); box-sizing: border-box; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; opacity: {{detO}}; transform: {{detT}}; transition: opacity 1.1s ease, transform 1.3s cubic-bezier(.16,1,.3,1);">
+    <h2 style="margin: 0; font-weight: 600; letter-spacing: -0.02em; font-size: clamp(36px, 4vw, 56px);">Watch Luz work.</h2>
+    <a href="#" onClick="{{openFilm}}" style="font-size: 17px; text-decoration: none; color: #1D1D1F;">Watch the full film <span aria-hidden="true">›</span></a>
+  </div>
+  <div id="hlTrack" class="track" style="margin-top: 36px; display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2 + 64px)); padding: 0 max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2 + 64px)); box-sizing: border-box;">
+    <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
+    <article style="flex: 0 0 min(980px, 84vw); scroll-snap-align: start; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); display: flex; flex-direction: column; min-width: 0;">
+      <div style="padding: clamp(22px, 2.6vw, 36px) clamp(22px, 2.6vw, 40px) 18px; display: flex; flex-direction: column; gap: 6px;">
+        <span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; letter-spacing: 0.18em; color: #6E6E73;">{{c.tag}}</span>
+        <h3 style="margin: 0; font-size: clamp(22px, 2.2vw, 32px); font-weight: 600; letter-spacing: -0.015em; line-height: 1.15; max-width: 22ch;">{{c.title}}</h3>
+      </div>
+      <div style="aspect-ratio: 16 / 9; background: #F5F5F7; border-top: 1px solid rgba(29,29,31,0.08);"><video class="hlv" src="{{c.src}}" autoplay="" muted="" loop="" playsinline="" preload="metadata" style="display: block; width: 100%; height: 100%; object-fit: contain;"></video></div>
+    </article>
+    </sc-for>
+  </div>
+  <div style="margin-top: 28px; display: flex; justify-content: center; align-items: center; gap: 14px;">
+    <div style="display: flex; gap: 6px; align-items: center; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 0 14px; height: 44px; box-sizing: border-box;">
+      <sc-for list="{{dots}}" as="d" hint-placeholder-count="4"><button type="button" aria-label="{{d.label}}" aria-current="{{d.on}}" onClick="{{d.go}}" style="width: {{d.w}}; height: 8px; padding: 0; border: 0; background: {{d.bg}}; cursor: pointer; transition: width .4s cubic-bezier(.22,1,.36,1), background .3s ease;"></button></sc-for>
+    </div>
+    <button type="button" aria-label="{{playLabel}}" onClick="{{togglePlay}}" style="width: 44px; height: 44px; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;"><sc-if value="{{playing}}" hint-placeholder-val="{{true}}"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="#1D1D1F"><rect x="1.5" y="1" width="3" height="10"></rect><rect x="7.5" y="1" width="3" height="10"></rect></svg></sc-if><sc-if value="{{paused}}" hint-placeholder-val="{{false}}"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" fill="#1D1D1F"><path d="M2 1l9 5-9 5z"></path></svg></sc-if></button>
+  </div>
+</section>
+
+<section id="conversations" aria-label="Conversations" style="padding: clamp(56px, 8vh, 96px) clamp(20px, 4vw, 64px); box-sizing: border-box;">
+  <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px;">
+    <h2 style="margin: 0; font-weight: 600; letter-spacing: -0.02em; font-size: clamp(36px, 4vw, 56px);">Take a closer look.</h2>
+    <div style="background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); display: flex; flex-wrap: wrap; min-height: 560px;">
+      <div role="tablist" aria-label="Conversations" style="flex: 1 1 280px; max-width: 100%; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: clamp(20px, 3vw, 40px); box-sizing: border-box; border-right: 1px solid rgba(29,29,31,0.08);">
+        <sc-for list="{{convs}}" as="c" hint-placeholder-count="6">
+        <button type="button" role="tab" aria-selected="{{c.on}}" onClick="{{c.pick}}" style="display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 16px; background: {{c.tabBg}}; color: {{c.tabInk}}; border: 1px solid {{c.tabLine}}; font: inherit; font-size: 15px; text-align: left; cursor: pointer; transition: background .3s ease, color .3s ease;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; opacity: 0.7;">{{c.n}}</span>{{c.label}}</button>
+        </sc-for>
+      </div>
+      <div style="flex: 999 1 420px; min-width: 0; display: flex; align-items: center; justify-content: center; padding: clamp(24px, 4vw, 64px); box-sizing: border-box; background: #FAFAFB;">
+        <sc-for list="{{convs}}" as="c" hint-placeholder-count="1">
+        <div class="cv" role="tabpanel" aria-label="{{c.label}}" lang="{{c.lang}}" style="display: {{c.disp}}; width: 100%; max-width: 520px; flex-direction: column; gap: 10px;">
+          <span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #6E6E73; margin-bottom: 8px;">{{c.where}}</span>
+          <sc-for list="{{c.msgs}}" as="m" hint-placeholder-count="4"><span class="{{m.k}}" style="align-self: {{m.side}}; background: {{m.bg}}; color: {{m.ink}}; border-radius: {{m.rad}}; padding: 12px 16px; font-size: 17px; line-height: 1.4; max-width: 82%;">{{m.t}}</span></sc-for>
+        </div>
+        </sc-for>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #6E6E73;">Example conversations. Before launch, Luz learns your products, policies and tone.</p>
+  </div>
+</section>
+
+<section aria-label="Why Luz" style="padding: clamp(80px, 12vh, 140px) clamp(20px, 4vw, 64px) clamp(56px, 8vh, 96px); box-sizing: border-box;">
+  <div style="max-width: 980px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px;">
+    <span style="font-size: 17px; font-weight: 500; color: #3A3A3C;">Why Luz</span>
+    <h2 style="margin: 0; font-weight: 600; letter-spacing: -0.03em; line-height: 1.04; font-size: clamp(40px, 5.4vw, 80px);">Every business has one person who answers everything. Usually, it’s you.</h2>
+    <p style="margin: 8px 0 0; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; color: #3A3A3C; max-width: 640px;">At 11 p.m., on a Sunday, between two orders. Luz takes those questions, so the business stops waiting on you.</p>
+    <p style="margin: 18px 0 0; font-size: clamp(24px, 2.4vw, 36px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; color: #FF7B00; max-width: 22ch;">59% of Montreal Weights’ conversations come in when the shop is closed.</p>
+  </div>
+  <div style="max-width: 1240px; margin: clamp(56px, 8vh, 96px) auto 0; display: flex; flex-direction: column;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(24px, 5vw, 80px); align-items: center; padding: 36px 0; border-top: 1px solid rgba(29,29,31,0.12);">
+      <div style="display: flex; flex-direction: column; gap: 12px;"><img src="assets/1d88683c182516912c7a9b9eb2558af5.png" alt="Montreal Weights" style="height: 30px; width: auto; align-self: flex-start;"><span style="font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; letter-spacing: -0.02em;">Luz answers.</span><span style="font-size: 17px; line-height: 1.5; color: #3A3A3C; max-width: 42ch;">Store questions, in English and French. Anything that needs a person goes to the team, with the whole conversation.</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: clamp(56px, 7vw, 104px); font-weight: 400; letter-spacing: -0.04em; line-height: 1;">4,900+</span><span style="font-size: 15px; color: #6E6E73;">conversations since November 2025.</span></div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(24px, 5vw, 80px); align-items: center; padding: 36px 0; border-top: 1px solid rgba(29,29,31,0.12);">
+      <div style="display: flex; flex-direction: column; gap: 12px;"><img src="assets/07d281b096c071e7298b24a1ebeec954.png" alt="Nordik Recovery" style="height: 22px; width: auto; align-self: flex-start;"><span style="font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; letter-spacing: -0.02em;">Luz advises.</span><span style="font-size: 17px; line-height: 1.5; color: #3A3A3C; max-width: 42ch;">A product expert beside every sales rep. It finds the right specs and drafts the reply.</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: clamp(56px, 7vw, 104px); font-weight: 400; letter-spacing: -0.04em; line-height: 1;">1 week</span><span style="font-size: 15px; color: #6E6E73;">to build, tested on the hard questions first.</span></div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(24px, 5vw, 80px); align-items: center; padding: 36px 0; border-top: 1px solid rgba(29,29,31,0.12); border-bottom: 1px solid rgba(29,29,31,0.12);">
+      <div style="display: flex; flex-direction: column; gap: 12px;"><span style="height: 30px; width: 88px; border: 1px dashed rgba(29,29,31,0.25); display: flex; align-items: center; justify-content: center; font-family: 'ABC Areal Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: #8E8E93;">LOGO</span><span style="font-size: clamp(26px, 2.6vw, 38px); font-weight: 600; letter-spacing: -0.02em; color: #8E8E93;">[Third client] · Luz [verb].</span><span style="font-size: 17px; line-height: 1.5; color: #8E8E93; max-width: 42ch;">[What Luz does for them.]</span></div>
+      <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: clamp(56px, 7vw, 104px); font-weight: 400; letter-spacing: -0.04em; line-height: 1; color: #C7C7CC;">[ number ]</span><span style="font-size: 15px; color: #8E8E93;">[What the number means.]</span></div>
+    </div>
+  </div>
+</section>
+
+<section aria-label="Client words" style="padding: clamp(56px, 8vh, 96px) clamp(20px, 4vw, 64px); box-sizing: border-box;">
+  <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px;">
+    <h2 style="margin: 0; font-weight: 600; letter-spacing: -0.02em; font-size: clamp(36px, 4vw, 56px);">In our clients’ words.</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); border-top: 1px solid rgba(29,29,31,0.12);">
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 28px 24px 28px 0; box-sizing: border-box;"><div style="height: 44px; display: flex; align-items: center;"><img src="assets/1d88683c182516912c7a9b9eb2558af5.png" alt="Montreal Weights" style="height: 30px; width: auto; max-width: 100%;"></div><blockquote style="margin: 0; font-size: 16px; line-height: 1.55; color: #3A3A3C;">“Most of the questions we get are small ones. Will it fit under my ceiling. Do you ship to Edmonton. Ava handles those now, a lot of them when the shop is closed. One Sunday near midnight a guy asked which plates come with the Smith bundle. Ava told him. He wrote back “Perfect.””</blockquote><figcaption style="display: flex; flex-direction: column; gap: 2px; font-size: 14px;"><span>Julien Méthot</span><span style="color: #6E6E73;">Co-founder, Montreal Weights</span></figcaption></figure>
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 28px 24px 28px 0; box-sizing: border-box;"><div style="height: 44px; display: flex; align-items: center;"><img src="assets/07d281b096c071e7298b24a1ebeec954.png" alt="Nordik Recovery" style="height: 22px; width: auto; max-width: 100%;"></div><blockquote style="margin: 0; font-size: 16px; line-height: 1.55; color: #3A3A3C;">“The questions that matter most come right before someone buys. It knows our products down to the amps and the hose lengths. When it doesn’t know, it says so. I’d take that over a confident wrong answer.”</blockquote><figcaption style="display: flex; flex-direction: column; gap: 2px; font-size: 14px;"><span>Justin T. Frankeur</span><span style="color: #6E6E73;">Co-founder, Nordik Recovery</span></figcaption></figure>
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 28px 24px 28px 0; box-sizing: border-box;"><div style="height: 44px; display: flex; align-items: center;"><img src="assets/9733db8334c8ef99a15763926e8eaa22.png" alt="Department Maison de Création" style="height: 34px; width: auto; max-width: 100%;"></div><blockquote style="margin: 0; font-size: 16px; line-height: 1.55; color: #3A3A3C;">“Berley comes from the creative side, so he cares about how a thing feels, not only whether it works. A lot of people show you a demo. He shows you something you’d put your name on.”</blockquote><figcaption style="display: flex; flex-direction: column; gap: 2px; font-size: 14px;"><span>Paul Barbin</span><span style="color: #6E6E73;">CEO and founder, Department</span></figcaption></figure>
+      <figure style="margin: 0; display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 28px 24px 28px 0; box-sizing: border-box;"><div style="height: 44px; display: flex; align-items: center;"><img src="assets/5a20ddca7e69de9e037b225f913706b4.png" alt="I.C. Production" style="height: 40px; width: auto; max-width: 100%;"></div><blockquote style="margin: 0; font-size: 16px; line-height: 1.55; color: #3A3A3C;">“He asked a lot of questions before he proposed anything. The audit was clear enough to show my team, and the tool he scoped fits how we already work.”</blockquote><figcaption style="display: flex; flex-direction: column; gap: 2px; font-size: 14px;"><span>Raphaël Caron</span><span style="color: #6E6E73;">CEO and founder, I.C. Production</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section aria-label="How we work" style="padding: clamp(56px, 8vh, 96px) 0; box-sizing: border-box;">
+  <div style="max-width: 1240px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 64px); box-sizing: border-box; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;">
+    <h2 style="margin: 0; font-weight: 600; letter-spacing: -0.02em; font-size: clamp(36px, 4vw, 56px);">From a call to a live assistant.</h2>
+    <a href="#ask" style="font-size: 17px; text-decoration: none;">Book a call <span aria-hidden="true">›</span></a>
+  </div>
+  <div class="track" style="margin-top: 36px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2 + 64px)); padding: 0 max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2 + 64px)); box-sizing: border-box;">
+    <article style="flex: 0 0 min(300px, 78vw); scroll-snap-align: start; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; min-height: 300px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 13px; color: #FF7B00;">01</span><span style="font-size: 11px; letter-spacing: 0.16em; font-family: 'ABC Areal Mono', monospace; color: #6E6E73;">WEEK 1</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">A 30-minute call.</h3><p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3A3A3C;">You show us where the questions pile up. We tell you honestly if Luz fits.</p></article>
+    <article style="flex: 0 0 min(300px, 78vw); scroll-snap-align: start; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; min-height: 300px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 13px; color: #6E6E73;">02</span><span style="font-size: 11px; letter-spacing: 0.16em; font-family: 'ABC Areal Mono', monospace; color: #6E6E73;">WEEK 1</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">We learn your business.</h3><p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3A3A3C;">Policies, products, past replies, tone. You don’t write a thing.</p></article>
+    <article style="flex: 0 0 min(300px, 78vw); scroll-snap-align: start; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; min-height: 300px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 13px; color: #6E6E73;">03</span><span style="font-size: 11px; letter-spacing: 0.16em; font-family: 'ABC Areal Mono', monospace; color: #6E6E73;">WEEK 2</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">We build and test.</h3><p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3A3A3C;">On your real past conversations. You approve her before launch.</p></article>
+    <article style="flex: 0 0 min(300px, 78vw); scroll-snap-align: start; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 28px; box-sizing: border-box; display: flex; flex-direction: column; gap: 10px; min-height: 300px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 13px; color: #6E6E73;">04</span><span style="font-size: 11px; letter-spacing: 0.16em; font-family: 'ABC Areal Mono', monospace; color: #6E6E73;">EVERY MONTH</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.01em;">Live, and getting better.</h3><p style="margin: 0; font-size: 15px; line-height: 1.5; color: #3A3A3C;">We read her conversations and sharpen her. You get a one-page report.</p></article>
+  </div>
+</section>
+
+<section id="book" aria-label="Book" style="padding: clamp(56px, 8vh, 96px) clamp(20px, 4vw, 64px) clamp(80px, 12vh, 140px); box-sizing: border-box;">
+  <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px;">
+    <div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px;"><h2 style="margin: 0; font-weight: 600; letter-spacing: -0.02em; line-height: 1.07; font-size: clamp(36px, 4vw, 56px);">Let Luz take the questions. You take the business.</h2><p style="margin: 0; font-size: 17px; line-height: 1.5; color: #3A3A3C;">Three ways in. Ask Luz right here, book a 30-minute call, or leave us a note and we’ll write back.</p></div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 20px; align-items: stretch;">
+      <div id="ask" style="background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); display: flex; flex-direction: column; min-height: 560px;"><div style="padding: 14px 18px; border-bottom: 1px solid rgba(29,29,31,0.08); font-size: 13px; color: #6E6E73; display: flex; justify-content: space-between;"><span>● Luz · live on this page</span><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; letter-spacing: 0.14em;">01 · ASK</span></div><iframe id="luzChat" src="https://app.artelagency.com/api/w/luz-ac6955" title="Chat with Luz" loading="lazy" allow="clipboard-write" style="flex-grow: 1; width: 100%; min-height: 520px; border: 0; display: block; background: #FFFFFF;"></iframe></div>
+      <div id="note" style="display: flex; flex-direction: column; gap: 20px;">
+        <div style="background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 20px 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;"><div style="display: flex; flex-direction: column; gap: 4px;"><span style="font-family: 'ABC Areal Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: #6E6E73;">02 · CALL</span><span style="font-size: 18px; font-weight: 500;">A free 30-minute call, on your own business.</span></div><a href="#ask" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; background: #FF7B00; color: #FFFFFF; text-decoration: none; font-size: 15px; font-weight: 500;">Book my call</a></div>
+        <sc-if value="{{formOpen}}" hint-placeholder-val="{{true}}">
+        <form onSubmit="{{send}}" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 20px 22px;">
+          <span style="grid-column: 1 / -1; font-family: 'ABC Areal Mono', monospace; font-size: 11px; letter-spacing: 0.14em; color: #6E6E73;">03 · NOTE</span>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><label for="fName" style="font-size: 13px; color: #3A3A3C;">Your name</label><input id="fName" name="name" type="text" autocomplete="name" required="" style="min-height: 44px; padding: 0 12px; border: 1px solid rgba(29,29,31,0.2); background: #FFFFFF; font-size: 15px; box-sizing: border-box;"></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><label for="fEmail" style="font-size: 13px; color: #3A3A3C;">Work email</label><input id="fEmail" name="email" type="email" autocomplete="email" required="" style="min-height: 44px; padding: 0 12px; border: 1px solid rgba(29,29,31,0.2); background: #FFFFFF; font-size: 15px; box-sizing: border-box;"></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><label for="fSite" style="font-size: 13px; color: #3A3A3C;">Business or website</label><input id="fSite" name="business" type="text" autocomplete="organization" style="min-height: 44px; padding: 0 12px; border: 1px solid rgba(29,29,31,0.2); background: #FFFFFF; font-size: 15px; box-sizing: border-box;"></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><label for="fFound" style="font-size: 13px; color: #3A3A3C;">How did you find us?</label><select id="fFound" name="source" style="min-height: 44px; padding: 0 10px; border: 1px solid rgba(29,29,31,0.2); background: #FFFFFF; font-size: 15px; box-sizing: border-box;"><option value="">Choose one</option><option>LinkedIn</option><option>ChatGPT or another AI</option><option>Google</option><option>A friend or client</option><option>Other</option></select></div>
+          <div style="display: flex; flex-direction: column; gap: 6px; grid-column: 1 / -1;"><label for="fAsk" style="font-size: 13px; color: #3A3A3C;">What do your customers ask most?</label><textarea id="fAsk" name="questions" rows="3" style="padding: 10px 12px; border: 1px solid rgba(29,29,31,0.2); background: #FFFFFF; font-size: 15px; resize: vertical; box-sizing: border-box;"></textarea></div>
+          <fieldset style="grid-column: 1 / -1; border: 0; margin: 0; padding: 0; display: flex; gap: 18px; align-items: center; flex-wrap: wrap;"><legend style="font-size: 13px; color: #3A3A3C; padding: 0; margin-bottom: 6px;">Reply in</legend><label style="display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 15px;"><input type="radio" name="lang" value="en" checked=""> English</label><label style="display: inline-flex; gap: 8px; align-items: center; min-height: 44px; font-size: 15px;"><input type="radio" name="lang" value="fr"> Français</label></fieldset>
+          <div style="grid-column: 1 / -1;"><button type="submit" style="min-height: 48px; padding: 0 26px; background: #1D1D1F; color: #FFFFFF; border: 0; font-size: 15px; font-weight: 500; cursor: pointer;">Send my note</button></div>
+        </form>
+        </sc-if>
+        <sc-if value="{{formSent}}" hint-placeholder-val="{{false}}">
+        <div role="status" style="background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 24px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 20px; font-weight: 500;">Got it. Thank you.</span><span style="font-size: 15px; color: #3A3A3C;">We’ll write back by email, in the language you picked.</span></div>
+        </sc-if>
+        <p style="margin: 0; font-size: 13px; color: #6E6E73;">We only use your details to reply to you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer aria-label="Site footer" style="padding: clamp(72px, 10vh, 120px) clamp(20px, 3vw, 54px) 28px; box-sizing: border-box">
+  <div style="max-width: 1920px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 40px; align-items: end;">
+    <div style="display: flex; flex-direction: column; gap: 14px; align-items: flex-start;"><span style="color: #1D1D1F; width: 87px;"><svg aria-hidden="true" width="87" height="20" viewBox="0 0 87 20" fill="currentColor" style="display: block;"><circle cx="1.62" cy="17.78" r="1.22"></circle><circle cx="1.6" cy="15.05" r="1.22"></circle><circle cx="1.6" cy="12.34" r="1.22"></circle><circle cx="1.59" cy="9.63" r="1.22"></circle><circle cx="1.59" cy="6.9" r="1.22"></circle><circle cx="1.58" cy="4.19" r="1.22"></circle><circle cx="4.75" cy="12.39" r="1.22"></circle><circle cx="4.72" cy="1.53" r="1.22"></circle><circle cx="7.95" cy="12.33" r="1.22"></circle><circle cx="7.93" cy="1.46" r="1.22"></circle><circle cx="11.01" cy="12.32" r="1.22"></circle><circle cx="10.99" cy="1.44" r="1.22"></circle><circle cx="14.19" cy="17.81" r="1.22"></circle><circle cx="14.18" cy="15.09" r="1.22"></circle><circle cx="14.18" cy="12.38" r="1.22"></circle><circle cx="14.18" cy="9.65" r="1.22"></circle><circle cx="14.17" cy="6.94" r="1.22"></circle><circle cx="14.16" cy="4.23" r="1.22"></circle><circle cx="19.79" cy="17.78" r="1.22"></circle><circle cx="19.78" cy="15.05" r="1.22"></circle><circle cx="19.78" cy="12.34" r="1.22"></circle><circle cx="19.77" cy="9.63" r="1.22"></circle><circle cx="19.77" cy="6.9" r="1.22"></circle><circle cx="19.76" cy="4.19" r="1.22"></circle><circle cx="19.76" cy="1.47" r="1.22"></circle><circle cx="22.91" cy="9.68" r="1.22"></circle><circle cx="22.9" cy="1.53" r="1.22"></circle><circle cx="26.12" cy="9.6" r="1.22"></circle><circle cx="26.1" cy="1.46" r="1.22"></circle><circle cx="29.19" cy="9.6" r="1.22"></circle><circle cx="29.16" cy="1.44" r="1.22"></circle><circle cx="32.37" cy="17.81" r="1.22"></circle><circle cx="32.36" cy="15.09" r="1.22"></circle><circle cx="32.36" cy="12.38" r="1.22"></circle><circle cx="32.34" cy="6.94" r="1.22"></circle><circle cx="32.33" cy="4.23" r="1.22"></circle><circle cx="37.91" cy="1.47" r="1.22"></circle><circle cx="41.05" cy="1.53" r="1.22"></circle><circle cx="44.29" cy="17.76" r="1.22"></circle><circle cx="44.28" cy="15.04" r="1.22"></circle><circle cx="44.28" cy="12.33" r="1.22"></circle><circle cx="44.27" cy="9.6" r="1.22"></circle><circle cx="44.27" cy="6.89" r="1.22"></circle><circle cx="44.26" cy="4.18" r="1.22"></circle><circle cx="44.26" cy="1.46" r="1.22"></circle><circle cx="47.32" cy="1.44" r="1.22"></circle><circle cx="50.49" cy="1.5" r="1.22"></circle><circle cx="55.4" cy="17.78" r="1.22"></circle><circle cx="55.38" cy="15.05" r="1.22"></circle><circle cx="55.38" cy="12.34" r="1.22"></circle><circle cx="55.37" cy="9.63" r="1.22"></circle><circle cx="55.37" cy="6.9" r="1.22"></circle><circle cx="55.36" cy="4.19" r="1.22"></circle><circle cx="55.36" cy="1.47" r="1.22"></circle><circle cx="58.53" cy="17.84" r="1.22"></circle><circle cx="58.52" cy="9.68" r="1.22"></circle><circle cx="58.5" cy="1.53" r="1.22"></circle><circle cx="61.74" cy="17.76" r="1.22"></circle><circle cx="61.72" cy="9.6" r="1.22"></circle><circle cx="61.71" cy="1.46" r="1.22"></circle><circle cx="64.82" cy="17.75" r="1.22"></circle><circle cx="64.79" cy="9.6" r="1.22"></circle><circle cx="64.77" cy="1.44" r="1.22"></circle><circle cx="67.97" cy="17.81" r="1.22"></circle><circle cx="67.96" cy="9.65" r="1.22"></circle><circle cx="67.94" cy="1.5" r="1.22"></circle><circle cx="72.28" cy="17.78" r="1.22"></circle><circle cx="72.27" cy="15.05" r="1.22"></circle><circle cx="72.27" cy="12.34" r="1.22"></circle><circle cx="72.26" cy="9.63" r="1.22"></circle><circle cx="72.26" cy="6.9" r="1.22"></circle><circle cx="72.25" cy="4.19" r="1.22"></circle><circle cx="72.25" cy="1.47" r="1.22"></circle><circle cx="75.41" cy="17.84" r="1.22"></circle><circle cx="78.63" cy="17.76" r="1.22"></circle><circle cx="81.7" cy="17.75" r="1.22"></circle><circle cx="84.86" cy="17.81" r="1.22"></circle></svg></span><p style="margin: 0; font-size: 14px; line-height: 1.5; color: #3A3A3C; max-width: 46ch;">Four minutes, a few questions, one report on where AI pays first in your business.</p><a href="/labs" style="display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; background: #1D1D1F; color: #FFFFFF; text-decoration: none; font-size: 13px;">The —Lab</a></div>
+    <nav aria-label="Footer" style="display: flex; flex-direction: column; gap: 4px;"><a href="/labs" style="text-decoration: none; color: #1D1D1F; font-size: clamp(44px, 5vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; display: block;"><span class="roll"><span class="roll-c"><span>The Lab</span><span style="color: #FF7B00;">The Lab</span></span></span></a><a href="/#selected-work" style="text-decoration: none; color: #1D1D1F; font-size: clamp(44px, 5vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; display: block;"><span class="roll"><span class="roll-c"><span>Results</span><span style="color: #FF7B00;">Results</span></span></span></a><a href="/#process" style="text-decoration: none; color: #1D1D1F; font-size: clamp(44px, 5vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; display: block;"><span class="roll"><span class="roll-c"><span>Process</span><span style="color: #FF7B00;">Process</span></span></span></a><a href="/#team" style="text-decoration: none; color: #1D1D1F; font-size: clamp(44px, 5vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; display: block;"><span class="roll"><span class="roll-c"><span>About</span><span style="color: #FF7B00;">About</span></span></span></a><a href="/faq" style="text-decoration: none; color: #1D1D1F; font-size: clamp(44px, 5vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; display: block;"><span class="roll"><span class="roll-c"><span>FAQ</span><span style="color: #FF7B00;">FAQ</span></span></span></a><a href="/#free-pilot" style="text-decoration: none; color: #1D1D1F; font-size: clamp(44px, 5vw, 76px); font-weight: 500; letter-spacing: -0.035em; line-height: 1.04; display: block;"><span class="roll"><span class="roll-c"><span>Free pilot</span><span style="color: #FF7B00;">Free pilot</span></span></span></a></nav>
+  </div>
+  <div style="max-width: 1920px; margin: clamp(40px, 6vh, 72px) auto 0; padding-top: 16px; border-top: 1px solid rgba(29,29,31,0.12); display: flex; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; font-size: 12px; color: #6E6E73;">
+    <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center;"><span>© 2026 Artel Agency</span><a href="/privacy-policy" style="text-decoration: none; color: #3A3A3C;"><span class="roll"><span class="roll-c"><span>Privacy policy</span><span style="color: #FF7B00;">Privacy policy</span></span></span></a><a href="/terms-of-services" style="text-decoration: none; color: #3A3A3C;"><span class="roll"><span class="roll-c"><span>Terms</span><span style="color: #FF7B00;">Terms</span></span></span></a><a href="#" style="text-decoration: none; color: #3A3A3C;"><span class="roll"><span class="roll-c"><span>Cookie settings</span><span style="color: #FF7B00;">Cookie settings</span></span></span></a><span>Law 25 · PIPEDA</span></div>
+    <div style="display: flex; gap: 18px; flex-wrap: wrap; align-items: center;"><a href="https://ca.linkedin.com/company/artel-agency" style="text-decoration: none; color: #3A3A3C;"><span class="roll"><span class="roll-c"><span>LinkedIn</span><span style="color: #FF7B00;">LinkedIn</span></span></span></a><a href="https://x.com/Artelagency" style="text-decoration: none; color: #3A3A3C;"><span class="roll"><span class="roll-c"><span>X</span><span style="color: #FF7B00;">X</span></span></span></a><a href="https://app.artelagency.com" style="text-decoration: none; color: #3A3A3C;"><span class="roll"><span class="roll-c"><span>Client login</span><span style="color: #FF7B00;">Client login</span></span></span></a></div>
+  </div>
+</footer>
+<section id="loop" aria-hidden="true" style="height: min(100svh, 1000px); min-height: 680px; box-sizing: border-box; overflow: hidden;">
+  <div id="loopCard" style="height: 100%; position: relative; overflow: hidden; background: #F5F5F7; border: 1px solid rgba(29,29,31,0.12); box-sizing: border-box; transform: scale(0.84); transform-origin: 50% 0; filter: brightness(0.8); will-change: transform, filter;">
+    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 68px 0 clamp(190px, 28vh, 290px); box-sizing: border-box;"><div style="position: relative; width: min(54vh, 540px); max-width: 82vw; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center;"><img src="assets/a1b2f36bdc339f453f6f2328b245087d.png" alt="" style="width: 91%; height: auto; display: block;"></div></div>
+    <div style="position: absolute; left: 0; right: 0; bottom: 0;"><div style="position: relative; z-index: 1; width: 100%; max-width: 1920px; margin: 0 auto; box-sizing: border-box; padding: 0 clamp(20px, 3vw, 54px) clamp(40px, 7vh, 76px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px;">
+      <div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column;"><span style="font-size: clamp(19px, 1.7vw, 26px); font-weight: 500; letter-spacing: -0.012em; line-height: 1.15;">Luz</span><span style="display: block; margin: clamp(4px, 0.5vw, 8px) 0 0; font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; font-size: clamp(38px, 4.3vw, 64px); max-width: 16ch;">Every customer answered. Without you.</span><span style="display: block; margin: clamp(8px, 0.7vw, 12px) 0 0; font-size: clamp(19px, 1.7vw, 26px); font-weight: 500; letter-spacing: -0.012em; line-height: 1.2; color: #3A3A3C; max-width: 30ch;">Day and night, in English and French.</span></div>
+      <div style="flex: 0 1 auto; display: flex; align-items: center; gap: 20px; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); padding: 10px 10px 10px 22px;"><span style="font-size: 15px; line-height: 1.4;">A free 30-minute call.<br>We show you Luz on your own business.</span><span style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; background: #FF7B00; color: #FFFFFF; font-size: 15px; font-weight: 500;">Book</span></div>
+    </div></div>
+  </div>
+</section>
+</main>
+</template>
+<script>
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { sent: false, phase: 0, inkIn: false, det: false, menu: false, scrolled: false, slide: 0, playing: true, conv: 0 }; this._t = []; }
+  later(fn, ms) { this._t.push(setTimeout(fn, ms)); }
+  go(p) { if (this.state.phase < p) this.setState({ phase: p }); }
+  componentDidMount() {
+    let reduce = false; try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    // smooth scroll, nothing pinned
+    try { if ((this.props.smooth ?? true) && !reduce && window.Lenis) { this._lenis = new window.Lenis({ autoRaf: true, lerp: 0.09, smoothWheel: true, anchors: true }); } } catch (e) {}
+    this.later(() => { try { document.querySelectorAll('video.hlv').forEach((v) => { v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); }); } catch (e) {} }, 200);
+    // hero: ink once, orb, words, button
+    this._it = []; const il = (fn, ms) => this._it.push(setTimeout(fn, ms));
+    const toOrb = () => { if (this._went) return; this._went = true; this.go(1); il(() => this.go(2), 1700); il(() => this.go(3), 2700); il(() => this.setState({ hintGone: true }), 5900); };   // the hint shows ~2 s, then fades
+    const ink = document.getElementById('ink');
+    if (ink) { ink.muted = true; ink.loop = false; ink.addEventListener('timeupdate', () => { if (ink.duration && ink.currentTime > ink.duration - 0.9) toOrb(); }); }
+    this.startIntro = () => {   // also used by the Replay button
+      this._it.forEach(clearTimeout); this._it = []; this._went = false; this.setState({ phase: 0, inkIn: false, hintGone: false });
+      il(() => this.setState({ inkIn: true }), 120);   // the zoom out starts as the ink starts
+      if (!ink) { il(toOrb, 400); return; }
+      try { ink.currentTime = 0; ink.playbackRate = 1.15; } catch (e) {}
+      ink.addEventListener('ended', toOrb, { once: true });
+      const p = ink.play(); if (p && p.catch) p.catch(() => toOrb());
+      il(toOrb, 9000);
+    };
+    if (reduce) { this.setState({ phase: 3, inkIn: true }); this.later(() => this.setState({ hintGone: true }), 2000); } else { this.startIntro(); }
+    this.later(() => { try { const cv = document.getElementById('orb');
+      if (window.ArtelOrb && cv) this._orb = window.ArtelOrb.mount(cv, { onClick: () => { if ((this.props.orbClick ?? 'play') === 'chat') { const a = document.getElementById('ask'); if (a) { if (this._lenis) this._lenis.scrollTo(a, { offset: -120 }); else a.scrollIntoView({ behavior: 'smooth', block: 'center' }); const i = document.getElementById('askLuz'); if (i) setTimeout(() => i.focus({ preventScroll: true }), 900); } } } }); } catch (e) {} }, reduce ? 0 : 600);
+    // scroll: nav background, the hero settles back
+    const stage = document.getElementById('heroStage'), hero = document.getElementById('hero');
+    this._scroll = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = 0;
+      const y = window.scrollY || document.documentElement.scrollTop || 0; const s = y > 24; if (s !== this.state.scrolled) this.setState({ scrolled: s });
+      this.loopStep(y);
+      if (!stage || !hero || reduce) return; const r = hero.getBoundingClientRect(), k = Math.min(1, Math.max(0, -r.top / Math.max(1, r.height)));
+      stage.style.transform = 'translateY(' + (k * -60) + 'px) scale(' + (1 - k * 0.14) + ')'; stage.style.opacity = String(1 - k * 0.85); }); };
+    window.addEventListener('scroll', this._scroll, { passive: true });
+    // highlights: which card is in view
+    const tr = document.getElementById('hlTrack');
+    if (tr) { this._track = tr; this._ts = () => { const w = tr.firstElementChild ? tr.firstElementChild.getBoundingClientRect().width + 20 : 1; const i = Math.round(tr.scrollLeft / w); if (i !== this.state.slide) this.setState({ slide: Math.max(0, Math.min(3, i)) }); }; tr.addEventListener('scroll', this._ts, { passive: true }); }
+    try { const d = document.getElementById('highlights');
+      if (d && 'IntersectionObserver' in window) { this._io = new IntersectionObserver((es) => { es.forEach((en) => { if (en.isIntersecting && en.intersectionRatio > 0.15) this.setState({ det: true }); }); }, { threshold: [0, 0.15, 0.4] }); this._io.observe(d); }
+      else this.setState({ det: true }); } catch (e) { this.setState({ det: true }); }
+    // conversations advance on their own until someone picks one
+    this._cv = setInterval(() => { if (!this._picked) this.setState({ conv: (this.state.conv + 1) % 6 }); }, 13000);
+  }
+  loopStep(y) {
+    const L = this._loopEl || (this._loopEl = document.getElementById('loop')), card = this._loopCard || (this._loopCard = document.getElementById('loopCard'));
+    if (!L || !card) return; const vh = window.innerHeight || 900, top = L.getBoundingClientRect().top;
+    const k = Math.min(1, Math.max(0, 1 - top / vh)); const e = k * k * (3 - 2 * k);
+    card.style.transform = 'scale(' + (0.84 + 0.16 * e) + ')'; card.style.filter = 'brightness(' + (0.8 + 0.2 * e) + ')';
+    if (top <= 2 && !this._jumping) { this._jumping = true;   // the card now sits exactly where the hero is: go back to the top without a cut
+      if (this._lenis) this._lenis.scrollTo(0, { immediate: true, force: true }); else window.scrollTo(0, 0);
+      setTimeout(() => { this._jumping = false; }, 300); return; }
+    const down = y >= (this._lastY || 0); this._lastY = y; clearTimeout(this._pullT);
+    if (down && k > 0.55 && top > 2 && !this._jumping) { this._pullT = setTimeout(() => {   // they stopped near the end: pull them the rest of the way
+      if (this._lenis) this._lenis.scrollTo(L, { duration: 1.1, easing: (t) => 1 - Math.pow(1 - t, 3) }); else L.scrollIntoView({ behavior: 'smooth' }); }, 140); }
+  }
+  componentWillUnmount() { this._t.forEach(clearTimeout); (this._it || []).forEach(clearTimeout); clearInterval(this._cv); clearTimeout(this._pullT); try { if (this._io) this._io.disconnect(); if (this._orb) this._orb.destroy(); if (this._lenis) this._lenis.destroy(); window.removeEventListener('scroll', this._scroll); if (this._track) this._track.removeEventListener('scroll', this._ts); } catch (e) {} }
+  renderVals() {
+    const ph = this.state.phase, chat = (this.props.orbClick ?? 'play') === 'chat';
+    const CARDS = [
+      { tag: 'THE FILM', title: 'One minute. Everything Luz does.', src: 'assets/24607b9821ac370f9e511139447a460a.mp4' },
+      { tag: 'MONTREAL WEIGHTS', title: 'The bilingual support agent, live since 2024.', src: 'assets/ea790713a03b42d0b02e3550728c8ea2.mp4' },
+      { tag: 'NORDIK RECOVERY', title: 'A product expert beside every sales rep.', src: 'assets/e14b9ea055abc11b74529959994e17a3.mp4' },
+      { tag: 'I.C. PRODUCTION · ARTEL—LABS', title: 'The property counter, from our lab.', src: 'assets/8c122ee3213457ac165641107a6bb47c.mp4' }
+    ];
+    const me = (t, k) => ({ t, k, side: 'flex-end', bg: '#1D1D1F', ink: '#FFFFFF', rad: '18px 18px 4px 18px' });
+    const luz = (t, k) => ({ t, k, side: 'flex-start', bg: '#F2F2F4', ink: '#1D1D1F', rad: '18px 18px 18px 4px' });
+    const C = [
+      { label: 'Changes an order', where: 'ONLINE STORE', lang: 'en', msgs: [me('Can I switch my order to a size M? It hasn’t shipped.', 'k1'), luz('Found it, order #4821. It hasn’t shipped, so I’ve switched it to M.', 'k2'), luz('A new confirmation is on its way to your inbox.', 'k3'), me('Perfect, thanks!', 'k4')] },
+      { label: 'Answers a product question', where: 'HOME GYM · 11:42 P.M.', lang: 'en', msgs: [me('Will the 7 ft rack fit under an 8 ft ceiling?', 'k1'), luz('Yes. It’s 84 in. tall, so you’d have 12 in. to spare.', 'k2'), me('And for pull-ups?', 'k3'), luz('Tight for pull-ups. The 6 ft rack gives you more room. Want the link?', 'k4')] },
+      { label: 'Moves an appointment', where: 'CLINIC', lang: 'en', msgs: [me('Can I move Thursday’s 3 p.m. to Friday?', 'k1'), luz('Friday has 10:30 a.m. or 2:00 p.m. Which one works?', 'k2'), me('2:00 please', 'k3'), luz('Done. Friday at 2:00 p.m. You’ll get a reminder the day before.', 'k4')] },
+      { label: 'Books a table, en français', where: 'RESTAURANT', lang: 'fr-CA', msgs: [me('Avez-vous de la place pour 6 samedi soir?', 'k1'), luz('Oui, à 18 h 30 ou à 20 h 45. Laquelle je vous réserve?', 'k2'), me('20 h 45 svp', 'k3'), luz('C’est fait. Une table pour 6, samedi à 20 h 45. À bientôt!', 'k4')] },
+      { label: 'Starts a return', where: 'ONLINE STORE', lang: 'en', msgs: [me('This doesn’t fit. How do I return it?', 'k1'), luz('No problem. You’re within the 30 days, so here’s your return label.', 'k2'), luz('Drop it at any Canada Post. Your refund goes out once it arrives.', 'k3'), me('Easy. Thanks.', 'k4')] },
+      { label: 'Hands off to your team', where: 'ANY BUSINESS', lang: 'en', msgs: [me('I’d like a quote for 40 units for my gym.', 'k1'), luz('That one’s for the team. I’ve sent them our conversation, so you won’t repeat yourself.', 'k2'), luz('Sarah will email you today.', 'k3'), me('Great, thank you.', 'k4')] }
+    ];
+    const scrollToCard = (i) => { const tr = this._track; if (!tr || !tr.children[i]) return; tr.scrollTo({ left: tr.children[i].offsetLeft - tr.children[0].offsetLeft, behavior: 'smooth' }); this.setState({ slide: i }); };
+    return {
+      navBg: this.state.scrolled || this.state.menu ? 'rgba(245,245,247,0.86)' : 'rgba(245,245,247,0)',
+      navBlur: this.state.scrolled ? 'saturate(180%) blur(18px)' : 'none',
+      navLine: this.state.scrolled ? 'rgba(29,29,31,0.1)' : 'rgba(29,29,31,0)',
+      menuOpen: this.state.menu, menuLabel: this.state.menu ? 'Close menu' : 'Open menu',
+      toggleMenu: () => this.setState({ menu: !this.state.menu }),
+      showReplay: this.props.showReplay ?? true,
+      inkSrc: (() => { let w = 1440, d = 1; try { w = Math.max(window.innerWidth, window.innerHeight); d = window.devicePixelRatio || 1; } catch (e) {} return w * d >= 2400 ? 'assets/4a31b904fb71e8d45680ace7c4cc2954.mp4' : 'assets/521457798e663ff07745212d99d5922a.mp4'; })(),
+      replay: () => { if (this._lenis) this._lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0); if (this.startIntro) this.startIntro(); },
+      inkO: ph >= 1 ? 0 : 1, inkS: this.state.inkIn ? 'scale(1)' : 'scale(2.8)', inkDur: this.state.inkIn ? '2.8s' : '0s',
+      navO: ph >= 2 ? 1 : 0, navPE: ph >= 2 ? 'auto' : 'none', orbO: ph >= 1 ? 1 : 0, orbT: ph >= 1 ? 'scale(1)' : 'scale(0.92)', orbPE: ph >= 1 ? 'auto' : 'none',
+      textO: ph >= 2 ? 1 : 0, textT: ph >= 2 ? 'none' : 'translateY(18px)',
+      ctaO: ph >= 3 ? 1 : 0, ctaT: ph >= 3 ? 'none' : 'translateY(14px)', hintO: ph >= 3 && !this.state.hintGone ? 1 : 0,
+      orbHint: chat ? 'Tap to start chatting.' : 'Drag or tap to play with her.',
+      orbHintCaps: chat ? 'TAP LUZ TO CHAT' : 'DRAG OR TAP LUZ',
+      detO: this.state.det ? 1 : 0, detT: this.state.det ? 'none' : 'translateY(28px)',
+      cards: CARDS,
+      dots: CARDS.map((c, i) => ({ label: 'Show ' + c.tag.toLowerCase(), on: i === this.state.slide ? 'true' : 'false', w: i === this.state.slide ? '28px' : '8px', bg: i === this.state.slide ? '#1D1D1F' : 'rgba(29,29,31,0.25)', go: () => scrollToCard(i) })),
+      playing: this.state.playing, paused: !this.state.playing, playLabel: this.state.playing ? 'Pause the videos' : 'Play the videos',
+      togglePlay: () => { const p = !this.state.playing; try { document.querySelectorAll('video.hlv').forEach((v) => { if (p) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else v.pause(); }); } catch (e) {} this.setState({ playing: p }); },
+      openFilm: (e) => { if (e && e.preventDefault) e.preventDefault(); scrollToCard(0); try { const v = document.querySelector('video.hlv'); if (v) { v.currentTime = 0; v.muted = false; const q = v.play(); if (q && q.catch) q.catch(() => {}); } } catch (x) {} },
+      convs: C.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0'), on: i === this.state.conv ? 'true' : 'false', disp: i === this.state.conv ? 'flex' : 'none',
+        tabBg: i === this.state.conv ? '#1D1D1F' : '#FFFFFF', tabInk: i === this.state.conv ? '#FFFFFF' : '#1D1D1F', tabLine: i === this.state.conv ? '#1D1D1F' : 'rgba(29,29,31,0.14)',
+        pick: () => { this._picked = true; this.setState({ conv: i }); } })),
+      formOpen: !this.state.sent, formSent: this.state.sent,
+      send: (e) => { if (e && e.preventDefault) e.preventDefault(); this.setState({ sent: true }); }
+    };
+  }
+}
+
+dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": true}, document.getElementById('dc-root'));
+</script>
+</body></html>
