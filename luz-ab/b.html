@@ -255,6 +255,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     </div></div>
   </div>
 </section>
+<div id="loopSpacer" aria-hidden="true" style="height: max(0px, calc(100svh - 1000px));"></div>
 </main>
 </template>
 <script>
@@ -408,7 +409,8 @@ class Component extends DCLogic {
     if (!L || !card) return; const vh = window.innerHeight || 900, top = L.getBoundingClientRect().top;
     const k = Math.min(1, Math.max(0, 1 - top / vh)); const e = k * k * (3 - 2 * k);
     card.style.transform = 'scale(' + (0.84 + 0.16 * e) + ')'; card.style.filter = 'brightness(' + (0.8 + 0.2 * e) + ')';
-    if (top <= 2 && !this._jumping) { this._jumping = true;   // the card now sits exactly where the hero is: go back to the top without a cut
+    const maxY = Math.max(0, (document.documentElement.scrollHeight || 0) - vh), atEnd = y >= maxY - 2;
+    if ((top <= 2 || (atEnd && top < vh * 0.5)) && !this._jumping) { this._jumping = true;   // the card now sits exactly where the hero is: go back to the top without a cut
       if (this._lenis) this._lenis.scrollTo(0, { immediate: true, force: true }); else window.scrollTo(0, 0);
       try { this.rearm(); } catch (x) {}
       setTimeout(() => { this._jumping = false; }, 300); return; }
