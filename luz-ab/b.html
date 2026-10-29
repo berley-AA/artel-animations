@@ -502,6 +502,8 @@ class Component extends DCLogic {
 }
 
 dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": true}, document.getElementById('dc-root'));
+/* Black Friday countdown (offer section): Nov 27, 12:00 a.m. Eastern; the box hides once it has passed */
+(function(){var T=Date.UTC(2026,10,27,5,0,0);function p(n){return (n<10?'0':'')+n}function tick(){var b=document.getElementById('cdBox');if(!b)return;var d=T-Date.now();if(d<=0){b.style.display='none';return}var m=Math.floor(d/60000);document.getElementById('cdD').textContent=p(Math.floor(m/1440));document.getElementById('cdH').textContent=p(Math.floor(m%1440/60));document.getElementById('cdM').textContent=p(m%60)}tick();setInterval(tick,15000);new MutationObserver(tick).observe(document.getElementById('dc-root'),{childList:true});})();
 /* only play the films that are on screen (saves battery and data on phones); carousel films are run by the page: only the slide in front plays */
 (function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting&&e.intersectionRatio>=0.2){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()})},{threshold:0.2});
 function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v.__io&&!v.closest('#hlTrack')){v.__io=1;io.observe(v)}})}scan();new MutationObserver(scan).observe(document.getElementById('dc-root'),{childList:true,subtree:true});})();
