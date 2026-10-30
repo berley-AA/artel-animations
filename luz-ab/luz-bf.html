@@ -304,8 +304,12 @@ class Component extends DCLogic {
     const ink = document.getElementById('ink');
     if (ink) { ink.muted = true; ink.loop = false; const ONE_TURN = 3.3; ink.addEventListener('timeupdate', () => { if (ink.currentTime > ONE_TURN - 0.75) toOrb(); if (ink.currentTime >= ONE_TURN + 1.2) ink.pause(); }); }
     this.startIntro = () => {   // also used by the Replay button
-      this._it.forEach(clearTimeout); this._it = []; this._went = false; this.setState({ phase: 0, inkIn: false, hintGone: false });
-      il(() => this.setState({ inkIn: true }), 120);   // the zoom out starts as the ink starts
+      this._it.forEach(clearTimeout); this._it = []; this._went = false;
+      // start scale: the ink's solid circle (about 0.45 x its box, from the centre) must reach every corner of the screen, so it opens full screen
+      try { const bx = ink && ink.parentElement.getBoundingClientRect(); if (bx && bx.width) { const cx = bx.left + bx.width / 2, cy = bx.top + bx.height / 2, far = Math.max(Math.hypot(cx, cy), Math.hypot(innerWidth - cx, cy), Math.hypot(cx, innerHeight - cy), Math.hypot(innerWidth - cx, innerHeight - cy)); this._inkStart = Math.max(5, (far * 1.08) / (0.45 * bx.width)); } } catch (e) {}
+      this.setState({ phase: 0, inkIn: false, hintGone: false });
+      const zoomOut = () => { if (!this._zoomed) { this._zoomed = true; this.setState({ inkIn: true }); } }; this._zoomed = false;   // the zoom out starts once the ink is actually playing on screen
+      if (ink) { ink.addEventListener('playing', () => il(zoomOut, 60), { once: true }); il(zoomOut, 1500); } else il(zoomOut, 120);
       if (!ink) { il(toOrb, 400); return; }
       try { ink.currentTime = 0; ink.playbackRate = 1.15; } catch (e) {}
       ink.addEventListener('ended', toOrb, { once: true });
@@ -504,7 +508,7 @@ class Component extends DCLogic {
       showReplay: this.props.showReplay ?? true,
       inkSrc: (() => { let w = 1440, d = 1; try { w = Math.max(window.innerWidth, window.innerHeight); d = window.devicePixelRatio || 1; } catch (e) {} return w * d >= 3400 ? 'assets/4a31b904fb71e8d45680ace7c4cc2954.mp4' : 'assets/521457798e663ff07745212d99d5922a.mp4'; })(),
       replay: () => { if (this._lenis) this._lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0); if (this.startIntro) this.startIntro(); },
-      introCls: ph >= 3 || this.state.introFree ? '' : 'intro-hold', inkO: ph >= 1 ? 0 : 1, inkS: this.state.inkIn ? 'scale(1)' : 'scale(5)', inkDur: this.state.inkIn ? '2.9s' : '0s',
+      introCls: ph >= 3 || this.state.introFree ? '' : 'intro-hold', inkO: ph >= 1 ? 0 : 1, inkS: this.state.inkIn ? 'scale(1)' : 'scale(' + (this._inkStart || 5).toFixed(2) + ')', inkDur: this.state.inkIn ? '2.9s' : '0s',
       navO: ph >= 2 ? 1 : 0, navPE: ph >= 2 ? 'auto' : 'none', orbO: ph >= 1 ? 1 : 0, orbT: ph >= 1 ? 'scale(1)' : 'scale(0.92)', orbPE: ph >= 1 ? 'auto' : 'none',
       textO: ph >= 2 ? 1 : 0, textT: ph >= 2 ? 'none' : 'translateY(18px)',
       ctaO: ph >= 3 ? 1 : 0, ctaT: ph >= 3 ? 'none' : 'translateY(14px)', hintO: ph >= 3 && !this.state.hintGone ? 1 : 0,
@@ -534,6 +538,18 @@ dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": true}, docu
 (function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting&&e.intersectionRatio>=0.2){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()})},{threshold:0.2});
 function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v.__io&&!v.closest('#hlTrack')){v.__io=1;io.observe(v)}})}scan();new MutationObserver(scan).observe(document.getElementById('dc-root'),{childList:true,subtree:true});})();
 </script>
+<!-- Nav frame: same rule as the homepage on every screen size. Frame = min(100%, 1920px), centred.
+     Wordmark on the 2.8 grid line, mark centred on the 25 line, links spread across 49.5 -> 69, Login right on 97.2. -->
+<style>
+@media (min-width: 861px){
+  .aanav{max-width:1920px!important;width:100%!important;padding:0 calc(min(100vw,1920px) * 0.028)!important;column-gap:0!important;grid-template-columns:49.47% 20.66% 1fr!important}
+  .aanav>div:first-child{position:relative!important;width:100%!important;display:block!important;height:44px}
+  .aanav>div:first-child>a:first-child{position:absolute;left:0;top:0}
+  .aanav>div:first-child>*:not(:first-child){position:absolute!important;left:calc(47.54% - 12.5px)!important;top:50%!important;transform:translateY(-50%)!important;margin:0!important}
+  .aanav .navlinks{justify-content:space-between!important;padding-left:0!important;column-gap:14px!important;gap:14px!important;width:100%}
+  .aanav>*:last-child{justify-self:end!important}
+}
+</style>
 
 <!-- EN/FR language picker, same code as the homepage (site footer + ArtelLangHover + ArtelLocaleHide) -->
 <style>
