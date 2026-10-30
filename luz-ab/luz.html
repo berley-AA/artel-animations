@@ -75,6 +75,8 @@ main > *:not(#hero):not(header){transition:opacity .9s ease}
 main.intro-hold > *:not(#hero):not(header){opacity:0;pointer-events:none}
 /* during the intro the ink is a full-screen loader: it may spill past the shorter hero */
 main.intro-hold #hero{overflow:visible!important}
+/* film player on short screens (phones turned sideways): the film takes the full height, the close button sits in the side margin */
+@media (max-height: 500px){#filmLayer{padding:8px 64px!important}#filmPlayer{width:min(100%, calc((100vh - 16px) * 16 / 9))!important;width:min(100%, calc((100svh - 16px) * 16 / 9))!important}}
 .track{scrollbar-width:none}.track::-webkit-scrollbar{display:none}
 .navlinks{display:flex}.navburger{display:none}
 @media (max-width: 860px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}.aanav{grid-template-columns:1fr auto!important;column-gap:16px!important;padding:0 20px!important}}
@@ -127,7 +129,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
     <div class="orb-box" style="position: relative; height: min(54vh, 100%); width: auto; max-width: 82vw; aspect-ratio: 1 / 1;">
       <video id="ink" src="{{inkSrc}}" muted="" playsinline="" preload="auto" aria-hidden="true" style="position: absolute; inset: -6%; width: 112%; height: 112%; -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 58%, rgba(0,0,0,0) 70%); mask-image: radial-gradient(circle at 50% 50%, #000 58%, rgba(0,0,0,0) 70%); opacity: {{inkO}}; transform: {{inkS}}; transition: opacity 1.6s ease, transform {{inkDur}} cubic-bezier(.16,1,.3,1);"></video>
       <canvas id="orb" role="img" aria-label="Luz, the Artel assistant. {{orbHint}}" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: {{orbO}}; transform: {{orbT}}; transition: opacity 2.4s ease, transform 2.8s cubic-bezier(.16,1,.3,1); pointer-events: {{orbPE}}; cursor: grab; touch-action: pan-y;"></canvas>
-      <span style="position: absolute; left: 0; right: 0; bottom: -6px; text-align: center; font-family: 'ABC Areal', 'Helvetica Neue', Helvetica, sans-serif; font-size: 11px; letter-spacing: 0.16em; color: #6E6E73; opacity: {{hintO}}; transition: opacity 1.2s ease;">{{orbHintCaps}}</span>
+      <span style="position: absolute; left: 0; right: 0; bottom: -6px; text-align: center; font-family: 'ABC Areal', 'Helvetica Neue', Helvetica, sans-serif; font-size: 11px; letter-spacing: 0.16em; color: #AEAEB2; opacity: {{hintO}}; transition: opacity 1.2s ease;">{{orbHintCaps}}</span>
     </div>
   </div>
   <div style="position: relative; z-index: 1; width: 100%; max-width: 1920px; margin: 0 auto; box-sizing: border-box; padding: 0 clamp(20px, 3vw, 54px) clamp(40px, 7vh, 76px); display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 28px 48px; pointer-events: none;">
@@ -268,6 +270,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   </div>
 </section>
 <div id="loopSpacer" aria-hidden="true" style="height: max(0px, calc(100svh - 1000px));"></div>
+<div id="filmLayer" role="dialog" aria-modal="true" aria-label="The Luz film" style="position: fixed; inset: 0; z-index: 200; background: #1D1D1F; display: {{filmDisp}}; align-items: center; justify-content: center; opacity: {{filmO}}; transition: opacity .35s ease; padding: max(56px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); box-sizing: border-box;" onClick="{{filmBackdrop}}">
+  <button type="button" onClick="{{closeFilm}}" aria-label="Close the film" style="position: absolute; top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); width: 44px; height: 44px; padding: 0; border: 0; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#F5F5F7" stroke-width="1.8" stroke-linecap="square"><path d="M1.5 1.5l11 11M12.5 1.5l-11 11"></path></svg></button>
+  <video id="filmPlayer" src="{{filmSrc}}" controls="" playsinline="" preload="none" style="display: block; width: min(100%, calc((100vh - 120px) * 16 / 9), 1600px); width: min(100%, calc((100svh - 120px) * 16 / 9), 1600px); aspect-ratio: 16 / 9; height: auto; background: #000; object-fit: contain;"></video>
+</div>
 </main>
 </template>
 <script>
@@ -463,6 +469,17 @@ class Component extends DCLogic {
     else { window.scrollTo({ top: target, behavior: 'smooth' }); setTimeout(land, 600); }
     setTimeout(() => { if (this._jumping === 1) land(); }, 1200);
   }
+  openFilmLayer() {   // full-screen player: pause the page films, lock the page, play with sound
+    try { document.querySelectorAll('video.hlv').forEach((v) => v.pause()); } catch (x) {}
+    this._filmFrom = document.activeElement; this.setState({ filmOn: true });
+    try { if (this._lenis) this._lenis.stop(); document.documentElement.style.overflow = 'hidden'; } catch (x) {}
+    requestAnimationFrame(() => { this.setState({ filmIn: true }); const v = document.getElementById('filmPlayer'); if (v) { try { v.currentTime = 0; v.muted = false; const q = v.play(); if (q && q.catch) q.catch(() => {}); v.focus({ preventScroll: true }); } catch (x) {} } });
+    if (!this._filmKey) { this._filmKey = (ev) => { if (ev.key === 'Escape' && this.state.filmOn) this.closeFilmLayer(); }; document.addEventListener('keydown', this._filmKey); }
+  }
+  closeFilmLayer() {
+    const v = document.getElementById('filmPlayer'); try { if (v) v.pause(); if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen(); } catch (x) {}
+    this.setState({ filmIn: false }); setTimeout(() => { this.setState({ filmOn: false }); try { document.documentElement.style.overflow = ''; if (this._lenis) this._lenis.start(); if (this._filmFrom && this._filmFrom.focus) this._filmFrom.focus({ preventScroll: true }); } catch (x) {} if (this.syncVids) this.syncVids(); }, 360);
+  }
   componentWillUnmount() { if (this._carEnd) document.removeEventListener('animationend', this._carEnd); if (this._carIo) this._carIo.disconnect(); this._t.forEach(clearTimeout); (this._it || []).forEach(clearTimeout); clearInterval(this._cv); clearTimeout(this._pullT); try { if (this._io) this._io.disconnect(); if (this._orb) this._orb.destroy(); if (this._lenis) this._lenis.destroy(); window.removeEventListener('scroll', this._scroll); if (this._fill) window.removeEventListener('scroll', this._fill); if (this._chatMsg) window.removeEventListener('message', this._chatMsg); if (this._mio) this._mio.disconnect(); if (this._luio) this._luio.disconnect(); if (this._pods) this._pods.destroy(); if (this._track) this._track.removeEventListener('scroll', this._ts); } catch (e) {} }
   renderVals() {
     const ph = this.state.phase, chat = (this.props.orbClick ?? 'play') === 'chat';
@@ -491,7 +508,7 @@ class Component extends DCLogic {
       navLine: 'rgba(29,29,31,0)',
       menuOpen: this.state.menu, menuLabel: this.state.menu ? 'Close menu' : 'Open menu',
       toggleMenu: () => this.setState({ menu: !this.state.menu }),
-      showReplay: this.props.showReplay ?? true,
+      showReplay: this.props.showReplay === true,
       inkSrc: (() => { let w = 1440, d = 1; try { w = Math.max(window.innerWidth, window.innerHeight); d = window.devicePixelRatio || 1; } catch (e) {} return w * d >= 3400 ? 'assets/4a31b904fb71e8d45680ace7c4cc2954.mp4' : 'assets/521457798e663ff07745212d99d5922a.mp4'; })(),
       replay: () => { if (this._lenis) this._lenis.scrollTo(0, { immediate: true }); else window.scrollTo(0, 0); if (this.startIntro) this.startIntro(); },
       introCls: ph >= 3 || this.state.introFree ? '' : 'intro-hold', inkO: ph >= 1 ? 0 : 1, inkS: this.state.inkIn ? 'scale(1)' : 'scale(' + (this._inkStart || 5).toFixed(2) + ')', inkDur: this.state.inkIn ? '2.9s' : '0s',
@@ -507,7 +524,10 @@ class Component extends DCLogic {
       prevCard: () => { take(); scrollToCard((this.state.slide + CARDS.length - 1) % CARDS.length); }, nextCard: () => { take(); scrollToCard((this.state.slide + 1) % CARDS.length); },
       playing: this.state.playing, paused: !this.state.playing, playLabel: this.state.playing ? 'Pause' : 'Play',
       togglePlay: () => { const p = !this.state.playing; try { document.querySelectorAll('#hlTrack video.hlv').forEach((v) => { if (p) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else v.pause(); }); } catch (e) {} this.setState({ playing: p }); },
-      openFilm: (e) => { if (e && e.preventDefault) e.preventDefault(); scrollToCard(0); try { const v = document.querySelector('video.hlv'); if (v) { v.currentTime = 0; v.muted = false; const q = v.play(); if (q && q.catch) q.catch(() => {}); } } catch (x) {} },
+      openFilm: (e) => { if (e && e.preventDefault) e.preventDefault(); this.openFilmLayer(); },
+      closeFilm: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.closeFilmLayer(); },
+      filmBackdrop: (e) => { if (e && e.target && e.target.id === 'filmLayer') this.closeFilmLayer(); },
+      filmDisp: this.state.filmOn ? 'flex' : 'none', filmO: this.state.filmIn ? 1 : 0, filmSrc: CARDS[0].src,
       convs: C.map((c, i) => ({ ...c, n: String(i + 1).padStart(2, '0'), on: i === this.state.conv ? 'true' : 'false', disp: i === this.state.conv ? 'flex' : 'none',
         tabBg: i === this.state.conv ? '#1D1D1F' : '#FFFFFF', tabInk: i === this.state.conv ? '#FFFFFF' : '#1D1D1F', tabLine: i === this.state.conv ? '#1D1D1F' : 'rgba(29,29,31,0.14)',
         pick: () => { this._picked = true; this.setState({ conv: i }); } })),
@@ -517,7 +537,7 @@ class Component extends DCLogic {
   }
 }
 
-dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": true}, document.getElementById('dc-root'));
+dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": false}, document.getElementById('dc-root'));
 /* Black Friday countdown (offer section): Nov 27, 12:00 a.m. Eastern; the box hides once it has passed */
 (function(){var T=Date.UTC(2026,10,27,5,0,0);function p(n){return (n<10?'0':'')+n}function tick(){var b=document.getElementById('cdBox');if(!b)return;var d=T-Date.now();if(d<=0){b.style.display='none';return}var m=Math.floor(d/60000);document.getElementById('cdD').textContent=p(Math.floor(m/1440));document.getElementById('cdH').textContent=p(Math.floor(m%1440/60));document.getElementById('cdM').textContent=p(m%60)}tick();setInterval(tick,15000);new MutationObserver(tick).observe(document.getElementById('dc-root'),{childList:true});})();
 /* only play the films that are on screen (saves battery and data on phones); carousel films are run by the page: only the slide in front plays */
