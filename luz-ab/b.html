@@ -520,6 +520,8 @@ function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v
   .aanav>*:last-child{justify-self:end!important}
 }
 </style>
+<!-- Guard: the site's homepage scripts can still inject their hero / chat styles after this page replaces the Webflow page. They are not for this page: remove them as they appear. -->
+<script>(function(){var ids={aaHero:1,'luz-chat-fit':1};function sweep(){Object.keys(ids).forEach(function(i){var e=document.getElementById(i);if(e&&e.tagName==='STYLE')e.remove()})}sweep();try{new MutationObserver(sweep).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}})();</script>
 
 <!-- EN/FR language picker, same code as the homepage (site footer + ArtelLangHover + ArtelLocaleHide) -->
 <style>
