@@ -508,4 +508,36 @@ dcBoot(Component, {"orbClick": "play", "smooth": true, "showReplay": true}, docu
 (function(){if(!('IntersectionObserver' in window))return;var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(e.isIntersecting&&e.intersectionRatio>=0.2){var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()})},{threshold:0.2});
 function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v.__io&&!v.closest('#hlTrack')){v.__io=1;io.observe(v)}})}scan();new MutationObserver(scan).observe(document.getElementById('dc-root'),{childList:true,subtree:true});})();
 </script>
+
+<!-- EN/FR language picker, same code as the homepage (site footer + ArtelLangHover + ArtelLocaleHide) -->
+<style>
+  .aa-ctl{ position:fixed; right:12px; top:50%; transform:translateY(-50%); z-index:99999;
+    display:flex; flex-direction:column; align-items:center; gap:1px; padding:5px 4px;
+    border-radius:999px; background:rgba(0,0,0,0.06); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    font-family:'Helveticaneue Lt 55 Roman','Epilogue',Helvetica,sans-serif; }
+  .aa-ctl a{ all:unset; box-sizing:border-box; cursor:pointer; font-size:10px; letter-spacing:.04em;
+    text-transform:uppercase; color:#82817b; padding:3px 0; width:24px; border-radius:999px; line-height:1;
+    display:flex; align-items:center; justify-content:center; transition:color .15s, background .15s; }
+  .aa-ctl a.on{ color:#111; background:rgba(255,255,255,.9); }
+  /* hide the old/duplicate switcher markup still present in the navbar component */
+  .lang-toggle-desktop, .lang-toggle-mobile, .aa-langfix { display:none !important; }
+</style>
+<script>
+(function(){
+  function build(){
+    if(document.querySelector('.aa-ctl')) return;
+    var path=location.pathname, isFR=/^\/fr-ca(\/|$)/.test(path);
+    var base=isFR?(path.replace(/^\/fr-ca/,'')||'/'):path;
+    var en=base, fr='/fr-ca'+(base==='/'?'':base);
+    var box=document.createElement('div'); box.className='aa-ctl';
+    box.innerHTML='<a href="'+en+'" class="'+(isFR?'':'on')+'">EN</a>'+
+                  '<a href="'+fr+'" class="'+(isFR?'on':'')+'">FR</a>';
+    document.body.appendChild(box);
+  }
+  document.readyState!='loading'?build():document.addEventListener('DOMContentLoaded',build);
+})();
+</script>
+<style>@media (max-width: 767px){ .aa-ctl{ top: auto !important; bottom: 14px !important; right: 12px !important; } }</style>
+<script>(function(){if(matchMedia('(hover:none)').matches)return;var d=document.documentElement,s=document.createElement('style');s.textContent='.aa-ctl{opacity:0!important;pointer-events:none!important;transform:translate(14px,-50%)!important;transition:opacity .35s ease,transform .5s cubic-bezier(.22,1,.36,1)!important}html.aa-show .aa-ctl,.aa-ctl:focus-within{opacity:1!important;pointer-events:auto!important;transform:translate(0,-50%)!important}';document.head.appendChild(s);var t=null;function show(v){clearTimeout(t);if(v)d.classList.add('aa-show');else t=setTimeout(function(){d.classList.remove('aa-show')},450)}document.addEventListener('mousemove',function(e){var c=document.querySelector('.aa-ctl'),n=e.clientX>innerWidth-96;if(n&&c){var r=c.getBoundingClientRect();n=e.clientY>r.top-140&&e.clientY<r.bottom+140}show(n)},{passive:true});document.documentElement.addEventListener('mouseleave',function(){show(false)})})();</script>
+<script>(function(){function init(){var el=document.querySelector('.aa-ctl');if(!el){return setTimeout(init,400);}el.style.transition='transform .45s ease,opacity .45s ease';el.style.willChange='transform';var last=0,hidden=false;function show(){if(hidden){el.style.transform='translateX(0)';el.style.opacity='1';hidden=false;}}function hide(){if(!hidden){el.style.transform='translateX(170%)';el.style.opacity='0';hidden=true;}}function cur(){return window.scrollY||window.pageYOffset||document.documentElement.scrollTop||0;}function update(){var y=cur();var d=y-last;if(Math.abs(d)<2)return;if(d>0&&y>140){hide();}else if(d<0){show();}last=y;}window.addEventListener('scroll',update,{passive:true});window.addEventListener('wheel',function(e){var y=cur();if(e.deltaY>1&&y>140){hide();}else if(e.deltaY<-1){show();}},{passive:true});window.addEventListener('touchmove',update,{passive:true});(function loop(){update();requestAnimationFrame(loop);})();try{var L=window.lenis||window.__lenis;if(L&&L.on){L.on('scroll',function(o){last=(o&&typeof o.scroll==='number')?o.scroll:last;var y=cur();if(y>last+2&&y>140){hide();}else if(y<last-2){show();}});}}catch(e){}}init();})();</script>
 </body></html>
