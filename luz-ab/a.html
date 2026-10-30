@@ -272,7 +272,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <div id="loopSpacer" aria-hidden="true" style="height: max(0px, calc(100svh - 1000px));"></div>
 <div id="filmLayer" role="dialog" aria-modal="true" aria-label="The Luz film" style="position: fixed; inset: 0; z-index: 200; background: #1D1D1F; display: {{filmDisp}}; align-items: center; justify-content: center; opacity: {{filmO}}; transition: opacity .35s ease; padding: max(56px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); box-sizing: border-box;" onClick="{{filmBackdrop}}">
   <button type="button" onClick="{{closeFilm}}" aria-label="Close the film" style="position: absolute; top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); width: 44px; height: 44px; padding: 0; border: 0; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#F5F5F7" stroke-width="1.8" stroke-linecap="square"><path d="M1.5 1.5l11 11M12.5 1.5l-11 11"></path></svg></button>
-  <video id="filmPlayer" src="{{filmSrc}}" controls="" playsinline="" preload="none" style="display: block; width: min(100%, calc((100vh - 120px) * 16 / 9), 1600px); width: min(100%, calc((100svh - 120px) * 16 / 9), 1600px); aspect-ratio: 16 / 9; height: auto; background: #000; object-fit: contain;"></video>
+  <video id="filmPlayer" src="{{filmSrc}}" playsinline="" preload="none" style="display: block; width: min(100%, calc((100vh - 120px) * 16 / 9), 1600px); width: min(100%, calc((100svh - 120px) * 16 / 9), 1600px); aspect-ratio: 16 / 9; height: auto; background: #000; object-fit: contain;"></video>
 </div>
 </main>
 </template>
@@ -590,4 +590,82 @@ function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v
 <style>@media (max-width: 767px){ .aa-ctl{ top: auto !important; bottom: 14px !important; right: 12px !important; } }</style>
 <script>(function(){if(matchMedia('(hover:none)').matches)return;var d=document.documentElement,s=document.createElement('style');s.textContent='.aa-ctl{opacity:0!important;pointer-events:none!important;transform:translate(14px,-50%)!important;transition:opacity .35s ease,transform .5s cubic-bezier(.22,1,.36,1)!important}html.aa-show .aa-ctl,.aa-ctl:focus-within{opacity:1!important;pointer-events:auto!important;transform:translate(0,-50%)!important}';document.head.appendChild(s);var t=null;function show(v){clearTimeout(t);if(v)d.classList.add('aa-show');else t=setTimeout(function(){d.classList.remove('aa-show')},450)}document.addEventListener('mousemove',function(e){var c=document.querySelector('.aa-ctl'),n=e.clientX>innerWidth-96;if(n&&c){var r=c.getBoundingClientRect();n=e.clientY>r.top-140&&e.clientY<r.bottom+140}show(n)},{passive:true});document.documentElement.addEventListener('mouseleave',function(){show(false)})})();</script>
 <script>(function(){function init(){var el=document.querySelector('.aa-ctl');if(!el){return setTimeout(init,400);}el.style.transition='transform .45s ease,opacity .45s ease';el.style.willChange='transform';var last=0,hidden=false;function show(){if(hidden){el.style.transform='translateX(0)';el.style.opacity='1';hidden=false;}}function hide(){if(!hidden){el.style.transform='translateX(170%)';el.style.opacity='0';hidden=true;}}function cur(){return window.scrollY||window.pageYOffset||document.documentElement.scrollTop||0;}function update(){var y=cur();var d=y-last;if(Math.abs(d)<2)return;if(d>0&&y>140){hide();}else if(d<0){show();}last=y;}window.addEventListener('scroll',update,{passive:true});window.addEventListener('wheel',function(e){var y=cur();if(e.deltaY>1&&y>140){hide();}else if(e.deltaY<-1){show();}},{passive:true});window.addEventListener('touchmove',update,{passive:true});(function loop(){update();requestAnimationFrame(loop);})();try{var L=window.lenis||window.__lenis;if(L&&L.on){L.on('scroll',function(o){last=(o&&typeof o.scroll==='number')?o.scroll:last;var y=cur();if(y>last+2&&y>140){hide();}else if(y<last-2){show();}});}}catch(e){}}init();})();</script>
+<!-- Film player controls, Apple-style, Artel design language (ABC Areal, square, white on the film). -->
+<style>
+#aafp{position:fixed;z-index:201;pointer-events:none;display:none;font-family:'ABC Areal','Helvetica Neue',Helvetica,sans-serif;color:#F5F5F7}
+#aafp.on{display:block}
+#aafp .hit{position:absolute;inset:0;pointer-events:auto;cursor:pointer;background:transparent}
+#aafp.idle .hit{cursor:none}
+#aafp .ui{transition:opacity .35s ease}
+#aafp.idle .ui{opacity:0}
+#aafp .big{position:absolute;left:50%;top:50%;width:72px;height:72px;margin:-36px 0 0 -36px;display:flex;align-items:center;justify-content:center;pointer-events:none;filter:drop-shadow(0 2px 10px rgba(0,0,0,.35))}
+#aafp .bar{position:absolute;left:50%;bottom:clamp(10px,3%,26px);transform:translateX(-50%);width:min(76%,720px);display:flex;align-items:center;gap:14px;pointer-events:auto;padding:8px 4px;text-shadow:0 1px 6px rgba(0,0,0,.45)}
+#aafp .scrim{position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(0deg,rgba(0,0,0,.45),rgba(0,0,0,0));pointer-events:none}
+#aafp button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:center;width:28px;height:28px;flex:none}
+#aafp button:focus-visible{outline:1.5px solid #F5F5F7;outline-offset:3px}
+#aafp .t{font-size:12px;font-variant-numeric:tabular-nums;letter-spacing:.01em;min-width:40px;flex:none}
+#aafp .t.r{text-align:right}
+#aafp .trk{position:relative;flex:1;height:22px;display:flex;align-items:center;cursor:pointer;touch-action:none}
+#aafp .trk i{position:absolute;left:0;right:0;height:3px;background:rgba(245,245,247,.32)}
+#aafp .trk b{position:absolute;left:0;height:3px;background:#F5F5F7;width:0}
+#aafp .trk:hover i,#aafp .trk:hover b,#aafp .trk.drag i,#aafp .trk.drag b{height:5px}
+@media (max-width:600px){#aafp .bar{width:92%;gap:10px}#aafp .t{font-size:11px;min-width:34px}}
+</style>
+<div id="aafp" aria-hidden="true">
+  <div class="hit" role="button" aria-label="Play or pause the film"></div>
+  <div class="ui scrim"></div>
+  <div class="ui big"></div>
+  <div class="ui bar">
+    <button class="mute" type="button" aria-label="Mute"></button>
+    <span class="t cur">00:00</span>
+    <div class="trk" role="slider" aria-label="Film position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><i></i><b></b></div>
+    <span class="t r rem">-00:00</span>
+    <button class="fs" type="button" aria-label="Full screen"></button>
+  </div>
+</div>
+<script>
+(function(){
+  var W='#F5F5F7';
+  var IC={
+    play:'<svg width="34" height="40" viewBox="0 0 34 40" fill="'+W+'"><path d="M2 2l30 18L2 38z"/></svg>',
+    pause:'<svg width="30" height="40" viewBox="0 0 30 40" fill="'+W+'"><rect x="1" y="1" width="9" height="38"/><rect x="20" y="1" width="9" height="38"/></svg>',
+    vol:'<svg width="20" height="16" viewBox="0 0 20 16" fill="none" stroke="'+W+'" stroke-width="1.5"><path d="M1 5.5h3.5L9 1.5v13l-4.5-4H1z" fill="'+W+'" stroke="none"/><path d="M12.5 5a4 4 0 0 1 0 6M15 2.5a7.5 7.5 0 0 1 0 11" stroke-linecap="square"/></svg>',
+    mute:'<svg width="20" height="16" viewBox="0 0 20 16" fill="none" stroke="'+W+'" stroke-width="1.5"><path d="M1 5.5h3.5L9 1.5v13l-4.5-4H1z" fill="'+W+'" stroke="none"/><path d="M13 5.5l5 5M18 5.5l-5 5" stroke-linecap="square"/></svg>',
+    fs:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="'+W+'" stroke-width="1.5" stroke-linecap="square"><path d="M1 5.5V1h4.5M10.5 1H15v4.5M15 10.5V15h-4.5M5.5 15H1v-4.5"/></svg>',
+    fsx:'<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="'+W+'" stroke-width="1.5" stroke-linecap="square"><path d="M5.5 1v4.5H1M15 5.5h-4.5V1M10.5 15v-4.5H15M1 10.5h4.5V15"/></svg>'
+  };
+  var o=document.getElementById('aafp'), hit=o.querySelector('.hit'), big=o.querySelector('.big'), mu=o.querySelector('.mute'), fs=o.querySelector('.fs'), cur=o.querySelector('.cur'), rem=o.querySelector('.rem'), trk=o.querySelector('.trk'), fill=trk.querySelector('b');
+  mu.innerHTML=IC.vol; fs.innerHTML=IC.fs;
+  function V(){return document.getElementById('filmPlayer')}
+  function L(){return document.getElementById('filmLayer')}
+  function mm(t){t=Math.max(0,Math.floor(t||0));var m=Math.floor(t/60),s=t%60;return (m<10?'0':'')+m+':'+(s<10?'0':'')+s}
+  var idleT=null;
+  function wake(){o.classList.remove('idle');clearTimeout(idleT);var v=V();if(v&&!v.paused)idleT=setTimeout(function(){o.classList.add('idle')},2500)}
+  function paint(){var v=V();if(!v)return;var d=v.duration||0,t=v.currentTime||0;cur.textContent=mm(t);rem.textContent='-'+mm(d-t);var p=d?t/d*100:0;fill.style.width=p+'%';trk.setAttribute('aria-valuenow',Math.round(p));big.innerHTML=v.paused?IC.play:IC.pause;mu.innerHTML=v.muted?IC.mute:IC.vol;mu.setAttribute('aria-label',v.muted?'Unmute':'Mute');var f=!!(document.fullscreenElement||document.webkitFullscreenElement);fs.innerHTML=f?IC.fsx:IC.fs;fs.setAttribute('aria-label',f?'Exit full screen':'Full screen')}
+  function place(){var l=L(),v=V();var vis=l&&getComputedStyle(l).display!=='none';o.classList.toggle('on',!!vis);o.setAttribute('aria-hidden',vis?'false':'true');if(!vis||!v)return;var r=v.getBoundingClientRect();o.style.left=r.left+'px';o.style.top=r.top+'px';o.style.width=r.width+'px';o.style.height=r.height+'px';o.style.opacity=getComputedStyle(l).opacity}
+  (function loop(){place();paint();requestAnimationFrame(loop)})();
+  function toggle(){var v=V();if(!v)return;if(v.paused){var q=v.play();if(q&&q.catch)q.catch(function(){})}else v.pause();wake()}
+  hit.addEventListener('click',toggle);
+  o.addEventListener('mousemove',wake,{passive:true});o.addEventListener('touchstart',wake,{passive:true});
+  mu.addEventListener('click',function(){var v=V();if(v)v.muted=!v.muted;wake()});
+  fs.addEventListener('click',function(){var v=V(),d=document,e=d.documentElement;wake();
+    if(d.fullscreenElement||d.webkitFullscreenElement){(d.exitFullscreen||d.webkitExitFullscreen).call(d);return}
+    if(e.requestFullscreen){e.requestFullscreen().then(function(){try{screen.orientation&&screen.orientation.lock&&screen.orientation.lock('landscape').catch(function(){})}catch(x){}}).catch(function(){})}
+    else if(e.webkitRequestFullscreen){e.webkitRequestFullscreen()}
+    else if(v&&v.webkitEnterFullscreen){v.webkitEnterFullscreen()}   /* iPhone: the phone's own player, it turns with the phone */
+  });
+  function seekAt(x){var v=V();if(!v||!v.duration)return;var r=trk.getBoundingClientRect();v.currentTime=Math.max(0,Math.min(1,(x-r.left)/r.width))*v.duration}
+  trk.addEventListener('pointerdown',function(e){trk.classList.add('drag');trk.setPointerCapture(e.pointerId);seekAt(e.clientX);wake()});
+  trk.addEventListener('pointermove',function(e){if(trk.classList.contains('drag'))seekAt(e.clientX)});
+  trk.addEventListener('pointerup',function(){trk.classList.remove('drag')});trk.addEventListener('pointercancel',function(){trk.classList.remove('drag')});
+  document.addEventListener('keydown',function(e){if(!o.classList.contains('on'))return;var v=V();if(!v)return;
+    if(e.key===' '||e.key==='k'){e.preventDefault();toggle()}
+    else if(e.key==='ArrowRight'){v.currentTime=Math.min(v.duration||0,v.currentTime+5);wake()}
+    else if(e.key==='ArrowLeft'){v.currentTime=Math.max(0,v.currentTime-5);wake()}
+    else if(e.key==='m'){v.muted=!v.muted;wake()}
+    else if(e.key==='f'){fs.click()}});
+  document.addEventListener('play',function(e){if(e.target&&e.target.id==='filmPlayer')wake()},true);
+  document.addEventListener('pause',function(e){if(e.target&&e.target.id==='filmPlayer'){clearTimeout(idleT);o.classList.remove('idle')}},true);
+})();
+</script>
 </body></html>
