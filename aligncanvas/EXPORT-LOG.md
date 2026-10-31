@@ -155,3 +155,9 @@ Running total after 27: 2,375.9 MB of video.
 
 Correction: Sphere's set used the original promo_brand, whose outer lineup orbs are clipped by a circle (small discs here, so minor). From now on round sets use c_film_colour_lineup (same layout, circle-safe) instead.
 From Helix on: light looks use white card backs, dark looks use #1A1A1D backs.
+(Sphere, #30: 24.0 s, 119.6 MB.)
+| 31 | Ribbon Loop | hero_luz, orb_pink, stat_59, chat, p_portrait_berley, p_portrait_felix, promo_offer, tagline | clean light, cards 4:5, white backs, Camera Zoom 0.65x (default 1.0 left the ribbon tiny; in this editor a lower zoom value = closer). 15 images put hero_luz twice side by side at the seam; 8 divides the ribbon evenly | 22.0s | artel-31-ribbon-loop.mp4 | 145.4 MB | yes, 16.5 s, artel-31-ribbon-loop-still.png |
+| 32 | Tunnel | orb_trio, hero_luz, p_portrait_berley, p_portrait_felix, film_cx_rings, billboard, orb_pink, artel_black, p_mark, promo_brand, stat_5400, tagline (visual set) | DARK #0B0B0C, cards 4:5, dark backs. Rings of small cards flying at the camera | 14.0s | artel-32-tunnel.mp4 | 87.1 MB | yes, 2.8 s, artel-32-tunnel-still.png |
+| 33 | Wheel | hero_luz, orb_pink, stat_59, chat, p_portrait_berley, p_portrait_felix, promo_night, stat_5400, orb_trio, bilingual, promo_offer, tagline | clean light, cards 4:5, white backs. Wheel holds 12 (15 dropped 3); cards turn with the wheel, so text is upside down at the bottom | 20.0s | artel-33-wheel.mp4 | 130.5 MB | yes, 8.0 s, artel-33-wheel-still.png |
+
+Running total after 33: 3,062.5 MB of video.
