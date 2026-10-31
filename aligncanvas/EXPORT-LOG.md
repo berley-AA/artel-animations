@@ -161,3 +161,8 @@ From Helix on: light looks use white card backs, dark looks use #1A1A1D backs.
 | 33 | Wheel | hero_luz, orb_pink, stat_59, chat, p_portrait_berley, p_portrait_felix, promo_night, stat_5400, orb_trio, bilingual, promo_offer, tagline | clean light, cards 4:5, white backs. Wheel holds 12 (15 dropped 3); cards turn with the wheel, so text is upside down at the bottom | 20.0s | artel-33-wheel.mp4 | 130.5 MB | yes, 8.0 s, artel-33-wheel-still.png |
 
 Running total after 33: 3,062.5 MB of video.
+| 34 | Saturn | hero_luz, orb_pink, orb_trio, film_cx_rings, p_portrait_berley, p_portrait_felix, artel_black, p_discs, promo_brand, billboard, stat_59, tagline (visual set) | DARK, cards 4:5, dark backs. Image 1 (Luz) is the big centre card; the ring also includes a small copy of it (template behaviour) | 20.0s | artel-34-saturn.mp4 | 99.0 MB | yes, 4.0 s, artel-34-saturn-still.png |
+| 35 | Turbine | hero_luz, edu_who_answers, promo_wismo, promo_night, stat_59, chat, orb_trio, stat_5400, promo_day_night, bilingual, stat_week, promo_countdown, artel_black, promo_offer, tagline | clean light, cards 4:5, white backs. Dense fan of ~30 cards edge-on: abstract, posts not readable; each image appears twice, half a turn apart | 24.0s | artel-35-turbine.mp4 | 182.4 MB | yes, 4.8 s, artel-35-turbine-still.png |
+| 36 | Vortex | orb_trio, hero_luz, p_portrait_berley, p_portrait_felix, film_cx_rings, billboard, orb_pink, artel_black, p_mark, promo_brand, stat_5400, tagline (visual set) | DARK, cards 4:5, dark backs. Swirl of overlapping cards (abstract) | 22.0s | artel-36-vortex.mp4 | 165.7 MB | yes, 4.4 s, artel-36-vortex-still.png |
+
+Running total after 36: 3,509.6 MB of video.
