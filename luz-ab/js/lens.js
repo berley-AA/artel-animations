@@ -53,7 +53,7 @@
     [].slice.call(document.querySelectorAll('.aa-lg-btn,.aa-lg-clear,.aa-lg-ctl')).forEach(function(e){var r=e.getBoundingClientRect();if(r.width<8||r.height<8)return;var rad=parseFloat(getComputedStyle(e).borderTopLeftRadius)||0;
       var base=e.classList.contains('aa-lg-ctl')?'blur(6px) saturate(170%)':'blur(3px) saturate(165%) brightness(1.04)';
       var v=ok?base+' '+filter(r.width,r.height,rad,'btn'):base;e.classList.add('aa-lens');if(e.__lens!==v){e.style.setProperty('-webkit-backdrop-filter',v,'important');e.style.setProperty('backdrop-filter',v,'important');e.__lens=v;}});
-    if(!ok)return;
+    if(!ok||!window.__aaLensImg)return;   /* Oct 31: Berley: photos and cards stay flat; the loupe is for buttons (set window.__aaLensImg=1 to preview it on photos) */
     [].slice.call(document.querySelectorAll('img[data-aa-rc]')).forEach(function(e){var r=e.getBoundingClientRect();if(r.width<200||r.height<140)return;var rad=parseFloat(getComputedStyle(e).borderTopLeftRadius)||0;if(rad<8)return;
       var v=filter(r.width,r.height,rad,'img');e.classList.add('aa-lens-img');if(e.__lens!==v){e.style.setProperty('filter',v);e.__lens=v;}});}
   var t=0;function later(){clearTimeout(t);t=setTimeout(apply,400);}
