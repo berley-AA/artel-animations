@@ -181,3 +181,8 @@ Running total after 42: 4,133.4 MB of video.
 | 45 | Cascade | 12-post set (edu_who_answers ... tagline, as Elevator) | clean light, cards 4:5. Perspective row of ~10 overlapping cards (overlap by design); 12 so none repeat in view | 16.0s | artel-45-cascade.mp4 | 105.4 MB | yes, 8.0 s, artel-45-cascade-still.png |
 
 Running total after 45: 4,274.5 MB of video.
+| 46 | Tandem | hero_luz, orb_trio, stat_59, chat, promo_brand, stat_week, tagline | clean light, cards 4:5 | 8.4s | artel-46-tandem.mp4 | 10.5 MB | yes, 4.2 s, artel-46-tandem-still.png |
+| 47 | Stack Peel | promo_countdown, promo_night, chat, stat_5400, promo_day_night, tagline | clean light, cards 4:5 | 9.1s | artel-47-stack-peel.mp4 | 6.2 MB | yes, 1.4 s, artel-47-stack-peel-still.png |
+| 48 | Grid Wave | 15-post set | clean light, cards 4:5. 6x5 wall of 30 cards with a ripple; each image appears twice, never adjacent | 10.0s | artel-48-grid-wave.mp4 | 68.7 MB | yes, 2.5 s, artel-48-grid-wave-still.png |
+
+Running total after 48: 4,359.9 MB of video.
