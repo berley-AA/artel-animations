@@ -186,3 +186,8 @@ Running total after 45: 4,274.5 MB of video.
 | 48 | Grid Wave | 15-post set | clean light, cards 4:5. 6x5 wall of 30 cards with a ripple; each image appears twice, never adjacent | 10.0s | artel-48-grid-wave.mp4 | 68.7 MB | yes, 2.5 s, artel-48-grid-wave-still.png |
 
 Running total after 48: 4,359.9 MB of video.
+
+STOPPED after #48: the Chrome extension disconnected (no browser connected to the account) while preparing #49 Bento Reveal. Bento Reveal was NOT exported.
+Planned Bento set (7 tiles of different shapes, image crops to each tile): hero_luz, c_orb_pink, stat_59, c_orb_trio, p_portrait_berley, p_portrait_felix, c_p_mark (chat / 11:47 / orb_pink original got cut by their tiles).
+Resume from Bento Reveal, then: Infinite Grid, Isometric Wall, Frames, Mosaic Flip, Assemble, 3D Showcase, Liquid Glass, Infinite Gallery, New, Kinetic, Sculpture groups (56 templates left), then Planetarium redo with founders spaced apart and the Lens Grid repeat fix.
+The page helpers live in tab 423292967 memory; if the tab reloaded they must be re-created (image cache, Felix and billboard canvases included).
