@@ -1,4 +1,5 @@
-/* ArtelLens 1.0 — liquid glass with a refracting rim (Oct 31), after the glass Berley liked on AlignCanvas. Our own code.
+/* ArtelLens 1.1 — liquid glass loupe with a refracting rim (Oct 31), after the glass Berley liked on AlignCanvas (Basit's round lenses). Our own code.
+   1.1: the rim also splits light into a thin warm and cool fringe, like a loupe.
    What you see: a glass surface that bends what is behind it. Near the rim the picture is pulled inward and stretched, as light bends
    through the thick curved edge of a lens; across the middle it is magnified a touch, like a loupe. A bright specular line runs along the
    top rim and a soft one along the bottom.
@@ -7,7 +8,7 @@
    (capsule, fixed or concentric, from ArtelCorners). Image cards get the same rim on their own picture (filter), so their corners read as glass.
    Where: every button and small control (orange, ink, outlined, light), the top bar's lower edge stays frosted (ArtelGlass), image cards.
    Chrome and Edge show the refraction; Safari and Firefox get the frosted glass without the bend. Reduced transparency: solid. */
-(function(){if(window.__aaLens)return;window.__aaLens='1.0';
+(function(){if(window.__aaLens)return;window.__aaLens='1.1';
   var NS='http://www.w3.org/2000/svg',svg,defs,cache={},n=0,ok=/Chrome\//.test(navigator.userAgent)&&!/Edg\/|OPR\//.test('')&&CSS.supports('backdrop-filter','url(#x)');
   function host(){if(svg)return;svg=document.createElementNS(NS,'svg');svg.setAttribute('width','0');svg.setAttribute('height','0');svg.setAttribute('aria-hidden','true');svg.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
     defs=document.createElementNS(NS,'defs');svg.appendChild(defs);document.body.appendChild(svg);}
@@ -29,8 +30,12 @@
     var big=kind==='img',rim=big?Math.min(30,Math.min(w,h)*0.09):Math.min(18,h*0.45),mag=big?0.018:0.06,pull=big?18:Math.min(14,h*0.34),m=map(w,h,r,rim,mag,pull,big?Math.min(1,160/Math.max(w,h)):Math.min(1,240/Math.max(w,h)));
     var id='aa-lens-'+(++n),f=document.createElementNS(NS,'filter');f.setAttribute('id',id);f.setAttribute('x','0');f.setAttribute('y','0');f.setAttribute('width',w);f.setAttribute('height',h);f.setAttribute('filterUnits','userSpaceOnUse');f.setAttribute('primitiveUnits','userSpaceOnUse');f.setAttribute('color-interpolation-filters','sRGB');
     var fi=document.createElementNS(NS,'feImage');fi.setAttribute('href',m.url);fi.setAttribute('x','0');fi.setAttribute('y','0');fi.setAttribute('width',w);fi.setAttribute('height',h);fi.setAttribute('preserveAspectRatio','none');fi.setAttribute('result','map');
-    var dm=document.createElementNS(NS,'feDisplacementMap');dm.setAttribute('in','SourceGraphic');dm.setAttribute('in2','map');dm.setAttribute('scale',m.S.toFixed(1));dm.setAttribute('xChannelSelector','R');dm.setAttribute('yChannelSelector','G');
-    dm.setAttribute('result','bent');f.appendChild(fi);f.appendChild(dm);
+    /* the loupe's colour fringe: red bends a little more than green, blue a little less, so the rim splits light into a warm and a cool edge */
+    f.appendChild(fi);var ch=[['R',1.07,'1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0'],['G',1,'0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0'],['B',0.93,'0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0']];
+    ch.forEach(function(c){var dm=document.createElementNS(NS,'feDisplacementMap');dm.setAttribute('in','SourceGraphic');dm.setAttribute('in2','map');dm.setAttribute('scale',(m.S*c[1]).toFixed(1));dm.setAttribute('xChannelSelector','R');dm.setAttribute('yChannelSelector','G');dm.setAttribute('result','d'+c[0]);
+      var cm=document.createElementNS(NS,'feColorMatrix');cm.setAttribute('in','d'+c[0]);cm.setAttribute('type','matrix');cm.setAttribute('values',c[2]);cm.setAttribute('result','c'+c[0]);f.appendChild(dm);f.appendChild(cm);});
+    var a1=document.createElementNS(NS,'feComposite');a1.setAttribute('in','cR');a1.setAttribute('in2','cG');a1.setAttribute('operator','arithmetic');a1.setAttribute('k2','1');a1.setAttribute('k3','1');a1.setAttribute('result','rg');
+    var a2=document.createElementNS(NS,'feComposite');a2.setAttribute('in','rg');a2.setAttribute('in2','cB');a2.setAttribute('operator','arithmetic');a2.setAttribute('k2','1');a2.setAttribute('k3','1');a2.setAttribute('result','bent');f.appendChild(a1);f.appendChild(a2);
     if(big){var fl=document.createElementNS(NS,'feImage');fl.setAttribute('href',m.light);fl.setAttribute('x','0');fl.setAttribute('y','0');fl.setAttribute('width',w);fl.setAttribute('height',h);fl.setAttribute('preserveAspectRatio','none');fl.setAttribute('result','light');
       var bl=document.createElementNS(NS,'feBlend');bl.setAttribute('in','light');bl.setAttribute('in2','bent');bl.setAttribute('mode','screen');f.appendChild(fl);f.appendChild(bl);}
     defs.appendChild(f);return cache[key]='url(#'+id+')';}
