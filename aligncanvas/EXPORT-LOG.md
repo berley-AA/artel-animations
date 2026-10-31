@@ -171,3 +171,8 @@ Running total after 36: 3,509.6 MB of video.
 | 39 | Stack Shuffle | edu_who_answers, promo_wismo, promo_night, promo_countdown, promo_offer (Black Friday story) | clean light, cards 4:5 | 9.8s | artel-39-stack-shuffle.mp4 | 17.6 MB | yes, 2.9 s, artel-39-stack-shuffle-still.png |
 
 Running total after 39: 3,700.3 MB of video. Ring & Orbit group complete.
+| 40 | Fan | promo_night, stat_59, chat, promo_wismo, stat_5400, bilingual, promo_offer | clean light, cards 4:5. Hand of cards; overlap is the design, the offer sits on top | 7.0s | artel-40-fan.mp4 | 43.0 MB | yes, 1.4 s, artel-40-fan-still.png |
+| 41 | Masonry | 15-post set (hero_luz ... tagline, as Cylinder) | clean light, cards 4:5. 3 scrolling columns, tiles crop each post to fit (masonry by design), headlines stay readable | 26.0s | artel-41-masonry.mp4 | 191.1 MB | yes, 5.2 s, artel-41-masonry-still.png |
+| 42 | Tilt Grid | 15-post set | clean light, cards 4:5. Tilted scrolling grid; 12 images stacked the same post vertically, 15 mixes well | 24.0s | artel-42-tilt-grid.mp4 | 199.0 MB | yes, 16.8 s, artel-42-tilt-grid-still.png |
+
+Running total after 42: 4,133.4 MB of video.
