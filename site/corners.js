@@ -26,6 +26,7 @@
       if(parseFloat(s.borderTopLeftRadius)>0.5&&!e.hasAttribute(MARK))return;               // already round: leave it
       if(r.width>=vw*0.95)return;                                                            // full bleed: meets the screen edge
       if(!visibleBox(s,e))return;
+      if(/^(IMG|PICTURE|VIDEO)$/.test(e.tagName)&&(r.width<120||r.height<90))return;                // logos and icons keep their own shape
       var isCtl=/^(A|BUTTON|INPUT|SELECT)$/.test(e.tagName)&&r.height<=90&&r.width<=520;
       if(isCtl){var grp=e.parentElement&&e.parentElement.querySelectorAll(':scope>a,:scope>button').length>=3&&r.width>140;
         if(!grp){set(e,'999px','capsule');rad.set(e,r.height/2);return;}}                    // capsule
