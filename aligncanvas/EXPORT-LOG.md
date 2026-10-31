@@ -176,3 +176,8 @@ Running total after 39: 3,700.3 MB of video. Ring & Orbit group complete.
 | 42 | Tilt Grid | 15-post set | clean light, cards 4:5. Tilted scrolling grid; 12 images stacked the same post vertically, 15 mixes well | 24.0s | artel-42-tilt-grid.mp4 | 199.0 MB | yes, 16.8 s, artel-42-tilt-grid-still.png |
 
 Running total after 42: 4,133.4 MB of video.
+| 43 | Card Drop | edu_who_answers, promo_day_night, stat_59, chat, stat_week, promo_offer | clean light, cards 4:5. Cards drop onto a pile; the set cycles about twice per loop, in order | 11.0s | artel-43-card-drop.mp4 | 19.7 MB | yes, 1.65 s, artel-43-card-drop-still.png |
+| 44 | Riffle | p_portrait_berley, p_portrait_felix | clean light, cards 4:5. Only the two half-deck tops are ever visible (a 7-post set showed just posts 2 and 3), so the founders as a pair | 6.0s | artel-44-riffle.mp4 | 16.0 MB | yes, 3.0 s (both side by side), artel-44-riffle-still.png |
+| 45 | Cascade | 12-post set (edu_who_answers ... tagline, as Elevator) | clean light, cards 4:5. Perspective row of ~10 overlapping cards (overlap by design); 12 so none repeat in view | 16.0s | artel-45-cascade.mp4 | 105.4 MB | yes, 8.0 s, artel-45-cascade-still.png |
+
+Running total after 45: 4,274.5 MB of video.
