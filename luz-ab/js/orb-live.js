@@ -1,6 +1,6 @@
 /* Artel · live Luz orb for the landing page hero.
    Same body, beads and shaders as the Luz film (lathe capsule, ~45k relaxed beads).
-   ArtelOrb.mount(canvas, {onClick, pre}) (pre(now, ready) -> {k, ox, oy, pitch, refH, px} or null: the hero intro's zoom out + tilt) -> {setExcite, destroy}. Needs window.THREE (r128). */
+   ArtelOrb.mount(canvas, {onClick, pre, hit}) (hit: the element that takes the pointer, default the canvas) (pre(now, ready) -> {k, ox, oy, pitch, refH, px} or null: the hero intro's zoom out + tilt) -> {setExcite, destroy}. Needs window.THREE (r128). */
 (function(){
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const R=1,hL=.60,capH=.72,NE=3.0,B=hL+capH;
@@ -109,13 +109,13 @@ function mount(cv,opts){
   let V=null;function size(){const r=cv.getBoundingClientRect(),dpr=(V&&V.px)||Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     cam3.left=-w/2;cam3.right=w/2;cam3.top=h/2;cam3.bottom=-h/2;cam3.updateProjectionMatrix();}
-  function local(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};}
+  const hit=opts.hit||cv;function local(e){const r=hit.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};}
   function onMove(e){const p=local(e);tx=-p.y*0.14;ty=p.x*0.30;exT=0.35;
     if(drag){const now=performance.now(),dxp=e.clientX-drag.x,dyp=e.clientY-drag.y,dtp=Math.max(8,now-drag.t)/1000;drag.x=e.clientX;drag.y=e.clientY;drag.t=now;moved+=Math.abs(dxp)+Math.abs(dyp);const d=dxp*0.006;spin+=d;spinV=spinV*0.6+(d/dtp)*0.4;const q=dyp*0.006;pitch=Math.max(-0.75,Math.min(0.75,pitch+q));pitchV=pitchV*0.6+(q/dtp)*0.4;}}
-  function onDown(e){drag={x:e.clientX,y:e.clientY,t:performance.now()};spinV=0;pitchV=0;moved=0;try{cv.setPointerCapture(e.pointerId);}catch(x){}}
+  function onDown(e){drag={x:e.clientX,y:e.clientY,t:performance.now()};spinV=0;pitchV=0;moved=0;try{hit.setPointerCapture(e.pointerId);}catch(x){}}
   function onUp(e){const was=drag;drag=null;if(was&&performance.now()-was.t>90){spinV=0;pitchV=0;}pitchV=Math.max(-8,Math.min(8,pitchV));spinV=Math.max(-14,Math.min(14,spinV));if(was&&moved<6){const p=local(e);U.uClk.value.set(p.x*1.1,p.y*1.4,0.8);U.uClkT.value=0;U.uClkA.value=1;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
   function onLeave(){tx=0;ty=0;exT=0;}
-  cv.addEventListener('pointermove',onMove);cv.addEventListener('pointerdown',onDown);cv.addEventListener('pointerup',onUp);cv.addEventListener('pointerleave',onLeave);
+  hit.addEventListener('pointermove',onMove);hit.addEventListener('pointerdown',onDown);hit.addEventListener('pointerup',onUp);hit.addEventListener('pointerleave',onLeave);
   function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);V=null;if(opts.pre){try{V=opts.pre(now,floatG.visible);}catch(e){V=null;}}size();floatG.scale.setScalar(((V&&V.refH)||h)*0.68/2.64*(V?V.k:1));const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
     tiltX+=(tx-tiltX)*0.06;tiltY+=(ty-tiltY)*0.06;excite+=(exT-excite)*0.05;if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;spin+=(spinV+0.05)*dt;pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
@@ -123,7 +123,7 @@ function mount(cv,opts){
     renderer.render(scene,cam3);}
   let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{onScr=es[es.length-1].isIntersecting;wake();});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
   raf=requestAnimationFrame(frame);
-  return {destroy(){alive=false;cancelAnimationFrame(raf);if(vio)vio.disconnect();document.removeEventListener('visibilitychange',wake);cv.removeEventListener('pointermove',onMove);cv.removeEventListener('pointerdown',onDown);cv.removeEventListener('pointerup',onUp);cv.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
+  return {destroy(){alive=false;cancelAnimationFrame(raf);if(vio)vio.disconnect();document.removeEventListener('visibilitychange',wake);hit.removeEventListener('pointermove',onMove);hit.removeEventListener('pointerdown',onDown);hit.removeEventListener('pointerup',onUp);hit.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
 }
 window.ArtelOrb={mount};
 })();
