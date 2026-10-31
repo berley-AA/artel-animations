@@ -149,3 +149,9 @@ Running total after 24: 1,990.0 MB of video.
 
 From here on, card Back side is set to Solid on every template (no mirrored text on backs).
 Running total after 27: 2,375.9 MB of video.
+| 28 | Double Ring | hero_luz, orb_pink, stat_59, chat, p_portrait_berley, p_portrait_felix, promo_night, stat_5400, orb_trio, promo_brand, bilingual, stat_week, artel_black, promo_offer, tagline | clean light, cards 4:5, back Solid | 22.0s | artel-28-double-ring.mp4 | 113.2 MB | yes, 14.3 s, artel-28-double-ring-still.png |
+| 29 | Helix | hero_luz, orb_pink, orb_trio, film_cx_rings, p_portrait_berley, p_portrait_felix, artel_black, p_discs, promo_brand, billboard, stat_59, tagline | clean light, cards 4:5, back Solid #FFFFFF. Dark was tried first (backs became ghost panels); black backs on light were heavy, so white backs | 20.0s | artel-29-helix.mp4 | 90.8 MB | yes, 4.0 s, artel-29-helix-still.png |
+| 30 | Sphere | c_hero_luz, c_orb_trio, c_film_cx_rings, c_orb_pink, p_portrait_berley, p_portrait_felix, c_p_mark, billboard, promo_brand, c_p_discs | lens recipe but Liquid lens OFF (the loupe mostly magnified empty black). Floating glass discs around the camera | 24.0s | artel-30-sphere.mp4 | see next block | yes, 4.8 s, artel-30-sphere-still.png |
+
+Correction: Sphere's set used the original promo_brand, whose outer lineup orbs are clipped by a circle (small discs here, so minor). From now on round sets use c_film_colour_lineup (same layout, circle-safe) instead.
+From Helix on: light looks use white card backs, dark looks use #1A1A1D backs.
