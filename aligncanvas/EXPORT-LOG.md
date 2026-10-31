@@ -128,3 +128,8 @@ Size check after 10 exports in round 3: 176.8 MB of video (+ 10 PNG stills). Ren
 | 15 | Slider | edu_who_answers, promo_night, stat_59, chat, stat_5400, promo_offer | clean light, cards 4:5. KNOWN ISSUE: the template repeats a card at the loop seam whatever the count (tested 6, 7, 8; loop stays 11.7 s). 6 gives the least visible repeat (same card at both edges, not side by side), last ~1.5 s | 11.7s | artel-15-slider.mp4 | 40.3 MB | yes, 5.85 s, artel-15-slider-still.png |
 
 Progress at 15 templates: 659.4 MB of video in round 3 (+ 15 PNG stills).
+| 16 | Arc Wheel | hero_luz, orb_trio, stat_59, chat, promo_brand, stat_week, tagline | clean light, cards 4:5 (cards ride an arc in the upper half; lower half is background, template composition) | 22.0s | artel-16-arc-wheel.mp4 | 161.1 MB | yes, 18.7 s, but saved under the editor's default name aligncanvas-arc-wheel-3840x2160.png (arrived after the rename window; fixed for later exports) |
+| 17 | Sidestack | edu_who_answers, promo_day_night, stat_59, chat, stat_week, bilingual, promo_offer | clean light, cards 4:5. Holds exactly 7 (9 drops the last two; 6 repeats the first card at the seam) | 9.8s | artel-17-sidestack.mp4 | 22.8 MB | yes, 3.9 s, artel-17-sidestack-still.png |
+| 18 | Elevator | edu_who_answers, promo_wismo, promo_night, stat_59, chat, stat_5400, promo_day_night, bilingual, stat_week, promo_countdown, promo_offer, tagline | clean light, cards 4:5. Tilted scrolling wall; 5 images put identical posts side by side, so 12 posts | 24.0s | artel-18-elevator.mp4 | 182.3 MB | yes, 8.4 s, artel-18-elevator-still.png |
+
+Running total after 18: 1,025.6 MB of video.
