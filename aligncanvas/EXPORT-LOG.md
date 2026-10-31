@@ -143,3 +143,9 @@ Running total after 21: 1,586.7 MB of video. Note: the browser window was resize
 | 24 | Spiral Collection | hero_luz, orb_pink, orb_trio, film_cx_rings, p_portrait_berley, p_portrait_felix, artel_black, p_discs, promo_brand, billboard, stat_59, tagline | DARK #0B0B0C, Shadow + Glass on, cards 4:5. Tunnel of small cards: text posts too small to read, so a visual set; dark reads much better than light here | 24.0s | artel-24-spiral-collection.mp4 | 147.5 MB | yes, 7.2 s, artel-24-spiral-collection-still.png |
 
 Running total after 24: 1,990.0 MB of video.
+| 25 | Cylinder | hero_luz, edu_who_answers, promo_wismo, promo_night, stat_59, chat, orb_trio, stat_5400, promo_day_night, bilingual, stat_week, promo_countdown, artel_black, promo_offer, tagline | clean light, cards 4:5 | 26.0s | artel-25-cylinder.mp4 | 192.0 MB | yes, 2.6 s, artel-25-cylinder-still.png |
+| 26 | Orbit | hero_luz, orb_pink, orb_trio, film_cx_rings, p_portrait_berley, p_portrait_felix, artel_black, p_discs, promo_brand, billboard, stat_59, tagline (visual set) | clean light, template's own card aspect | 20.0s | artel-26-orbit.mp4 | 139.3 MB | yes, 4.0 s, artel-26-orbit-still.png |
+| 27 | Ring | same 15 as Cylinder | clean light, cards 4:5, card Back side = Solid (#1A1A1D). Default "Mirrored" showed reversed text on the far side of the ring | 18.0s | artel-27-ring.mp4 | 54.6 MB | yes, 10.8 s, artel-27-ring-still.png |
+
+From here on, card Back side is set to Solid on every template (no mirrored text on backs).
+Running total after 27: 2,375.9 MB of video.
