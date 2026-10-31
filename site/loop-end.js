@@ -171,7 +171,11 @@
         if(near){v=Math.max(4,pr-Math.max(0,Math.max(gx,gy)));kind='concentric';}else v=Math.min(own,Math.max(4,pr-Math.max(0,Math.min(gx,gy))));}
       set(e,v.toFixed(1)+'px',kind);rad.set(e,v);
       if(/^(DIV|SECTION|ARTICLE|FIGURE|ASIDE|LI)$/.test(e.tagName)&&s.overflow==='visible'&&e.querySelector(':scope>img,:scope>video,:scope>picture,:scope>iframe'))e.style.setProperty('overflow','clip','important');   // media inside follows the curve
-    });}
+    });
+    /* the other direction: a small card hugging a capsule in its corner takes the capsule's radius plus the gap, so the two curves stay parallel */
+    [].slice.call(document.querySelectorAll('['+MARK+'="capsule"]')).forEach(function(c){var p=c.parentElement;for(var k=0;k<3&&p&&p!==document.body;k++,p=p.parentElement){
+      if(p.getAttribute(MARK)!=='fixed')continue;var r=c.getBoundingClientRect(),b=p.getBoundingClientRect(),gx=Math.min(r.left-b.left,b.right-r.right),gy=Math.min(r.top-b.top,b.bottom-r.bottom);
+      if(gx>=0&&gy>=0&&gx<=24&&gy<=24&&b.height<=200){var v=r.height/2+Math.max(gx,gy);p.style.setProperty('border-radius',Math.min(v,b.height/2).toFixed(1)+'px','important');p.setAttribute(MARK,'outer');}break;}});}
   var t=0,last=0;function later(){clearTimeout(t);var w=Math.max(300,1500-(Date.now()-last));t=setTimeout(function(){last=Date.now();run();},w);}   // at most once every 1.5 s
   function init(){run();addEventListener('resize',later);new MutationObserver(function(m){for(var i=0;i<m.length;i++){var n=m[i].addedNodes;for(var j=0;j<n.length;j++)if(n[j].nodeType===1&&!n[j].classList.contains('aalt')){later();return;}}}).observe(document.body,{childList:true,subtree:true});
     [800,2000,5000].forEach(function(d){setTimeout(run,d);});}
