@@ -17,7 +17,8 @@
   var st = document.createElement('style'); st.textContent = css; (document.head || document.documentElement).appendChild(st);
   var sec = null, hint = null, bar = null, toast = null, armed = false, raf = 0, toastT = 0;
   function find() {
-    var s = document.getElementById('loop') || document.getElementById('aa-loop') || (window.__aaLoop && window.__aaLoop.b); if (!s || s === sec) return;
+    var s = document.getElementById('loop') || document.getElementById('aa-loop') || (window.__aaLoop && window.__aaLoop.b); if (!s) return;
+    if (s === sec) { if (hint && !s.contains(hint)) s.appendChild(hint); return; }   // the homepage rebuilds the card's contents: put the note back
     sec = s; if (getComputedStyle(s).position === 'static') s.style.position = 'relative';
     hint = document.createElement('div'); hint.className = 'aalh'; hint.setAttribute('role', 'status');
     hint.innerHTML = '<p></p><i aria-hidden="true"><b></b></i>'; hint.firstChild.textContent = T1; bar = hint.querySelector('b'); s.appendChild(hint);
