@@ -117,3 +117,9 @@ Flat/text templates: clean light (#F5F5F7, Shadow on, Glass on), Cards aspect 4:
 | 9 | Zoom Blur | promo_countdown, promo_night, chat, stat_5400, promo_day_night, tagline | clean light, cards 4:5 | 10.5s | artel-09-zoom-blur.mp4 | 5.1 MB | yes, 5.25 s, artel-09-zoom-blur-still.png |
 
 (Flare Duo re-checked: all 7 of its images appear, promo_day_night at 9.4 s; no re-export needed.)
+| 10 | Hero Strip | hero_luz, edu_two_jobs, promo_night, stat_59, chat, stat_5400, promo_offer | clean light, cards 4:5. Big hero card + 7-thumb strip; template uses 7 images, so cut from 9 to 7 | 11.2s | artel-10-hero-strip.mp4 | 19.0 MB | yes, 5.0 s, artel-10-hero-strip-still.png |
+
+Size check after 10 exports in round 3: 176.8 MB of video (+ 10 PNG stills). Renders steady at 20-30 s.
+
+| 11 | Glass Carousel | promo_night, stat_59, chat, promo_wismo, stat_5400, bilingual, promo_offer | clean light, cards 4:5 (3 cards in view, glass streaks on the side cards) | 30.0s | artel-11-glass-carousel.mp4 | 232.6 MB | yes, 3.0 s, artel-11-glass-carousel-still.png |
+| 12 | Orb Marquee | c_hero_luz, c_orb_trio, c_film_cx_rings, c_orb_pink, p_portrait_berley, p_portrait_felix, c_p_mark, billboard | clean light (#F5F5F7, Shadow, Glass), template's own round cards | 16.0s | artel-12-orb-marquee.mp4 | 46.1 MB | yes, 7.2 s (both founders + mark + billboard), artel-12-orb-marquee-still.png |
