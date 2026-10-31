@@ -133,3 +133,8 @@ Progress at 15 templates: 659.4 MB of video in round 3 (+ 15 PNG stills).
 | 18 | Elevator | edu_who_answers, promo_wismo, promo_night, stat_59, chat, stat_5400, promo_day_night, bilingual, stat_week, promo_countdown, promo_offer, tagline | clean light, cards 4:5. Tilted scrolling wall; 5 images put identical posts side by side, so 12 posts | 24.0s | artel-18-elevator.mp4 | 182.3 MB | yes, 8.4 s, artel-18-elevator-still.png |
 
 Running total after 18: 1,025.6 MB of video.
+| 19 | Image Repeater | edu_who_answers, promo_wismo, promo_night, stat_59, chat, stat_5400, promo_day_night, bilingual, stat_week, promo_countdown, promo_offer, tagline | clean light, cards 4:5. 3 rows of cards; 7 images put the same post twice side by side, so 12 | 26.0s | artel-19-image-repeater.mp4 | 215.5 MB | yes, 13.0 s, artel-19-image-repeater-still.png |
+| 20 | Melt Row | hero_luz, edu_who_answers, stat_59, chat, bilingual, stat_week, promo_offer | clean light, cards 4:5 (centre card, melting glass sides) | 22.0s | artel-20-melt-row.mp4 | 171.1 MB | yes, 2.2 s, artel-20-melt-row-still.png |
+| 21 | Glass Stream | hero_luz, edu_who_answers, promo_wismo, promo_night, stat_59, chat, orb_trio, stat_5400, promo_day_night, bilingual, stat_week, promo_countdown, artel_black, promo_offer, tagline | clean light, cards 4:5. 3-column stream; 7 and 12 images stacked the same post in a column at the loop end, 15 is clean | 24.0s | artel-21-glass-stream.mp4 | 174.5 MB | yes, 14.4 s, artel-21-glass-stream-still.png |
+
+Running total after 21: 1,586.7 MB of video. Note: the browser window was resized by someone else around export 20, and a second AlignCanvas tab (423293002) was opened and closed by someone else. Neither touched my tab's template or settings.
