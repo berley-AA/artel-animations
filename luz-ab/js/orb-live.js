@@ -1,6 +1,6 @@
 /* Artel · live Luz orb for the landing page hero.
    Same body, beads and shaders as the Luz film (lathe capsule, ~45k relaxed beads).
-   ArtelOrb.mount(canvas, {onClick, pre}) (pre(now, ready) -> {k, ox, oy, pitch, refH} or null: the hero intro's zoom out + tilt) -> {setExcite, destroy}. Needs window.THREE (r128). */
+   ArtelOrb.mount(canvas, {onClick, pre}) (pre(now, ready) -> {k, ox, oy, pitch, refH, px} or null: the hero intro's zoom out + tilt) -> {setExcite, destroy}. Needs window.THREE (r128). */
 (function(){
 const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
 const R=1,hL=.60,capH=.72,NE=3.0,B=hL+capH;
@@ -106,7 +106,7 @@ function mount(cv,opts){
   const {renderer,scene,cam3,U,floatG,grp}=G;
   let w=0,h=0,raf=0,alive=true,t0=performance.now(),last=t0;
   let tiltX=0,tiltY=0,tx=0,ty=0,spin=0.6,spinV=0,pitch=0,pitchV=0,drag=null,lastT=0,moved=0,excite=0,exT=0;
-  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  let V=null;function size(){const r=cv.getBoundingClientRect(),dpr=(V&&V.px)||Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     cam3.left=-w/2;cam3.right=w/2;cam3.top=h/2;cam3.bottom=-h/2;cam3.updateProjectionMatrix();}
   function local(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};}
@@ -116,7 +116,7 @@ function mount(cv,opts){
   function onUp(e){const was=drag;drag=null;if(was&&performance.now()-was.t>90){spinV=0;pitchV=0;}pitchV=Math.max(-8,Math.min(8,pitchV));spinV=Math.max(-14,Math.min(14,spinV));if(was&&moved<6){const p=local(e);U.uClk.value.set(p.x*1.1,p.y*1.4,0.8);U.uClkT.value=0;U.uClkA.value=1;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
   function onLeave(){tx=0;ty=0;exT=0;}
   cv.addEventListener('pointermove',onMove);cv.addEventListener('pointerdown',onDown);cv.addEventListener('pointerup',onUp);cv.addEventListener('pointerleave',onLeave);
-  function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);let V=null;if(opts.pre){try{V=opts.pre(now,floatG.visible);}catch(e){V=null;}}size();floatG.scale.setScalar(((V&&V.refH)||h)*0.68/2.64*(V?V.k:1));const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
+  function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);V=null;if(opts.pre){try{V=opts.pre(now,floatG.visible);}catch(e){V=null;}}size();floatG.scale.setScalar(((V&&V.refH)||h)*0.68/2.64*(V?V.k:1));const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
     tiltX+=(tx-tiltX)*0.06;tiltY+=(ty-tiltY)*0.06;excite+=(exT-excite)*0.05;if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;spin+=(spinV+0.05)*dt;pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
     floatG.rotation.set(0.16+tiltX+pitch+(V?V.pitch:0),0.4+tiltY,0);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
