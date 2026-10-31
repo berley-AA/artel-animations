@@ -123,3 +123,8 @@ Size check after 10 exports in round 3: 176.8 MB of video (+ 10 PNG stills). Ren
 
 | 11 | Glass Carousel | promo_night, stat_59, chat, promo_wismo, stat_5400, bilingual, promo_offer | clean light, cards 4:5 (3 cards in view, glass streaks on the side cards) | 30.0s | artel-11-glass-carousel.mp4 | 232.6 MB | yes, 3.0 s, artel-11-glass-carousel-still.png |
 | 12 | Orb Marquee | c_hero_luz, c_orb_trio, c_film_cx_rings, c_orb_pink, p_portrait_berley, p_portrait_felix, c_p_mark, billboard | clean light (#F5F5F7, Shadow, Glass), template's own round cards | 16.0s | artel-12-orb-marquee.mp4 | 46.1 MB | yes, 7.2 s (both founders + mark + billboard), artel-12-orb-marquee-still.png |
+| 13 | Coverflow | hero_luz, edu_two_jobs, promo_night, stat_59, chat, stat_5400, bilingual, promo_offer, tagline | clean light, cards 4:5. About 9 cards in view, so 9 images (a 7-image try showed the same post on both sides) | 16.5s | artel-13-coverflow.mp4 | 104.1 MB | yes, 4.95 s, artel-13-coverflow-still.png |
+| 14 | Glass Feed | hero_luz, edu_who_answers, stat_59, chat, bilingual, stat_week, promo_offer | clean light, cards 4:5 (vertical feed, cards bend at top/bottom edges) | 18.0s | artel-14-glass-feed.mp4 | 59.5 MB | yes, 1.8 s, artel-14-glass-feed-still.png |
+| 15 | Slider | edu_who_answers, promo_night, stat_59, chat, stat_5400, promo_offer | clean light, cards 4:5. KNOWN ISSUE: the template repeats a card at the loop seam whatever the count (tested 6, 7, 8; loop stays 11.7 s). 6 gives the least visible repeat (same card at both edges, not side by side), last ~1.5 s | 11.7s | artel-15-slider.mp4 | 40.3 MB | yes, 5.85 s, artel-15-slider-still.png |
+
+Progress at 15 templates: 659.4 MB of video in round 3 (+ 15 PNG stills).
