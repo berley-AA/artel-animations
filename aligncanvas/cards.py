@@ -1,11 +1,9 @@
 import asyncio,base64,os
 from playwright.async_api import async_playwright
 OUT='showcase';os.makedirs(OUT,exist_ok=True)
-NAMES=['hero_luz','orb_pink','orb_trio','artel_black','stat_59','stat_5400','stat_week','chat','bilingual','tagline']
-CLIENTS=[('client_montreal_weights','cand/mwA2_0_1.0.png','Montreal Weights',['The bilingual support agent,','live since 2024.'],0.5),
-         ('client_nordik_recovery','cand/nrA1_0_1.8.png','Nordik Recovery',['A product expert beside','every sales rep.'],0.5),
-         ('client_ic_production','cand/icA1_0_0.3.png','I.C. Production',['Luz books the visit.','The crew is on site.'],0.5)]
-FILM=[('film_cx_rings','T.CX0+2.8*1.3'),('film_colour_lineup','T.LU0+3.6'),('film_every_customer','T.SP0-0.6')]
+NAMES=['orb_trio','artel_black','tagline']
+CLIENTS=[]
+FILM=[]
 async def main():
   async with async_playwright() as p:
     b=await p.chromium.launch(args=['--use-gl=swiftshader','--enable-unsafe-swiftshader','--ignore-gpu-blocklist'])
