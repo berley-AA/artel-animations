@@ -166,3 +166,8 @@ Running total after 33: 3,062.5 MB of video.
 | 36 | Vortex | orb_trio, hero_luz, p_portrait_berley, p_portrait_felix, film_cx_rings, billboard, orb_pink, artel_black, p_mark, promo_brand, stat_5400, tagline (visual set) | DARK, cards 4:5, dark backs. Swirl of overlapping cards (abstract) | 22.0s | artel-36-vortex.mp4 | 165.7 MB | yes, 4.4 s, artel-36-vortex-still.png |
 
 Running total after 36: 3,509.6 MB of video.
+| 37 | Pinwheel | hero_luz, orb_trio, p_portrait_berley, p_portrait_felix, chat, promo_offer | clean light, cards 4:5, white backs. Uses 6 cards (15 showed only the first 6) | 14.0s | artel-37-pinwheel.mp4 | 97.7 MB | yes, 12.6 s, artel-37-pinwheel-still.png |
+| 38 | Tornado | visual set (as Saturn) | DARK, cards 4:5, dark backs. Tall cone of small cards, sits right of centre by design; dark chosen over light (grey backs cluttered the light version) | 20.0s | artel-38-tornado.mp4 | 75.4 MB | yes, 13.0 s, artel-38-tornado-still.png |
+| 39 | Stack Shuffle | edu_who_answers, promo_wismo, promo_night, promo_countdown, promo_offer (Black Friday story) | clean light, cards 4:5 | 9.8s | artel-39-stack-shuffle.mp4 | 17.6 MB | yes, 2.9 s, artel-39-stack-shuffle-still.png |
+
+Running total after 39: 3,700.3 MB of video. Ring & Orbit group complete.
