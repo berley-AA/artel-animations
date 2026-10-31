@@ -112,3 +112,8 @@ Flat/text templates: clean light (#F5F5F7, Shadow on, Glass on), Cards aspect 4:
 | 4 | Slide Push | artel_black, edu_two_jobs, stat_5400, bilingual, promo_countdown, promo_offer, tagline | clean light, cards 4:5 (side cards get the Glass edge warp while sliding; each post reads whole in the centre) | 12.8s | artel-04-slide-push.mp4 | 56.5 MB | yes, 5.8 s, artel-04-slide-push-still.png |
 | 5 | Cube Turn | hero_luz, stat_59, chat, promo_offer | clean light, cards 4:5. Template only uses 4 faces, so the set was cut from 7 to 4 | 7.2s | artel-05-cube-turn.mp4 | 8.0 MB | yes, 4.9 s (mid-turn), artel-05-cube-turn-still.png |
 | 6 | Card Flip | edu_who_answers, promo_wismo, promo_night, promo_countdown, promo_offer (Black Friday story) | clean light, cards 4:5 | 9.0s | artel-06-card-flip.mp4 | 10.8 MB | yes, 4.05 s (mid-flip), artel-06-card-flip-still.png |
+| 7 | Rise Up | edu_two_jobs, promo_night, stat_59, chat, stat_5400, promo_offer | clean light, cards 4:5. Template shows 6 cards per loop; first try with 7 dropped the 7th, so cut to 6 ending on the offer | 9.0s | artel-07-rise-up.mp4 | 12.2 MB | yes, 2.7 s, artel-07-rise-up-still.png |
+| 8 | Swap | hero_luz, edu_who_answers, stat_59, chat, promo_offer | clean light, cards 4:5. Template shows 5 cards per loop, so cut to 5 | 7.0s | artel-08-swap.mp4 | 12.7 MB | yes, 3.5 s, artel-08-swap-still.png |
+| 9 | Zoom Blur | promo_countdown, promo_night, chat, stat_5400, promo_day_night, tagline | clean light, cards 4:5 | 10.5s | artel-09-zoom-blur.mp4 | 5.1 MB | yes, 5.25 s, artel-09-zoom-blur-still.png |
+
+(Flare Duo re-checked: all 7 of its images appear, promo_day_night at 9.4 s; no re-export needed.)
