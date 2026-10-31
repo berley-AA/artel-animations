@@ -159,14 +159,16 @@
       if(/^(IMG|PICTURE|VIDEO)$/.test(e.tagName)&&(r.width<120||r.height<90))return;                // logos and icons keep their own shape
       var isCtl=/^(A|BUTTON|INPUT|SELECT)$/.test(e.tagName)&&r.height<=90&&r.width<=520;
       if(isCtl){var grp=e.parentElement&&e.parentElement.querySelectorAll(':scope>a,:scope>button').length>=3&&r.width>140;
+        if(/^(INPUT|SELECT)$/.test(e.tagName)){set(e,Math.min(12,r.height/2)+'px','field');rad.set(e,12);return;}   // text fields: rounded rectangles, as on Apple's forms
         if(!grp){set(e,'999px','capsule');rad.set(e,r.height/2);return;}}                    // capsule
       /* nearest rounded ancestor */
       var p=e.parentElement,pr=null,pe=null;while(p&&p!==document.body){if(rad.has(p)){pe=p;pr=rad.get(p);break;}p=p.parentElement;}
       var own=(r.width>=560||r.height>=420)?BIG:(r.width<=64&&r.height<=64?Math.min(r.width,r.height)/2:SM);
       if(isCtl)own=Math.min(12,r.height/2);                                                  // a row of tabs: small rounded rectangles
       var v=own,kind='fixed';
-      if(pe){var b=pe.getBoundingClientRect(),gx=Math.min(r.left-b.left,b.right-r.right),gy=Math.min(r.top-b.top,b.bottom-r.bottom),g=Math.max(0,Math.min(gx,gy));
-        if(g<=48){v=Math.max(4,pr-g);kind='concentric';}else v=Math.min(own,Math.max(4,pr-8));}
+      if(pe){var b=pe.getBoundingClientRect(),gx=Math.max(0,Math.min(r.left-b.left,b.right-r.right)),gy=Math.max(0,Math.min(r.top-b.top,b.bottom-r.bottom));
+        var near=gx<=48&&gy<=48;   // concentric only where the child sits in its parent's corner
+        if(near){v=Math.max(4,pr-Math.max(0,Math.max(gx,gy)));kind='concentric';}else v=Math.min(own,Math.max(4,pr-Math.max(0,Math.min(gx,gy))));}
       set(e,v.toFixed(1)+'px',kind);rad.set(e,v);
       if(/^(DIV|SECTION|ARTICLE|FIGURE|ASIDE|LI)$/.test(e.tagName)&&s.overflow==='visible'&&e.querySelector(':scope>img,:scope>video,:scope>picture,:scope>iframe'))e.style.setProperty('overflow','clip','important');   // media inside follows the curve
     });}
