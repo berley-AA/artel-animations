@@ -1,6 +1,6 @@
 /* ArtelLoopHint 1.0 — the bottom-of-page loop says what it's about to do.
    When the end card (Luz pages: #loop, homepage: #aa-loop) comes up, a line on it reads "Keep scrolling to start over",
-   with a thin bar that fills as they keep scrolling. Full bar = the existing loop fires (its top reaches 30% of the screen).
+   (words only). It shows until the existing loop fires (its top reaches 30% of the screen).
    After the jump back, a short note says "You're back at the start" for 2 s. It never blocks anything. EN/FR by path. */
 (function () {
   if (window.__aaLoopHint) return; window.__aaLoopHint = 1;
@@ -18,7 +18,7 @@
     if (s === sec) { if (hint && !s.contains(hint)) s.appendChild(hint); return; }   // the homepage rebuilds the card's contents: put the note back
     sec = s; if (getComputedStyle(s).position === 'static') s.style.position = 'relative';
     hint = document.createElement('div'); hint.className = 'aalh'; hint.setAttribute('role', 'status');
-    hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1;   // words only: the one bar on the site is the scroll line at the bottom of the screen s.appendChild(hint);
+    hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1; /* words only: the one bar on the site is the scroll line at the bottom */ s.appendChild(hint);
   }
   function gapMid() {   // just words, centred in the gap between the nav bar and the first picture (or the orb) under it
     var vw = innerWidth, vh = innerHeight, navB = 0, picT = 0;

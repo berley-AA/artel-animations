@@ -2,7 +2,7 @@
 !function(){if(!matchMedia("(prefers-reduced-motion:reduce)").matches){var t=0,e=scrollY,n=1;addEventListener("scroll",u,{passive:!0});var o=r();o&&o.on&&o.on("scroll",u),addEventListener("wheel",(function(t){t.deltaY>0&&(n=1,c())}),{passive:!0});var i=setInterval((function(){var t=l();t&&(clearInterval(i),new MutationObserver(s).observe(t.b,{childList:!0}),s())}),500)}function r(){return"undefined"!=typeof lenis?lenis:null}function l(){return window.__aaLoop}function s(){var t=l();if(t){var e=t.b.firstElementChild;if(e){var n=t.b.getBoundingClientRect(),o=innerHeight,i=Math.min(1,Math.max(0,1-n.top/o)),r=i<.5?2*i*i:1-Math.pow(-2*i+2,2)/2;e.style.setProperty("transform","scale("+(.84+.16*r).toFixed(4)+")","important"),e.style.transformOrigin="50% 0",e.style.borderRadius=(28*(1-r)).toFixed(1)+"px",e.style.overflow="hidden",e.style.filter="brightness("+(.8+.2*r).toFixed(3)+")"}}}function a(){if(1===t){t=2,l().jump();var n=r();n&&n.start(),setTimeout((function(){t=0,e=scrollY}),700)}}function c(){if(!t){var e=l();if(e){var o=e.b.getBoundingClientRect();n>0&&o.top<=.3*innerHeight&&o.top>-o.height/2&&function(){var e=l();if(e&&!t){t=1;var n=e.b.getBoundingClientRect(),o=scrollY+n.top,i=r();i&&i.scrollTo?(i.start(),i.scrollTo(o,{duration:.55,easing:function(t){return 1-Math.pow(1-t,3)},lock:!0,force:!0,onComplete:a})):(scrollTo({top:o,behavior:"smooth"}),setTimeout(a,600)),setTimeout((function(){1===t&&a()}),1200)}}()}}}function u(){s();var t=scrollY;t!==e&&(n=t<e?-1:1,e=t),c()}}();
 /* ArtelLoopHint 1.0 — the bottom-of-page loop says what it's about to do.
    When the end card (Luz pages: #loop, homepage: #aa-loop) comes up, a line on it reads "Keep scrolling to start over",
-   with a thin bar that fills as they keep scrolling. Full bar = the existing loop fires (its top reaches 30% of the screen).
+   (words only). It shows until the existing loop fires (its top reaches 30% of the screen).
    After the jump back, a short note says "You're back at the start" for 2 s. It never blocks anything. EN/FR by path. */
 (function () {
   if (window.__aaLoopHint) return; window.__aaLoopHint = 1;
@@ -20,7 +20,7 @@
     if (s === sec) { if (hint && !s.contains(hint)) s.appendChild(hint); return; }   // the homepage rebuilds the card's contents: put the note back
     sec = s; if (getComputedStyle(s).position === 'static') s.style.position = 'relative';
     hint = document.createElement('div'); hint.className = 'aalh'; hint.setAttribute('role', 'status');
-    hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1;   // words only: the one bar on the site is the scroll line at the bottom of the screen s.appendChild(hint);
+    hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1; /* words only: the one bar on the site is the scroll line at the bottom */ s.appendChild(hint);
   }
   function gapMid() {   // just words, centred in the gap between the nav bar and the first picture (or the orb) under it
     var vw = innerWidth, vh = innerHeight, navB = 0, picT = 0;
