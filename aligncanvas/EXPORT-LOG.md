@@ -86,3 +86,26 @@ STOPPED at R2-3: another session/person was operating the same AlignCanvas tab a
 (template changed to Slide Push then Swap, quality set to Max, window resized, two
 aligncanvas-swap-...mp4 downloads not started by this agent). Not resumed until the tab is mine
 alone. Current media set in the editor = the Planetarium set above (7 images, no old images).
+
+Not ours, discard (Downloads, not deleted): aligncanvas-slide-push-3840x2160-60fps.mp4 and
+aligncanvas-slide-push-3840x2160.png (my Planetarium render after the template was switched under
+me), and both aligncanvas-swap-3840x2160-60fps.mp4 files (started by someone else).
+
+---
+
+# Round 3: every template, in list order (Berley's go, 2026-10-31)
+
+Own tab (the old tab kept changing, so it was left alone). Projects auto-save in the browser
+(AlignCanvas: "Projects save automatically in this browser"); no setting to turn on. Left
+"Keep my look when switching templates" off so each template keeps its own design.
+Files are renamed at download time to artel-NN-<template>.mp4 / artel-NN-<template>-still.png
+so nothing collides with earlier exports. Each set is uploaded with Remove all images + upload,
+and the media panel order is checked by file name before selecting the template.
+A guard checks template and quality (High) before and after each render.
+Flat/text templates: clean light (#F5F5F7, Shadow on, Glass on), Cards aspect 4:5.
+
+| # | Template | Images (in order) | Look | Duration | File | Size | Still |
+|---|---|---|---|---|---|---|---|
+| 1 | Flare Duo | edu_two_jobs, promo_night, stat_59, chat, promo_wismo, stat_5400, promo_day_night | clean light, cards 4:5 (single centred card) | 12.0s | artel-01-flare-duo.mp4 | 16.1 MB | yes, 1.8 s, artel-01-flare-duo-still.png |
+| 2 | Prism Slider | promo_night, stat_59, chat, promo_wismo, stat_5400, bilingual, promo_offer | clean light, cards 4:5 | 12.6s | artel-02-prism-slider.mp4 | 24.1 MB | yes, 4.4 s, artel-02-prism-slider-still.png |
+| 3 | Portal | edu_who_answers, promo_day_night, stat_59, chat, stat_week, promo_offer | clean light, cards 4:5 | 11.2s | artel-03-portal.mp4 | 12.3 MB | yes, 4.5 s, artel-03-portal-still.png |
