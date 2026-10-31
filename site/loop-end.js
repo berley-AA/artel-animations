@@ -10,9 +10,8 @@
   var T1 = FR ? 'Continuez à défiler pour revenir au début.' : 'Keep scrolling to start over.';
   var T2 = FR ? 'Vous êtes de retour au début.' : 'You’re back at the start.';
   var css = '.aalh{position:absolute;left:50%;top:clamp(16px,3vh,32px);transform:translateX(-50%);z-index:20;width:min(340px,calc(100vw - 32px));box-sizing:border-box;background:none;border:0;padding:0;font-family:"ABC Areal","Helvetica Neue",Helvetica,Arial,sans-serif;color:#1D1D1F;text-align:center;opacity:0;transition:opacity .35s ease;pointer-events:none}' +
-    '.aalh.on{opacity:1}.aalh p{margin:0 0 10px;font-size:16px;line-height:1.35;font-weight:500;letter-spacing:-.005em}' +
-    '.aalh i{display:block;height:3px;background:rgba(29,29,31,.12);position:relative;overflow:hidden}.aalh b{position:absolute;left:0;top:0;bottom:0;width:100%;background:#FF7B00;transform-origin:0 50%;transform:scaleX(0)}' +
-    '.aalt{position:fixed;left:50%;top:84px;transform:translate(-50%,calc(-50% - 4px));z-index:2147483000;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;background:none;color:#1D1D1F;padding:0;font-family:"ABC Areal","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.3;font-weight:500;letter-spacing:-.005em;text-align:center;opacity:0;transition:opacity .35s ease,transform .35s ease;pointer-events:none}' +
+    '.aalh.on{opacity:1}.aalh p{margin:0;font-size:16px;line-height:1.35;font-weight:500;letter-spacing:-.005em}' +
+        '.aalt{position:fixed;left:50%;top:84px;transform:translate(-50%,calc(-50% - 4px));z-index:2147483000;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;background:none;color:#1D1D1F;padding:0;font-family:"ABC Areal","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:15px;line-height:1.3;font-weight:500;letter-spacing:-.005em;text-align:center;opacity:0;transition:opacity .35s ease,transform .35s ease;pointer-events:none}' +
     '.aalt.on{opacity:1;transform:translate(-50%,-50%)}';
   var st = document.createElement('style'); st.textContent = css; (document.head || document.documentElement).appendChild(st);
   var sec = null, hint = null, bar = null, toast = null, armed = false, raf = 0, toastT = 0;
@@ -21,7 +20,7 @@
     if (s === sec) { if (hint && !s.contains(hint)) s.appendChild(hint); return; }   // the homepage rebuilds the card's contents: put the note back
     sec = s; if (getComputedStyle(s).position === 'static') s.style.position = 'relative';
     hint = document.createElement('div'); hint.className = 'aalh'; hint.setAttribute('role', 'status');
-    hint.innerHTML = '<p></p><i aria-hidden="true"><b></b></i>'; hint.firstChild.textContent = T1; bar = hint.querySelector('b'); s.appendChild(hint);
+    hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1;   // words only: the one bar on the site is the scroll line at the bottom of the screen s.appendChild(hint);
   }
   function gapMid() {   // just words, centred in the gap between the nav bar and the first picture (or the orb) under it
     var vw = innerWidth, vh = innerHeight, navB = 0, picT = 0;
@@ -40,9 +39,9 @@
     // 0 when the card's top enters at the bottom of the screen, 1 when it reaches 30% (where the loop fires)
     var p = Math.max(0, Math.min(1, (vh - top) / (0.7 * vh)));
     var y = window.scrollY || window.pageYOffset || 0;
-    if (p > 0.02 && top > -vh * 0.5) { hint.classList.add('on'); bar.style.transform = 'scaleX(' + p.toFixed(3) + ')'; if (p > 0.9) armed = true; }
+    if (p > 0.02 && top > -vh * 0.5) { hint.classList.add('on'); if (p > 0.9) armed = true; }
     else { hint.classList.remove('on'); }
-    if (armed && y < Math.max(80, vh * 0.15) && top > vh) { armed = false; hint.classList.remove('on'); bar.style.transform = 'scaleX(0)'; showToast(); }
+    if (armed && y < Math.max(80, vh * 0.15) && top > vh) { armed = false; hint.classList.remove('on'); showToast(); }
   }
   function req() { if (!raf) raf = requestAnimationFrame(tick); }
   addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); addEventListener('wheel', req, { passive: true }); addEventListener('touchmove', req, { passive: true });
