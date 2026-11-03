@@ -22,12 +22,32 @@
     hint = document.createElement('div'); hint.className = 'aalh'; hint.setAttribute('role', 'status');
     hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1; /* words only: the one bar on the site is the scroll line at the bottom */ s.appendChild(hint);
   }
+  function orbTop(box) {   // the orb is drawn inside a full-screen canvas: find its real top edge, not the box's
+    var b = box.getBoundingClientRect(), rest = b.top + b.height * 0.155, c = box.querySelector('canvas');
+    try {
+      if (c && c.width) {
+        var cr = c.getBoundingClientRect(), sx = c.width / cr.width, t = document.createElement('canvas'); t.width = c.width; t.height = c.height;
+        var g = t.getContext('2d'); g.drawImage(c, 0, 0);
+        var x0 = Math.floor((b.left + b.width * 0.3 - cr.left) * sx), x1 = Math.floor((b.left + b.width * 0.7 - cr.left) * sx), y0 = Math.max(0, Math.floor((b.top - cr.top) * sx)), y1 = Math.floor((b.top + b.height * 0.5 - cr.top) * sx);
+        var d = g.getImageData(x0, y0, Math.max(1, x1 - x0), Math.max(1, y1 - y0)), W = d.width;
+        for (var y = 0; y < d.height; y += 2) for (var x = 0; x < W; x += 4) if (d.data[(y * W + x) * 4 + 3] > 40) {
+          var top = cr.top + (y0 + y) / sx;
+          return (top > b.top + b.height * 0.08 && top < b.top + b.height * 0.3) ? top : rest;   // mid-animation (intro zoom): use where the orb comes to rest
+        }
+      }
+    } catch (e) {}
+    return rest;
+  }
   function gapMid() {   // just words, centred in the gap between the nav bar and the first picture (or the orb) under it
     var vw = innerWidth, vh = innerHeight, navB = 0, picT = 0;
     Array.prototype.forEach.call(document.querySelectorAll('nav, header, .navbar, .w-nav, .aanav, [class*="nav-bar"]'), function (e) { var r = e.getBoundingClientRect(); if (r.top < 24 && r.height > 20 && r.height < 160 && r.width > vw * 0.5 && getComputedStyle(e).display !== 'none') navB = Math.max(navB, r.bottom); });
     if (!navB) navB = 64;
-    Array.prototype.forEach.call(document.querySelectorAll('img, video, .orb-box'), function (e) { var r = e.getBoundingClientRect(); if (r.width > vw * 0.25 && r.height > 120 && r.top >= navB + 8 && r.top < vh * 0.6 && (!picT || r.top < picT)) picT = r.top; });
-    return picT && picT - navB >= 28 ? Math.round((navB + picT) / 2) : Math.round(navB + 22);
+    Array.prototype.forEach.call(document.querySelectorAll('img, video, .orb-box'), function (e) { if (e.closest('.orb-box') && !e.classList.contains('orb-box')) return; var r = e.getBoundingClientRect(), t = e.classList.contains('orb-box') ? orbTop(e) : r.top; if (r.width > vw * 0.25 && r.height > 120 && t >= navB + 8 && t < vh * 0.6 && (!picT || t < picT)) picT = t; });
+    // the first words under the bar count too (homepage on a phone: the headline sits above the photo)
+    Array.prototype.forEach.call(document.querySelectorAll('h1, h2, h3, p'), function (e) { if (e.closest('.aalh,.aalt,nav,header')) return; var r = e.getBoundingClientRect(); if (r.width > 40 && r.height > 8 && r.top >= navB + 8 && r.top < vh * 0.6 && getComputedStyle(e).visibility !== 'hidden' && (!picT || r.top < picT)) picT = r.top; });
+    // Nov 2: always in the open space between the bar's bottom edge and the picture, never on the bar's hairline
+    var lo = navB + 18, hi = picT ? picT - 14 : navB + 60, mid = picT ? (navB + picT) / 2 : navB + 30;
+    return Math.round(Math.max(lo, Math.min(hi, mid)));
   }
   function showToast() {
     if (!toast) { toast = document.createElement('div'); toast.className = 'aalt'; toast.setAttribute('role', 'status'); toast.textContent = T2; document.body.appendChild(toast); }
@@ -71,7 +91,7 @@
   req(); setInterval(req, 1000);
 })();
 
-/* ArtelGlass 1.0 — liquid glass on the site's own surfaces (Oct 31). Nothing moves, nothing is added to the layout, corners stay square.
+/* ArtelGlass 1.1 — frosted top bar only (Nov 2: buttons flat). Was liquid glass on the site's own surfaces (Oct 31). Nothing moves, nothing is added to the layout, corners stay square.
    - The top bar (homepage .navbar, Luz pages' fixed header) turns to frosted glass once the page leaves the very top: it blurs and lifts the
      colour of what scrolls under it, with a bright hairline on its lower edge, like light caught in the edge of a pane.
    - Solid buttons (orange, ink) get a glass face: a soft light from the top, a bright top edge and a darker bottom edge; on hover the light
@@ -79,7 +99,7 @@
    - Small light controls (carousel pause, arrows) become clear glass squares.
    Elements are found by what they look like (computed colour and size), so the same file works on the homepage, /luz and /black-friday,
    and keeps working when Webflow renames classes. Reduced transparency: solid fallbacks. */
-(function(){if(window.__aaGlass)return;window.__aaGlass='1.0';
+(function(){if(window.__aaGlass)return;window.__aaGlass='1.1';
   var css=[
   /* the bar */
   '.aa-lg-bar{transition:background-color .45s ease,backdrop-filter .45s ease,-webkit-backdrop-filter .45s ease,box-shadow .45s ease!important}',
@@ -112,13 +132,8 @@
     /* the bar: a fixed element pinned to the top, full width */
     var bars=[].slice.call(document.querySelectorAll('.navbar.w-nav, body > header, header'));
     bars.forEach(function(e){var s=getComputedStyle(e),r=e.getBoundingClientRect();if((s.position==='fixed'||s.position==='sticky')&&r.top<=1&&r.width>=innerWidth*0.9&&r.height<140)e.classList.add('aa-lg-bar');});
-    [].slice.call(document.querySelectorAll('a,button')).forEach(function(e){if(e.classList.contains('aa-lg-btn')||e.classList.contains('aa-lg-ctl')||e.classList.contains('aa-lg-clear')||e.closest('.aa-lg-skip,iframe'))return;
-      var s=getComputedStyle(e),c=rgb(s.backgroundColor),r=e.getBoundingClientRect();if(!c||r.height<24||r.height>90||r.width>520)return;
-      if(c.a<0.1){if(parseFloat(s.borderTopWidth)>=1&&parseFloat(s.borderBottomWidth)>=1&&r.width>60)e.classList.add('aa-lg-clear');return;}   // outlined button: clear glass
-      if(c.a<0.9)return;
-      if(Math.abs(c.r-255)<6&&Math.abs(c.g-123)<10&&c.b<20)e.classList.add('aa-lg-btn');                     // orange
-      else if(lum(c)<0.16&&r.width>60&&!(e.parentElement&&e.parentElement.querySelectorAll(':scope>a,:scope>button').length>=3))e.classList.add('aa-lg-btn','aa-lg-ink');   // ink (not a tab in a row of tabs: its colour moves with the active one)
-      else if(lum(c)>0.96&&r.width<=64&&r.height<=64)e.classList.add('aa-lg-ctl');});}                  // small light control
+    /* Nov 2 (Berley): buttons stay flat. No glass face, no clear glass, no loupe. Only the top bar is glass. */
+  }
   function tone(){var b=document.querySelectorAll('.aa-lg-bar');for(var i=0;i<b.length;i++){var e=b[i],ink=getComputedStyle(e.querySelector('a,.nav-link')||e).color,c=rgb(ink);
       /* light text on the bar = the bar sits over something dark: dark glass */ e.classList.toggle('aa-lg-dark',!!c&&lum(c)>0.7);}}
   function onScroll(){var on=(window.scrollY||document.documentElement.scrollTop)>12;document.documentElement.classList.toggle('aa-lg-on',on);if(on)tone();}

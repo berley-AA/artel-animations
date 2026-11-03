@@ -20,12 +20,32 @@
     hint = document.createElement('div'); hint.className = 'aalh'; hint.setAttribute('role', 'status');
     hint.innerHTML = '<p></p>'; hint.firstChild.textContent = T1; /* words only: the one bar on the site is the scroll line at the bottom */ s.appendChild(hint);
   }
+  function orbTop(box) {   // the orb is drawn inside a full-screen canvas: find its real top edge, not the box's
+    var b = box.getBoundingClientRect(), rest = b.top + b.height * 0.155, c = box.querySelector('canvas');
+    try {
+      if (c && c.width) {
+        var cr = c.getBoundingClientRect(), sx = c.width / cr.width, t = document.createElement('canvas'); t.width = c.width; t.height = c.height;
+        var g = t.getContext('2d'); g.drawImage(c, 0, 0);
+        var x0 = Math.floor((b.left + b.width * 0.3 - cr.left) * sx), x1 = Math.floor((b.left + b.width * 0.7 - cr.left) * sx), y0 = Math.max(0, Math.floor((b.top - cr.top) * sx)), y1 = Math.floor((b.top + b.height * 0.5 - cr.top) * sx);
+        var d = g.getImageData(x0, y0, Math.max(1, x1 - x0), Math.max(1, y1 - y0)), W = d.width;
+        for (var y = 0; y < d.height; y += 2) for (var x = 0; x < W; x += 4) if (d.data[(y * W + x) * 4 + 3] > 40) {
+          var top = cr.top + (y0 + y) / sx;
+          return (top > b.top + b.height * 0.08 && top < b.top + b.height * 0.3) ? top : rest;   // mid-animation (intro zoom): use where the orb comes to rest
+        }
+      }
+    } catch (e) {}
+    return rest;
+  }
   function gapMid() {   // just words, centred in the gap between the nav bar and the first picture (or the orb) under it
     var vw = innerWidth, vh = innerHeight, navB = 0, picT = 0;
     Array.prototype.forEach.call(document.querySelectorAll('nav, header, .navbar, .w-nav, .aanav, [class*="nav-bar"]'), function (e) { var r = e.getBoundingClientRect(); if (r.top < 24 && r.height > 20 && r.height < 160 && r.width > vw * 0.5 && getComputedStyle(e).display !== 'none') navB = Math.max(navB, r.bottom); });
     if (!navB) navB = 64;
-    Array.prototype.forEach.call(document.querySelectorAll('img, video, .orb-box'), function (e) { var r = e.getBoundingClientRect(); if (r.width > vw * 0.25 && r.height > 120 && r.top >= navB + 8 && r.top < vh * 0.6 && (!picT || r.top < picT)) picT = r.top; });
-    return picT && picT - navB >= 28 ? Math.round((navB + picT) / 2) : Math.round(navB + 22);
+    Array.prototype.forEach.call(document.querySelectorAll('img, video, .orb-box'), function (e) { if (e.closest('.orb-box') && !e.classList.contains('orb-box')) return; var r = e.getBoundingClientRect(), t = e.classList.contains('orb-box') ? orbTop(e) : r.top; if (r.width > vw * 0.25 && r.height > 120 && t >= navB + 8 && t < vh * 0.6 && (!picT || t < picT)) picT = t; });
+    // the first words under the bar count too (homepage on a phone: the headline sits above the photo)
+    Array.prototype.forEach.call(document.querySelectorAll('h1, h2, h3, p'), function (e) { if (e.closest('.aalh,.aalt,nav,header')) return; var r = e.getBoundingClientRect(); if (r.width > 40 && r.height > 8 && r.top >= navB + 8 && r.top < vh * 0.6 && getComputedStyle(e).visibility !== 'hidden' && (!picT || r.top < picT)) picT = r.top; });
+    // Nov 2: always in the open space between the bar's bottom edge and the picture, never on the bar's hairline
+    var lo = navB + 18, hi = picT ? picT - 14 : navB + 60, mid = picT ? (navB + picT) / 2 : navB + 30;
+    return Math.round(Math.max(lo, Math.min(hi, mid)));
   }
   function showToast() {
     if (!toast) { toast = document.createElement('div'); toast.className = 'aalt'; toast.setAttribute('role', 'status'); toast.textContent = T2; document.body.appendChild(toast); }

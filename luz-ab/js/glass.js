@@ -1,4 +1,4 @@
-/* ArtelGlass 1.0 — liquid glass on the site's own surfaces (Oct 31). Nothing moves, nothing is added to the layout. Corners: see ArtelCorners.
+/* ArtelGlass 1.1 — frosted top bar only (Nov 2: buttons flat). Was liquid glass on the site's own surfaces (Oct 31). Nothing moves, nothing is added to the layout. Corners: see ArtelCorners.
    - The top bar (homepage .navbar, Luz pages' fixed header) turns to frosted glass once the page leaves the very top: it blurs and lifts the
      colour of what scrolls under it, with a bright hairline on its lower edge, like light caught in the edge of a pane.
    - Solid buttons (orange, ink) get a glass face: a soft light from the top, a bright top edge and a darker bottom edge; on hover the light
@@ -6,7 +6,7 @@
    - Small light controls (carousel pause, arrows) become clear glass squares.
    Elements are found by what they look like (computed colour and size), so the same file works on the homepage, /luz and /black-friday,
    and keeps working when Webflow renames classes. Reduced transparency: solid fallbacks. */
-(function(){if(window.__aaGlass)return;window.__aaGlass='1.0';
+(function(){if(window.__aaGlass)return;window.__aaGlass='1.1';
   var css=[
   /* the bar */
   '.aa-lg-bar{transition:background-color .45s ease,backdrop-filter .45s ease,-webkit-backdrop-filter .45s ease,box-shadow .45s ease!important}',
@@ -39,13 +39,8 @@
     /* the bar: a fixed element pinned to the top, full width */
     var bars=[].slice.call(document.querySelectorAll('.navbar.w-nav, body > header, header'));
     bars.forEach(function(e){var s=getComputedStyle(e),r=e.getBoundingClientRect();if((s.position==='fixed'||s.position==='sticky')&&r.top<=1&&r.width>=innerWidth*0.9&&r.height<140)e.classList.add('aa-lg-bar');});
-    [].slice.call(document.querySelectorAll('a,button')).forEach(function(e){if(e.classList.contains('aa-lg-btn')||e.classList.contains('aa-lg-ctl')||e.classList.contains('aa-lg-clear')||e.closest('.aa-lg-skip,iframe'))return;
-      var s=getComputedStyle(e),c=rgb(s.backgroundColor),r=e.getBoundingClientRect();if(!c||r.height<24||r.height>90||r.width>520)return;
-      if(c.a<0.1){if(parseFloat(s.borderTopWidth)>=1&&parseFloat(s.borderBottomWidth)>=1&&r.width>60)e.classList.add('aa-lg-clear');return;}   // outlined button: clear glass
-      if(c.a<0.9)return;
-      if(Math.abs(c.r-255)<6&&Math.abs(c.g-123)<10&&c.b<20)e.classList.add('aa-lg-btn');                     // orange
-      else if(lum(c)<0.16&&r.width>60&&!(e.parentElement&&e.parentElement.querySelectorAll(':scope>a,:scope>button').length>=3))e.classList.add('aa-lg-btn','aa-lg-ink');   // ink (not a tab in a row of tabs: its colour moves with the active one)
-      else if(lum(c)>0.96&&r.width<=64&&r.height<=64)e.classList.add('aa-lg-ctl');});}                  // small light control
+    /* Nov 2 (Berley): buttons stay flat. No glass face, no clear glass, no loupe. Only the top bar is glass. */
+  }
   function tone(){var b=document.querySelectorAll('.aa-lg-bar');for(var i=0;i<b.length;i++){var e=b[i],ink=getComputedStyle(e.querySelector('a,.nav-link')||e).color,c=rgb(ink);
       /* light text on the bar = the bar sits over something dark: dark glass */ e.classList.toggle('aa-lg-dark',!!c&&lum(c)>0.7);}}
   function onScroll(){var on=(window.scrollY||document.documentElement.scrollTop)>12;document.documentElement.classList.toggle('aa-lg-on',on);if(on)tone();}
