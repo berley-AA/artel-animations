@@ -89,7 +89,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <script>/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
 (function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();</script>
 <script src="js/three.min.js" defer></script><script src="js/orb-live.js" defer></script>
-</head><body>
+<style id="aaTap">@media (pointer:coarse),(max-width:1024px){a.aaf-sm,a.an-logo,a.an-wordmark{position:relative}a.aaf-sm::after,a.an-logo::after,a.an-wordmark::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 16px);height:44px;transform:translate(-50%,-50%)}a.an-logo::after{min-width:44px}}</style></head><body>
 <div id="dc-root"></div>
 <template id="dc-tpl">
 <main class="{{introCls}}" style="background: #F5F5F7; color: #1D1D1F; font-family: 'ABC Areal','Helvetica Neue',Helvetica,sans-serif;">
