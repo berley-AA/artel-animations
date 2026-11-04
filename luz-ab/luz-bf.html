@@ -80,7 +80,7 @@ main.intro-hold #hero{overflow:visible!important}
 @media (max-height: 500px){#filmLayer{padding:8px 64px!important}#filmPlayer{width:min(100%, calc((100vh - 16px) * 16 / 9))!important;width:min(100%, calc((100svh - 16px) * 16 / 9))!important}}
 .track{scrollbar-width:none}.track::-webkit-scrollbar{display:none}
 .navlinks{display:flex}.navburger{display:none}
-@media (max-width: 860px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}.aanav{grid-template-columns:minmax(0,1fr) auto!important;column-gap:16px!important;padding:0 20px!important}}
+@media (max-width: 991px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}.aanav{grid-template-columns:minmax(0,1fr) auto!important;column-gap:16px!important;padding:0 20px!important}}
 input,select,textarea{font:inherit}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FF7B00;outline-offset:2px}
 
@@ -646,7 +646,7 @@ function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v
 <!-- Nav frame: same rule as the homepage on every screen size. Frame = min(100%, 1920px), centred.
      Wordmark on the 2.8 grid line, mark centred on the 25 line, links spread across 49.5 -> 69, Login right on 97.2. -->
 <style>
-@media (min-width: 861px){
+@media (min-width: 992px){
   .aanav{max-width:1920px!important;width:100%!important;padding:0 max(40px, calc(min(100vw,1920px) * 0.028))!important;column-gap:0!important;grid-template-columns:49.47% 20.66% 1fr!important}
   .aanav>div:first-child{position:relative!important;width:100%!important;display:block!important;height:44px}
   .aanav>div:first-child>a:first-child{position:absolute;left:0;top:0}
