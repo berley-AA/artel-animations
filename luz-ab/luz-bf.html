@@ -317,6 +317,27 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 </template>
 <script>
 
+/* Qualify form -> Artel dashboard. Sent as plain form data (a "simple" request, so no CORS preflight) to Luz's public chat endpoint; Luz saves it with her capture_lead tool and it shows up in Leads. The response is opaque on purpose: the page never reads it. */
+function aaSendApplication(d, page) {
+  const v = (k, n) => String(d[k] || '').replace(/\s+/g, ' ').trim().slice(0, n || 200);
+  const lines = [
+    '[Website form · ' + page + ' qualify] New application from the Artel website.',
+    'Save it as a lead with capture_lead now, with the source and every answer below in the dossier. Do not book a meeting. Berley replies by email within 24 hours.',
+    'Source page: ' + location.origin + location.pathname,
+    'Name: ' + v('name'),
+    'Email: ' + v('email'),
+    'Store website: ' + v('website'),
+    'Platform: ' + v('q1'),
+    'Messages per month: ' + v('q2'),
+    'Who answers today: ' + v('q3'),
+    'Needs it live: ' + v('q4'),
+    'Customers ask most: ' + (v('questions', 800) || 'not given'),
+    'Reply language: ' + (d.lang === 'fr' ? 'French' : 'English')
+  ];
+  const id = 'form-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  const body = new URLSearchParams({ message: lines.join('\n'), userId: id, visitorId: id });
+  try { fetch('https://app.artelagency.com/api/w/luz-ac6955/chat', { method: 'POST', mode: 'no-cors', keepalive: true, body: body }); } catch (x) {}
+}
 const QS = [
   { q: 'Where does your store run?', o: ['Shopify', 'WooCommerce', 'BigCommerce', 'Something else'] },
   { q: 'How many customer messages a month?', o: ['Under 100', '100 to 500', '500 to 2,000', 'Over 2,000'] },
@@ -604,7 +625,7 @@ class Component extends DCLogic {
       qCount: ((this.state.qStep || 0) + 1) + ' OF ' + (QS.length + 1), qPct: (((this.state.qStep || 0) + 1) / (QS.length + 1) * 100) + '%',
       qFormDisp: (this.state.qStep || 0) === QS.length ? 'grid' : 'none', qBackDisp: (this.state.qStep || 0) > 0 ? 'inline-flex' : 'none',
       qBack: () => this.setState({ qStep: Math.max(0, (this.state.qStep || 0) - 1) }),
-      send: (e) => { if (e && e.preventDefault) e.preventDefault(); const f = e && e.target && e.target.closest ? e.target.closest('form') : null; const d = {}; try { new FormData(f).forEach((v, k) => { d[k] = v; }); } catch (x) {} QS.forEach((s, i) => { d['q' + (i + 1)] = (this.state.qa || [])[i] || ''; }); window.__aaApplication = d; /* TODO: send d to the chosen inbox (MailerLite / Webflow / Felix). Not connected yet. */ this.setState({ sent: true }); }
+      send: (e) => { if (e && e.preventDefault) e.preventDefault(); const f = e && e.target && e.target.closest ? e.target.closest('form') : null; const d = {}; try { new FormData(f).forEach((v, k) => { d[k] = v; }); } catch (x) {} QS.forEach((s, i) => { d['q' + (i + 1)] = (this.state.qa || [])[i] || ''; }); window.__aaApplication = d; aaSendApplication(d, 'Black Friday'); this.setState({ sent: true }); }
     };
   }
 }
