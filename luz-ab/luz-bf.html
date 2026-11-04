@@ -312,7 +312,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <div id="loopSpacer" aria-hidden="true" style="height: max(0px, calc(100svh - 1000px));"></div>
 <div id="filmLayer" role="dialog" aria-modal="true" aria-label="The Luz film" style="position: fixed; inset: 0; z-index: 200; background: #1D1D1F; display: {{filmDisp}}; align-items: center; justify-content: center; opacity: {{filmO}}; transition: opacity .35s ease; padding: max(56px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left)); box-sizing: border-box;" onClick="{{filmBackdrop}}">
   <button type="button" onClick="{{closeFilm}}" aria-label="Close the film" style="position: absolute; top: max(14px, env(safe-area-inset-top)); right: max(14px, env(safe-area-inset-right)); width: 44px; height: 44px; padding: 0; border: 0; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#F5F5F7" stroke-width="1.8" stroke-linecap="square"><path d="M1.5 1.5l11 11M12.5 1.5l-11 11"></path></svg></button>
-  <video id="filmPlayer" src="{{filmSrc}}" playsinline="" preload="none" style="display: block; width: min(100%, calc((100vh - 120px) * 16 / 9), 1600px); width: min(100%, calc((100svh - 120px) * 16 / 9), 1600px); aspect-ratio: 16 / 9; height: auto; background: #000; object-fit: contain;"></video>
+  <video id="filmPlayer" src="{{filmSrc}}" playsinline="" preload="metadata" style="display: block; width: min(100%, calc((100vh - 120px) * 16 / 9), 1600px); width: min(100%, calc((100svh - 120px) * 16 / 9), 1600px); aspect-ratio: 16 / 9; height: auto; background: #000; object-fit: contain;"></video>
 </div>
 </main>
 </template>
@@ -320,7 +320,10 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 
 /* Qualify form -> Artel dashboard. Sent as plain form data (a "simple" request, so no CORS preflight) to Luz's public chat endpoint; Luz saves it with her capture_lead tool and it shows up in Leads. The response is opaque on purpose: the page never reads it. */
 /* Full film: 16:9 on laptops and tablets, the 4:5 cut on phones held upright (same rule as the #filmPlayer CSS). */
-function aaFilmSrc() { let tall = false; try { tall = window.matchMedia('(orientation: portrait) and (max-width: 820px)').matches; } catch (x) {} return tall ? 'assets/luz-film-4x5.mp4' : 'assets/luz-film-16x9.mp4'; }
+const AA_FILM_HOST = 'https://berley-aa.github.io/artel-animations/luz-film/';
+try { const l = document.createElement('link'); l.rel = 'preconnect'; l.href = 'https://berley-aa.github.io'; document.head.appendChild(l); } catch (x) {}
+/* Nov 4: the 16:9 film is served from GitHub Pages (jsDelivr refuses files over ~5 MB). 1440p60 where the player is drawn on 2,200+ real pixels (retina laptops, big screens), 1080p60 otherwise. Both CRF 17 from the 4K master. */
+function aaFilmSrc() { let tall = false, px = 1920; try { tall = window.matchMedia('(orientation: portrait) and (max-width: 820px)').matches; px = Math.min(window.innerWidth, 1600) * (window.devicePixelRatio || 1); } catch (x) {} if (tall) return 'assets/luz-film-4x5.mp4'; return AA_FILM_HOST + (px >= 2200 ? 'luz-film-16x9-1440.mp4' : 'luz-film-16x9-1080.mp4'); }
 function aaSendApplication(d, page) {
   const v = (k, n) => String(d[k] || '').replace(/\s+/g, ' ').trim().slice(0, n || 200);
   const lines = [
