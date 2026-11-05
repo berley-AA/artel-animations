@@ -898,8 +898,8 @@ header.aa-nav.aa-nav-up{transform:translateY(-105%)!important;transition:transfo
   function init(tr, bar){
     /* 1. depth: each card scales and dims by how far it is from the front */
     var raf = 0;
-    function depth(){ raf = 0; var a = tr.children, s = a[1].offsetLeft - a[0].offsetLeft || 1;
-      for (var i = 0; i < a.length; i++) { var d = (a[i].offsetLeft - a[0].offsetLeft - tr.scrollLeft) / s; d = Math.max(-1.2, Math.min(1.2, d));
+    function depth(){ raf = 0; var a = tr.children, s = a[1].offsetLeft - a[0].offsetLeft || 1, mx = tr.scrollWidth - tr.clientWidth;
+      for (var i = 0; i < a.length; i++) { var d = (Math.min(a[i].offsetLeft - a[0].offsetLeft, mx) - tr.scrollLeft) / s;   /* the last card stops where the track ends */ d = Math.max(-1.2, Math.min(1.2, d));
         a[i].style.setProperty('--dz', Math.min(1, Math.abs(d)).toFixed(3)); a[i].style.setProperty('--px', d.toFixed(3)); } }
     var q = function(){ if (!raf) raf = requestAnimationFrame(depth); };
     tr.addEventListener('scroll', q, { passive: true }); window.addEventListener('resize', q); depth();
