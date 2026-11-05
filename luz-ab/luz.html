@@ -441,7 +441,7 @@ class Component extends DCLogic {
       // the screen (or the hero, if taller). The orb is drawn centred on its box. The box, not the canvas, takes the pointer.
       if (!I.vw || I.rs) { I.rs = false; I.vw = document.documentElement.clientWidth || innerWidth; I.vh = Math.round((window.visualViewport && window.visualViewport.height) || innerHeight); }
       const aw = I.vw, ah = Math.max(I.vh, Math.round(h.height));
-      const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(3.2e6 / Math.max(1, aw * ah)));   // full screen on any size, capped at ~3.2 MP (Nov 4: was 4.5, too heavy while scrolling on laptops)
+      const dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(4.5e6 / Math.max(1, aw * ah)));   // full screen on any size, capped at ~4.5 MP (Nov 4: a 3.2 MP cap drew the beads below screen resolution and they showed a square pattern; back to 4.5)
       const geo = 'left: ' + Math.round(h.left - b.left) + 'px; top: ' + Math.round(h.top - b.top) + 'px; width: ' + aw + 'px; height: ' + ah + 'px;';
       if (geo !== this.state.orbGeo) this.setState({ orbGeo: geo });
       const cx = b.left + b.width / 2, cy = b.top + b.height / 2, ax = h.left + aw / 2, ay = h.top + ah / 2;
