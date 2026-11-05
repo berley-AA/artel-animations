@@ -12,9 +12,10 @@
   '.aa-lg-bar{transition:background-color .45s ease,backdrop-filter .45s ease,-webkit-backdrop-filter .45s ease,box-shadow .45s ease!important}',
   'html.aa-lg-on body .aa-lg-bar.aa-lg-bar.aa-lg-bar.aa-lg-bar{background-color:rgba(250,250,252,.52)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.08))!important;',
   '-webkit-backdrop-filter:blur(18px) saturate(185%) brightness(1.03)!important;backdrop-filter:blur(18px) saturate(185%) brightness(1.03)!important;',
-  'box-shadow:inset 0 -1px 0 rgba(255,255,255,.75),0 1px 0 rgba(29,29,31,.06),0 10px 30px -18px rgba(29,29,31,.22)!important}',
+  'box-shadow:0 10px 30px -18px rgba(29,29,31,.22)!important}',   /* Nov 5 (Berley): no hairline under the bar on the Luz pages */
   'html.aa-lg-on body .aa-lg-bar.aa-lg-bar.aa-lg-bar.aa-lg-bar.aa-lg-dark{background-color:rgba(18,19,23,.42)!important;background-image:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,0))!important;',
-  'box-shadow:inset 0 -1px 0 rgba(255,255,255,.16),0 10px 30px -18px rgba(0,0,0,.5)!important}',
+  'box-shadow:0 10px 30px -18px rgba(0,0,0,.5)!important}',
+  'html body header.aa-nav,html body header.aa-lg-bar{border-bottom-color:transparent!important}',
   /* solid buttons: a glass face over their own colour */
   '.aa-lg-btn{background-image:linear-gradient(105deg,rgba(255,255,255,0) 35%,rgba(255,255,255,.28) 50%,rgba(255,255,255,0) 65%),linear-gradient(180deg,rgba(255,255,255,.26),rgba(255,255,255,.04) 52%,rgba(0,0,0,.05))!important;',
   'background-size:250% 100%,100% 100%!important;background-position:130% 0,0 0!important;background-repeat:no-repeat!important;',
