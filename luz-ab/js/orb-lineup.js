@@ -145,7 +145,7 @@ function lineup(cv,opts){
   const SP=2.35,clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),eio=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
   let w=0,h=0,raf=0,alive=true,running=false,t0=0,vis=false;
   const dprMax=matchMedia('(pointer: coarse)').matches?1:1.25;   // the beads are grainy by design: a lighter canvas looks the same and costs a third
-  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,dprMax,Math.sqrt(3.2e6/Math.max(1,r.width*r.height)));const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,dprMax);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     const AR=w/h,MV=Math.pow(Math.max(1,(16/9)/AR),0.62),m=AR>1.2?1.7:MV*(AR<0.7?2.0:1.65);
     cam.aspect=AR;cam.position.set(-9*m,2*m,14*m);cam.lookAt((AR<0.7?5.75:AR<1?6.1:5),(AR>1.2?0.95:0.55)*m,0);cam.updateProjectionMatrix();}
