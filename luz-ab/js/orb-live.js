@@ -117,12 +117,20 @@ function mount(cv,opts){
      hold still to stop her; a tap sends a ring out across the beads. */
   const M={x:9,y:9,in:0,lx:0,ly:0};let pulseT=9;
   function cvp(e){const r=cv.getBoundingClientRect();M.x=(e.clientX-r.left)/r.width*2-1;M.y=-((e.clientY-r.top)/r.height*2-1);}
+  /* Nov 5 (Berley): holding and swirling the orb must never select text on the page. While the button or finger is down
+     (even after leaving the orb), the page can't be selected; it comes back as soon as it's released. */
+  if(!document.getElementById('aaOrbNoSel')){const st=document.createElement('style');st.id='aaOrbNoSel';st.textContent='html.aa-orb-hold,html.aa-orb-hold *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important}';document.head.appendChild(st);}
+  hit.style.setProperty('-webkit-user-select','none');hit.style.setProperty('user-select','none');hit.style.setProperty('-webkit-touch-callout','none');
+  const noSel=e=>e.preventDefault();
+  function holdOn(){document.documentElement.classList.add('aa-orb-hold');document.addEventListener('selectstart',noSel,true);try{const g=window.getSelection();if(g&&g.rangeCount&&!g.isCollapsed)g.removeAllRanges();}catch(x){}}
+  function holdOff(){document.documentElement.classList.remove('aa-orb-hold');document.removeEventListener('selectstart',noSel,true);}
+  window.addEventListener('pointerup',holdOff);window.addEventListener('pointercancel',holdOff);window.addEventListener('blur',holdOff);
   function letGo(){drag=null;}
   function onMove(e){cvp(e);M.in=(e.pointerType==='touch'&&!drag)?0:1;exT=0.35;
     if(!drag)return;if(e.pointerType==='mouse'&&e.buttons===0){letGo();return;}
     const now=performance.now(),dxp=e.clientX-drag.x,dts=Math.max(0.008,(now-drag.lt)/1000);drag.x=e.clientX;drag.lt=now;moved+=Math.abs(dxp);
     spin+=dxp*0.008;spinV=spinV+(Math.max(-14,Math.min(14,dxp*0.008/dts))-spinV)*0.5;}
-  function onDown(e){cvp(e);drag={x:e.clientX,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};spinV=0;moved=0;}
+  function onDown(e){cvp(e);holdOn();drag={x:e.clientX,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};spinV=0;moved=0;}
   function onUp(e){if(!drag)return;const d=Math.abs(e.clientX-drag.x0)+Math.abs(e.clientY-drag.y0),tap=d<10&&(Date.now()-drag.t)<700;
     if(performance.now()-drag.lt>90)spinV*=0.3;letGo();
     if(tap&&e.type==='pointerup'){cvp(e);U.uPulseP.value.set(M.x,M.y);pulseT=0;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
