@@ -152,7 +152,7 @@
      fixed radius, capped so it never looks rounder than its parent.
    Left square on purpose: full-bleed bands and the top bar (they meet the screen edge), text, lines and the orange scroll line.
    Shapes already round (chat bubbles, the orb) are left as they are. Found by look, so it follows Webflow class changes. */
-(function(){if(window.__aaCorners)return;window.__aaCorners='1.0';
+(function(){if(window.__aaCorners)return;window.__aaCorners='1.1';
   var MARK='data-aa-rc';
   function rgb(s){var m=/rgba?\(([^)]+)\)/.exec(s||'');if(!m)return null;var p=m[1].split(',').map(parseFloat);return {a:p.length>3?p[3]:1};}
   function visibleBox(s,e){var c=rgb(s.backgroundColor);if(c&&c.a>0.05)return true;if(parseFloat(s.borderTopWidth)>=1&&parseFloat(s.borderLeftWidth)>=1&&s.borderTopStyle!=='none')return true;
@@ -192,7 +192,10 @@
       if(p.getAttribute(MARK)!=='fixed')continue;var r=c.getBoundingClientRect(),b=p.getBoundingClientRect(),gx=Math.min(r.left-b.left,b.right-r.right),gy=Math.min(r.top-b.top,b.bottom-r.bottom);
       if(gx>=0&&gy>=0&&gx<=24&&gy<=24&&b.height<=200){var v=r.height/2+Math.max(gx,gy);p.style.setProperty('border-radius',Math.min(v,b.height/2).toFixed(1)+'px','important');p.setAttribute(MARK,'outer');}break;}});}
   var t=0,last=0;function later(){clearTimeout(t);var w=Math.max(300,1500-(Date.now()-last));t=setTimeout(function(){last=Date.now();run();},w);}   // at most once every 1.5 s
-  function init(){run();addEventListener('resize',later);new MutationObserver(function(m){for(var i=0;i<m.length;i++){var n=m[i].addedNodes;for(var j=0;j<n.length;j++)if(n[j].nodeType===1&&!n[j].classList.contains('aalt')){later();return;}}}).observe(document.body,{childList:true,subtree:true});
+  /* Nov 4: new or newly shown boxes are rounded before they are first painted (the observer runs right after the DOM change, before
+     the next frame), so nothing shows square for a moment and then turns round. A pass is ~3 ms; several changes in one task share one pass. */
+  var due=false;function now(){if(due)return;due=true;Promise.resolve().then(function(){due=false;last=Date.now();run();});}
+  function init(){run();addEventListener('resize',later);new MutationObserver(function(m){for(var i=0;i<m.length;i++){var x=m[i];if(x.type==='attributes'){if(x.target.nodeType===1&&!x.target.closest('.aalt,.aa-rc-skip,#aafp'))return now();continue;}var n=x.addedNodes;for(var j=0;j<n.length;j++)if(n[j].nodeType===1&&!n[j].classList.contains('aalt')){now();return;}}}).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['class','hidden']});
     [800,2000,5000].forEach(function(d){setTimeout(run,d);});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();})();
 
