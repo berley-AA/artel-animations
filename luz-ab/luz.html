@@ -233,29 +233,80 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   </div>
 </section>
 
-<section aria-label="How we work" style="padding: clamp(56px, 8vh, 96px) 0; box-sizing: border-box;">
-  <div style="max-width: calc(1240px + 2 * clamp(20px, 4vw, 64px)); margin: 0 auto; padding: 0 clamp(20px, 4vw, 64px); box-sizing: border-box; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap;">
-    <h2 data-m="up" style="margin: 0; font-weight: 600; letter-spacing: -0.02em; font-size: clamp(36px, 4vw, 56px);">From a call to a live assistant.</h2>
-    <a href="#note" style="display: inline-flex; align-items: center; gap: 0.3em; min-height: 44px; font-size: 17px; text-decoration: none;">Check if you qualify <span aria-hidden="true">›</span></a>
+<section aria-label="How we work" class="aa-how" style="padding: 0 clamp(20px, 4vw, 64px); box-sizing: border-box;">
+<style id="aaHowCss">/* Nov 4: "How we work" as a pinned scroll, built like the rooms section on apple.com/apple-tv-4k: the stage holds in the middle of the screen while the four steps play through, the week rail fills in orange. */
+.aa-how-head{max-width:1100px;margin:0 auto;padding:clamp(72px,10vh,120px) 0 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.aa-how-head h2{margin:0;font-weight:600;letter-spacing:-.03em;line-height:1.05;font-size:clamp(36px,4.6vw,64px);text-wrap:balance;max-width:18ch}
+.aa-how-head p{margin:0;font-size:clamp(17px,1.6vw,21px);line-height:1.45;color:#3A3A3C}
+.aa-how-pin{position:relative}
+.aa-how-stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(36px,6vh,72px)}
+.aa-how-rail{position:relative;width:min(100%,760px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.aa-how-rail .ln,.aa-how-rail .fl{position:absolute;left:12.5%;right:12.5%;top:6px;height:2px;border-radius:2px;background:rgba(29,29,31,.14)}
+.aa-how-rail .fl{background:#FF7B00;right:auto;width:0}
+.aa-how-dot{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px}
+.aa-how-dot i{width:14px;height:14px;border-radius:50%;background:#F5F5F7;border:1.5px solid rgba(29,29,31,.35);box-sizing:border-box;transition:background .4s ease,border-color .4s ease,transform .4s ease}
+.aa-how-dot span{font-size:13px;color:#6E6E73;transition:color .4s ease;white-space:nowrap}
+.aa-how-dot.done i{background:#FF7B00;border-color:#FF7B00}
+.aa-how-dot.now i{transform:scale(1.25)}
+.aa-how-dot.now span{color:#1D1D1F;font-weight:500}
+.aa-how-steps{position:relative;width:min(100%,820px);display:grid}
+.aa-how-step{grid-area:1/1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.aa-how-step.out{transform:translateY(-28px)}
+.aa-how-step.on{opacity:1;transform:none}
+.aa-how-step .n{font-size:15px;font-weight:500;color:#FF7B00}
+.aa-how-step h3{margin:0;font-weight:600;letter-spacing:-.035em;line-height:1.02;font-size:clamp(40px,6.4vw,88px);text-wrap:balance}
+.aa-how-step p{margin:0;font-size:clamp(17px,1.7vw,22px);line-height:1.45;color:#3A3A3C;max-width:30ch}
+.aa-how-cta{display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 0 clamp(64px,10vh,120px)}
+.aa-how-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 30px;border-radius:999px!important;background:#FF7B00;color:#FFFFFF;text-decoration:none;font-size:17px;font-weight:500;transition:background .25s ease}
+.aa-how-cta a:hover{background:#E86F00}
+.aa-how-cta a:focus-visible{outline:2px solid #1D1D1F;outline-offset:3px}
+.aa-how-cta small{font-size:13px;color:#6E6E73}
+@media (max-width:560px){.aa-how-dot span{font-size:11px}.aa-how-step h3{font-size:40px}}
+@media (prefers-reduced-motion:reduce){.aa-how-stage{position:static;height:auto;padding:48px 0}.aa-how-steps{display:flex;flex-direction:column;gap:40px}.aa-how-step{opacity:1!important;transform:none!important;transition:none}.aa-how-step .n{display:block}}
+</style>
+  <div class="aa-how-head">
+    <h2 data-m="up">Want Luz on your store by next week?</h2>
+    <p>Four steps. About a week. You write nothing.</p>
   </div>
-  <div class="track" style="margin-top: 36px; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2)); padding: 0 max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2)); box-sizing: border-box;">
-    <article data-m="up" style="flex: 0 0 min(320px, 80vw); scroll-snap-align: start; background: #FFFFFF; box-sizing: border-box; display: flex; flex-direction: column; min-width: 0; overflow: hidden;">
-      <div style="padding: 28px 28px 0; display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: #1D1D1F;">Day 1</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15;">A 30-minute call.</h3><p style="margin: 0; font-size: 15px; line-height: 1.45; color: #6E6E73;">If your store qualifies, we get on a call. You show us where the questions pile up.</p></div>
-      <div style="margin-top: auto; padding-top: 24px;"><img src="assets/steps/call.jpg" alt="Berley from Artel with a client at their office" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center center;"></div>
-    </article>
-    <article data-m="up" style="flex: 0 0 min(320px, 80vw); scroll-snap-align: start; background: #FFFFFF; box-sizing: border-box; display: flex; flex-direction: column; min-width: 0; overflow: hidden;">
-      <div style="padding: 28px 28px 0; display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: #1D1D1F;">Days 2 to 3</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15;">We learn your business.</h3><p style="margin: 0; font-size: 15px; line-height: 1.45; color: #6E6E73;">Policies, products, past replies, tone. You don’t write a thing.</p></div>
-      <div style="margin-top: auto; padding-top: 24px;"><img src="assets/steps/learn.jpg" alt="Artel working through a client’s operations at their table" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center center;"></div>
-    </article>
-    <article data-m="up" style="flex: 0 0 min(320px, 80vw); scroll-snap-align: start; background: #FFFFFF; box-sizing: border-box; display: flex; flex-direction: column; min-width: 0; overflow: hidden;">
-      <div style="padding: 28px 28px 0; display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: #1D1D1F;">Days 4 to 7</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15;">We build and test.</h3><p style="margin: 0; font-size: 15px; line-height: 1.45; color: #6E6E73;">On your real past conversations. You approve her before launch.</p></div>
-      <div style="margin-top: auto; padding-top: 24px;"><img src="assets/steps/test.jpg" alt="Artel and Felix building and testing a client tool on a live call" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center center;"></div>
-    </article>
-    <article data-m="up" style="flex: 0 0 min(320px, 80vw); scroll-snap-align: start; background: #FFFFFF; box-sizing: border-box; display: flex; flex-direction: column; min-width: 0; overflow: hidden;">
-      <div style="padding: 28px 28px 0; display: flex; flex-direction: column; gap: 10px;"><span style="font-size: 14px; font-weight: 600; letter-spacing: -0.005em; color: #1D1D1F;">Every month</span><h3 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.15;">Live, and getting better.</h3><p style="margin: 0; font-size: 15px; line-height: 1.45; color: #6E6E73;">We read her conversations and sharpen her. You get a one-page report.</p></div>
-      <div style="margin-top: auto; padding-top: 24px;"><img src="assets/steps/live.jpg" alt="A live assistant answering a customer on a store" loading="lazy" style="display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center top;"></div>
-    </article>
+  <div class="aa-how-pin">
+    <div class="aa-how-stage">
+      <div class="aa-how-rail" aria-hidden="true">
+        <div class="ln"></div><div class="fl"></div>
+        <div class="aa-how-dot"><i></i><span>Day 1</span></div>
+        <div class="aa-how-dot"><i></i><span>Days 2–3</span></div>
+        <div class="aa-how-dot"><i></i><span>Days 4–7</span></div>
+        <div class="aa-how-dot"><i></i><span>Every month</span></div>
+      </div>
+      <ol class="aa-how-steps" style="list-style: none; margin: 0; padding: 0;">
+        <li class="aa-how-step"><span class="n">Day 1</span><h3>A 30-minute call.</h3><p>Show us where the questions pile up.</p></li>
+        <li class="aa-how-step"><span class="n">Days 2–3</span><h3>We learn your store.</h3><p>Policies, products, past replies. You write nothing.</p></li>
+        <li class="aa-how-step"><span class="n">Days 4–7</span><h3>We build and test.</h3><p>On your real chats. You approve her before launch.</p></li>
+        <li class="aa-how-step"><span class="n">Every month</span><h3>Live, and improving.</h3><p>We read her chats. You get a one-page report.</p></li>
+      </ol>
+    </div>
   </div>
+  <div class="aa-how-cta">
+    <a href="#note">Check if my store qualifies</a>
+    <small>A few quick questions. We take a few stores at a time.</small>
+  </div>
+<script id="aaHowJs">(function(){
+  var reduce=false;try{reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+  function init(){
+    var sec=document.querySelector('.aa-how');if(!sec)return setTimeout(init,300);
+    var pin=sec.querySelector('.aa-how-pin'),fill=sec.querySelector('.aa-how-rail .fl'),dots=[].slice.call(sec.querySelectorAll('.aa-how-dot')),steps=[].slice.call(sec.querySelectorAll('.aa-how-step')),N=steps.length,cur=-1,tk=false;
+    if(reduce){steps.forEach(function(s){s.classList.add('on');});dots.forEach(function(d){d.classList.add('done');});fill.style.width='75%';return;}
+    function H(){return window.innerHeight||800;}
+    function size(){pin.style.height=Math.round(H()*(N*0.85+0.6))+'px';}
+    function set(i,p){fill.style.width=(75*Math.min(1,p*N/(N-0.15)))+'%';if(i===cur)return;cur=i;
+      steps.forEach(function(s,k){s.classList.toggle('on',k===i);s.classList.toggle('out',k<i);s.setAttribute('aria-hidden',k===i?'false':'true');});
+      dots.forEach(function(d,k){d.classList.toggle('done',k<=i);d.classList.toggle('now',k===i);});}
+    function tick(){tk=false;var h=H(),top=pin.getBoundingClientRect().top,run=pin.offsetHeight-h,p=Math.min(1,Math.max(0,-top/Math.max(1,run)));set(Math.min(N-1,Math.floor(p*N)),p);}
+    size();tick();
+    window.addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(tick);}},{passive:true});
+    window.addEventListener('resize',function(){size();tick();});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();</script>
 </section>
 
 <section id="book" aria-label="Book" style="padding: clamp(56px, 8vh, 96px) clamp(20px, 4vw, 64px) clamp(80px, 12vh, 140px); box-sizing: border-box;">
