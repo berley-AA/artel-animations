@@ -6,6 +6,7 @@ import { scripts, literals } from './strings.mjs';
 const M = JSON.parse(fs.readFileSync(new URL('./fr.json', import.meta.url), 'utf8'));
 const LINKS = { '/labs': '/fr-ca/labs', '/faq': '/fr-ca/faq', '/': '/fr-ca', '/#team': '/fr-ca#team', '/#selected-work': '/fr-ca#selected-work',
   '/#process': '/fr-ca#process', '/#free-pilot': '/fr-ca#free-pilot', '/privacy-policy': '/fr-ca/privacy-policy', '/terms-of-services': '/fr-ca/terms-of-services' };
+const opt = (s, a, b) => s.split(a).join(b);   // form-only steps: the form was removed Nov 5 (Felix moved qualifying into the chat)
 const once = (s, a, b, what) => { const n = s.split(a).length - 1; if (n !== 1) throw new Error(what + ': expected 1 match, got ' + n); return s.replace(a, b); };
 const quote = (v, q) => q === '`' ? '`' + v.replace(/[`\\]|\$\{/g, (m) => '\\' + m) + '`' : q + v.replace(/\\/g, '\\\\').replace(new RegExp(q, 'g'), '\\' + q).replace(/\n/g, '\\n') + q;
 
@@ -21,9 +22,9 @@ function build(src, out, enPath) {
   h = h.replace(/(const QS = \[[\s\S]*?\n\];)/, '$1\nQS.forEach((s, i) => { const f = __FRQS[i]; if (f) { s.fr = f.fr; s.ofr = f.ofr; } });');
   h = once(h, '({ q: s.q,', '({ q: (s.fr || s.q),', 'qSteps q');
   h = once(h, 'return { t, on:', 'return { t, l: (s.ofr && s.ofr[s.o.indexOf(t)]) || t, on:', 'qSteps label');
-  h = once(h, '{{o.t}}', '{{o.l}}', 'option label');
-  h = once(h, 'name="lang" value="en" checked=""', 'name="lang" value="en"', 'radio en');
-  h = once(h, 'name="lang" value="fr"> Français</label>', 'name="lang" value="fr" checked=""> français</label>', 'radio fr');
+  h = opt(h, '{{o.t}}', '{{o.l}}');
+  h = opt(h, 'name="lang" value="en" checked=""', 'name="lang" value="en"');
+  h = opt(h, 'name="lang" value="fr"> Français</label>', 'name="lang" value="fr" checked=""> français</label>');
   // 3. the page itself
   h = once(h, '<html lang="en">', '<html lang="fr-CA">', 'lang');
   h = once(h, '<a href="' + '/fr-ca' + enPath + '">Français</a>', '<a href="' + enPath + '">English</a>', 'menu language link');
