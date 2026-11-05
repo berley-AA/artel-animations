@@ -12,7 +12,7 @@
     ':root{--an-ease:cubic-bezier(.22,1,.36,1)}' +
     '@keyframes aa-an-fade{from{opacity:0}to{opacity:1}}@keyframes aa-an-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}' +
     /* Nov 5 (Berley): the full-screen film player sits above every nav, so the bar never covers the film or its close button */
-    '#filmLayer{z-index:10010!important}' +
+    '#filmLayer{z-index:10010!important}#aafp{z-index:10011!important}' + /* its play bar stays on top of the film */
     '.an-header,.an-panel{display:none}' +
     '@media (max-width:991px){' +
       /* the Luz pages' own header and its menu step aside on phones and tablets */
