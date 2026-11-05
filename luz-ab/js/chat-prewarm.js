@@ -15,17 +15,22 @@
     if (!document.getElementById('aaChatPrewarm')) { var st = document.createElement('style'); st.id = 'aaChatPrewarm';
     st.textContent = '#luzChat{transition:opacity .35s ease}' +
       '#luzChat.aa-pw-off{position:fixed!important;top:0!important;left:0!important;width:var(--aa-pw)!important;height:var(--aa-ph)!important;opacity:0!important;pointer-events:none!important;z-index:-1!important;transition:none!important}' +
-      '#luzChat.aa-pw-in{opacity:0!important;pointer-events:none!important}';
+      '#luzChat.aa-pw-in{opacity:0!important;pointer-events:none!important}' +
+      /* a reveal animation on the chat card (will-change: transform) would pin a fixed frame to the card instead of the screen; it waits too */
+      '.aa-pw-anc{will-change:auto!important;transform:none!important;translate:none!important;scale:none!important;rotate:none!important;filter:none!important;perspective:none!important}';
     document.head.appendChild(st); }
     var timer = 0;
     function onScreen(el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth && r.width > 0; }
-    function clear() { clearTimeout(timer); f.classList.remove('aa-pw-off', 'aa-pw-in'); }
+    var anc = [];
+    function clear() { clearTimeout(timer); f.classList.remove('aa-pw-off', 'aa-pw-in'); anc.forEach(function (e) { e.classList.remove('aa-pw-anc'); }); anc = []; }
     function warm() {
       if (document.documentElement.classList.contains('luz-fs')) return;   // the chat is open full screen: leave it alone
       clear();
       if (onScreen(f)) { f.classList.add('aa-pw-in'); timer = setTimeout(clear, FADE); return; }
       var w = f.parentElement ? f.parentElement.clientWidth : f.offsetWidth;
       f.style.setProperty('--aa-pw', Math.max(320, w) + 'px'); f.style.setProperty('--aa-ph', Math.max(480, f.offsetHeight) + 'px');
+      for (var e = f.parentElement; e && e !== document.body && e !== document.documentElement; e = e.parentElement) { try { var cs = getComputedStyle(e);
+        if (cs.transform !== 'none' || (cs.willChange || '').indexOf('transform') > -1 || cs.filter !== 'none' || (cs.translate && cs.translate !== 'none') || (cs.scale && cs.scale !== 'none') || cs.perspective !== 'none') { e.classList.add('aa-pw-anc'); anc.push(e); } } catch (x) {} }
       f.classList.add('aa-pw-off'); timer = setTimeout(clear, HOLD);
     }
     f.addEventListener('load', warm);
