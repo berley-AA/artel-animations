@@ -311,6 +311,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 })();</script>
 </section>
 
+<style id="aaBookSide">/* Nov 5 (Berley): on desktop and big screens the heading and its line sit to the left of the chat, the chat takes the right. Under 992px nothing changes (text on top, chat below). */@media (min-width:992px){#book>div{display:grid!important;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,5vw,96px)!important;align-items:center}#book>div>div:first-child{max-width:none!important}#book #ask{max-width:none!important}}</style>
 <section id="book" aria-label="Book" style="padding: clamp(56px, 8vh, 96px) clamp(20px, 4vw, 64px) clamp(80px, 12vh, 140px); box-sizing: border-box;">
   <div style="max-width: 1240px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px;">
     <div style="display: flex; flex-direction: column; gap: 14px; max-width: 760px;"><h2 data-m="up" style="margin: 0; font-weight: 600; letter-spacing: -0.02em; line-height: 1.07; font-size: clamp(36px, 4vw, 56px);">Let Luz take the questions. You take the business.</h2><p style="margin: 0; font-size: 17px; line-height: 1.5; color: #3A3A3C;">8 spots before Black Friday. Talk to Luz: a few quick questions tell us if your store qualifies.</p></div>
