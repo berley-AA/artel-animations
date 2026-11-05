@@ -96,7 +96,7 @@ void main(){if(vPop<=0.001)discard;vec3 n=normalize(vN);vec3 s=normalize(vS);vec
  col+=ENV*pow(max(dot(reflect(-L,n),vec3(0.0,0.0,1.0)),0.0),26.0)*0.55*smoothstep(0.5,0.85,vT);
  col+=vec3(1.0,0.62,0.25)*min(vSpike,1.2)*0.22;col=mix(col,shade(vT)*(0.98+0.04*uBreath),m*(1.0-0.6*min(vSpike,1.0)));
  float rip=uRippleAmp*exp(-pow((vT-uRippleY)*10.0,2.0));col+=vec3(1.0,0.7,0.35)*rip*0.35;gl_FragColor=vec4(col,1.0);}`});
-  const ready=getBeads().then(({N,Cc,Nn,Tt,Rn,St})=>{const ico=new THREE.IcosahedronGeometry(1,1),geo=new THREE.InstancedBufferGeometry();geo.index=ico.index;geo.setAttribute('position',ico.getAttribute('position'));
+  const ready=getBeads().then(({N,Cc,Nn,Tt,Rn,St})=>{const ico=new THREE.IcosahedronGeometry(1,0),geo=new THREE.InstancedBufferGeometry();geo.index=ico.index;geo.setAttribute('position',ico.getAttribute('position'));
   geo.setAttribute('aC',new THREE.InstancedBufferAttribute(Cc,3));geo.setAttribute('aN',new THREE.InstancedBufferAttribute(Nn,3));geo.setAttribute('aT',new THREE.InstancedBufferAttribute(Tt,3));geo.setAttribute('aRand',new THREE.InstancedBufferAttribute(Rn,1));geo.setAttribute('aStart',new THREE.InstancedBufferAttribute(St,3));geo.instanceCount=N;U.uBead.value=D*.5;const beads=new THREE.Mesh(geo,beadMat);beads.frustumCulled=false;grp.add(beads);floatG.visible=true;});
   return {renderer,scene,cam3,U,floatG,grp,ready};
 }
