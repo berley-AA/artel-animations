@@ -534,10 +534,12 @@ class Component extends DCLogic {
       if (this._chatOpen) { f.style.top = '0px'; f.style.height = '100%'; wrap.style.minHeight = '620px'; return; }
       const crop = Math.round(lerp(LEDE, w) + 14), end = Math.floor(btnBottom(w) + 3);
       wrap.style.minHeight = (end - crop + 18) + 'px'; /* white under the button */ f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
+    // Nov 5 (Berley): the full-screen takeover is for phones and tablets only. On desktop the chat opens inside its card.
+    const phoneish = () => { try { return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768; } catch (x) { return window.innerWidth < 768; } };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
       if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen;
         // Nov 5 (Berley): the chat takes over the whole screen while it's open (scroll moves the chat, the keyboard lifts the message box), like the homepage
-        if (d.on) { this._chatOpen = true; fit(); if (this._take) this._take.open(); } else { if (this._take) this._take.close(); this._chatOpen = false; fit(); if (was) reset(); } } };
+        if (d.on) { this._chatOpen = true; fit(); if (this._take && phoneish()) { this._take.open(); this._took = true; } } else { if (this._take && this._took) this._take.close(); this._took = false; this._chatOpen = false; fit(); if (was) reset(); } } };
     this._take = window.LuzTakeover ? window.LuzTakeover(f, { bg: '#F5F5F7' }) : null;
     // Nov 5: after a chat ends, the app's closing animation can leave the chat panel peeking out at the sides of
     // the cropped orb screen. Reload the frame fresh (same visitor id, so the conversation is kept), with a short fade.
