@@ -93,17 +93,16 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <script>/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
 (function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();</script>
 <script src="js/three.min.js" defer></script><script src="js/orb-live.js" defer></script>
-<style id="aaTap">.aanav a{white-space:nowrap}@media (pointer:coarse),(max-width:1024px){a.aaf-sm,a.an-logo,a.an-wordmark{position:relative}a.aaf-sm::after,a.an-logo::after,a.an-wordmark::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 16px);height:44px;transform:translate(-50%,-50%)}a.an-logo::after{min-width:44px}}</style><style id="aaFilmCard">/* Nov 4: the film card plays once, then the picture zooms back and tilts back and the line comes in (Apple highlight style) */
-.hlbox.fc{position:relative;container-type:inline-size}
-.hlbox.fc video{transform-origin:50% 100%;transition:transform .9s cubic-bezier(.16,1,.3,1),border-radius .9s ease,box-shadow .9s ease}
-.hlbox.fc.fc-end video{transform:perspective(1700px) translateY(-4cqw) rotateX(13deg) scale(.66);border-radius:22px;box-shadow:0 40px 70px -40px rgba(29,29,31,.35);transition-duration:1.7s}
-.fc-ov{position:absolute;left:0;right:0;top:0;padding:4.4cqw 6cqw 0;display:flex;flex-direction:column;align-items:center;gap:2.2cqw;text-align:center;opacity:0;transform:translateY(2cqw);visibility:hidden;pointer-events:none;transition:opacity .5s ease,transform .5s ease,visibility 0s .5s}
-.fc-end .fc-ov{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity 1s ease .7s,transform 1.3s cubic-bezier(.16,1,.3,1) .7s,visibility 0s 0s}
-.fc-h{margin:0;font-weight:600;letter-spacing:-.022em;line-height:1.1;font-size:max(16px,3.5cqw);color:#1D1D1F}
+<style id="aaTap">.aanav a{white-space:nowrap}@media (pointer:coarse),(max-width:1024px){a.aaf-sm,a.an-logo,a.an-wordmark{position:relative}a.aaf-sm::after,a.an-logo::after,a.an-wordmark::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 16px);height:44px;transform:translate(-50%,-50%)}a.an-logo::after{min-width:44px}}</style><style id="aaFilmCard">/* Nov 4: the film card is the moment from the film where the orb's head rises and tilts back (slowed to 4 s). It plays once, the line comes in on top, and it holds. Click opens the full film. */
+.hlbox.fc{position:relative;container-type:inline-size;background:linear-gradient(180deg,#EBEAED 0%,#EBEAED 66%,#E4E3E6 100%)!important}
+.hlbox.fc video{position:absolute!important;left:50%!important;bottom:0!important;top:auto!important;width:86%!important;height:auto!important;object-fit:fill!important;transform:translateX(-50%);opacity:0;transition:opacity .7s ease;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 13%);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent 0,#000 12%,#000 88%,transparent 100%),linear-gradient(180deg,transparent 0,#000 13%);mask-composite:intersect}
+.hlbox.fc.fc-on video{opacity:1}
+.fc-ov{position:absolute;left:0;right:0;top:13cqw;padding:0 6cqw;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:0;transform:translateY(1.6cqw);pointer-events:none;transition:opacity 1.1s ease,transform 1.4s cubic-bezier(.16,1,.3,1)}
+.fc-end .fc-ov{opacity:1;transform:none}
+.fc-h{margin:0;font-weight:600;letter-spacing:-.022em;line-height:1.1;font-size:max(15px,3.5cqw);color:#1D1D1F}
 .fc-h span{display:block}
-@container (max-width:560px){.hlbox.fc.fc-end video{transform:perspective(1200px) translateY(-2cqw) rotateX(12deg) scale(.58)}.fc-ov{padding-top:4.4cqw}}
 .fc-snap video,.fc-snap .fc-ov{transition:none!important}
-@media (prefers-reduced-motion:reduce){.hlbox.fc video,.fc-ov,.fc-end .fc-ov{transition:none!important}}
+@media (prefers-reduced-motion:reduce){.hlbox.fc video,.fc-ov{transition:none!important}}
 </style><style id="aaFilmRound">/* Nov 4: the film player has round corners from the first frame (Apple fixed radius for big media: 24 px, 20 px on phones); full screen stays square */
 #filmPlayer{border-radius:24px}#aafp{border-radius:24px;overflow:hidden}#filmLayer>button{border-radius:999px!important}
 @media (max-width:767px){#filmPlayer,#aafp{border-radius:20px}}
@@ -547,11 +546,15 @@ class Component extends DCLogic {
     const tr = this._track; if (!tr) return;
     Array.from(tr.children).forEach((card, i) => { const v = card.querySelector('video'); if (!v) return;
       const want = i === this.state.slide && this.state.carIn && this.state.playing && !document.hidden;
-      if (i === 0) { v.loop = false;   // the film card plays once, then zooms back, tilts back and stays there with its line; a click opens the full film
+      if (i === 0) { v.loop = false;   // the film card: the orb's head tilts back once, the line comes in, it holds; a click opens the full film
         const box = v.parentElement, hold = () => { try { v.pause(); if (v.duration && v.currentTime < v.duration - 0.1) v.currentTime = v.duration - 0.02; } catch (x) {} };
-        if (!v._aaFc) { v._aaFc = 1; v.addEventListener('ended', () => { this._fcDone = true; if (box) box.classList.add('fc-end'); });
+        if (!v._aaFc) { v._aaFc = 1;
+          v.addEventListener('playing', () => { if (box) box.classList.add('fc-on'); });
+          v.addEventListener('timeupdate', () => { if (v.currentTime > 2.9 && box) box.classList.add('fc-end'); });
+          v.addEventListener('ended', () => { this._fcDone = true; if (box) box.classList.add('fc-on', 'fc-end'); });
           v.addEventListener('play', () => { if (this._fcDone) hold(); }); v.addEventListener('loadedmetadata', () => { if (this._fcDone) hold(); }); }
-        if (this._fcDone) { if (box && !box.classList.contains('fc-end')) { box.classList.add('fc-snap', 'fc-end'); requestAnimationFrame(() => requestAnimationFrame(() => box.classList.remove('fc-snap'))); } hold(); return; } }   // a redrawn card keeps its end pose without replaying
+        if (this._fcDone) { if (box && !box.classList.contains('fc-end')) { box.classList.add('fc-snap', 'fc-on', 'fc-end'); requestAnimationFrame(() => requestAnimationFrame(() => box.classList.remove('fc-snap'))); } hold(); return; }   // a redrawn card keeps its end pose without replaying
+        if (want && !this._fcSeen) { this._fcSeen = true; try { v.currentTime = 0; } catch (x) {} } }   // starts from the top the first time it is actually on screen
       try { if (want && v.paused) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else if (!want && !v.paused) v.pause(); } catch (x) {} });
   }
   introRelease() {   // the hero intro is done (or they scrolled): show what's below and let its reveals play
@@ -603,7 +606,7 @@ class Component extends DCLogic {
   renderVals() {
     const ph = this.state.phase, chat = (this.props.orbClick ?? 'play') === 'chat';
     const CARDS = [
-      { tag: 'THE FILM', lead: 'The film.', title: 'One minute. Every customer answered.', src: 'assets/24607b9821ac370f9e511139447a460a.mp4', end: true, h1: 'Every store needs a Luz.', h2: 'She never clocks out.' },
+      { tag: 'THE FILM', lead: 'The film.', title: 'One minute. Every customer answered.', src: 'assets/luz-tilt-back.mp4', end: true, h1: 'Every store needs a Luz.', h2: 'She never clocks out.' },
       { tag: 'MONTREAL WEIGHTS', lead: 'Montreal Weights.', title: 'The shop closes. The answers don’t.', src: 'assets/ea790713a03b42d0b02e3550728c8ea2.mp4' },
       { tag: 'NORDIK RECOVERY', lead: 'Nordik Recovery.', title: 'The hard questions, answered before the sale.', src: 'assets/e14b9ea055abc11b74529959994e17a3.mp4' }
     ];
