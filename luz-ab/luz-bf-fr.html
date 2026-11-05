@@ -541,10 +541,16 @@ class Component extends DCLogic {
     const wrap = document.getElementById('luzWrap'), f = document.getElementById('luzChat'); if (!wrap || !f) return;
     const lerp = (T, w) => { if (w <= T[0][0]) return T[0][1]; for (let i = 1; i < T.length; i++) if (w <= T[i][0]) { const [a, va] = T[i - 1], [b, vb] = T[i]; return va + (vb - va) * (w - a) / (b - a); } return T[T.length - 1][1]; };
     const LEDE = [[340, 218], [420, 196], [520, 179], [600, 189], [720, 204], [900, 220]];      // bottom of the app's paragraph, measured
-    const END = [[340, 634], [420, 617], [520, 653], [600, 706], [720, 744], [900, 766]];       // bottom of the "Talk to Luz" button, measured Nov 4 (the line under it is cropped out)
+    // Nov 5 (Berley): "Replies in seconds · EN / FR" sits 10 px under the Talk to Luz button, so the crop has to land right on the button.
+    // The app's layout jumps at 371, 509 and 901 px wide, so the button bottom is measured every 10 px and never blended across a jump.
+    const SEG = [[[300, 634], [370, 634]],
+      [[371, 612], [410, 612], [420, 617], [430, 623], [440, 628], [450, 633], [460, 639], [470, 644], [480, 649], [490, 655], [500, 662], [508, 667]],
+      [[509, 646], [510, 647], [520, 653], [530, 660], [540, 666], [550, 673], [560, 680], [570, 686], [580, 693], [590, 699], [600, 706], [610, 712], [620, 719], [630, 726], [640, 732], [650, 735], [660, 736], [670, 737], [680, 739], [690, 740], [700, 741], [720, 744], [740, 746], [760, 749], [780, 751], [800, 754], [820, 756], [840, 759], [860, 761], [880, 764], [900, 766]],
+      [[901, 700], [920, 701], [940, 702], [960, 704], [980, 705], [1000, 706], [1040, 709], [1080, 711], [1120, 714], [1160, 716], [1200, 719]]];
+    const btnBottom = (w) => { w = Math.floor(w); const S = SEG.find((s) => w <= s[s.length - 1][0]) || SEG[SEG.length - 1]; return lerp(S, w); };
     const fit = () => { const w = wrap.clientWidth;
       if (this._chatOpen) { f.style.top = '0px'; f.style.height = '100%'; wrap.style.minHeight = '620px'; return; }
-      const crop = Math.round(lerp(LEDE, w) + 14), end = Math.round(lerp(END, w) + 6);
+      const crop = Math.round(lerp(LEDE, w) + 14), end = Math.floor(btnBottom(w) + 3);
       wrap.style.minHeight = (end - crop) + 'px'; f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
       if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen;
