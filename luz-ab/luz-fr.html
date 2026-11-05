@@ -89,7 +89,7 @@ input,select,textarea{font:inherit}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FF7B00;outline-offset:2px}
 
 </style>
-<script src="js/lenis.min.js"></script><script src="js/dcrt.js"></script>
+<script src="js/lenis.min.js"></script><script src="js/luz-takeover.js"></script><script src="js/dcrt.js"></script>
 <script>/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
 (function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();</script>
 <script src="js/three.min.js" defer></script><script src="js/orb-live.js" defer></script>
@@ -560,7 +560,10 @@ class Component extends DCLogic {
       const crop = Math.round(lerp(LEDE, w) + 14), end = Math.round(lerp(END, w) + 6);
       wrap.style.minHeight = (end - crop) + 'px'; f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
-      if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen; this._chatOpen = !!d.on; fit(); if (was && !this._chatOpen) reset(); } };
+      if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen;
+        // Nov 5 (Berley): the chat takes over the whole screen while it's open (scroll moves the chat, the keyboard lifts the message box), like the homepage
+        if (d.on) { this._chatOpen = true; fit(); if (this._take) this._take.open(); } else { if (this._take) this._take.close(); this._chatOpen = false; fit(); if (was) reset(); } } };
+    this._take = window.LuzTakeover ? window.LuzTakeover(f, { bg: '#F5F5F7' }) : null;
     // Nov 5: after a chat ends, the app's closing animation can leave the chat panel peeking out at the sides of
     // the cropped orb screen. Reload the frame fresh (same visitor id, so the conversation is kept), with a short fade.
     const reset = () => { clearTimeout(this._chatReset); this._chatReset = setTimeout(() => { if (this._chatOpen) return;
