@@ -432,9 +432,12 @@ class Component extends DCLogic {
       const view = (k, pitch) => ({ k, ox: (cx - ax) * dpr, oy: -(cy - ay) * dpr, pitch, refH: b.height * dpr, px: dpr });
       if (!I.t0) {
         if (!ready) return view(16, POLE);
-        if (I.skip) { I.t0 = now - 1e4; return view(1, 0); }
-        if ((window.scrollY || 0) > 120) { I.t0 = now - 1e4; this.go(1); this.go(2); this.go(3); this.introRelease(); il(() => this.setState({ hintGone: true }), 2500); return view(1, 0); }
-        I.t0 = now; this.go(1); il(() => this.go(2), 1100); il(() => this.go(3), 1500); il(() => this.introRelease(), 1550); il(() => this.setState({ hintGone: true }), 4000);
+        // Nov 5 (Berley: zoom out anyway): if the orb was late, the page already showed; still play the zoom if they're at the top.
+        if (I.skip) { if ((window.scrollY || 0) > 120) { I.t0 = now - 1e4; return view(1, 0); } I.t0 = now; }
+        else {
+          if ((window.scrollY || 0) > 120) { I.t0 = now - 1e4; this.go(1); this.go(2); this.go(3); this.introRelease(); il(() => this.setState({ hintGone: true }), 2500); return view(1, 0); }
+          I.t0 = now; this.go(1); il(() => this.go(2), 1100); il(() => this.go(3), 1500); il(() => this.introRelease(), 1550); il(() => this.setState({ hintGone: true }), 4000);
+        }
       }
       const t = (now - I.t0) / 1000;
       if (t >= TILT_AT + TILT) return view(1, 0);   // landed: same canvas, the orb just stays put and is free to play with
@@ -453,7 +456,9 @@ class Component extends DCLogic {
       const I = this._iv;
       il(() => { if (!I.t0) { I.skip = true; this.go(1); il(() => this.go(2), 600); il(() => this.go(3), 1200); il(() => this.introRelease(), 1250); il(() => this.setState({ hintGone: true }), 4000); } }, 12000);   // fallback: the orb still isn't ready after 12 s, show the page
     };
-    if (reduce) { this.setState({ phase: 3, inkIn: true }); this.later(() => this.setState({ hintGone: true }), 2000); } else { this.startIntro(); }
+    // Nov 5 (Berley): the zoom out plays on every device, Reduce Motion included. Start at the top so a restored scroll doesn't skip it.
+    try { if ('scrollRestoration' in history) history.scrollRestoration = 'manual'; if (!location.hash) window.scrollTo(0, 0); } catch (e) {}
+    this.startIntro();
     this.later(() => { try { const cv = document.getElementById('orb');
       if (window.ArtelOrb && cv) this._orb = window.ArtelOrb.mount(cv, { hit: cv.parentElement, pre: (now, ready) => (this._orbPre ? this._orbPre(now, ready) : null), onClick: () => { if ((this.props.orbClick ?? 'play') === 'chat') { const a = document.getElementById('ask'); if (a) { if (this._lenis) this._lenis.scrollTo(a, { offset: -120 }); else a.scrollIntoView({ behavior: 'smooth', block: 'center' }); const i = document.getElementById('askLuz'); if (i) setTimeout(() => i.focus({ preventScroll: true }), 900); } } } }); } catch (e) {} }, 0);
     // scroll: nav background, the hero settles back
