@@ -93,7 +93,18 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 <script>/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
 (function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();</script>
 <script src="js/three.min.js" defer></script><script src="js/orb-live.js" defer></script>
-<style id="aaTap">.aanav a{white-space:nowrap}@media (pointer:coarse),(max-width:1024px){a.aaf-sm,a.an-logo,a.an-wordmark{position:relative}a.aaf-sm::after,a.an-logo::after,a.an-wordmark::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 16px);height:44px;transform:translate(-50%,-50%)}a.an-logo::after{min-width:44px}}</style><style id="aaFilmRound">/* Nov 4: the film player has round corners from the first frame (Apple fixed radius for big media: 24 px, 20 px on phones); full screen stays square */
+<style id="aaTap">.aanav a{white-space:nowrap}@media (pointer:coarse),(max-width:1024px){a.aaf-sm,a.an-logo,a.an-wordmark{position:relative}a.aaf-sm::after,a.an-logo::after,a.an-wordmark::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 16px);height:44px;transform:translate(-50%,-50%)}a.an-logo::after{min-width:44px}}</style><style id="aaFilmCard">/* Nov 4: the film card plays once, then the picture zooms back and tilts back and the line comes in (Apple highlight style) */
+.hlbox.fc{position:relative;container-type:inline-size}
+.hlbox.fc video{transform-origin:50% 100%;transition:transform .9s cubic-bezier(.16,1,.3,1),border-radius .9s ease,box-shadow .9s ease}
+.hlbox.fc.fc-end video{transform:perspective(1700px) translateY(-4cqw) rotateX(13deg) scale(.66);border-radius:22px;box-shadow:0 40px 70px -40px rgba(29,29,31,.35);transition-duration:1.7s}
+.fc-ov{position:absolute;left:0;right:0;top:0;padding:4.4cqw 6cqw 0;display:flex;flex-direction:column;align-items:center;gap:2.2cqw;text-align:center;opacity:0;transform:translateY(2cqw);visibility:hidden;pointer-events:none;transition:opacity .5s ease,transform .5s ease,visibility 0s .5s}
+.fc-end .fc-ov{opacity:1;transform:none;visibility:visible;pointer-events:auto;transition:opacity 1s ease .7s,transform 1.3s cubic-bezier(.16,1,.3,1) .7s,visibility 0s 0s}
+.fc-h{margin:0;font-weight:600;letter-spacing:-.022em;line-height:1.1;font-size:max(16px,3.5cqw);color:#1D1D1F}
+.fc-h span{display:block}
+@container (max-width:560px){.hlbox.fc.fc-end video{transform:perspective(1200px) translateY(-2cqw) rotateX(12deg) scale(.58)}.fc-ov{padding-top:4.4cqw}}
+.fc-snap video,.fc-snap .fc-ov{transition:none!important}
+@media (prefers-reduced-motion:reduce){.hlbox.fc video,.fc-ov,.fc-end .fc-ov{transition:none!important}}
+</style><style id="aaFilmRound">/* Nov 4: the film player has round corners from the first frame (Apple fixed radius for big media: 24 px, 20 px on phones); full screen stays square */
 #filmPlayer{border-radius:24px}#aafp{border-radius:24px;overflow:hidden}#filmLayer>button{border-radius:999px!important}
 @media (max-width:767px){#filmPlayer,#aafp{border-radius:20px}}
 :root:fullscreen #filmPlayer,:root:fullscreen #aafp,:root:-webkit-full-screen #filmPlayer,:root:-webkit-full-screen #aafp{border-radius:0}</style></head><body>
@@ -178,7 +189,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   <div id="hlTrack" data-m="right" class="track" style="margin-top: 36px; display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2)); padding: 0 max(clamp(20px, 4vw, 64px), calc((100vw - 1240px) / 2)); box-sizing: border-box;">
     <sc-for list="{{cards}}" as="c" hint-placeholder-count="4">
     <article style="flex: 0 0 min(980px, 84vw); scroll-snap-align: start; display: flex; flex-direction: column; min-width: 0;">
-      <div style="aspect-ratio: 16 / 9; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); overflow: hidden;"><video class="hlv" src="{{c.src}}" autoplay="" muted="" loop="" playsinline="" preload="metadata" style="display: block; width: 100%; height: 100%; object-fit: contain;"></video></div>
+      <div class="{{c.boxCls}}" onClick="{{c.boxClick}}" style="cursor: {{c.cur}}; aspect-ratio: 16 / 9; background: #FFFFFF; border: 1px solid rgba(29,29,31,0.12); overflow: hidden;"><video class="hlv" src="{{c.src}}" autoplay="" muted="" loop="" playsinline="" preload="metadata" style="display: block; width: 100%; height: 100%; object-fit: contain;"></video><div class="fc-ov" style="display: {{c.ovDisp}};"><p class="fc-h"><span>{{c.h1}}</span><span>{{c.h2}}</span></p></div></div>
       <p style="margin: 0; padding: 18px 12px 0; font-size: 17px; line-height: 1.45; letter-spacing: -0.005em; color: #6E6E73; max-width: 44ch;"><span style="font-weight: 600; color: #1D1D1F;">{{c.lead}}</span> {{c.title}}</p>
     </article>
     </sc-for>
@@ -536,6 +547,11 @@ class Component extends DCLogic {
     const tr = this._track; if (!tr) return;
     Array.from(tr.children).forEach((card, i) => { const v = card.querySelector('video'); if (!v) return;
       const want = i === this.state.slide && this.state.carIn && this.state.playing && !document.hidden;
+      if (i === 0) { v.loop = false;   // the film card plays once, then zooms back, tilts back and stays there with its line; a click opens the full film
+        const box = v.parentElement, hold = () => { try { v.pause(); if (v.duration && v.currentTime < v.duration - 0.1) v.currentTime = v.duration - 0.02; } catch (x) {} };
+        if (!v._aaFc) { v._aaFc = 1; v.addEventListener('ended', () => { this._fcDone = true; if (box) box.classList.add('fc-end'); });
+          v.addEventListener('play', () => { if (this._fcDone) hold(); }); v.addEventListener('loadedmetadata', () => { if (this._fcDone) hold(); }); }
+        if (this._fcDone) { if (box && !box.classList.contains('fc-end')) { box.classList.add('fc-snap', 'fc-end'); requestAnimationFrame(() => requestAnimationFrame(() => box.classList.remove('fc-snap'))); } hold(); return; } }   // a redrawn card keeps its end pose without replaying
       try { if (want && v.paused) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else if (!want && !v.paused) v.pause(); } catch (x) {} });
   }
   introRelease() {   // the hero intro is done (or they scrolled): show what's below and let its reveals play
@@ -587,7 +603,7 @@ class Component extends DCLogic {
   renderVals() {
     const ph = this.state.phase, chat = (this.props.orbClick ?? 'play') === 'chat';
     const CARDS = [
-      { tag: 'THE FILM', lead: 'The film.', title: 'One minute. Every customer answered.', src: 'assets/24607b9821ac370f9e511139447a460a.mp4' },
+      { tag: 'THE FILM', lead: 'The film.', title: 'One minute. Every customer answered.', src: 'assets/24607b9821ac370f9e511139447a460a.mp4', end: true, h1: 'Every store needs a Luz.', h2: 'She never clocks out.' },
       { tag: 'MONTREAL WEIGHTS', lead: 'Montreal Weights.', title: 'The shop closes. The answers don’t.', src: 'assets/ea790713a03b42d0b02e3550728c8ea2.mp4' },
       { tag: 'NORDIK RECOVERY', lead: 'Nordik Recovery.', title: 'The hard questions, answered before the sale.', src: 'assets/e14b9ea055abc11b74529959994e17a3.mp4' }
     ];
@@ -618,12 +634,12 @@ class Component extends DCLogic {
       orbHint: chat ? 'Tap to start chatting.' : 'Drag or tap to play with her.',
       orbHintCaps: chat ? 'TAP LUZ TO CHAT' : 'DRAG OR TAP LUZ',
       detO: this.state.det ? 1 : 0, detT: this.state.det ? 'none' : 'translateY(28px)',
-      cards: CARDS,
-      dots: CARDS.map((c, i) => ({ label: 'Slide ' + (i + 1) + ' of ' + CARDS.length, on: i === this.state.slide ? 'true' : 'false', w: i === this.state.slide ? '28px' : '8px', bg: 'rgba(29,29,31,0.25)', fw: i === this.state.slide && !auto ? '28px' : '0px', anim: i === this.state.slide && auto ? 'lpfill 7s linear forwards' : 'none', go: () => { take(); scrollToCard(i); } })),
+      cards: CARDS.map((c) => ({ ...c, boxCls: c.end ? 'hlbox fc' : 'hlbox', ovDisp: c.end ? 'flex' : 'none', h1: c.h1 || '', h2: c.h2 || '', cur: c.end ? 'pointer' : 'auto', boxClick: () => { if (c.end) this.openFilmLayer(); } })),
+      dots: CARDS.map((c, i) => ({ label: 'Slide ' + (i + 1) + ' of ' + CARDS.length, on: i === this.state.slide ? 'true' : 'false', w: i === this.state.slide ? '28px' : '8px', bg: 'rgba(29,29,31,0.25)', fw: i === this.state.slide && !auto ? '28px' : '0px', anim: i === this.state.slide && auto ? 'lpfill ' + (c.end ? 11 : 7) + 's linear forwards' : 'none', go: () => { take(); scrollToCard(i); } })),
       carCls: !this.state.playing || !this.state.carIn ? 'car-bar is-paused' : 'car-bar',
       prevCard: () => { take(); scrollToCard((this.state.slide + CARDS.length - 1) % CARDS.length); }, nextCard: () => { take(); scrollToCard((this.state.slide + 1) % CARDS.length); },
       playing: this.state.playing, paused: !this.state.playing, playLabel: this.state.playing ? 'Pause' : 'Play',
-      togglePlay: () => { const p = !this.state.playing; try { document.querySelectorAll('#hlTrack video.hlv').forEach((v) => { if (p) { const q = v.play(); if (q && q.catch) q.catch(() => {}); } else v.pause(); }); } catch (e) {} this.setState({ playing: p }); },
+      togglePlay: () => { const p = !this.state.playing; try { document.querySelectorAll('#hlTrack video.hlv').forEach((v) => { if (p) { if (v.ended) return; const q = v.play(); if (q && q.catch) q.catch(() => {}); } else v.pause(); }); } catch (e) {} this.setState({ playing: p }); },
       openFilm: (e) => { if (e && e.preventDefault) e.preventDefault(); this.openFilmLayer(); },
       closeFilm: (e) => { if (e && e.stopPropagation) e.stopPropagation(); this.closeFilmLayer(); },
       filmBackdrop: (e) => { if (e && e.target && e.target.id === 'filmLayer') this.closeFilmLayer(); },
