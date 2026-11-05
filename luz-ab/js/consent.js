@@ -103,7 +103,7 @@ if (!window.ArtelConsent) {
   var FR = /^fr/i.test(document.documentElement.lang || '') || /^\/fr-ca(\/|$)/.test(location.pathname);
   var T = FR ? {
     title:'Vos témoins, votre choix', body:'On utilise des témoins (cookies) nécessaires au fonctionnement du site. Avec votre accord, on aimerait aussi mesurer l’audience (Google Analytics) et la performance de nos publicités (LinkedIn). Rien ne s’active sans votre consentement. Vous pouvez changer d’idée en tout temps.',
-    privacy:'Politique de confidentialité', privUrl:'https://artelagency.com/fr-ca/politique-de-confidentialite',
+    privacy:'Politique de confidentialité', privUrl:'https://artelagency.com/fr-ca/privacy-policy',
     accept:'Accepter', refuse:'Refuser', settings:'Paramètres', save:'Enregistrer mes choix',
     nec:'Nécessaires', necD:'Toujours actifs. Langue, sécurité et mémoire de vos choix.',
     ana:'Analytique', anaD:'Google Analytics. Statistiques de visite anonymisées.',
