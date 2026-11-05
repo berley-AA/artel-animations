@@ -872,12 +872,10 @@ header.aa-nav.aa-nav-up{transform:translateY(-105%)!important;transition:transfo
 })();</script>
 
 <style id="aaCarGlide">/* Nov 5: switching between the Watch Luz work cards. Apple slides flat cards and shrinks one pill while the next grows. Ours: the card in front comes forward and the others ease back and dim, the clip moves a little slower than its frame, and a dark ink drop stretches from one dot to the next (its front first, then its tail). */
-#hlTrack>article{transform-origin:50% 55%;transform:scale(calc(1 - .055 * var(--dz,0)));opacity:calc(1 - .42 * var(--dz,0))}
-#hlTrack .hlv{translate:calc(var(--px,0) * -4%) 0}
 #highlights .car-bar{position:relative}
 #highlights .car-ink{position:absolute;top:18px;left:0;width:0;height:8px;border-radius:999px;background:#1D1D1F;pointer-events:none;opacity:0;z-index:2}
 #highlights .car-bar.inking .dfill{visibility:hidden}
-@media (prefers-reduced-motion:reduce){#hlTrack>article{transform:none;opacity:1}#hlTrack .hlv{translate:none}#highlights .car-ink{display:none}}
+@media (prefers-reduced-motion:reduce){#highlights .car-ink{display:none}}
 </style>
 <script id="aaCarGlideJs">
 (function(){
@@ -888,13 +886,6 @@ header.aa-nav.aa-nav-up{transform:translateY(-105%)!important;transition:transfo
     if (tr && bar && tr.children.length > 1 && bar.querySelectorAll('.dot').length > 1) return init(tr, bar);
     if (++tries < 200) setTimeout(wait, 100); })();
   function init(tr, bar){
-    /* 1. depth: each card scales and dims by how far it is from the front */
-    var raf = 0;
-    function depth(){ raf = 0; var a = tr.children, s = a[1].offsetLeft - a[0].offsetLeft || 1, mx = tr.scrollWidth - tr.clientWidth;
-      for (var i = 0; i < a.length; i++) { var d = (Math.min(a[i].offsetLeft - a[0].offsetLeft, mx) - tr.scrollLeft) / s;   /* the last card stops where the track ends */ d = Math.max(-1.2, Math.min(1.2, d));
-        a[i].style.setProperty('--dz', Math.min(1, Math.abs(d)).toFixed(3)); a[i].style.setProperty('--px', d.toFixed(3)); } }
-    var q = function(){ if (!raf) raf = requestAnimationFrame(depth); };
-    tr.addEventListener('scroll', q, { passive: true }); window.addEventListener('resize', q); depth();
     /* 2. glide: the page's own "smooth" jump to a card becomes a slower, eased glide */
     var nat = tr.scrollTo.bind(tr), g = 0;
     var ease = function(t){ return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
