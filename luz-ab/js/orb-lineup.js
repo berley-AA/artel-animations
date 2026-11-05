@@ -145,7 +145,7 @@ function lineup(cv,opts){
   const SP=2.35,clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),eio=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
   let w=0,h=0,raf=0,alive=true,running=false,t0=0,vis=false;
   const dprMax=matchMedia('(pointer: coarse)').matches?1:1.25;   // the beads are grainy by design: a lighter canvas looks the same and costs a third
-  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,dprMax);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,dprMax,Math.sqrt(3.2e6/Math.max(1,r.width*r.height)));const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     const AR=w/h,MV=Math.pow(Math.max(1,(16/9)/AR),0.62),m=AR>1.2?1.7:MV*(AR<0.7?2.0:1.65);
     cam.aspect=AR;cam.position.set(-9*m,2*m,14*m);cam.lookAt((AR<0.7?5.75:AR<1?6.1:5),(AR>1.2?0.95:0.55)*m,0);cam.updateProjectionMatrix();}
@@ -165,7 +165,7 @@ function lineup(cv,opts){
   function kick(){if(!raf&&alive)raf=requestAnimationFrame(frame);}
   let io=null;if(opts.manual){}else if('IntersectionObserver' in window){io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)kick();});io.observe(cv);}else vis=true;
   draw(-1,0);
-  const warm=()=>{try{pods.forEach(p=>p.visible=true);renderer.compile(scene,cam);pods.forEach(p=>p.visible=false);}catch(e){}};
+  const warm=()=>{try{pods.forEach(p=>p.visible=true);renderer.compile(scene,cam);pods.forEach(p=>p.visible=false);tex.forEach(x=>{try{renderer.initTexture(x);}catch(e){}});}catch(e){}};
   function c0(){if(window.requestIdleCallback)requestIdleCallback(warm,{timeout:1500});else setTimeout(warm,300);}
   const onR=()=>kick();window.addEventListener('resize',onR);
   return {still(v,t){size();U.uTime.value=t||3;draw(v,t||3);},play(){running=true;t0=performance.now();kick();},reset(){running=false;kick();},

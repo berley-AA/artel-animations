@@ -121,7 +121,7 @@ function mount(cv,opts){
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
     floatG.rotation.set(0.16+tiltX+pitch+(V?V.pitch:0),0.4+tiltY,0);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
     renderer.render(scene,cam3);}
-  let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{onScr=es[es.length-1].isIntersecting;wake();});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
+  let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{const e=es[es.length-1];onScr=e.isIntersecting&&e.intersectionRatio>=0.2;wake();},{threshold:[0,0.2,0.4]});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
   raf=requestAnimationFrame(frame);
   return {destroy(){alive=false;cancelAnimationFrame(raf);if(vio)vio.disconnect();document.removeEventListener('visibilitychange',wake);hit.removeEventListener('pointermove',onMove);hit.removeEventListener('pointerdown',onDown);hit.removeEventListener('pointerup',onUp);hit.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
 }
