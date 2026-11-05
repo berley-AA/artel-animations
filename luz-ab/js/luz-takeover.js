@@ -40,8 +40,10 @@
       if (isOpen) return; isOpen = true; base = f.getAttribute('style') || '';
       if (window.__aaFilmSet) window.__aaFilmSet(true);   // the page's own animation loops wait (also stops smooth scroll), so typing stays smooth
       document.documentElement.classList.add('luz-fs'); lock(); unTrap(); hideChrome(); later(hideChrome, 300);
-      // lift the chat's wrappers to the top layer, so a later section with the same z-index can't paint over the full-screen chat
-      for (var e = f.parentElement; e && e !== document.body; e = e.parentElement) { lifted.push([e, e.style.getPropertyValue('z-index'), e.style.getPropertyPriority('z-index')]); e.style.setProperty('z-index', '2147483647', 'important'); }
+      // nothing may paint over the chat: hide everything around it (each wrapper's siblings) instead of lifting z-index.
+      // Nov 5: lifting the wrappers' z-index made iPhone Safari clip the fixed chat to its old box (blank screen).
+      for (var e = f; e && e !== document.body && e.parentElement; e = e.parentElement) { var kids = e.parentElement.children;
+        for (var k = 0; k < kids.length; k++) { var c = kids[k]; if (c === e || c.__luzSib || /^(SCRIPT|STYLE|LINK)$/.test(c.tagName)) continue; c.__luzSib = 1; lifted.push([c, c.style.getPropertyValue('visibility'), c.style.getPropertyPriority('visibility')]); c.style.setProperty('visibility', 'hidden', 'important'); } }
       var s = f.style; s.setProperty('position', 'fixed', 'important'); s.setProperty('margin', '0', 'important'); s.setProperty('border-radius', '0', 'important');
       s.setProperty('transform', 'none', 'important'); s.setProperty('z-index', '2147483647', 'important'); s.setProperty('background', opts.bg || '#F5F5F7', 'important');
       size(); later(size, 60); later(size, 320);
@@ -50,7 +52,7 @@
     function close() {
       if (!isOpen) return; isOpen = false; timers.forEach(clearTimeout); timers = [];
       if (base) f.setAttribute('style', base); else f.removeAttribute('style');
-      lifted.forEach(function (a) { if (a[1]) a[0].style.setProperty('z-index', a[1], a[2]); else a[0].style.removeProperty('z-index'); }); lifted = [];
+      lifted.forEach(function (a) { a[0].__luzSib = 0; if (a[1]) a[0].style.setProperty('visibility', a[1], a[2]); else a[0].style.removeProperty('visibility'); }); lifted = [];
       showChrome(); reTrap(); unlock(); document.documentElement.classList.remove('luz-fs');
       if (window.__aaFilmSet && !window.__aaFilmByFilm) window.__aaFilmSet(false);
       if (opts.onClose) try { opts.onClose(); } catch (e) {}
