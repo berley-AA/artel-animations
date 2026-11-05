@@ -553,7 +553,12 @@ class Component extends DCLogic {
       const crop = Math.round(lerp(LEDE, w) + 14), end = Math.round(lerp(END, w) + 6);
       wrap.style.minHeight = (end - crop) + 'px'; f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
-      if (d && d.type === 'luz:fullscreen') { this._chatOpen = !!d.on; fit(); } };
+      if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen; this._chatOpen = !!d.on; fit(); if (was && !this._chatOpen) reset(); } };
+    // Nov 5: after a chat ends, the app's closing animation can leave the chat panel peeking out at the sides of
+    // the cropped orb screen. Reload the frame fresh (same visitor id, so the conversation is kept), with a short fade.
+    const reset = () => { clearTimeout(this._chatReset); this._chatReset = setTimeout(() => { if (this._chatOpen) return;
+      f.style.transition = 'opacity .25s ease, filter .6s ease'; f.style.opacity = '0';
+      setTimeout(() => { const done = () => { f.removeEventListener('load', done); setTimeout(() => { f.style.opacity = '1'; }, 150); }; f.addEventListener('load', done); f.src = f.src; setTimeout(() => { f.style.opacity = '1'; }, 4000); }, 260); }, 450); };
     window.addEventListener('message', this._chatMsg); window.addEventListener('resize', fit); fit();
   }
   initPods() {
