@@ -5,8 +5,7 @@
      behind the page, no clicks). The widget sees itself on screen, the orb forms there, then the frame goes back in its card.
    - If the frame is already on screen when it loads (someone lands right on the chat, or the chat reloads after it ends),
      it simply stays invisible in its card for 4.5 s and fades in, already formed.
-   - Right after the page is built, the frame starts loading even if it's far down the page (it was lazy), so this usually
-     happens long before the visitor scrolls there.
+   - The frame stays lazy (it loads as the visitor scrolls toward it), so the hero orb never stutters while the widget loads.
    The frame is never moved in the DOM (that would reload it); only a class goes on and off. */
 (function () {
   var HOLD = 6500, FADE = 4500;   /* the orb starts forming once its dots are built, a moment after the frame loads, then takes 2.6 s */
@@ -36,9 +35,9 @@
     f.addEventListener('load', warm);
     // someone clicks into the chat while it's still hidden: show it right away
     window.addEventListener('message', function (e) { if (/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0]) && e.data && e.data.type === 'luz:fullscreen') clear(); });
-    // start loading the (lazy) frame early, off screen, once the page has settled
-    function eager() { try { if (f.getAttribute('loading') === 'lazy') f.setAttribute('loading', 'eager'); } catch (x) {} }
-    setTimeout(eager, 600);
+    // Nov 5 (Berley: "why is the orb lagging and skipping?"): loading the widget early made the hero orb stutter while it
+    // loaded (both draw with WebGL, and on artelagency.com they share a thread). The frame stays lazy: it loads as the visitor
+    // scrolls toward it, well before it's on screen, and the prewarm above still happens out of sight.
   }
   if (document.readyState !== 'loading') init(); else document.addEventListener('DOMContentLoaded', init);
   setInterval(init, 800);   // the page builds the chat after its own scripts run, and may rebuild it
