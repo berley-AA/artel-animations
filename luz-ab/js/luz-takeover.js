@@ -7,7 +7,7 @@
 (function () {
   function LuzTakeover(f, opts) {
     opts = opts || {};
-    var vv = window.visualViewport, isOpen = false, y = 0, base = '', patched = [], hidden = [], timers = [];
+    var vv = window.visualViewport, isOpen = false, y = 0, base = '', patched = [], hidden = [], timers = [], lifted = [];
     var NEUTRAL = { transition: 'none', translate: 'none', scale: 'none', rotate: 'none', transform: 'none', filter: 'none', perspective: 'none', '-webkit-backdrop-filter': 'none', 'backdrop-filter': 'none', 'will-change': 'auto', contain: 'none' };
     function traps(cs) {   // anything that turns position:fixed into "fixed to this box" instead of "fixed to the screen"
       return (cs.transform && cs.transform !== 'none') || (cs.translate && cs.translate !== 'none') || (cs.scale && cs.scale !== 'none') || (cs.rotate && cs.rotate !== 'none') || (cs.filter && cs.filter !== 'none') || (cs.perspective && cs.perspective !== 'none') ||
@@ -40,6 +40,8 @@
       if (isOpen) return; isOpen = true; base = f.getAttribute('style') || '';
       if (window.__aaFilmSet) window.__aaFilmSet(true);   // the page's own animation loops wait (also stops smooth scroll), so typing stays smooth
       document.documentElement.classList.add('luz-fs'); lock(); unTrap(); hideChrome(); later(hideChrome, 300);
+      // lift the chat's wrappers to the top layer, so a later section with the same z-index can't paint over the full-screen chat
+      for (var e = f.parentElement; e && e !== document.body; e = e.parentElement) { lifted.push([e, e.style.getPropertyValue('z-index'), e.style.getPropertyPriority('z-index')]); e.style.setProperty('z-index', '2147483647', 'important'); }
       var s = f.style; s.setProperty('position', 'fixed', 'important'); s.setProperty('margin', '0', 'important'); s.setProperty('border-radius', '0', 'important');
       s.setProperty('transform', 'none', 'important'); s.setProperty('z-index', '2147483647', 'important'); s.setProperty('background', opts.bg || '#F5F5F7', 'important');
       size(); later(size, 60); later(size, 320);
@@ -48,6 +50,7 @@
     function close() {
       if (!isOpen) return; isOpen = false; timers.forEach(clearTimeout); timers = [];
       if (base) f.setAttribute('style', base); else f.removeAttribute('style');
+      lifted.forEach(function (a) { if (a[1]) a[0].style.setProperty('z-index', a[1], a[2]); else a[0].style.removeProperty('z-index'); }); lifted = [];
       showChrome(); reTrap(); unlock(); document.documentElement.classList.remove('luz-fs');
       if (window.__aaFilmSet && !window.__aaFilmByFilm) window.__aaFilmSet(false);
       if (opts.onClose) try { opts.onClose(); } catch (e) {}
