@@ -28,6 +28,12 @@ function build(src, out, enPath) {
   h = once(h, '<html lang="en">', '<html lang="fr-CA">', 'lang');
   h = once(h, '<a href="' + '/fr-ca' + enPath + '">Français</a>', '<a href="' + enPath + '">English</a>', 'menu language link');
   h = h.replace(/href="(\/[^"]*|\/)"/g, (m, p) => (LINKS[p] ? 'href="' + LINKS[p] + '"' : m));
+  // 3b. nav labels that roll letter by letter: rebuild the letter spans for the French word
+  const esc = (c) => (c === '&' ? '&amp;' : c === '<' ? '&lt;' : c);
+  h = h.replace(/(<a\b([^>]*)>)((?:<span class="aaf-l"[\s\S]*?<\/span><\/span><\/span>)+)(<\/a>)/g, (m, open, attrs, spans, close) => {
+    if (!/class="[^"]*\baaf-roll\b/.test(attrs)) return m; const label = (attrs.match(/aria-label="([^"]*)"/) || [])[1]; const fr = M.text[label]; if (fr === undefined) return m;
+    const step = (spans.match(/transition-delay: ([\d.]+)s;[\s\S]*?transition-delay: ([\d.]+)s;/) || [0, 0, 0.03]); const d = (+step[2] - +step[1]) || 0.03;
+    return open + [...fr].map((c, i) => '<span class="aaf-l" aria-hidden="true"><span class="aaf-lc" style="transition-delay: ' + (i * d).toFixed(3) + 's;"><span class="aaf-lt">' + esc(c) + '</span><span class="aaf-lt aaf-lt2">' + esc(c) + '</span></span></span>').join('') + close; });
   // 4. visible text and attributes, outside <script>/<style>
   const parts = h.split(/(<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>)/);
   for (let i = 0; i < parts.length; i += 2) {
