@@ -115,7 +115,10 @@ function mount(cv,opts){
   /* Nov 5 (Berley): same hands-on feel as the orb in the chat. Hover lifts the beads under the cursor and the orb leans
      toward it; press and swirl to spin her (spin follows the swirl), let go and she keeps turning, then slows down;
      hold still to stop her; a tap sends a ring out across the beads. */
-  const M={x:9,y:9,in:0,lx:0,ly:0};let pulseT=9;
+  const M={x:9,y:9,in:0,lx:0,ly:0};let pulseT=9;const OB={cx:-1e5,cy:-1e5,u:1};
+  /* Nov 5 (Berley): on phones the orb only reacts when the finger is ON her. A touch on the empty space around her scrolls the page as usual.
+     A touch on her body spins and tilts her and the page does not scroll. The orb is 2 units wide and 2.64 tall (rounded ends); the test is a little generous. */
+  function onOrb(e){const dx=Math.abs(e.clientX-OB.cx)/OB.u/1.1,dy=Math.abs(e.clientY-OB.cy)/OB.u/1.5;return dx<=1&&dy<=1&&(Math.pow(dx,4)+Math.pow(dy,4))<=1;}
   function cvp(e){const r=cv.getBoundingClientRect();M.x=(e.clientX-r.left)/r.width*2-1;M.y=-((e.clientY-r.top)/r.height*2-1);}
   /* Nov 5 (Berley): holding and swirling the orb must never select text on the page. While the button or finger is down
      (even after leaving the orb), the page can't be selected; it comes back as soon as it's released. */
@@ -126,21 +129,21 @@ function mount(cv,opts){
   function holdOff(){document.documentElement.classList.remove('aa-orb-hold');document.removeEventListener('selectstart',noSel,true);}
   window.addEventListener('pointerup',holdOff);window.addEventListener('pointercancel',holdOff);window.addEventListener('blur',holdOff);
   function letGo(){drag=null;}
-  function onMove(e){cvp(e);M.in=(e.pointerType==='touch'&&!drag)?0:1;exT=0.35;
-    if(!drag)return;if(e.pointerType==='mouse'&&e.buttons===0){letGo();return;}
+  function onMove(e){if(e.pointerType==='touch'&&!(drag&&!drag.off))return;cvp(e);M.in=1;exT=0.35;
+    if(!drag||drag.off)return;if(e.pointerType==='mouse'&&e.buttons===0){letGo();return;}
     const now=performance.now(),dxp=e.clientX-drag.x,dts=Math.max(0.008,(now-drag.lt)/1000);const dyp=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.lt=now;moved+=Math.abs(dxp)+Math.abs(dyp);
     spin+=dxp*0.008;spinV=spinV+(Math.max(-14,Math.min(14,dxp*0.008/dts))-spinV)*0.5;
     /* Nov 5 (Berley): up and down tilts her backwards and forwards; she springs back upright when let go */
     const q=dyp*0.006;pitch=Math.max(-0.75,Math.min(0.75,pitch+q));pitchV=pitchV+(Math.max(-8,Math.min(8,q/dts))-pitchV)*0.5;}
-  function onDown(e){cvp(e);holdOn();drag={x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};spinV=0;pitchV=0;moved=0;}
+  function onDown(e){const off=e.pointerType==='touch'&&!onOrb(e);if(!off){cvp(e);holdOn();}drag={off:off,x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};moved=0;if(!off){spinV=0;pitchV=0;}}
   function onUp(e){if(!drag)return;const d=Math.abs(e.clientX-drag.x0)+Math.abs(e.clientY-drag.y0),tap=d<10&&(Date.now()-drag.t)<700;
-    if(performance.now()-drag.lt>90){spinV*=0.3;pitchV*=0.3;}letGo();
+    if(performance.now()-drag.lt>90){spinV*=0.3;pitchV*=0.3;}letGo();if(e.pointerType==='touch')M.in=0;
     if(tap&&e.type==='pointerup'){cvp(e);U.uPulseP.value.set(M.x,M.y);pulseT=0;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
   function onLeave(){M.in=0;exT=0;letGo();}
-  hit.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch')M.in=1;});hit.addEventListener('pointercancel',onUp);window.addEventListener('pointerup',letGo);window.addEventListener('blur',letGo);
+  hit.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch')M.in=1;});hit.addEventListener('pointercancel',onUp);window.addEventListener('pointerup',letGo);hit.addEventListener('touchmove',e=>{if(drag&&!drag.off)e.preventDefault();},{passive:false});window.addEventListener('blur',letGo);
   hit.addEventListener('pointermove',onMove);hit.addEventListener('pointerdown',onDown);hit.addEventListener('pointerup',onUp);hit.addEventListener('pointerleave',onLeave);
   function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);V=null;if(opts.pre){try{V=opts.pre(now,floatG.visible);}catch(e){V=null;}}size();floatG.scale.setScalar(((V&&V.refH)||h)*0.68/2.64*(V?V.k:1));const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
-    excite+=(exT-excite)*0.05;const cr=cv.getBoundingClientRect(),hr=hit.getBoundingClientRect(),pk=cr.width?w/cr.width:1,box=Math.max(40,Math.min(hr.width,hr.height)*pk);U.uView.value.set(w,h);U.uBox.value=box;const ocx=(hr.left+hr.width/2-cr.left)/(cr.width||1)*2-1,ocy=-((hr.top+hr.height/2-cr.top)/(cr.height||1)*2-1);const tlx=M.in?Math.max(-1,Math.min(1,(M.x-ocx)*w/box)):0,tly=M.in?Math.max(-1,Math.min(1,(M.y-ocy)*h/box)):0;const ke=1-Math.exp(-dt*5);M.lx+=(tlx-M.lx)*ke;M.ly+=(tly-M.ly)*ke;if(drag&&performance.now()-drag.lt>120){spinV*=Math.exp(-dt*10);pitchV*=Math.exp(-dt*10);}if(!drag){pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;}spin+=((drag?0:0.05)+spinV)*dt;U.uMouse.value.set(M.x,M.y);U.uHover.value+=(M.in-U.uHover.value)*(1-Math.exp(-dt*6));pulseT+=dt;U.uPulseT.value=pulseT;
+    excite+=(exT-excite)*0.05;const cr=cv.getBoundingClientRect(),hr=hit.getBoundingClientRect(),pk=cr.width?w/cr.width:1,box=Math.max(40,Math.min(hr.width,hr.height)*pk);U.uView.value.set(w,h);U.uBox.value=box;{const Sd=((V&&V.refH)||h)*0.68/2.64*(V?V.k:1);OB.u=Sd/pk;OB.cx=cr.left+cr.width/2+(V?V.ox:0)/pk;OB.cy=cr.top+cr.height/2-(V?V.oy:0)/pk;}const ocx=(hr.left+hr.width/2-cr.left)/(cr.width||1)*2-1,ocy=-((hr.top+hr.height/2-cr.top)/(cr.height||1)*2-1);const tlx=M.in?Math.max(-1,Math.min(1,(M.x-ocx)*w/box)):0,tly=M.in?Math.max(-1,Math.min(1,(M.y-ocy)*h/box)):0;const ke=1-Math.exp(-dt*5);M.lx+=(tlx-M.lx)*ke;M.ly+=(tly-M.ly)*ke;const held=drag&&!drag.off;if(held&&performance.now()-drag.lt>120){spinV*=Math.exp(-dt*10);pitchV*=Math.exp(-dt*10);}if(!held){pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}if(!held){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;}spin+=((held?0:0.05)+spinV)*dt;U.uMouse.value.set(M.x,M.y);U.uHover.value+=(M.in-U.uHover.value)*(1-Math.exp(-dt*6));pulseT+=dt;U.uPulseT.value=pulseT;
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
     floatG.rotation.set(0.16-M.ly*0.14+pitch+(V?V.pitch:0),0.4+M.lx*0.18,-M.lx*0.10);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
     renderer.render(scene,cam3);}
