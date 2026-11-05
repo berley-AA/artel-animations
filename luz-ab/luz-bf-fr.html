@@ -551,7 +551,7 @@ class Component extends DCLogic {
     const fit = () => { const w = wrap.clientWidth;
       if (this._chatOpen) { f.style.top = '0px'; f.style.height = '100%'; wrap.style.minHeight = '620px'; return; }
       const crop = Math.round(lerp(LEDE, w) + 14), end = Math.floor(btnBottom(w) + 3);
-      wrap.style.minHeight = (end - crop + 18) + 'px';   // white space under the button, same as above the orb f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
+      wrap.style.minHeight = (end - crop + 18) + 'px'; /* white under the button */ f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
       if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen;
         // Nov 5 (Berley): the chat takes over the whole screen while it's open (scroll moves the chat, the keyboard lifts the message box), like the homepage
