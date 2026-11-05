@@ -44,7 +44,7 @@ function build(THREE,cv){
   const STOPS=[[0,'#fff6e3'],[.087,'#fff6e2'],[.122,'#fff5e1'],[.157,'#fff2dd'],[.192,'#feedd2'],[.227,'#fce6c1'],[.262,'#fadcad'],[.297,'#f8d292'],[.331,'#f4c273'],[.366,'#efae5a'],[.401,'#e69445'],[.436,'#d47b36'],[.471,'#c36730'],[.506,'#a75025'],[.541,'#8e3f1f'],[.576,'#7a351d'],[.610,'#602617'],[.645,'#4e1f14'],[.680,'#401a12'],[.715,'#33140e'],[.750,'#2c110d'],[.785,'#26100e'],[.820,'#210f0e'],[.855,'#1b0e0d'],[.890,'#130c0b'],[.924,'#120d0e'],[.959,'#12100f'],[1,'#1f1c1b']];
   const gc=document.createElement('canvas');gc.width=512;gc.height=1;const g2=gc.getContext('2d');const lg=g2.createLinearGradient(0,0,512,0);STOPS.forEach(s=>lg.addColorStop(s[0],s[1]));g2.fillStyle=lg;g2.fillRect(0,0,512,1);
   const grad=new THREE.CanvasTexture(gc);grad.minFilter=grad.magFilter=THREE.LinearFilter;
-  const U={uGradient:{value:grad},uTime:{value:0},uBreath:{value:0.3},uLift:{value:0},uExcite:{value:0},uSpeak:{value:0},uListen:{value:0},uRippleY:{value:-99},uRippleAmp:{value:0},uClk:{value:new THREE.Vector3(0,0,1)},uClkT:{value:9},uClkA:{value:0},uGather:{value:1},
+  const U={uGradient:{value:grad},uTime:{value:0},uBreath:{value:0.3},uLift:{value:0},uExcite:{value:0},uSpeak:{value:0},uListen:{value:0},uRippleY:{value:-99},uRippleAmp:{value:0},uClk:{value:new THREE.Vector3(0,0,1)},uClkT:{value:9},uClkA:{value:0},uGather:{value:1},uMouse:{value:new THREE.Vector2(9,9)},uHover:{value:0},uPulseP:{value:new THREE.Vector2(9,9)},uPulseT:{value:9},uView:{value:new THREE.Vector2(1,1)},uBox:{value:300},
     uYmin:{value:-B},uYmax:{value:B},uBead:{value:.012},uFlat:{value:.62},uEnv:{value:.9},uMove:{value:.18},uCover:{value:1},uSize:{value:2}};
   const COMMON=`uniform sampler2D uGradient;uniform float uEnv;uniform float uBreath;uniform float uLift;uniform float uRippleY;uniform float uRippleAmp;uniform float uCover;
 float shift(){return 0.0492*uBreath-0.012+uLift;}
@@ -70,15 +70,17 @@ void main(){if(edge(vT,0.0)-0.03<0.0)discard;vec3 s=normalize(vN);vec3 base=shad
   const D=.024;floatG.visible=false;
   const beadMat=new THREE.ShaderMaterial({uniforms:U,
     vertexShader:`attribute vec3 aC;attribute vec3 aN;attribute vec3 aT;attribute float aRand;
-uniform float uBead;uniform float uFlat;uniform float uYmin;uniform float uYmax;uniform float uTime;uniform float uExcite;uniform float uSpeak;uniform float uListen;uniform float uMove;uniform float uRippleY;uniform float uRippleAmp;uniform float uCover;uniform vec3 uClk;uniform float uClkT;uniform float uClkA;uniform float uGather;attribute vec3 aStart;
+uniform float uBead;uniform float uFlat;uniform float uYmin;uniform float uYmax;uniform float uTime;uniform float uExcite;uniform float uSpeak;uniform float uListen;uniform float uMove;uniform float uRippleY;uniform float uRippleAmp;uniform float uCover;uniform vec3 uClk;uniform float uClkT;uniform float uClkA;uniform float uGather;uniform vec2 uMouse;uniform float uHover;uniform vec2 uPulseP;uniform float uPulseT;uniform vec2 uView;uniform float uBox;attribute vec3 aStart;
 varying vec3 vN;varying vec3 vS;varying float vT;varying float vRand;varying float vSpike;varying float vPop;
 void main(){vec3 Bt=cross(aN,aT);vT=(aC.y-uYmin)/(uYmax-uYmin);vRand=aRand;
  float bob=0.5+0.5*sin(uTime*7.0+aRand*6.2831+aC.y*4.0);float spike=uExcite*(0.15+0.85*bob)*(0.3+0.7*aRand);
  float swell=uListen*(0.5+0.5*sin(uTime*2.4-aC.y*3.0+aRand*1.5));float rip=uRippleAmp*exp(-pow((vT-uRippleY)*10.0,2.0));
  float pop=clamp((uCover*1.2-0.08+(aRand-0.5)*0.012-vT)/0.025,0.0,1.0);vPop=pop;
  float cd=distance(aC,uClk),cr=cd-uClkT*1.5;float cw=uClkA*exp(-uClkT*2.0)*sin(cr*16.0)*exp(-cr*cr*6.0)*step(0.0,uClkT);
- float lift=(spike+swell*0.55+rip*0.9)*uMove*(0.3+0.7*smoothstep(0.0,0.25,vT))+(1.0-pop)*0.012+cw*0.045;
- vSpike=spike+rip*0.6+abs(cw)*0.9;float jig=uSpeak*spike*0.35*uMove;
+ vec4 cc=projectionMatrix*modelViewMatrix*vec4(aC,1.0);vec2 sp=cc.xy/cc.w;vec2 dm=(sp-uMouse)*uView*0.5/(uBox*0.5);float hov=uHover*exp(-dot(dm,dm)/0.018);
+ float pd=length((sp-uPulseP)*uView*0.5/(uBox*0.5)),pr=uPulseT*1.6;float pulse=exp(-pow((pd-pr)*14.0,2.0))*exp(-uPulseT*1.4);
+ float lift=(spike+swell*0.55+rip*0.9+hov*0.8+pulse*1.1)*uMove*(0.3+0.7*smoothstep(0.0,0.25,vT))+(1.0-pop)*0.012+cw*0.045;
+ vSpike=spike+rip*0.6+abs(cw)*0.9+pulse*0.8+hov*0.3;float jig=uSpeak*spike*0.35*uMove;
  vec3 off=aN*lift+(aT*sin(uTime*17.0+aRand*40.0)+Bt*cos(uTime*13.0+aRand*31.0))*jig;
  float sz=uBead*(0.82+0.32*fract(aRand*7.31))*(1.0+0.35*min(vSpike,1.0))*pop;
  vec3 p=aC+off+(aT*position.x+Bt*position.y)*sz+aN*position.z*sz*uFlat;
@@ -110,16 +112,27 @@ function mount(cv,opts){
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     cam3.left=-w/2;cam3.right=w/2;cam3.top=h/2;cam3.bottom=-h/2;cam3.updateProjectionMatrix();}
   const hit=opts.hit||cv;function local(e){const r=hit.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};}
-  function onMove(e){const p=local(e);tx=-p.y*0.14;ty=p.x*0.30;exT=0.35;
-    if(drag){const now=performance.now(),dxp=e.clientX-drag.x,dyp=e.clientY-drag.y,dtp=Math.max(8,now-drag.t)/1000;drag.x=e.clientX;drag.y=e.clientY;drag.t=now;moved+=Math.abs(dxp)+Math.abs(dyp);const d=dxp*0.006;spin+=d;spinV=spinV*0.6+(d/dtp)*0.4;const q=dyp*0.006;pitch=Math.max(-0.75,Math.min(0.75,pitch+q));pitchV=pitchV*0.6+(q/dtp)*0.4;}}
-  function onDown(e){drag={x:e.clientX,y:e.clientY,t:performance.now()};spinV=0;pitchV=0;moved=0;try{hit.setPointerCapture(e.pointerId);}catch(x){}}
-  function onUp(e){const was=drag;drag=null;if(was&&performance.now()-was.t>90){spinV=0;pitchV=0;}pitchV=Math.max(-8,Math.min(8,pitchV));spinV=Math.max(-14,Math.min(14,spinV));if(was&&moved<6){const p=local(e);U.uClk.value.set(p.x*1.1,p.y*1.4,0.8);U.uClkT.value=0;U.uClkA.value=1;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
-  function onLeave(){tx=0;ty=0;exT=0;}
+  /* Nov 5 (Berley): same hands-on feel as the orb in the chat. Hover lifts the beads under the cursor and the orb leans
+     toward it; press and swirl to spin her (spin follows the swirl), let go and she keeps turning, then slows down;
+     hold still to stop her; a tap sends a ring out across the beads. */
+  const M={x:9,y:9,in:0,lx:0,ly:0};let pulseT=9;
+  function cvp(e){const r=cv.getBoundingClientRect();M.x=(e.clientX-r.left)/r.width*2-1;M.y=-((e.clientY-r.top)/r.height*2-1);}
+  function letGo(){drag=null;}
+  function onMove(e){cvp(e);M.in=(e.pointerType==='touch'&&!drag)?0:1;exT=0.35;
+    if(!drag)return;if(e.pointerType==='mouse'&&e.buttons===0){letGo();return;}
+    const now=performance.now(),dxp=e.clientX-drag.x,dts=Math.max(0.008,(now-drag.lt)/1000);drag.x=e.clientX;drag.lt=now;moved+=Math.abs(dxp);
+    spin+=dxp*0.008;spinV=spinV+(Math.max(-14,Math.min(14,dxp*0.008/dts))-spinV)*0.5;}
+  function onDown(e){cvp(e);drag={x:e.clientX,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};spinV=0;moved=0;}
+  function onUp(e){if(!drag)return;const d=Math.abs(e.clientX-drag.x0)+Math.abs(e.clientY-drag.y0),tap=d<10&&(Date.now()-drag.t)<700;
+    if(performance.now()-drag.lt>90)spinV*=0.3;letGo();
+    if(tap&&e.type==='pointerup'){cvp(e);U.uPulseP.value.set(M.x,M.y);pulseT=0;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
+  function onLeave(){M.in=0;exT=0;letGo();}
+  hit.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch')M.in=1;});hit.addEventListener('pointercancel',onUp);window.addEventListener('pointerup',letGo);window.addEventListener('blur',letGo);
   hit.addEventListener('pointermove',onMove);hit.addEventListener('pointerdown',onDown);hit.addEventListener('pointerup',onUp);hit.addEventListener('pointerleave',onLeave);
   function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);V=null;if(opts.pre){try{V=opts.pre(now,floatG.visible);}catch(e){V=null;}}size();floatG.scale.setScalar(((V&&V.refH)||h)*0.68/2.64*(V?V.k:1));const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
-    tiltX+=(tx-tiltX)*0.06;tiltY+=(ty-tiltY)*0.06;excite+=(exT-excite)*0.05;if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;spin+=(spinV+0.05)*dt;pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}
+    excite+=(exT-excite)*0.05;const cr=cv.getBoundingClientRect(),hr=hit.getBoundingClientRect(),pk=cr.width?w/cr.width:1,box=Math.max(40,Math.min(hr.width,hr.height)*pk);U.uView.value.set(w,h);U.uBox.value=box;const ocx=(hr.left+hr.width/2-cr.left)/(cr.width||1)*2-1,ocy=-((hr.top+hr.height/2-cr.top)/(cr.height||1)*2-1);const tlx=M.in?Math.max(-1,Math.min(1,(M.x-ocx)*w/box)):0,tly=M.in?Math.max(-1,Math.min(1,(M.y-ocy)*h/box)):0;const ke=1-Math.exp(-dt*5);M.lx+=(tlx-M.lx)*ke;M.ly+=(tly-M.ly)*ke;if(drag&&performance.now()-drag.lt>120)spinV*=Math.exp(-dt*10);if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;}spin+=((drag?0:0.05)+spinV)*dt;U.uMouse.value.set(M.x,M.y);U.uHover.value+=(M.in-U.uHover.value)*(1-Math.exp(-dt*6));pulseT+=dt;U.uPulseT.value=pulseT;
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
-    floatG.rotation.set(0.16+tiltX+pitch+(V?V.pitch:0),0.4+tiltY,0);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
+    floatG.rotation.set(0.16-M.ly*0.14+(V?V.pitch:0),0.4+M.lx*0.18,-M.lx*0.10);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
     renderer.render(scene,cam3);}
   let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{const e=es[es.length-1];onScr=e.isIntersecting&&e.intersectionRatio>=0.2;wake();},{threshold:[0,0.2,0.4]});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
   raf=requestAnimationFrame(frame);
