@@ -89,7 +89,7 @@ input,select,textarea{font:inherit}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FF7B00;outline-offset:2px}
 
 </style>
-<script src="js/lenis.min.js"></script><script src="js/luz-takeover.js"></script><script src="js/dcrt.js"></script>
+<script src="js/lenis.min.js"></script><script src="js/luz-takeover.js"></script><style>#aa-loop{display:none!important}</style><script>/* Nov 5: the homepage's end-of-page hero copy (#aa-loop) is not for these pages */(function(){function k(){var e=document.getElementById('aa-loop');if(e&&e.parentNode)e.parentNode.removeChild(e);}k();try{new MutationObserver(k).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}})();</script><script src="js/dcrt.js"></script>
 <script>/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
 (function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();</script>
 <script src="js/three.min.js" defer></script><script src="js/orb-live.js" defer></script>
@@ -647,12 +647,25 @@ class Component extends DCLogic {
     const r = L.getBoundingClientRect(), vh = window.innerHeight || 900;
     if (!(r.top < 0.3 * vh && r.top > -r.height / 2)) return;
     this._jumping = 1; const target = (window.scrollY || 0) + r.top, ln = this._lenis;
+    // Nov 5 (Berley: smooth on phones, no skip): while the card glides up, finger and wheel input is held, which also stops
+    // iOS momentum, so nothing fights the glide or carries the page past the hero after the jump. The glide is drawn frame by
+    // frame (Lenis when it runs, our own tween when it doesn't, e.g. Reduce Motion), and the jump waits for the glide to end.
+    const html = document.documentElement; let lastIn = performance.now(); const hold = (ev) => { lastIn = performance.now(); if (ev.cancelable) ev.preventDefault(); };
+    const lock = (on) => { try { if (on) { html.style.overflow = 'hidden'; window.addEventListener('touchmove', hold, { passive: false }); window.addEventListener('wheel', hold, { passive: false }); }
+      else { html.style.overflow = ''; window.removeEventListener('touchmove', hold, { passive: false }); window.removeEventListener('wheel', hold, { passive: false }); } } catch (x) {} };
+    lock(true);
     const land = () => { if (this._jumping !== 1) return; this._jumping = 2;
-      if (ln) { ln.scrollTo(0, { immediate: true, force: true }); ln.start(); } else window.scrollTo(0, 0);
+      const sb = html.style.scrollBehavior; html.style.scrollBehavior = 'auto';
+      if (ln) { ln.scrollTo(0, { immediate: true, force: true }); } window.scrollTo(0, 0); html.style.scrollBehavior = sb;
       try { this.rearm(); } catch (x) {}
-      setTimeout(() => { this._jumping = 0; this._lastY = window.scrollY || 0; this._dir = 0; }, 700); };
+      // give the page back once the leftover momentum (iOS flick, trackpad inertia) has stopped: no input for 220 ms, at least 450 ms, at most 1.6 s
+      const tl = performance.now(), rel = () => { const now = performance.now(); if ((now - tl > 450 && now - lastIn > 220) || now - tl > 1600) { lock(false); if (ln) ln.start(); this._jumping = 0; this._lastY = window.scrollY || 0; this._dir = 0; } else setTimeout(rel, 60); }; setTimeout(rel, 450); };
     if (ln) { ln.start(); ln.scrollTo(target, { duration: 0.55, easing: (t) => 1 - Math.pow(1 - t, 3), lock: true, force: true, onComplete: land }); }
-    else { window.scrollTo({ top: target, behavior: 'smooth' }); setTimeout(land, 600); }
+    else { const y0 = window.scrollY || 0, t0 = performance.now(), D = 550, R = window.__aaRAF || window.requestAnimationFrame.bind(window);
+      const sb = html.style.scrollBehavior; html.style.scrollBehavior = 'auto';
+      const step = (now) => { const t = Math.min(1, (now - t0) / D), e = 1 - Math.pow(1 - t, 3); window.scrollTo(0, y0 + (target - y0) * e);
+        if (t < 1) R(step); else { html.style.scrollBehavior = sb; land(); } };
+      R(step); }
     setTimeout(() => { if (this._jumping === 1) land(); }, 1200);
   }
   openFilmLayer() {   // full-screen player: pause the page films, lock the page, play with sound
