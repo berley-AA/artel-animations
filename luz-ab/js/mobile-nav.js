@@ -17,7 +17,9 @@
       'html body header:not(.an-header){display:none!important}' +
       '.an-header,.an-panel{display:block}' +
       '.an-header{position:fixed;top:0;left:0;right:0;z-index:10001}' +
-      '.an-capsule{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:56px;padding:0 20px;background:rgba(229,229,229,.94);color:#000;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:0;box-shadow:none}' +
+      /* Nov 5 (Berley): the bar is the page's own colour, so it blends in; glass.js leaves it alone */
+      '.an-capsule{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:56px;padding:0 20px;background:var(--an-bg,#F5F5F7);color:#000;border:0;box-shadow:none}' +
+      'html body .an-header,html body .an-header.aa-lg-bar{background:none!important;background-image:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important;box-shadow:none!important;border:0!important}' +
       '.an-capsule .an-logo,.an-capsule .an-wordmark{display:block;text-decoration:none;color:inherit!important}' +
       '.an-logo{justify-self:start;width:24px;height:24px}.an-wordmark{justify-self:center;width:78.3px;height:18px}' +
       '.an-capsule .an-mask{display:block;width:100%;height:100%;background:#000!important;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain}' +
@@ -44,10 +46,11 @@
       '.an-lang a{text-decoration:none;font-weight:500;color:#8E8E93}.an-lang a.is-active{font-weight:700;color:#FF8A00}.an-lang span{width:1px;height:14px;background:#8E8E93}' +
       '.aa-ctl{display:none!important}' +
     '}' +
-    '@media (prefers-reduced-motion:reduce){.an-panel,.an-bar,.an-bar i{transition:none!important}.an-item,.an-lang{animation:none!important;opacity:1!important}}';
+    '';   /* Nov 5 (Berley): the lines-to-dots animation and the menu play with Reduce Motion on too, like on the homepage */
   function init() {
     if (document.querySelector('.an-header')) return;
     var st = document.createElement('style'); st.id = 'aaMobNav'; st.textContent = css; document.head.appendChild(st);
+    try { var bg = getComputedStyle(document.body).backgroundColor; if (!bg || /rgba\(0, 0, 0, 0\)|transparent/.test(bg)) bg = getComputedStyle(document.documentElement).backgroundColor; if (bg && !/rgba\(0, 0, 0, 0\)|transparent/.test(bg)) document.documentElement.style.setProperty('--an-bg', bg); } catch (e) {}
     var path = location.pathname, FR = /^\/fr-ca(\/|$)/.test(path), base = FR ? (path.replace(/^\/fr-ca/, '') || '/') : path, pre = FR ? '/fr-ca' : '';
     var items = [['The Lab', 'Le Lab', pre + '/labs'], ['Results', 'Résultats', pre + '/#aa-results'], ['About', 'À propos', pre + '/#about'],
       ['Process', 'Processus', pre + '/#process'], ['FAQ', 'FAQ', pre + '/faq'], ['Login', 'Connexion', 'https://app.artelagency.com']];
