@@ -322,8 +322,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 /* Full film: 16:9 on laptops and tablets, the 4:5 cut on phones held upright (same rule as the #filmPlayer CSS). */
 const AA_FILM_HOST = 'https://berley-aa.github.io/artel-animations/luz-film/';
 try { const l = document.createElement('link'); l.rel = 'preconnect'; l.href = 'https://berley-aa.github.io'; document.head.appendChild(l); } catch (x) {}
-/* Nov 4: the 16:9 film is served from GitHub Pages (jsDelivr refuses files over ~5 MB). 1440p60 where the player is drawn on 2,200+ real pixels (retina laptops, big screens), 1080p60 otherwise. Both CRF 17 from the 4K master. */
-function aaFilmSrc() { let tall = false, px = 1920; try { tall = window.matchMedia('(orientation: portrait) and (max-width: 820px)').matches; px = Math.min(window.innerWidth, 1600) * (window.devicePixelRatio || 1); } catch (x) {} if (tall) return 'assets/luz-film-4x5.mp4'; return AA_FILM_HOST + (px >= 2200 ? 'luz-film-16x9-1440.mp4' : 'luz-film-16x9-1080.mp4'); }
+/* Nov 4: the films are served from GitHub Pages (phones in portrait get the 4:5 cut at 1080x1350, 60 fps) (jsDelivr refuses files over ~5 MB). 1440p60 where the player is drawn on 2,200+ real pixels (retina laptops, big screens), 1080p60 otherwise. Both CRF 17 from the 4K master. */
+function aaFilmSrc() { let tall = false, px = 1920; try { tall = window.matchMedia('(orientation: portrait) and (max-width: 820px)').matches; px = Math.min(window.innerWidth, 1600) * (window.devicePixelRatio || 1); } catch (x) {} if (tall) return AA_FILM_HOST + 'luz-film-4x5-1350.mp4'; return AA_FILM_HOST + (px >= 2200 ? 'luz-film-16x9-1440.mp4' : 'luz-film-16x9-1080.mp4'); }
 function aaSendApplication(d, page) {
   const v = (k, n) => String(d[k] || '').replace(/\s+/g, ' ').trim().slice(0, n || 200);
   const lines = [
