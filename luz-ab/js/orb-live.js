@@ -128,19 +128,21 @@ function mount(cv,opts){
   function letGo(){drag=null;}
   function onMove(e){cvp(e);M.in=(e.pointerType==='touch'&&!drag)?0:1;exT=0.35;
     if(!drag)return;if(e.pointerType==='mouse'&&e.buttons===0){letGo();return;}
-    const now=performance.now(),dxp=e.clientX-drag.x,dts=Math.max(0.008,(now-drag.lt)/1000);drag.x=e.clientX;drag.lt=now;moved+=Math.abs(dxp);
-    spin+=dxp*0.008;spinV=spinV+(Math.max(-14,Math.min(14,dxp*0.008/dts))-spinV)*0.5;}
-  function onDown(e){cvp(e);holdOn();drag={x:e.clientX,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};spinV=0;moved=0;}
+    const now=performance.now(),dxp=e.clientX-drag.x,dts=Math.max(0.008,(now-drag.lt)/1000);const dyp=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.lt=now;moved+=Math.abs(dxp)+Math.abs(dyp);
+    spin+=dxp*0.008;spinV=spinV+(Math.max(-14,Math.min(14,dxp*0.008/dts))-spinV)*0.5;
+    /* Nov 5 (Berley): up and down tilts her backwards and forwards; she springs back upright when let go */
+    const q=dyp*0.006;pitch=Math.max(-0.75,Math.min(0.75,pitch+q));pitchV=pitchV+(Math.max(-8,Math.min(8,q/dts))-pitchV)*0.5;}
+  function onDown(e){cvp(e);holdOn();drag={x:e.clientX,y:e.clientY,x0:e.clientX,y0:e.clientY,t:Date.now(),lt:performance.now()};spinV=0;pitchV=0;moved=0;}
   function onUp(e){if(!drag)return;const d=Math.abs(e.clientX-drag.x0)+Math.abs(e.clientY-drag.y0),tap=d<10&&(Date.now()-drag.t)<700;
-    if(performance.now()-drag.lt>90)spinV*=0.3;letGo();
+    if(performance.now()-drag.lt>90){spinV*=0.3;pitchV*=0.3;}letGo();
     if(tap&&e.type==='pointerup'){cvp(e);U.uPulseP.value.set(M.x,M.y);pulseT=0;exT=0.9;setTimeout(()=>{exT=0.35},500);if(opts.onClick)opts.onClick();}}
   function onLeave(){M.in=0;exT=0;letGo();}
   hit.addEventListener('pointerenter',e=>{if(e.pointerType!=='touch')M.in=1;});hit.addEventListener('pointercancel',onUp);window.addEventListener('pointerup',letGo);window.addEventListener('blur',letGo);
   hit.addEventListener('pointermove',onMove);hit.addEventListener('pointerdown',onDown);hit.addEventListener('pointerup',onUp);hit.addEventListener('pointerleave',onLeave);
   function frame(now){if(!alive)return;if(!onScr||document.hidden){raf=0;return;}raf=requestAnimationFrame(frame);V=null;if(opts.pre){try{V=opts.pre(now,floatG.visible);}catch(e){V=null;}}size();floatG.scale.setScalar(((V&&V.refH)||h)*0.68/2.64*(V?V.k:1));const dt=Math.min(0.05,(now-last)/1000);last=now;const t=(now-t0)/1000;
-    excite+=(exT-excite)*0.05;const cr=cv.getBoundingClientRect(),hr=hit.getBoundingClientRect(),pk=cr.width?w/cr.width:1,box=Math.max(40,Math.min(hr.width,hr.height)*pk);U.uView.value.set(w,h);U.uBox.value=box;const ocx=(hr.left+hr.width/2-cr.left)/(cr.width||1)*2-1,ocy=-((hr.top+hr.height/2-cr.top)/(cr.height||1)*2-1);const tlx=M.in?Math.max(-1,Math.min(1,(M.x-ocx)*w/box)):0,tly=M.in?Math.max(-1,Math.min(1,(M.y-ocy)*h/box)):0;const ke=1-Math.exp(-dt*5);M.lx+=(tlx-M.lx)*ke;M.ly+=(tly-M.ly)*ke;if(drag&&performance.now()-drag.lt>120)spinV*=Math.exp(-dt*10);if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;}spin+=((drag?0:0.05)+spinV)*dt;U.uMouse.value.set(M.x,M.y);U.uHover.value+=(M.in-U.uHover.value)*(1-Math.exp(-dt*6));pulseT+=dt;U.uPulseT.value=pulseT;
+    excite+=(exT-excite)*0.05;const cr=cv.getBoundingClientRect(),hr=hit.getBoundingClientRect(),pk=cr.width?w/cr.width:1,box=Math.max(40,Math.min(hr.width,hr.height)*pk);U.uView.value.set(w,h);U.uBox.value=box;const ocx=(hr.left+hr.width/2-cr.left)/(cr.width||1)*2-1,ocy=-((hr.top+hr.height/2-cr.top)/(cr.height||1)*2-1);const tlx=M.in?Math.max(-1,Math.min(1,(M.x-ocx)*w/box)):0,tly=M.in?Math.max(-1,Math.min(1,(M.y-ocy)*h/box)):0;const ke=1-Math.exp(-dt*5);M.lx+=(tlx-M.lx)*ke;M.ly+=(tly-M.ly)*ke;if(drag&&performance.now()-drag.lt>120){spinV*=Math.exp(-dt*10);pitchV*=Math.exp(-dt*10);}if(!drag){pitchV+=(-pitch*16-pitchV*3.2)*dt;pitch+=pitchV*dt;pitch=Math.max(-0.9,Math.min(0.9,pitch));}if(!drag){spinV*=Math.exp(-dt*0.55);if(Math.abs(spinV)<0.002)spinV=0;}spin+=((drag?0:0.05)+spinV)*dt;U.uMouse.value.set(M.x,M.y);U.uHover.value+=(M.in-U.uHover.value)*(1-Math.exp(-dt*6));pulseT+=dt;U.uPulseT.value=pulseT;
     U.uTime.value=t;U.uBreath.value=0.3+0.25*Math.sin(t*0.9);U.uExcite.value=excite;U.uClkT.value+=dt;
-    floatG.rotation.set(0.16-M.ly*0.14+(V?V.pitch:0),0.4+M.lx*0.18,-M.lx*0.10);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
+    floatG.rotation.set(0.16-M.ly*0.14+pitch+(V?V.pitch:0),0.4+M.lx*0.18,-M.lx*0.10);grp.rotation.y=spin;floatG.position.x=V?V.ox:0;floatG.position.y=(V?V.oy:0)+Math.sin(t*0.8)*((V&&V.refH)||h)*0.006;
     renderer.render(scene,cam3);}
   let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{const e=es[es.length-1];onScr=e.isIntersecting&&e.intersectionRatio>=0.2;wake();},{threshold:[0,0.2,0.4]});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
   raf=requestAnimationFrame(frame);
