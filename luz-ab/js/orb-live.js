@@ -108,7 +108,7 @@ function mount(cv,opts){
   const {renderer,scene,cam3,U,floatG,grp}=G;
   let w=0,h=0,raf=0,alive=true,t0=performance.now(),last=t0;
   let tiltX=0,tiltY=0,tx=0,ty=0,spin=0.6,spinV=0,pitch=0,pitchV=0,drag=null,lastT=0,moved=0,excite=0,exT=0;
-  let V=null;function size(){const r=cv.getBoundingClientRect(),dpr=(V&&V.px)||Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  let V=null;function size(){/* Nov 10: layout size, not on-screen size. The hero shrinks (CSS scale) as the page scrolls; measuring the scaled box resized the WebGL canvas on most scroll frames, 40 to 200 ms each, and that was the page sticking. */const r={width:cv.clientWidth||cv.getBoundingClientRect().width,height:cv.clientHeight||cv.getBoundingClientRect().height},dpr=(V&&V.px)||Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     cam3.left=-w/2;cam3.right=w/2;cam3.top=h/2;cam3.bottom=-h/2;cam3.updateProjectionMatrix();}
   const hit=opts.hit||cv;function local(e){const r=hit.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};}
