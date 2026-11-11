@@ -106,7 +106,7 @@ function mount(cv,opts){
   const {renderer,scene,cam3,U,floatG,grp}=G;
   let w=0,h=0,raf=0,alive=true,t0=performance.now(),last=t0;
   let tiltX=0,tiltY=0,tx=0,ty=0,spin=0.6,spinV=0,pitch=0,pitchV=0,drag=null,lastT=0,moved=0,excite=0,exT=0;
-  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  function size(){/* Nov 10: layout size, not on-screen size. The hero shrinks (CSS scale) as the page scrolls; measuring the scaled box resized the WebGL canvas on most scroll frames, 40 to 200 ms each, and that was the page sticking. */const r={width:cv.clientWidth||cv.getBoundingClientRect().width,height:cv.clientHeight||cv.getBoundingClientRect().height},dpr=Math.min(window.devicePixelRatio||1,2);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     cam3.left=-w/2;cam3.right=w/2;cam3.top=h/2;cam3.bottom=-h/2;cam3.updateProjectionMatrix();floatG.scale.setScalar(h*0.68/2.64);}
   function local(e){const r=cv.getBoundingClientRect();return {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};}
@@ -145,7 +145,7 @@ function lineup(cv,opts){
   const SP=2.35,clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),eio=x=>x<.5?2*x*x:1-Math.pow(-2*x+2,2)/2;
   let w=0,h=0,raf=0,alive=true,running=false,t0=0,vis=false;
   const dprMax=matchMedia('(pointer: coarse)').matches?1:1.25;   // the beads are grainy by design: a lighter canvas looks the same and costs a third
-  function size(){const r=cv.getBoundingClientRect(),dpr=Math.min(window.devicePixelRatio||1,dprMax);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
+  function size(){/* Nov 10: layout size, not on-screen size. The hero shrinks (CSS scale) as the page scrolls; measuring the scaled box resized the WebGL canvas on most scroll frames, 40 to 200 ms each, and that was the page sticking. */const r={width:cv.clientWidth||cv.getBoundingClientRect().width,height:cv.clientHeight||cv.getBoundingClientRect().height},dpr=Math.min(window.devicePixelRatio||1,dprMax);const nw=Math.max(2,Math.round(r.width*dpr)),nh=Math.max(2,Math.round(r.height*dpr));
     if(nw===w&&nh===h)return;w=nw;h=nh;renderer.setPixelRatio(1);renderer.setSize(w,h,false);
     const AR=w/h,MV=Math.pow(Math.max(1,(16/9)/AR),0.62),m=AR>1.2?1.7*Math.max(0.6,Math.pow(Math.min(1,(16/9)/AR),0.75)):MV*(AR<0.7?2.0:1.65);   /* Nov 5: the section is now a short break (about half a screen), so on wide strips the camera moves in to keep the orbs their old size */
     cam.aspect=AR;cam.position.set(-9*m,2*m,14*m);cam.lookAt((AR<0.7?5.75:AR<1?6.1:5),(AR>1.2?0.95:0.55)*m,0);cam.updateProjectionMatrix();}
