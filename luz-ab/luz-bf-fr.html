@@ -271,6 +271,23 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
 .aa-how-cta small{font-size:13px;color:#6E6E73}
 @media (max-width:560px){.aa-how-dot span{font-size:11px}.aa-how-step h3{font-size:40px}}
 @media (prefers-reduced-motion:reduce){.aa-how-stage{position:static;height:auto;padding:48px 0}.aa-how-steps{display:flex;flex-direction:column;gap:40px}.aa-how-step{opacity:1!important;transform:none!important;transition:none}.aa-how-step .n{display:block}}
+</style><style id="aaHowRules">/* Nov 11 (Berley): design rules from the "20 design terms" reel, on the How we work timeline.
+   Widow: no lone word or split hyphen on a step's last line. Tabular numbers: Day 1 / Days 2-3 / Days 4-7 line up.
+   Stagger + interruptible: the old step leaves fast, then number, title, line arrive one after another, so two steps never overlap.
+   Affordance + touch target: each dot is a 44px button that takes you to its step. The orange line grows with transform (no layout per scroll frame). */
+.aa-how-step p{text-wrap:balance}
+.aa-how-dot span,.aa-how-step .n{font-variant-numeric:tabular-nums}
+.aa-how-rail .fl{width:75%!important;transform-origin:0 50%;transform:scaleX(0);will-change:transform}
+.aa-how-step{transform:none!important;transition:opacity .2s ease!important}
+.aa-how-step.on{transition:opacity .2s ease .12s!important}
+.aa-how-step>*{opacity:0;transform:translateY(14px);transition:opacity .18s ease,transform .18s ease}
+.aa-how-step.out>*{transform:translateY(-14px)}
+.aa-how-step.on>*{opacity:1;transform:none;transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.aa-how-step.on>:nth-child(1){transition-delay:.12s}.aa-how-step.on>:nth-child(2){transition-delay:.18s}.aa-how-step.on>:nth-child(3){transition-delay:.24s}
+.aa-how-dot{cursor:pointer;min-height:44px;min-width:44px;-webkit-tap-highlight-color:transparent}
+.aa-how-dot:before{content:"";position:absolute;left:50%;top:7px;width:44px;height:44px;transform:translate(-50%,-50%);border-radius:50%}
+@media (hover:hover){.aa-how-dot:hover i{border-color:#FF7B00}.aa-how-dot:hover span{color:#1D1D1F}}
+@media (prefers-reduced-motion:reduce){.aa-how-step>*{opacity:1!important;transform:none!important;transition:none!important}.aa-how-rail .fl{transform:none!important}}
 </style>
   <div class="aa-how-head">
     <h2 data-m="up">Luz sur votre boutique dès la semaine prochaine?</h2>
@@ -286,10 +303,10 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
         <div class="aa-how-dot"><i></i><span>Chaque mois</span></div>
       </div>
       <ol class="aa-how-steps" style="list-style: none; margin: 0; padding: 0;">
-        <li class="aa-how-step"><span class="n">Jour 1</span><h3>Un appel de 30 minutes.</h3><p>Montrez-nous où les questions s’accumulent.</p></li>
+        <li class="aa-how-step"><span class="n">Jour 1</span><h3>Un appel de 30 minutes.</h3><p>Montrez-nous où les questions s’accumulent.</p></li>
         <li class="aa-how-step"><span class="n">Jours 2–3</span><h3>Nous apprenons votre boutique.</h3><p>Politiques, produits, anciennes réponses. Vous n’écrivez rien.</p></li>
         <li class="aa-how-step"><span class="n">Jours 4–7</span><h3>Nous la bâtissons et la testons.</h3><p>Sur vos vraies conversations. Vous l’approuvez avant le lancement.</p></li>
-        <li class="aa-how-step"><span class="n">Chaque mois</span><h3>En ligne, et de mieux en mieux.</h3><p>Nous lisons ses conversations. Vous recevez un rapport d’une page.</p></li>
+        <li class="aa-how-step"><span class="n">Chaque mois</span><h3>En ligne, et de mieux en mieux.</h3><p>Nous lisons ses conversations. Vous recevez un rapport d’une page.</p></li>
       </ol>
       <div class="aa-how-cta">
     <a href="#ask">Vérifier si ma boutique est admissible</a>
@@ -306,7 +323,7 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
     if(reduce){steps.forEach(function(s){s.classList.add('on');});dots.forEach(function(d){d.classList.add('done');});fill.style.width='75%';return;}
     function H(){return window.innerHeight||800;}
     function size(){pin.style.height=Math.round(H()*(N*0.85+0.6))+'px';}
-    function set(i,p){fill.style.width=(75*Math.min(1,p*N/(N-0.15)))+'%';if(i===cur)return;cur=i;
+    function set(i,p){fill.style.transform='scaleX('+Math.min(1,p*N/(N-0.15)).toFixed(4)+')';if(i===cur)return;cur=i;
       steps.forEach(function(s,k){s.classList.toggle('on',k===i);s.classList.toggle('out',k<i);s.setAttribute('aria-hidden',k===i?'false':'true');});
       dots.forEach(function(d,k){d.classList.toggle('done',k<=i);d.classList.toggle('now',k===i);});}
     function tick(){tk=false;var h=H(),top=pin.getBoundingClientRect().top,run=pin.offsetHeight-h,p=Math.min(1,Math.max(0,-top/Math.max(1,run)));set(Math.min(N-1,Math.floor(p*N)),p);}
@@ -315,7 +332,9 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
     window.addEventListener('resize',function(){size();tick();});
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
-})();</script>
+})();</script><script id="aaHowDots">(function(){function go(){var sec=document.querySelector('.aa-how');if(!sec)return setTimeout(go,300);var pin=sec.querySelector('.aa-how-pin'),dots=[].slice.call(sec.querySelectorAll('.aa-how-dot')),N=dots.length;if(!pin||!N)return;
+dots.forEach(function(d,k){d.addEventListener('click',function(){var h=window.innerHeight||800,run=pin.offsetHeight-h,top=pin.getBoundingClientRect().top+(window.pageYOffset||0);window.scrollTo({top:Math.round(top+run*(k+0.5)/N),behavior:'smooth'});});});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();</script>
 </section>
 
 <style id="aaBookSide">/* Nov 5 (Berley): on desktop and big screens the heading and its line sit to the left of the chat, the chat takes the right. Under 992px nothing changes (text on top, chat below). */@media (min-width:992px){#book>div{display:grid!important;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(40px,5vw,96px)!important;align-items:center}#book>div>div:first-child{max-width:none!important}#book #ask{max-width:none!important}}</style>
