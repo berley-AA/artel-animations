@@ -587,8 +587,8 @@ class Component extends DCLogic {
     const btnBottom = (w) => { w = Math.floor(w); const S = SEG.find((s) => w <= s[s.length - 1][0]) || SEG[SEG.length - 1]; return lerp(S, w); };
     const fit = () => { const w = wrap.clientWidth;
       if (this._chatOpen) { f.style.top = '0px'; f.style.height = '100%'; wrap.style.minHeight = '620px'; return; }
-      const crop = Math.round(lerp(LEDE, w) + 14), end = Math.floor(btnBottom(w) + 3);
-      wrap.style.minHeight = (end - crop + 14) + 'px'; /* Nov 11: 14px of white under the button, the card's bottom edge (under 20px, Berley) */ f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
+      const crop = Math.round(lerp(LEDE, w) + 14), end = Math.floor(btnBottom(w) + 9); /* Nov 11: the orb area runs 9px under the button, right to the card's bottom edge (the app's small line starts 10px under the button) */
+      wrap.style.minHeight = (end - crop) + 'px'; /* Nov 11: particles reach the card's bottom edge, no white band (Berley) */ f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     // Nov 5 (Berley): the full-screen takeover is for phones and tablets only. On desktop the chat opens inside its card.
     const phoneish = () => { try { return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768; } catch (x) { return window.innerWidth < 768; } };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
