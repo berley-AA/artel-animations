@@ -275,7 +275,7 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
    Widow: no lone word or split hyphen on a step's last line. Tabular numbers: Day 1 / Days 2-3 / Days 4-7 line up.
    Stagger + interruptible: the old step leaves fast, then number, title, line arrive one after another, so two steps never overlap.
    Affordance + touch target: each dot is a 44px button that takes you to its step. The orange line grows with transform (no layout per scroll frame). */
-.aa-how-step p{text-wrap:balance}
+.aa-how-step p{text-wrap:balance;max-width:40ch!important}
 .aa-how-dot span,.aa-how-step .n{font-variant-numeric:tabular-nums}
 .aa-how-rail .fl{width:75%!important;transform-origin:0 50%;transform:scaleX(0);will-change:transform}
 .aa-how-step{transform:none!important;transition:opacity .2s ease!important}
@@ -304,9 +304,9 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
       </div>
       <ol class="aa-how-steps" style="list-style: none; margin: 0; padding: 0;">
         <li class="aa-how-step"><span class="n">Jour 1</span><h3>Un appel de 30 minutes.</h3><p>Montrez-nous où les questions s’accumulent.</p></li>
-        <li class="aa-how-step"><span class="n">Jours 2–3</span><h3>Nous apprenons votre boutique.</h3><p>Politiques, produits, anciennes réponses. Vous n’écrivez rien.</p></li>
-        <li class="aa-how-step"><span class="n">Jours 4–7</span><h3>Nous la bâtissons et la testons.</h3><p>Sur vos vraies conversations. Vous l’approuvez avant le lancement.</p></li>
-        <li class="aa-how-step"><span class="n">Chaque mois</span><h3>En ligne, et de mieux en mieux.</h3><p>Nous lisons ses conversations. Vous recevez un rapport d’une page.</p></li>
+        <li class="aa-how-step"><span class="n">Jours 2–3</span><h3>Nous apprenons votre boutique.</h3><p>Politiques, produits, anciennes réponses.<br>Vous n’écrivez rien.</p></li>
+        <li class="aa-how-step"><span class="n">Jours 4–7</span><h3>Nous la bâtissons et la testons.</h3><p>Sur vos vraies conversations.<br>Vous l’approuvez avant le lancement.</p></li>
+        <li class="aa-how-step"><span class="n">Chaque mois</span><h3>En ligne, et de mieux en mieux.</h3><p>Nous lisons ses conversations.<br>Vous recevez un rapport d’une page.</p></li>
       </ol>
       <div class="aa-how-cta">
     <a href="#ask">Vérifier si ma boutique est admissible</a>
