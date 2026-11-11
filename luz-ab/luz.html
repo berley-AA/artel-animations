@@ -593,9 +593,7 @@ class Component extends DCLogic {
     this._take = window.LuzTakeover ? window.LuzTakeover(f, { bg: '#F5F5F7' }) : null;
     // Nov 5: after a chat ends, the app's closing animation can leave the chat panel peeking out at the sides of
     // the cropped orb screen. Reload the frame fresh (same visitor id, so the conversation is kept), with a short fade.
-    const reset = () => { clearTimeout(this._chatReset); this._chatReset = setTimeout(() => { if (this._chatOpen) return;
-      f.style.transition = 'opacity .25s ease, filter .6s ease'; f.style.opacity = '0';
-      setTimeout(() => { const done = () => { f.removeEventListener('load', done); setTimeout(() => { f.style.opacity = '1'; }, 150); }; f.addEventListener('load', done); f.src = f.src; setTimeout(() => { f.style.opacity = '1'; }, 4000); }, 260); }, 450); };
+    const reset = () => { /* Nov 11 (Berley): no frame reload when a chat closes. The reload replayed the particles forming; the app itself returns to the fully formed orb, so particles form once, at the start. */ };
     window.addEventListener('message', this._chatMsg); window.addEventListener('resize', fit); fit();
   }
   initPods() {
