@@ -20,12 +20,12 @@
         card: ['Ascend Compact Squat Rack', [['Height', '37 to 55 in'], ['Holds', '500 lbs'], ['Includes', 'Safety arms']]] },
       fr: { tab: 'Montreal Weights', who: 'Ava · Montreal Weights', tag: 'Vrai client', cap: 'Vraie conversation, en anglais · Montreal Weights, 2026',
         card: ['Ascend Compact Squat Rack', [['Hauteur', '37 à 55 po'], ['Charge', '500 lb'], ['Inclus', 'Bras de sécurité']]] } },
-    nordik: { real: 1, orb: ['#C9BFA6', '#3E5443'], bub: '#282D27', ink: '#F2F1EA', acc: '#3E5443',
-      en: { tab: 'Nordik Recovery', who: 'Sales assistant · Nordik Recovery', tag: 'Real client', cap: 'Real conversation · Nordik Recovery, 2026',
+    nordik: { real: 1, draft: 1, orb: ['#C9BFA6', '#3E5443'], bub: '#282D27', ink: '#F2F1EA', acc: '#3E5443',
+      en: { tab: 'Nordik Recovery', who: 'Sales assistant · Nordik Recovery', tag: 'Real client', cap: 'Real conversation · Nordik Recovery sales team, 2026', ph: 'Paste a customer question', dr: 'Draft reply · ready to send', copy: 'Copy', copied: 'Copied',
         q: 'What is the internal height of the 2 person outdoor sauna? I’m 6ft 2.',
         a: ['The internal height of the 2-3 Person Sanctuary Outdoor Sauna is **200cm**, which is approximately **6 ft 7 in**.', 'At 6 ft 2, you’ll have plenty of headroom to stand up comfortably inside.'],
         card: ['Sanctuary Outdoor Sauna', [['Inside height', '200 cm · 6 ft 7'], ['Customer', '6 ft 2'], ['Headroom', 'Stands up inside']]] },
-      fr: { tab: 'Nordik Recovery', who: 'Assistant de vente · Nordik Recovery', tag: 'Vrai client', cap: 'Vraie conversation, en anglais · Nordik Recovery, 2026',
+      fr: { tab: 'Nordik Recovery', who: 'Assistant de vente · Nordik Recovery', tag: 'Vrai client', cap: 'Vraie conversation, en anglais · équipe de vente Nordik Recovery, 2026', ph: 'Collez la question du client', dr: 'Réponse prête à envoyer', copy: 'Copier', copied: 'Copié',
         card: ['Sauna extérieur Sanctuary', [['Hauteur intérieure', '200 cm · 6 pi 7'], ['Client', '6 pi 2'], ['Espace', 'Debout à l’intérieur']]] } },
     ling: { orb: '#B0102B', bub: '#B0102B', ink: '#FFFFFF', acc: '#B0102B',
       en: { tab: 'Lingerie', who: 'Luz · Lingerie store', tag: 'Example store', cap: 'Example store · fictional',
@@ -166,6 +166,10 @@
     '#luzShow .ls-prod.on{opacity:1;transform:none}#luzShow .ls-prod:hover{border-color:rgba(29,29,31,.28);box-shadow:0 4px 14px rgba(0,0,0,.08)}#luzShow .ls-prod:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
     '#luzShow .ls-pimg{flex:none;width:56px;height:56px;border-radius:12px;background:#F5F5F7;display:flex;align-items:center;justify-content:center;overflow:hidden}#luzShow .ls-pimg img{width:100%;height:100%;object-fit:contain}' +
     '#luzShow .ls-ptx{min-width:0;display:flex;flex-direction:column;gap:2px;flex:1}#luzShow .ls-ptx b{font-size:14px;font-weight:600;line-height:1.25}#luzShow .ls-ptx i{font-style:normal;font-size:12px;color:#6E6E73}#luzShow .ls-pgo{flex:none;font-size:13px;font-weight:600;white-space:nowrap}' +
+    '#luzShow .ls-b.dr{max-width:92%;align-self:flex-start;display:flex;flex-direction:column;gap:8px;background:#F2F2F7;border-bottom-left-radius:6px;padding:10px 14px 10px}#luzShow .ls-b.dr .ls-b.a{max-width:none;padding:0;background:none;border-radius:0}' +
+    '#luzShow .ls-drh{font-size:11px;font-weight:600;letter-spacing:.02em;color:#6E6E73;text-transform:uppercase}' +
+    '#luzShow .ls-copy{align-self:flex-end;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 12px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(29,29,31,.14);font-size:13px;font-weight:600;color:#1D1D1F;opacity:0;transform:translateY(4px);transition:opacity .3s ease,transform .4s cubic-bezier(.22,1,.36,1),background-color .25s ease,color .25s ease}' +
+    '#luzShow .ls-copy.on{opacity:1;transform:none}#luzShow .ls-copy.press{transform:scale(.94)}#luzShow .ls-copy.ok{background:#1D1D1F;color:#FFFFFF;border-color:#1D1D1F}' +
     '#luzShow .ls-b.on{opacity:1;transform:none}#luzShow .ls-b b{font-weight:600}' +
     '#luzShow .ls-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:#F2F2F7;border-radius:20px;border-bottom-left-radius:6px;opacity:0;transition:opacity .25s ease}#luzShow .ls-typing.on{opacity:1}' +
     '#luzShow .ls-typing i{width:6px;height:6px;border-radius:50%;background:#8E8E93;animation:lsT 1s infinite ease-in-out}#luzShow .ls-typing i:nth-child(2){animation-delay:.15s}#luzShow .ls-typing i:nth-child(3){animation-delay:.3s}' +
@@ -245,10 +249,12 @@
   function render(k, instant) {
     var s = S[k], L = lang(), D = s[L];
     el['ls-dot'].style.backgroundColor = Array.isArray(s.orb) ? s.orb[1] : s.orb; el['ls-who'].textContent = D.who; el['ls-cap'].textContent = D.cap;
-    el.send.style.backgroundColor = s.bub; el.ph.textContent = L === 'fr' ? 'Message' : 'Message'; el.comp.setAttribute('aria-label', L === 'fr' ? 'Écrire à Luz' : 'Talk to Luz');
+    el.send.style.backgroundColor = s.bub; el.ph.textContent = D.ph || 'Message'; el.comp.setAttribute('aria-label', L === 'fr' ? 'Écrire à Luz' : 'Talk to Luz');
     el.comp.classList.remove('typing', 'sent'); el.txt.textContent = '';
     var html = '<div class="ls-b q" style="background:' + s.bub + ';color:' + s.ink + '">' + esc(D.q) + '</div><div class="ls-typing" aria-label="' + TX[L].typing + '"><i></i><i></i><i></i></div>', streams = [];
+    if (s.draft) html += '<div class="ls-b dr"><span class="ls-drh">' + esc(D.dr) + '</span>';
     D.a.forEach(function (a) { var st = streamHTML(a, s.acc); streams.push(st.n); html += '<div class="ls-b a">' + st.html + '</div>'; });
+    if (s.draft) html += '<span class="ls-copy"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>' + esc(D.copy) + '</span></span></div>';
     var P = PROD[k];
     if (P) { var ex = !P.href, nm = ex ? D.card[0] : P[L][0], sb = ex ? (L === 'fr' ? 'Produit d’exemple' : 'Example product') : P[L][1],
         go = ex ? (L === 'fr' ? 'Votre produit ici ›' : 'Your product here ›') : P[L][2] + ' ›', href = ex ? '#ask' : (L === 'fr' && P.frHref ? P.frHref : P.href);
@@ -256,11 +262,11 @@
     el.msgs.innerHTML = html;
     el['ls-fact'].innerHTML = '<p>' + esc(D.card[0]) + '</p>' + D.card[1].map(function (r) { return '<div><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></div>'; }).join('');
     el['ls-fact'].classList.remove('on');
-    var q = el.msgs.querySelector('.q'), ty = el.msgs.querySelector('.ls-typing'), as = [].slice.call(el.msgs.querySelectorAll('.a')), pc = el.msgs.querySelector('.ls-prod');
+    var q = el.msgs.querySelector('.q'), ty = el.msgs.querySelector('.ls-typing'), as = [].slice.call(el.msgs.querySelectorAll('.a')), pc = el.msgs.querySelector('.ls-prod'), dr = el.msgs.querySelector('.dr'), cp = el.msgs.querySelector('.ls-copy');
     // nothing below the newest message takes room until it arrives, so the chat grows upward like a real one
     var hide = function (x) { x.style.display = 'none'; }, show = function (x, d) { x.style.display = d || ''; };
-    if (instant) { q.classList.add('on'); hide(ty); as.forEach(function (x) { x.classList.add('on', 'done'); }); if (pc) pc.classList.add('on'); el['ls-fact'].classList.add('on'); return 0; }
-    hide(q); hide(ty); as.forEach(hide); if (pc) hide(pc);
+    if (instant) { q.classList.add('on'); hide(ty); if (dr) dr.classList.add('on'); if (cp) cp.classList.add('on'); as.forEach(function (x) { x.classList.add('on', 'done'); }); if (pc) pc.classList.add('on'); el['ls-fact'].classList.add('on'); return 0; }
+    hide(q); hide(ty); as.forEach(hide); if (pc) hide(pc); if (dr) hide(dr);
     steps = []; var t = 450;
     // 1. the customer's question types itself into the field (where a message really starts)
     var qs = D.q, per = Math.max(14, Math.min(34, 1500 / qs.length)), chunks = Math.ceil(qs.length / 2);
@@ -274,11 +280,13 @@
     // 3. Luz types, then answers stream in word by word, one bubble after the other
     at(t, function () { show(ty, 'flex'); requestAnimationFrame(function () { ty.classList.add('on'); }); }); t += 1000;
     at(t, function () { hide(ty); });
+    if (dr) at(t, function () { show(dr); requestAnimationFrame(function () { dr.classList.add('on'); }); });
     as.forEach(function (x, i) {
       at(t, function () { show(x); requestAnimationFrame(function () { x.classList.add('on'); }); });
       if (i === 0) at(t + 500, function () { el['ls-fact'].classList.add('on'); });
       t += streams[i] * 38 + 550 + words(D.a[i]) / 200 * 60000 * 0.35;
     });
+    if (cp) { at(t, function () { cp.classList.add('on'); }); t += 900; at(t, function () { cp.classList.add('press'); }); at(t + 160, function () { cp.classList.remove('press'); cp.classList.add('ok'); cp.querySelector('span').textContent = D.copied + ' ✓'; }); t += 900; }
     if (pc) { at(t, function () { show(pc, 'flex'); requestAnimationFrame(function () { pc.classList.add('on'); }); }); t += 900; }
     var read = (words(D.q) + D.a.reduce(function (n, a) { return n + words(a); }, 0)) / 200 * 60000;   // reading pace: 200 wpm, the slow end
     return Math.max(10000, Math.min(19000, Math.max(t, 3200 + read) + 2000));
