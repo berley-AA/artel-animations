@@ -36,7 +36,7 @@
         q: 'Je porte un 34C dans la plupart des marques. Je prends quoi pour le Mila?',
         a: ['Bonne nouvelle: le **Mila** taille juste. Prenez votre **34C**.', 'Entre deux bonnets? Montez d’un. La dentelle ne s’étire pas.', 'Échange gratuit pendant **30 jours**, pour l’essayer tranquille à la maison.'],
         card: ['Soutien-gorge Mila', [['Taille', 'Juste'], ['Votre taille', '34C'], ['Échanges', '30 jours']]] } },
-    kids: { orb: ['#2EC4D6', '#FFC531'], bub: '#2EC4D6', ink: '#0B2B33', acc: '#0E8A9A',
+    kids: { orb: ['#22C7D8', '#2F6BFF'], bub: '#2F6BFF', ink: '#FFFFFF', acc: '#1F5AE0',
       en: { tab: 'Kids’ toys', who: 'Luz · Toy store', tag: 'Example store', cap: 'Example store · fictional',
         q: 'Is the Pompon stacker OK for my 18-month-old?',
         a: ['Yes. The **Pompon** stacker is made for **12 months and up**.', 'No small parts, and the paint is **non-toxic and water-based**.', 'When she’s ready for more, the **Grand Pompon** is for 3 years and up.'],
@@ -92,7 +92,7 @@
   function drawn(kind, c) {   // simple product drawings for the fictional stores, in the store's colour
     var P = {
       bra: '<path d="M14 26c4 12 14 16 18 6c4 10 14 6 18-6" fill="none" stroke="@c" stroke-width="3" stroke-linecap="round"/><path d="M16 28c2 9 9 12 16 4c7 8 14 5 16-4c-6 3-11 3-16 6c-5-3-10-3-16-6z" fill="@c" opacity=".85"/><path d="M14 26l-2-10M50 26l2-10" stroke="@c" stroke-width="2" stroke-linecap="round"/>',
-      stack: '<rect x="31" y="12" width="2.5" height="38" rx="1.2" fill="#C9A26B"/><ellipse cx="32" cy="46" rx="15" ry="5" fill="#2EC4D6"/><ellipse cx="32" cy="38" rx="12" ry="4.5" fill="#FFC531"/><ellipse cx="32" cy="31" rx="9.5" ry="4" fill="#FF8A65"/><ellipse cx="32" cy="24.5" rx="7" ry="3.5" fill="#8BC34A"/><circle cx="32" cy="17" r="4" fill="#2EC4D6"/><rect x="16" y="50" width="32" height="3" rx="1.5" fill="#C9A26B"/>',
+      stack: '<rect x="31" y="12" width="2.5" height="38" rx="1.2" fill="#C9A26B"/><ellipse cx="32" cy="46" rx="15" ry="5" fill="#2EC4D6"/><ellipse cx="32" cy="38" rx="12" ry="4.5" fill="#2F6BFF"/><ellipse cx="32" cy="31" rx="9.5" ry="4" fill="#FF8A65"/><ellipse cx="32" cy="24.5" rx="7" ry="3.5" fill="#8BC34A"/><circle cx="32" cy="17" r="4" fill="#2EC4D6"/><rect x="16" y="50" width="32" height="3" rx="1.5" fill="#C9A26B"/>',
       bag: '<path d="M20 18h24l3 34H17z" fill="@c"/><path d="M20 18l2-6h20l2 6" fill="none" stroke="@c" stroke-width="2"/><circle cx="32" cy="34" r="7" fill="#fff" opacity=".9"/><path d="M28 32l1.5-3 1.5 2h2l1.5-2 1.5 3" fill="none" stroke="@c" stroke-width="1.2"/><rect x="24" y="44" width="16" height="2.5" rx="1.2" fill="#fff" opacity=".7"/>',
       harness: '<ellipse cx="32" cy="26" rx="14" ry="8" fill="none" stroke="@c" stroke-width="4"/><path d="M22 32c-2 8 0 14 10 16c10-2 12-8 10-16" fill="none" stroke="@c" stroke-width="4"/><circle cx="32" cy="18" r="3.5" fill="none" stroke="#9AA0A6" stroke-width="2"/><rect x="29" y="44" width="6" height="6" rx="1.5" fill="#1D1D1F" opacity=".7"/>',
       pebble: '<ellipse cx="32" cy="34" rx="17" ry="12" fill="@c"/><ellipse cx="26" cy="29" rx="7" ry="3.5" fill="#fff" opacity=".35"/><ellipse cx="32" cy="49" rx="14" ry="2.2" fill="#000" opacity=".08"/>',
@@ -127,7 +127,7 @@
   function kAt(s) { for (var i = 1; i < KS.length; i++) if (s <= KS[i][0]) { var a = KS[i - 1], b = KS[i], f = (s - a[0]) / (b[0] - a[0]); return a[1] + (b[1] - a[1]) * f; } return -0.88; }
   function ramp(spec) {   // 512 samples (same as the line-up's brandGrad), light end to dark end, like the line-up's brand orbs; two colours blend across the middle
     var A = hex(Array.isArray(spec) ? spec[0] : spec), B = hex(Array.isArray(spec) ? spec[1] : spec), out = [];
-    for (var i = 0; i < 512; i++) { var s = i / 511, m = Math.min(1, Math.max(0, (s - 0.3) / 0.4)), mm = m * m * (3 - 2 * m), k = kAt(s); if (Array.isArray(spec)) k = k > 0 ? k * 0.8 : k * 0.12;   // two-tone: keep the top colour bright (yellow stays sunny, not olive)
+    for (var i = 0; i < 512; i++) { var s = i / 511, m = Math.min(1, Math.max(0, (s - 0.3) / 0.4)), mm = m * m * (3 - 2 * m), k = kAt(s); if (Array.isArray(spec)) k = k > 0 ? k * 0.8 : k * 0.8;   // two-tone: keep the top colour bright (yellow stays sunny, not olive)
       var c = [0, 1, 2].map(function (j) { var v = A[j] + (B[j] - A[j]) * mm; return k >= 0 ? v + (255 - v) * k : v * (1 + k); }); out.push(c); }
     return out;
   }
