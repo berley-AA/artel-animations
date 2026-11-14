@@ -122,10 +122,11 @@
     '#luzShow .ls-label{font-size:15px;color:#6E6E73;letter-spacing:-0.005em}' +
     '#luzShow h2{margin:0;font-weight:600;letter-spacing:-0.025em;line-height:1.05;font-size:clamp(36px,4.4vw,64px);color:#1D1D1F}' +
     '#luzShow .ls-sub{margin:4px 0 0;max-width:620px;font-size:clamp(17px,1.35vw,20px);line-height:1.5;color:#3A3A3C}' +
-    '#luzShow .ls-stage{margin-top:clamp(36px,5vh,56px);display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,48px);align-items:center;min-height:clamp(440px,52vh,560px)}' +
-    '#luzShow .ls-orb{position:relative;height:clamp(380px,48vh,540px)}#luzShow .ls-orb canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}' +
-    '#luzShow .ls-right>*{transition:opacity .3s ease}#luzShow .ls-right.ls-out>*{opacity:0!important}#luzShow .ls-right{position:relative;display:flex;flex-direction:column;gap:14px;align-items:flex-start;min-height:clamp(420px,50vh,540px);justify-content:center}' +
-    '#luzShow .ls-card{position:relative;width:min(100%,460px);background:#FFFFFF;border-radius:24px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.06);overflow:hidden}' +
+    '#luzShow .ls-stage{margin-top:clamp(36px,5vh,56px);display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1.25fr) minmax(0,0.8fr);align-items:center;min-height:clamp(460px,54vh,580px);perspective:1800px;perspective-origin:50% 40%}' +
+    '#luzShow .ls-orb{position:relative;height:clamp(360px,46vh,520px);margin-right:-6%;transform:translate3d(0,0,-150px) rotateY(12deg);transform-origin:right center;z-index:0}#luzShow .ls-orb canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}' +
+    '#luzShow .ls-side{position:relative;z-index:0;margin-left:52px;transform:translate3d(0,28px,-170px) rotateY(-14deg);transform-origin:left center;display:flex;justify-content:flex-start}' +
+    '#luzShow .ls-right>*{transition:opacity .3s ease}#luzShow .ls-stage.ls-out .ls-right>*,#luzShow .ls-stage.ls-out .ls-fact{opacity:0!important}#luzShow .ls-right{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px;align-items:center}' +
+    '#luzShow .ls-card{position:relative;width:min(100%,520px);background:#FFFFFF;border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(0,0,0,.10),0 40px 90px rgba(0,0,0,.06);overflow:hidden}' +
     '#luzShow .ls-top{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid rgba(29,29,31,.08);font-size:13px;color:#1D1D1F}' +
     '#luzShow .ls-dot{width:9px;height:9px;border-radius:50%;flex:none;transition:background-color .6s ease}' +
     '#luzShow .ls-who{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
@@ -137,15 +138,15 @@
     '#luzShow .ls-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:#F2F2F7;border-radius:20px;border-bottom-left-radius:6px;opacity:0;transition:opacity .25s ease}#luzShow .ls-typing.on{opacity:1}' +
     '#luzShow .ls-typing i{width:6px;height:6px;border-radius:50%;background:#8E8E93;animation:lsT 1s infinite ease-in-out}#luzShow .ls-typing i:nth-child(2){animation-delay:.15s}#luzShow .ls-typing i:nth-child(3){animation-delay:.3s}' +
     '@keyframes lsT{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-3px)}}' +
-    '#luzShow .ls-fact{width:min(100%,300px);margin-left:clamp(0px,6vw,120px);background:#FFFFFF;border-radius:18px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.06);padding:14px 16px;font-size:13px;color:#1D1D1F;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .6s cubic-bezier(.16,1,.3,1)}' +
+    '#luzShow .ls-fact{width:min(100%,290px);background:rgba(255,255,255,.86);border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 24px rgba(0,0,0,.05);padding:16px 18px 14px;font-size:13px;color:#1D1D1F;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .6s cubic-bezier(.16,1,.3,1)}' +
     '#luzShow .ls-fact.on{opacity:1;transform:none}#luzShow .ls-fact p{margin:0 0 8px;font-weight:600;font-size:14px}#luzShow .ls-fact div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid rgba(29,29,31,.08)}#luzShow .ls-fact span:first-child{color:#6E6E73}#luzShow .ls-fact span:last-child{font-weight:600;text-align:right}' +
-    '#luzShow .ls-cap{font-size:12px;color:#6E6E73;padding-left:4px;min-height:1.4em}' +
+    '#luzShow .ls-cap{font-size:12px;color:#6E6E73;min-height:1.4em;text-align:center}' +
     '#luzShow .ls-tabs{margin:clamp(28px,4vh,44px) auto 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:1240px}' +
     '#luzShow .ls-tab{position:relative;overflow:hidden;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(29,29,31,.14);background:#FFFFFF;color:#1D1D1F;font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:border-color .3s ease}' +
     '#luzShow .ls-tab i{width:8px;height:8px;border-radius:50%;flex:none}#luzShow .ls-tab span{position:relative}' +
     '#luzShow .ls-tab b{position:absolute;left:0;top:0;bottom:0;width:0;opacity:.13;pointer-events:none}#luzShow .ls-tab.on{border-color:rgba(29,29,31,.4)}' +
     '#luzShow .ls-tab:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
-    '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:8px}#luzShow .ls-orb{height:clamp(160px,22vh,210px)}#luzShow .ls-stage{margin-top:20px}#luzShow .ls-right{min-height:0;align-items:center}#luzShow .ls-fact{margin-left:0}#luzShow .ls-cap{align-self:center}' +
+    '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:0;margin-top:16px;perspective:none}#luzShow .ls-orb{height:clamp(150px,20vh,200px);margin:0 0 -28px;transform:scale(.92);transform-origin:center bottom}#luzShow .ls-right{transform:none}#luzShow .ls-side{margin:16px 0 0;transform:scale(.94);justify-content:center}' +
     '#luzShow .ls-tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:0 2px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#luzShow .ls-tabs::-webkit-scrollbar{display:none}#luzShow .ls-tab{flex:none}}' +
     '@media (max-width:600px){#luzShow .ls-body{min-height:260px}#luzShow .ls-b{font-size:14px}}';
 
@@ -162,7 +163,7 @@
     sec.innerHTML = '<div class="ls-in"><div class="ls-head"><span class="ls-label"></span><h2></h2><p class="ls-sub"></p></div>' +
       '<div class="ls-stage"><div class="ls-orb"><canvas aria-hidden="true"></canvas></div><div class="ls-right" aria-live="polite">' +
       '<div class="ls-card"><div class="ls-top"><span class="ls-dot"></span><span class="ls-who"></span><span class="ls-tag"></span></div><div class="ls-body"></div></div>' +
-      '<div class="ls-fact"></div><div class="ls-cap"></div></div></div><div class="ls-tabs" role="tablist"></div></div>';
+      '<div class="ls-cap"></div></div><div class="ls-side"><div class="ls-fact"></div></div></div><div class="ls-tabs" role="tablist"></div></div>';
     ['ls-label', 'ls-sub', 'ls-orb', 'ls-dot', 'ls-who', 'ls-tag', 'ls-body', 'ls-fact', 'ls-cap', 'ls-tabs'].forEach(function (c) { el[c] = sec.querySelector('.' + c); });
     el.h2 = sec.querySelector('h2'); el.cv = sec.querySelector('canvas'); el.tabs = el['ls-tabs'];
     el.tabs.addEventListener('click', function (e) { var b = e.target.closest('.ls-tab'); if (!b) return; go(+b.getAttribute('data-i'), true); });
@@ -224,7 +225,7 @@
   }
   function go(i, user) {
     idx = (i + order.length) % order.length; clear(); setTab();
-    var k = order[idx], R = sec.querySelector('.ls-right'), swap = started && !reduce && !!el['ls-body'].firstChild;
+    var k = order[idx], R = sec.querySelector('.ls-stage'), swap = started && !reduce && !!el['ls-body'].firstChild;
     recolour(S[k].orb, !started);
     var run = function () { roundDur = render(k, reduce); R.classList.remove('ls-out'); roundT0 = performance.now(); pausedAt = 0;
       if (!reduce) steps.forEach(function (s) { timers.push(setTimeout(s.fn, s.t)); }); loop(); };
