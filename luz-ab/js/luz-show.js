@@ -148,8 +148,19 @@
     '#luzShow .ls-dot{width:9px;height:9px;border-radius:50%;flex:none;transition:background-color .6s ease}' +
     '#luzShow .ls-who{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
     '#luzShow .ls-tag{margin-left:auto;flex:none;font-size:11px;color:#515154;border:1px solid rgba(29,29,31,.14);border-radius:999px;padding:3px 9px}' +
-    '#luzShow .ls-body{padding:18px 16px 20px;display:flex;flex-direction:column;gap:8px;min-height:380px}' +
-    '#luzShow .ls-b{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.42;letter-spacing:-0.005em;opacity:0;transform:translateY(8px) scale(.98);transform-origin:left bottom;transition:opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1)}' +
+    '#luzShow .ls-body{position:relative;height:376px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 28px);mask-image:linear-gradient(to bottom,transparent 0,#000 28px)}' +
+    '#luzShow .ls-msgs{position:absolute;left:0;right:0;bottom:0;padding:18px 16px 12px;display:flex;flex-direction:column;gap:8px}' +
+    '#luzShow .ls-comp{display:flex;align-items:center;gap:10px;padding:10px 12px 14px;text-decoration:none;color:inherit}' +
+    '#luzShow .ls-plus{flex:none;width:34px;height:34px;border-radius:50%;background:#F2F2F7;color:#6E6E73;display:flex;align-items:center;justify-content:center}' +
+    '#luzShow .ls-field{flex:1;min-width:0;min-height:36px;display:flex;align-items:center;gap:8px;padding:0 6px 0 14px;border-radius:18px;border:1px solid rgba(29,29,31,.14);background:#FFFFFF;font-size:15px;line-height:1.3;color:#1D1D1F;overflow:hidden}' +
+    '#luzShow .ls-txt{white-space:nowrap;overflow:hidden;min-width:0;flex:0 1 auto;display:flex;justify-content:flex-end}#luzShow .ls-txt:empty{display:none}#luzShow .ls-ph{color:#AEAEB2;white-space:nowrap}#luzShow .ls-txt:not(:empty)~.ls-ph{display:none}' +
+    '#luzShow .ls-send{flex:none;width:28px;height:28px;margin-left:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:scale(.6);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s ease,background-color .6s ease}' +
+    '#luzShow .ls-comp.typing .ls-send{transform:scale(1);opacity:1}#luzShow .ls-comp.sent .ls-send{transform:scale(.86)}' +
+    '#luzShow .ls-comp:hover .ls-field{border-color:rgba(29,29,31,.28)}#luzShow .ls-comp:focus-visible{outline:2px solid #1D1D1F;outline-offset:-4px;border-radius:24px}' +
+    '#luzShow .ls-b.a .w{display:inline;opacity:0;filter:blur(4px)}#luzShow .ls-b.a.on .w{animation:lsW .55s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d)}#luzShow .ls-b.a.done .w{animation:none;opacity:1;filter:none}' +
+    '@keyframes lsW{from{opacity:0;filter:blur(4px)}to{opacity:1;filter:blur(0)}}' +
+    '@media (prefers-reduced-motion:reduce){#luzShow .ls-b.a .w{opacity:1;filter:none;animation:none!important}}' +
+    '#luzShow .ls-b{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.42;letter-spacing:-0.005em;opacity:0;transform:translateY(8px) scale(.98);transform-origin:left bottom;transition:opacity .3s ease,transform .5s cubic-bezier(.22,1,.36,1)}' +
     '#luzShow .ls-b.q{align-self:flex-end;transform-origin:right bottom;border-bottom-right-radius:6px}#luzShow .ls-b.a{align-self:flex-start;background:#F2F2F7;color:#1D1D1F;border-bottom-left-radius:6px}' +
     '#luzShow .ls-prod{align-self:flex-start;width:min(86%,330px);display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(29,29,31,.12);text-decoration:none;color:#1D1D1F;box-shadow:0 1px 2px rgba(0,0,0,.04);opacity:0;transform:translateY(8px) scale(.98);transition:opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1),border-color .2s ease,box-shadow .2s ease}' +
     '#luzShow .ls-prod.on{opacity:1;transform:none}#luzShow .ls-prod:hover{border-color:rgba(29,29,31,.28);box-shadow:0 4px 14px rgba(0,0,0,.08)}#luzShow .ls-prod:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
@@ -169,7 +180,7 @@
     '#luzShow .ls-tab:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
     '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:0;margin-top:16px;perspective:none}#luzShow .ls-orb{height:clamp(140px,19vh,190px);margin:0 0 -28px}#luzShow .ls-right{transform:none}#luzShow .ls-side{margin:16px 0 0;transform:scale(.94);justify-content:center}' +
     '#luzShow .ls-tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:0 2px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#luzShow .ls-tabs::-webkit-scrollbar{display:none}#luzShow .ls-tab{flex:none}}' +
-    '@media (max-width:600px){#luzShow .ls-body{min-height:330px}#luzShow .ls-b{font-size:14px}}';
+    '@media (max-width:600px){#luzShow .ls-body{height:340px}#luzShow .ls-b{font-size:14px}}';
 
   var sec, el = {}, orb = null, tex = null, texCv = null, cur = [], from = null, to = null, mix = 1, mixT0 = 0;
   var idx = 0, started = false, inView = false, paused = false, roundT0 = 0, roundDur = 10000, steps = [], raf = 0, timers = [], pausedAt = 0;
@@ -183,10 +194,10 @@
     var st = document.createElement('style'); st.id = 'luzShowCss'; st.textContent = CSS; document.head.appendChild(st);
     sec.innerHTML = '<div class="ls-in"><div class="ls-head"><span class="ls-label"></span><h2></h2><p class="ls-sub"></p></div>' +
       '<div class="ls-stage"><div class="ls-orb"><canvas aria-hidden="true"></canvas></div><div class="ls-right" aria-live="polite">' +
-      '<div class="ls-card"><div class="ls-top"><span class="ls-dot"></span><span class="ls-who"></span></div><div class="ls-body"></div></div>' +
+      '<div class="ls-card"><div class="ls-top"><span class="ls-dot"></span><span class="ls-who"></span></div><div class="ls-body"><div class="ls-msgs"></div></div><a class="ls-comp" href="#ask"><span class="ls-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="ls-field"><span class="ls-txt"></span><span class="ls-ph"></span><span class="ls-send" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 19V6M6.5 11.5L12 6l5.5 5.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a></div>' +
       '<div class="ls-cap"></div></div><div class="ls-side"><div class="ls-fact"></div></div></div><div class="ls-tabs" role="tablist"></div></div>';
     ['ls-label', 'ls-sub', 'ls-orb', 'ls-dot', 'ls-who', 'ls-body', 'ls-fact', 'ls-cap', 'ls-tabs'].forEach(function (c) { el[c] = sec.querySelector('.' + c); });
-    el.h2 = sec.querySelector('h2'); el.cv = sec.querySelector('canvas'); el.tabs = el['ls-tabs'];
+    el.h2 = sec.querySelector('h2'); el.cv = sec.querySelector('canvas'); el.tabs = el['ls-tabs']; el.msgs = sec.querySelector('.ls-msgs'); el.comp = sec.querySelector('.ls-comp'); el.txt = sec.querySelector('.ls-txt'); el.ph = sec.querySelector('.ls-ph'); el.send = sec.querySelector('.ls-send');
     el.tabs.addEventListener('click', function (e) { var b = e.target.closest('.ls-tab'); if (!b) return; go(+b.getAttribute('data-i'), true); });
     texts(); return true;
   }
@@ -223,35 +234,61 @@
   function clear() { timers.forEach(clearTimeout); timers = []; }
   function at(ms, fn) { steps.push({ t: ms, fn: fn }); }
   function words(s) { return s.replace(/\*\*/g, '').split(/\s+/).length; }
+  function streamHTML(a, acc) {   // each word in its own span, bold kept, so the answer can stream in word by word
+    var out = '', n = 0;
+    a.split(/(\*\*.+?\*\*)/).forEach(function (part) {
+      if (!part) return; var bold = /^\*\*.+\*\*$/.test(part), t = bold ? part.slice(2, -2) : part;
+      var ws = t.split(/(\s+)/).map(function (w) { if (!w) return ''; if (/^\s+$/.test(w)) return ' '; return '<span class="w" style="--d:' + (n++ * 38) + 'ms">' + esc(w) + '</span>'; }).join('');
+      out += bold ? '<b style="color:' + acc + '">' + ws + '</b>' : ws; });
+    return { html: out, n: n };
+  }
   function render(k, instant) {
-    var s = S[k], D = s[lang()];
+    var s = S[k], L = lang(), D = s[L];
     el['ls-dot'].style.backgroundColor = Array.isArray(s.orb) ? s.orb[1] : s.orb; el['ls-who'].textContent = D.who; el['ls-cap'].textContent = D.cap;
-    var html = '<div class="ls-b q" style="background:' + s.bub + ';color:' + s.ink + '">' + esc(D.q) + '</div><div class="ls-typing" aria-label="' + TX[lang()].typing + '"><i></i><i></i><i></i></div>';
-    D.a.forEach(function (a) { html += '<div class="ls-b a">' + rich(a, s.acc) + '</div>'; });
-    var P = PROD[k], L = lang();
+    el.send.style.backgroundColor = s.bub; el.ph.textContent = L === 'fr' ? 'Message' : 'Message'; el.comp.setAttribute('aria-label', L === 'fr' ? 'Écrire à Luz' : 'Talk to Luz');
+    el.comp.classList.remove('typing', 'sent'); el.txt.textContent = '';
+    var html = '<div class="ls-b q" style="background:' + s.bub + ';color:' + s.ink + '">' + esc(D.q) + '</div><div class="ls-typing" aria-label="' + TX[L].typing + '"><i></i><i></i><i></i></div>', streams = [];
+    D.a.forEach(function (a) { var st = streamHTML(a, s.acc); streams.push(st.n); html += '<div class="ls-b a">' + st.html + '</div>'; });
+    var P = PROD[k];
     if (P) { var ex = !P.href, nm = ex ? D.card[0] : P[L][0], sb = ex ? (L === 'fr' ? 'Produit d’exemple' : 'Example product') : P[L][1],
         go = ex ? (L === 'fr' ? 'Votre produit ici ›' : 'Your product here ›') : P[L][2] + ' ›', href = ex ? '#ask' : (L === 'fr' && P.frHref ? P.frHref : P.href);
       html += '<a class="ls-prod" href="' + href + '"' + (ex ? '' : ' target="_blank" rel="noopener"') + '><span class="ls-pimg">' + (P.img ? '<img src="' + P.img + '" alt="" loading="lazy">' : drawn(P.draw, s.acc)) + '</span><span class="ls-ptx"><b>' + esc(nm) + '</b><i>' + esc(sb) + '</i></span><span class="ls-pgo" style="color:' + s.acc + '">' + esc(go) + '</span></a>'; }
-    el['ls-body'].innerHTML = html;
+    el.msgs.innerHTML = html;
     el['ls-fact'].innerHTML = '<p>' + esc(D.card[0]) + '</p>' + D.card[1].map(function (r) { return '<div><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></div>'; }).join('');
     el['ls-fact'].classList.remove('on');
-    var q = el['ls-body'].querySelector('.q'), ty = el['ls-body'].querySelector('.ls-typing'), as = [].slice.call(el['ls-body'].querySelectorAll('.a')), pc = el['ls-body'].querySelector('.ls-prod');
-    if (instant) { q.classList.add('on'); ty.style.display = 'none'; as.forEach(function (x) { x.classList.add('on'); }); if (pc) pc.classList.add('on'); el['ls-fact'].classList.add('on'); return 0; }
-    steps = []; var t = 500;
-    at(t, function () { q.classList.add('on'); }); t += 700;
-    at(t, function () { ty.classList.add('on'); }); t += 1100;
-    at(t, function () { ty.style.display = 'none'; });
-    as.forEach(function (x, i) { at(t, function () { x.classList.add('on'); }); if (i === 0) at(t + 600, function () { el['ls-fact'].classList.add('on'); }); t += 400 + words(D.a[i]) / 200 * 60000 * 0.55; });
-    if (pc) { at(t, function () { pc.classList.add('on'); }); t += 1200; }
+    var q = el.msgs.querySelector('.q'), ty = el.msgs.querySelector('.ls-typing'), as = [].slice.call(el.msgs.querySelectorAll('.a')), pc = el.msgs.querySelector('.ls-prod');
+    // nothing below the newest message takes room until it arrives, so the chat grows upward like a real one
+    var hide = function (x) { x.style.display = 'none'; }, show = function (x, d) { x.style.display = d || ''; };
+    if (instant) { q.classList.add('on'); hide(ty); as.forEach(function (x) { x.classList.add('on', 'done'); }); if (pc) pc.classList.add('on'); el['ls-fact'].classList.add('on'); return 0; }
+    hide(q); hide(ty); as.forEach(hide); if (pc) hide(pc);
+    steps = []; var t = 450;
+    // 1. the customer's question types itself into the field (where a message really starts)
+    var qs = D.q, per = Math.max(14, Math.min(34, 1500 / qs.length)), chunks = Math.ceil(qs.length / 2);
+    at(t, function () { el.comp.classList.add('typing'); });
+    for (var c = 1; c <= chunks; c++) (function (c) { at(t + c * per * 2, function () { el.txt.textContent = qs.slice(0, c * 2); }); })(c);
+    t += chunks * per * 2 + 260;
+    // 2. send: the button presses, the field empties, the bubble rises from the field
+    at(t, function () { el.comp.classList.add('sent'); });
+    at(t + 120, function () { el.comp.classList.remove('typing', 'sent'); el.txt.textContent = ''; show(q); requestAnimationFrame(function () { q.classList.add('on'); }); });
+    t += 700;
+    // 3. Luz types, then answers stream in word by word, one bubble after the other
+    at(t, function () { show(ty, 'flex'); requestAnimationFrame(function () { ty.classList.add('on'); }); }); t += 1000;
+    at(t, function () { hide(ty); });
+    as.forEach(function (x, i) {
+      at(t, function () { show(x); requestAnimationFrame(function () { x.classList.add('on'); }); });
+      if (i === 0) at(t + 500, function () { el['ls-fact'].classList.add('on'); });
+      t += streams[i] * 38 + 550 + words(D.a[i]) / 200 * 60000 * 0.35;
+    });
+    if (pc) { at(t, function () { show(pc, 'flex'); requestAnimationFrame(function () { pc.classList.add('on'); }); }); t += 900; }
     var read = (words(D.q) + D.a.reduce(function (n, a) { return n + words(a); }, 0)) / 200 * 60000;   // reading pace: 200 wpm, the slow end
-    return Math.max(9000, Math.min(17000, Math.max(t, 2300 + read) + 1800));
+    return Math.max(10000, Math.min(19000, Math.max(t, 3200 + read) + 2000));
   }
   function setTab() {
     [].slice.call(el.tabs.children).forEach(function (b, i) { var on = i === idx; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); b.querySelector('b').style.width = on ? '0%' : '0'; });
   }
   function go(i, user) {
     idx = (i + order.length) % order.length; clear(); setTab();
-    var k = order[idx], R = sec.querySelector('.ls-stage'), swap = started && !reduce && !!el['ls-body'].firstChild;
+    var k = order[idx], R = sec.querySelector('.ls-stage'), swap = started && !reduce && !!el.msgs.firstChild;
     recolour(S[k].orb, !started);
     var run = function () { roundDur = render(k, reduce); R.classList.remove('ls-out'); roundT0 = performance.now(); pausedAt = 0;
       if (!reduce) steps.forEach(function (s) { timers.push(setTimeout(s.fn, s.t)); }); loop(); };
