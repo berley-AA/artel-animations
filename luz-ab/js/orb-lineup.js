@@ -123,7 +123,7 @@ function mount(cv,opts){
     renderer.render(scene,cam3);}
   let onScr=true;const wake=()=>{if(alive&&!raf&&onScr&&!document.hidden){last=performance.now();raf=requestAnimationFrame(frame);}};let vio=null;if('IntersectionObserver' in window){vio=new IntersectionObserver(es=>{onScr=es[es.length-1].isIntersecting;wake();});vio.observe(cv);}document.addEventListener('visibilitychange',wake);
   raf=requestAnimationFrame(frame);
-  return {destroy(){alive=false;cancelAnimationFrame(raf);if(vio)vio.disconnect();document.removeEventListener('visibilitychange',wake);cv.removeEventListener('pointermove',onMove);cv.removeEventListener('pointerdown',onDown);cv.removeEventListener('pointerup',onUp);cv.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
+  return {U,THREE,kick(v){spinV+=v;exT=0.9;setTimeout(()=>{exT=0},700);},destroy(){alive=false;cancelAnimationFrame(raf);if(vio)vio.disconnect();document.removeEventListener('visibilitychange',wake);cv.removeEventListener('pointermove',onMove);cv.removeEventListener('pointerdown',onDown);cv.removeEventListener('pointerup',onUp);cv.removeEventListener('pointerleave',onLeave);try{renderer.dispose();}catch(e){}}};
 }
 /* The colour line-up from the Luz film, live: the Luz orb and five more in brand colours pop in one by one,
    standing in a row that recedes to the right and leaning like people in a queue. Same body, beads and shaders.
@@ -172,5 +172,5 @@ function lineup(cv,opts){
     destroy(){alive=false;cancelAnimationFrame(raf);if(io)io.disconnect();window.removeEventListener('resize',onR);try{renderer.dispose();}catch(e){}}};
 }
 
-window.ArtelLineup={mount:lineup};
+window.ArtelLineup={mount:lineup,solo:mount};   /* Nov 14: solo = one draggable orb; the 'every store' section recolours it per store */
 })();
