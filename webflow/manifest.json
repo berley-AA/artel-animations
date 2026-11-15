@@ -164,7 +164,7 @@
     "location": "header"
    }
   ],
-  "note": "The loader replaces the whole page with luz-ab/ (built from luz-ab/src). Nothing else belongs on this page."
+  "note": "Only the loader. The page is luz-ab (built from luz-ab/src). The footer alignment that ArtelFooterAlignLuz did from outside now lives in luz-ab/src/parts/js/footer-align.js."
  },
  "black-friday": {
   "webflowPageId": "6ae3c8498b74c7bc74225949",
@@ -173,7 +173,8 @@
     "script": "ArtelLuzLoader",
     "location": "header"
    }
-  ]
+  ],
+  "note": "Only the loader."
  },
  "pageIds": {
   "faq": "6a24885108092d82f1779f18",
