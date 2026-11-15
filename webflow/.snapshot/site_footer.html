@@ -33,27 +33,26 @@
   var isHome = (p === '/' || p === '/fr-ca' || p === '/fr-ca/');
   var FR = /^\/fr-ca(\/|$)/.test(p);
   var base = FR ? '/fr-ca' : '';
-  // (A) SUBPAGES: the section links are Webflow page-section links, which collapse
-  //     to href="#" on any page that doesn't contain those sections. Re-point them
-  //     by LABEL to the homepage + section. Locale-aware: French pages get /fr-ca/#...
-  //     Labels cover the current menu (Results / Vision / How) plus legacy names.
-  if (!isHome) {
-    var MAP = [
-      { labels:['vision'],                                 to:'#vision' },
-      { labels:['how','comment','process','processus'],    to:'#process' },
-      { labels:['results','résultats','proof','preuve'],   to:'#case-studies' }
-    ];
-    navbar.querySelectorAll('a').forEach(function(a){
-      var t = (a.textContent || '').trim().toLowerCase();
-      if (!t) return;
-      for (var i=0;i<MAP.length;i++){
-        if (MAP[i].labels.some(function(l){ return t === l || t.indexOf(l) === 0; })){
-          a.setAttribute('href', base + '/' + MAP[i].to);
-          break;
-        }
+  // (A) Section links point at the homepage sections, by LABEL, on every page:
+  //     same-page anchors on the homepage, homepage + anchor elsewhere, French pages to /fr-ca.
+  //     Nov 15: Results -> #aa-results (the old #case-studies / #selected-work anchors are hidden),
+  //     About -> #team (#about does not exist).
+  var MAP = [
+    { labels:['vision'],                                 to:'vision' },
+    { labels:['how','comment','process','processus'],    to:'process' },
+    { labels:['results','résultats','proof','preuve'],   to:'aa-results' },
+    { labels:['about','à propos'],                       to:'team' }
+  ];
+  navbar.querySelectorAll('a').forEach(function(a){
+    var t = (a.textContent || '').trim().toLowerCase();
+    if (!t) return;
+    for (var i=0;i<MAP.length;i++){
+      if (MAP[i].labels.some(function(l){ return t === l || t.indexOf(l) === 0; })){
+        a.setAttribute('href', (isHome ? '' : base + '/') + '#' + MAP[i].to);
+        break;
       }
-    });
-  }
+    }
+  });
   // (B) Home already runs its own navbar script — don't double up there.
   if (isHome) return;
   // (C) Scroll behavior, matched to Home: frost after 10px; hide on scroll-down,
@@ -176,6 +175,8 @@ body.an-open .an-item{animation:aa-up .5s var(--an-ease) both}
 body.an-open li:nth-child(1) .an-item,body.an-open li:nth-child(2) .an-item,body.an-open li:nth-child(3) .an-item{animation-delay:.4s}
 body.an-open li:nth-child(4) .an-item{animation-delay:.45s}
 body.an-open li:nth-child(5) .an-item{animation-delay:.5s}
+body.an-open li:nth-child(6) .an-item{animation-delay:.55s}
+body.an-open li:nth-child(7) .an-item{animation-delay:.6s}
 .an-num{width:26px;font-size:12px;font-weight:500;line-height:1;color:#666;text-transform:none}
 .an-lang{position:absolute;right:34px;bottom:33px;display:flex;align-items:center;justify-content:center;gap:4px;width:60px;height:29px;padding:0 10px;border-radius:20px;background:rgba(255,255,255,.93);box-shadow:0 4px 16px rgba(0,0,0,.13);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;line-height:1;letter-spacing:.01em;opacity:0}
 body.an-open .an-lang{animation:aa-fade .4s var(--an-ease) .65s both}
@@ -198,11 +199,13 @@ body.an-open .an-lang{animation:aa-fade .4s var(--an-ease) .65s both}
 </header>
 <nav class="an-panel" id="an-panel" aria-label="Mobile menu">
   <ul class="an-list">
-    <li><a class="an-item" data-id="aa-results" data-en="Results" data-fr="Résultats" href="#aa-results"><span class="an-num">01</span><span class="an-lbl">Results</span></a></li>
-    <li><a class="an-item" data-id="about" data-en="About" data-fr="À propos" href="#about"><span class="an-num">02</span><span class="an-lbl">About</span></a></li>
-    <li><a class="an-item" data-id="process" data-en="Process" data-fr="Processus" href="#process"><span class="an-num">03</span><span class="an-lbl">Process</span></a></li>
-    <li><a class="an-item" data-page="/faq" data-en="FAQ" data-fr="FAQ" href="/faq"><span class="an-num">04</span><span class="an-lbl">FAQ</span></a></li>
-    <li><a class="an-item" data-login="1" data-en="Login" data-fr="Connexion" href="#"><span class="an-num">05</span><span class="an-lbl">Login</span></a></li>
+    <li><a class="an-item" data-page="/luz" data-en="Luz" data-fr="Luz" href="/luz"><span class="an-num">01</span><span class="an-lbl">Luz</span></a></li>
+    <li><a class="an-item" data-page="/labs" data-lab data-en="The Lab" data-fr="Le Lab" href="/labs"><span class="an-num">02</span><span class="an-lbl">The Lab</span></a></li>
+    <li><a class="an-item" data-id="aa-results" data-en="Results" data-fr="Résultats" href="#aa-results"><span class="an-num">03</span><span class="an-lbl">Results</span></a></li>
+    <li><a class="an-item" data-id="team" data-en="About" data-fr="À propos" href="#team"><span class="an-num">04</span><span class="an-lbl">About</span></a></li>
+    <li><a class="an-item" data-id="process" data-en="Process" data-fr="Processus" href="#process"><span class="an-num">05</span><span class="an-lbl">Process</span></a></li>
+    <li><a class="an-item" data-page="/faq" data-en="FAQ" data-fr="FAQ" href="/faq"><span class="an-num">06</span><span class="an-lbl">FAQ</span></a></li>
+    <li><a class="an-item" data-login="1" data-en="Login" data-fr="Connexion" href="#"><span class="an-num">07</span><span class="an-lbl">Login</span></a></li>
   </ul>
   <div class="an-lang"><a class="an-en" href="/">EN</a><span aria-hidden="true"></span><a class="an-fr" href="/fr-ca">FR</a></div>
 </nav>

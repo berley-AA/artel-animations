@@ -13,7 +13,8 @@
     var MAP = [
       { labels:['vision'],              to:'#vision' },
       { labels:['process','processus'], to:'#process' },
-      { labels:['proof','preuve'],      to:'#case-studies' }
+      { labels:['proof','preuve','results','résultats'], to:'#aa-results' },
+      { labels:['about','à propos'],     to:'#team' }
     ];
     navbar.querySelectorAll('a').forEach(function(a){
       var t = (a.textContent || '').trim().toLowerCase();

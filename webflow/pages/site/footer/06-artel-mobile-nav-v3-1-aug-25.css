@@ -52,6 +52,8 @@ body.an-open .an-item{animation:aa-up .5s var(--an-ease) both}
 body.an-open li:nth-child(1) .an-item,body.an-open li:nth-child(2) .an-item,body.an-open li:nth-child(3) .an-item{animation-delay:.4s}
 body.an-open li:nth-child(4) .an-item{animation-delay:.45s}
 body.an-open li:nth-child(5) .an-item{animation-delay:.5s}
+body.an-open li:nth-child(6) .an-item{animation-delay:.55s}
+body.an-open li:nth-child(7) .an-item{animation-delay:.6s}
 .an-num{width:26px;font-size:12px;font-weight:500;line-height:1;color:#666;text-transform:none}
 .an-lang{position:absolute;right:34px;bottom:33px;display:flex;align-items:center;justify-content:center;gap:4px;width:60px;height:29px;padding:0 10px;border-radius:20px;background:rgba(255,255,255,.93);box-shadow:0 4px 16px rgba(0,0,0,.13);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;line-height:1;letter-spacing:.01em;opacity:0}
 body.an-open .an-lang{animation:aa-fade .4s var(--an-ease) .65s both}
