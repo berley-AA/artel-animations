@@ -28,8 +28,10 @@
   "fr": "<nav aria-label=\"Principal\" class=\"navlinks\" style=\"gap: 16px; padding-left: 11%; font-size: 14px;\">"
  },
  "main.1": {
-  "en": "<a href=\"/labs\" class=\"aaf-roll\" aria-label=\"The Lab\" style=\"text-decoration: none; color: #1D1D1F;\">",
-  "fr": "<a href=\"/fr-ca/labs\" class=\"aaf-roll\" aria-label=\"Le Lab\" style=\"text-decoration: none; color: #1D1D1F;\">"
+  "en": "<a href=\"/luz\" class=\"aaf-roll\" aria-label=\"Luz\" aria-current=\"page\" style=\"text-decoration: none; color: #1D1D1F;\"><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.000s;\"><span class=\"aaf-lt\">L</span><span class=\"aaf-lt aaf-lt2\">L</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.030s;\"><span class=\"aaf-lt\">u</span><span class=\"aaf-lt aaf-lt2\">u</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.060s;\"><span class=\"aaf-lt\">z</span><span class=\"aaf-lt aaf-lt2\">z</span></span></span></a>\n      <a href=\"/labs\" class=\"aaf-roll\" aria-label=\"The Lab\" style=\"text-decoration: none; color: #1D1D1F;\">",
+  "fr": "<a href=\"/fr-ca/luz\" class=\"aaf-roll\" aria-label=\"Luz\" aria-current=\"page\" style=\"text-decoration: none; color: #1D1D1F;\"><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.000s;\"><span class=\"aaf-lt\">L</span><span class=\"aaf-lt aaf-lt2\">L</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.030s;\"><span class=\"aaf-lt\">u</span><span class=\"aaf-lt aaf-lt2\">u</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.060s;\"><span class=\"aaf-lt\">z</span><span class=\"aaf-lt aaf-lt2\">z</span></span></span></a>\n      <a href=\"/fr-ca/labs\" class=\"aaf-roll\" aria-label=\"Le Lab\" style=\"text-decoration: none; color: #1D1D1F;\">",
+  "en-bf": "<a href=\"/luz\" class=\"aaf-roll\" aria-label=\"Luz\" style=\"text-decoration: none; color: #1D1D1F;\"><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.000s;\"><span class=\"aaf-lt\">L</span><span class=\"aaf-lt aaf-lt2\">L</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.030s;\"><span class=\"aaf-lt\">u</span><span class=\"aaf-lt aaf-lt2\">u</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.060s;\"><span class=\"aaf-lt\">z</span><span class=\"aaf-lt aaf-lt2\">z</span></span></span></a>\n      <a href=\"/labs\" class=\"aaf-roll\" aria-label=\"The Lab\" style=\"text-decoration: none; color: #1D1D1F;\">",
+  "fr-bf": "<a href=\"/fr-ca/luz\" class=\"aaf-roll\" aria-label=\"Luz\" style=\"text-decoration: none; color: #1D1D1F;\"><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.000s;\"><span class=\"aaf-lt\">L</span><span class=\"aaf-lt aaf-lt2\">L</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.030s;\"><span class=\"aaf-lt\">u</span><span class=\"aaf-lt aaf-lt2\">u</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.060s;\"><span class=\"aaf-lt\">z</span><span class=\"aaf-lt aaf-lt2\">z</span></span></span></a>\n      <a href=\"/fr-ca/labs\" class=\"aaf-roll\" aria-label=\"Le Lab\" style=\"text-decoration: none; color: #1D1D1F;\">"
  },
  "main.2": {
   "en": "T",
@@ -68,8 +70,8 @@
   "fr": "<span class=\"aaf-lc\" style=\"transition-delay: 0.150s;\">"
  },
  "main.11": {
-  "en": "<a href=\"/#selected-work\" class=\"aaf-roll\" aria-label=\"Results\" style=\"text-decoration: none; color: #1D1D1F;\">",
-  "fr": "<a href=\"/fr-ca#selected-work\" class=\"aaf-roll\" aria-label=\"Résultats\" style=\"text-decoration: none; color: #1D1D1F;\">"
+  "en": "<a href=\"/#aa-results\" class=\"aaf-roll\" aria-label=\"Results\" style=\"text-decoration: none; color: #1D1D1F;\">",
+  "fr": "<a href=\"/fr-ca#aa-results\" class=\"aaf-roll\" aria-label=\"Résultats\" style=\"text-decoration: none; color: #1D1D1F;\">"
  },
  "main.12": {
   "en": "e",
@@ -120,8 +122,8 @@
   "fr": "Le Lab"
  },
  "menu.3": {
-  "en": "<a href=\"/#selected-work\" style=\"display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;\">",
-  "fr": "<a href=\"/fr-ca#selected-work\" style=\"display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;\">"
+  "en": "<a href=\"/#aa-results\" style=\"display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;\">",
+  "fr": "<a href=\"/fr-ca#aa-results\" style=\"display: flex; gap: 14px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid rgba(29,29,31,0.12); text-decoration: none; font-size: 28px;\">"
  },
  "menu.4": {
   "en": "Results",
@@ -206,10 +208,6 @@
  "why.3": {
   "en": "At 11 p.m., on a Sunday, between two orders. Luz takes those questions, so the business stops waiting on you.",
   "fr": "À 23 h, un dimanche, entre deux commandes. Luz prend ces <span style=\"white-space:nowrap\">questions-là</span>, et l’entreprise n’a plus à vous attendre."
- },
- "why.4": {
-  "en": "section[data-aa=\"words\"] blockquote{text-indent:-.42em;text-wrap:wrap!important}section[data-aa=\"words\"] figcaption span:last-child{color:#515154!important}section[data-aa=\"words\"] img[alt=\"Montreal Weights\"]{height:25px!important}\n",
-  "fr": "section[data-aa=\"words\"] blockquote{text-wrap:wrap!important}section[data-aa=\"words\"] figcaption span:last-child{color:#515154!important}section[data-aa=\"words\"] img[alt=\"Montreal Weights\"]{height:25px!important}\n"
  },
  "why.5": {
   "en": "of questions arrive after closing",
@@ -328,16 +326,16 @@
   "fr": "Avis Google, traduit de l’anglais"
  },
  "words.13": {
-  "en": "“He asked a lot of questions before he proposed anything. The audit was clear enough to show my team, and the tool he scoped fits how we already work.”",
-  "fr": "« Il a posé beaucoup de questions avant de proposer quoi que ce soit. L’audit était assez clair pour le montrer à mon équipe, et l’outil qu’il a défini colle à notre façon de travailler. »"
+  "en": "“He asked a lot of questions before he proposed anything. <span class=\"aa-q-win\">The audit was clear enough to show my team</span>, and the tool he scoped fits how we already work.”",
+  "fr": "« Il a posé beaucoup de questions avant de proposer quoi que ce soit. <span class=\"aa-q-win\">L’audit était assez clair pour le montrer à mon équipe</span>, et l’outil qu’il a défini colle à notre façon de travailler. »"
  },
  "words.14": {
   "en": "CEO and founder, I.C. Production",
   "fr": "PDG et fondateur, I.C. Production"
  },
  "words.15": {
-  "en": "“Berley comes from the creative side, so he cares about how a thing feels, not only whether it works. A lot of people show you a demo. He shows you something you’d put your name on.”",
-  "fr": "« Berley vient du milieu créatif, alors il tient à l’effet que les choses produisent, pas seulement à ce qu’elles fonctionnent. Bien des gens vous montrent une démo. Lui vous montre quelque chose que vous seriez fier de signer. »"
+  "en": "“Berley comes from the creative side, so he cares about how a thing feels, not only whether it works. A lot of people show you a demo. <span class=\"aa-q-win\">He shows you something you’d put your name on.</span>”",
+  "fr": "« Berley vient du milieu créatif, alors il tient à l’effet que les choses produisent, pas seulement à ce qu’elles fonctionnent. Bien des gens vous montrent une démo. <span class=\"aa-q-win\">Lui vous montre quelque chose que vous seriez fier de signer.</span> »"
  },
  "words.16": {
   "en": "CEO and founder, Department",
@@ -643,8 +641,8 @@
   "fr": "<span class=\"aaf-lc\" style=\"transition-delay: 0.150s;\">"
  },
  "site-footer.12": {
-  "en": "<nav aria-label=\"Footer\" class=\"aaf-idx\"><a href=\"/#selected-work\" data-m=\"up\" class=\"aaf-big aaf-roll\" aria-label=\"Results\">",
-  "fr": "<nav aria-label=\"Pied de page\" class=\"aaf-idx\"><a href=\"/fr-ca#selected-work\" data-m=\"up\" class=\"aaf-big aaf-roll\" aria-label=\"Résultats\">"
+  "en": "<nav aria-label=\"Footer\" class=\"aaf-idx\"><a href=\"/luz\" data-m=\"up\" class=\"aaf-big aaf-roll\" aria-label=\"Luz\"><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.000s;\"><span class=\"aaf-lt\">L</span><span class=\"aaf-lt aaf-lt2\">L</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.045s;\"><span class=\"aaf-lt\">u</span><span class=\"aaf-lt aaf-lt2\">u</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.090s;\"><span class=\"aaf-lt\">z</span><span class=\"aaf-lt aaf-lt2\">z</span></span></span></a><a href=\"/#aa-results\" data-m=\"up\" class=\"aaf-big aaf-roll\" aria-label=\"Results\">",
+  "fr": "<nav aria-label=\"Pied de page\" class=\"aaf-idx\"><a href=\"/fr-ca/luz\" data-m=\"up\" class=\"aaf-big aaf-roll\" aria-label=\"Luz\"><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.000s;\"><span class=\"aaf-lt\">L</span><span class=\"aaf-lt aaf-lt2\">L</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.045s;\"><span class=\"aaf-lt\">u</span><span class=\"aaf-lt aaf-lt2\">u</span></span></span><span class=\"aaf-l\" aria-hidden=\"true\"><span class=\"aaf-lc\" style=\"transition-delay: 0.090s;\"><span class=\"aaf-lt\">z</span><span class=\"aaf-lt aaf-lt2\">z</span></span></span></a><a href=\"/fr-ca#aa-results\" data-m=\"up\" class=\"aaf-big aaf-roll\" aria-label=\"Résultats\">"
  },
  "footer.1": {
   "en": "e",

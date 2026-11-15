@@ -7,7 +7,7 @@
   if (window.__aaLangFlip) return; window.__aaLangFlip = 1;
   var SKIP = { SCRIPT: 1, STYLE: 1, NOSCRIPT: 1, IFRAME: 1, CANVAS: 1, VIDEO: 1, TEMPLATE: 1, svg: 1, SVG: 1, SELECT: 1, TEXTAREA: 1 };
   var INL = { SPAN: 1, B: 1, STRONG: 1, EM: 1, I: 1, A: 1, BR: 1, SUP: 1, SUB: 1, SMALL: 1, MARK: 1, CODE: 1, ABBR: 1, TIME: 1, U: 1, S: 1, Q: 1 };
-  var LINKS = { '/labs': '/fr-ca/labs', '/faq': '/fr-ca/faq', '/': '/fr-ca', '/#team': '/fr-ca#team', '/#selected-work': '/fr-ca#selected-work', '/#process': '/fr-ca#process',
+  var LINKS = { '/luz': '/fr-ca/luz', '/black-friday': '/fr-ca/black-friday', '/#aa-results': '/fr-ca#aa-results', '/labs': '/fr-ca/labs', '/faq': '/fr-ca/faq', '/': '/fr-ca', '/#team': '/fr-ca#team', '/#selected-work': '/fr-ca#selected-work', '/#process': '/fr-ca#process',
     '/#free-pilot': '/fr-ca#free-pilot', '/privacy-policy': '/fr-ca/privacy-policy', '/terms-of-services': '/fr-ca/terms-of-services' };
   var RLINKS = {}; Object.keys(LINKS).forEach(function (k) { RLINKS[LINKS[k]] = k; });
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
