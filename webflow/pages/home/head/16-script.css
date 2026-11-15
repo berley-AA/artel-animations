@@ -1,0 +1,63 @@
+ + <script> to roll back. ===== -->
+<style id="aa-aiq-start">
+html[data-aav] #ai-readiness .air-w{position:relative;}
+/* the section height glides with the camera push (JS sets an explicit height at click) instead of snapping when the list is taller than the viewport */
+html[data-aav] #ai-readiness .air-w.aa-glide{transition:height 1.5s cubic-bezier(.4,0,.2,1) .6s;}
+/* intro: once leaving, it floats over the quiz, pointer-events off, and stays as the note's home */
+html[data-aav] #ai-readiness #air-intro.aa-leaving{display:grid!important; position:absolute; inset:0; z-index:3; pointer-events:none;}
+html[data-aav] #ai-readiness #air-intro:not(.on):not(.aa-leaving){display:none!important;}
+html[data-aav] #air-intro .air-meta{will-change:transform,filter; pointer-events:none;}
+/* beat 1: 0-0.45s */
+html[data-aav] #air-intro .air-consent, html[data-aav] #air-intro .air-sub{transition:opacity .45s cubic-bezier(.22,1,.36,1);}
+html[data-aav] #air-intro #air-start{transition:opacity .45s cubic-bezier(.22,1,.36,1),background-color .2s ease,transform .25s cubic-bezier(.22,1,.36,1)!important;}   /* the button rule in aa-design-pass is !important */
+html[data-aav] #air-intro.aa-leaving .air-consent, html[data-aav] #air-intro.aa-leaving #air-start, html[data-aav] #air-intro.aa-leaving .air-sub{opacity:0;}
+/* beat 2: 0.6-2.1s, headline and tag go with the camera */
+html[data-aav] #air-intro .air-tag, html[data-aav] #air-intro .air-h{transition:opacity .9s ease;}
+html[data-aav] #air-intro.aa-leaving .air-tag, html[data-aav] #air-intro.aa-leaving .air-h{opacity:0; transition-delay:.6s;}
+html[data-aav] #ai-readiness.aiq::after{transition:background-color 1.5s ease;}
+html[data-aav] #ai-readiness.aiq.aa-quiz::after{background:rgba(10,16,24,.58); transition-delay:.6s;}
+html[data-aav] #ai-readiness.aiq::before{transform-origin:100% 50%; will-change:transform; transition:transform 1.5s cubic-bezier(.4,0,.2,1);}
+html[data-aav] #ai-readiness.aiq.aa-quiz::before{transform:translateX(75%) scale(1.7); transition-delay:.6s;}
+@media (max-width:991px){ html[data-aav] #ai-readiness.aiq.aa-quiz::before{transform:scale(1.15);} html[data-aav] #ai-readiness.aiq.aa-quiz::after{background:rgba(10,16,24,.7);} }
+/* beat 3: 2.1s, the first quiz screen fades in (later screens fade with no delay) */
+html[data-aav] #ai-readiness .air-scr:not(#air-intro){
+  position:relative; z-index:2; display:none; min-height:100svh; box-sizing:border-box; width:100%; max-width:1760px; margin:0 auto!important;
+  padding:clamp(72px,9vh,110px) clamp(24px,5vw,80px) clamp(64px,8vh,110px)!important; color:#F1F1EE; text-align:left;}
+html[data-aav] #ai-readiness .air-scr:not(#air-intro).on{display:block; animation:none; opacity:1; transition:opacity .6s ease;}
+@starting-style{ html[data-aav] #ai-readiness .air-scr:not(#air-intro).on{opacity:0;} }
+html[data-aav] #ai-readiness #air-quiz.on.aa-first{transition-delay:2.1s;}
+html[data-aav] #ai-readiness .air-scr:not(#air-intro) > *{max-width:620px;}
+html[data-aav] #ai-readiness .air-scr:not(#air-intro) .air-tag{margin-bottom:12px;}
+html[data-aav] #ai-readiness .air-q{color:#F1F1EE!important; font-size:clamp(22px,1.9vw,32px)!important; font-weight:500!important; line-height:1.2!important; letter-spacing:-.015em; margin:0 0 18px!important;}
+html[data-aav] #ai-readiness .air-prog{margin-bottom:16px!important;}
+html[data-aav] #ai-readiness .air-prog-n{color:rgba(241,241,238,.62)!important;}
+html[data-aav] #ai-readiness .air-prog-bar{background:rgba(241,241,238,.2)!important;}
+html[data-aav] #ai-readiness .air-opt{
+  background:rgba(10,16,24,.72)!important; border:1px solid rgba(241,241,238,.28)!important; color:#F1F1EE!important;
+  border-radius:12px!important; font-size:15px!important; padding:13px 16px!important; margin-bottom:10px!important;}
+html[data-aav] #ai-readiness .air-opt:hover, html[data-aav] #ai-readiness .air-opt.sel{border-color:#FF7B00!important; background:rgba(10,16,24,.88)!important;}
+html[data-aav] #ai-readiness .air-ta, html[data-aav] #ai-readiness .air-in, html[data-aav] #ai-readiness .air-sel, html[data-aav] #ai-readiness .air-dd-btn{
+  background:rgba(10,16,24,.72)!important; border:1px solid rgba(241,241,238,.28)!important; color:#F1F1EE!important;}
+html[data-aav] #ai-readiness .air-ta::placeholder, html[data-aav] #ai-readiness .air-in::placeholder{color:rgba(241,241,238,.5);}
+html[data-aav] #ai-readiness .air-dd-btn .air-dd-val.ph{color:rgba(241,241,238,.5)!important;}
+html[data-aav] #ai-readiness .air-dd-list{background:#0A1018!important; border:1px solid rgba(241,241,238,.28)!important; color:#F1F1EE!important;}
+html[data-aav] #ai-readiness .air-dd-list *{color:#F1F1EE!important;}
+html[data-aav] #ai-readiness .air-scr:not(#air-intro) label, html[data-aav] #ai-readiness .air-scr:not(#air-intro) p,
+html[data-aav] #ai-readiness .air-scr:not(#air-intro) h3, html[data-aav] #ai-readiness .air-scr:not(#air-intro) h2{color:#F1F1EE!important;}
+html[data-aav] #ai-readiness .air-back{background:transparent!important; border:0!important; color:rgba(241,241,238,.7)!important; padding:12px 0!important; cursor:pointer;}
+html[data-aav] #ai-readiness .air-back:hover{color:#F1F1EE!important;}
+
+/* ---- BACK (first question only): the whole take runs in reverse ---- */
+html[data-aav] #ai-readiness #aa-back{display:none; background:transparent!important; border:0!important; color:rgba(241,241,238,.7)!important; font-size:13px; letter-spacing:.04em; padding:0 0 18px!important; cursor:pointer; font-family:inherit;}
+html[data-aav] #ai-readiness #aa-back:hover{color:#F1F1EE!important;}
+html[data-aav] #ai-readiness #air-quiz.aa-step0 #aa-back{display:inline-block;}
+html[data-aav] #ai-readiness.aa-return #air-quiz.on{opacity:0!important; transition:opacity .4s ease 0s!important; pointer-events:none;}
+html[data-aav] #ai-readiness.aa-return.aiq::before{transform:none; transition-delay:.3s;}
+html[data-aav] #ai-readiness.aa-return.aiq::after{background:rgba(10,16,24,.36); transition-delay:.3s;}
+html[data-aav] #ai-readiness.aa-return #air-intro.aa-leaving .air-tag, html[data-aav] #ai-readiness.aa-return #air-intro.aa-leaving .air-h{opacity:1; transition-delay:.3s;}
+html[data-aav] #ai-readiness.aa-return #air-intro.aa-leaving .air-consent, html[data-aav] #ai-readiness.aa-return #air-intro.aa-leaving .air-sub{opacity:1; transition-delay:1.5s;}
+html[data-aav] #ai-readiness.aa-return #air-intro.aa-leaving #air-start{opacity:1; transition-delay:1.5s!important;}
+html[data-aav] #ai-readiness .air-w.aa-glide.aa-glide-back{transition-delay:.3s;}
+@media (prefers-reduced-motion:reduce){
+  html[data-aav] #air-intro *, html[data-aav] #ai-readiness .air-scr:not(#air-intro).on, html[data-aav] #ai-readiness.aiq::after, html[data-aav] #ai-readiness.aiq::before{transition:none!important;}
+}

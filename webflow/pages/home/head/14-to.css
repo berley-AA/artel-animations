@@ -1,0 +1,89 @@
+ to roll back. ===== -->
+<style id="aa-cta-v2">
+/* ---------- tile ---------- */
+html[data-aav] #free-pilot, html[data-aav] #ai-readiness.aiq{
+  position:relative; overflow:hidden; background-color:#0A1018!important; color:#F1F1EE;
+  min-height:100svh; padding:0!important; display:flex!important; align-items:stretch;}
+html[data-aav] #free-pilot::before, html[data-aav] #ai-readiness.aiq::before{
+  content:""; position:absolute; inset:0; z-index:0; background-size:cover; background-repeat:no-repeat;}
+html[data-aav] #free-pilot::after, html[data-aav] #ai-readiness.aiq::after{
+  content:""; position:absolute; inset:0; z-index:1; background:rgba(10,16,24,var(--aa-scrim,.4));}
+html[data-aav] #free-pilot .fp-inner, html[data-aav] #ai-readiness.aiq .container-2{
+  position:relative; z-index:2; width:100%!important; max-width:none!important; margin:0!important; padding:0!important; opacity:1;}
+html[data-aav] #ai-readiness .container-2, html[data-aav] #ai-readiness .w-embed, html[data-aav] #ai-readiness .air,
+html[data-aav] #ai-readiness .air-w, html[data-aav] #air-intro{
+  width:100%!important; max-width:none!important; margin:0!important; padding:0!important;
+  background:transparent!important; box-shadow:none!important; border:0!important; border-radius:0!important;}
+
+/* ---------- the grid: 2 columns, 3 rows. Content capped so 1920+ doesn't stretch the text apart. ---------- */
+html[data-aav] #free-pilot .fp-inner, html[data-aav] #ai-readiness #air-intro{
+  display:grid!important; grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:auto 1fr auto;
+  column-gap:clamp(32px,4vw,96px); row-gap:0;
+  min-height:100svh; box-sizing:border-box; width:100%; max-width:1760px; margin:0 auto!important;
+  padding:clamp(96px,13vh,150px) clamp(24px,5vw,80px) clamp(48px,7vh,80px)!important; text-align:left!important;}
+html[data-aav] #ai-readiness .air-w{display:block!important;}
+html[data-aav] #ai-readiness #air-intro{padding-top:clamp(88px,11vh,120px)!important;}
+html[data-aav] .air-h{font-size:clamp(40px,5vw,92px)!important;}
+/* row 1: eyebrow + headline, left */
+html[data-aav] .fp-eyebrow, html[data-aav] .air-tag{grid-column:1/3; grid-row:1; justify-self:start; margin:0 0 16px;
+  color:#FF7B00!important; font-size:11px; letter-spacing:.18em; text-transform:uppercase;}
+html[data-aav] .fp-headline, html[data-aav] .air-h{grid-column:1/3; grid-row:1; justify-self:start; align-self:start; margin:32px 0 0!important;
+  color:#F1F1EE!important; font-size:clamp(44px,5.6vw,104px)!important; line-height:.96!important; letter-spacing:-.02em;
+  font-weight:600!important; max-width:12ch; text-align:left!important; text-wrap:balance;}
+/* row 3 left: body */
+html[data-aav] .fp-sub, html[data-aav] .air-sub{grid-column:1; grid-row:3; align-self:end; justify-self:start; margin:0!important;
+  color:rgba(241,241,238,.88)!important; font-size:clamp(16px,1.15vw,20px)!important; line-height:1.47!important; max-width:44ch; text-align:left!important;}
+/* row 3 right: the action stack, right-aligned */
+html[data-aav] .aa-actions{grid-column:2; grid-row:3; align-self:end; justify-self:end; display:flex; flex-direction:column; align-items:flex-end; gap:16px; max-width:46ch; text-align:right;}
+html[data-aav] #free-pilot .fp-cta-row{display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end; margin:0;}
+html[data-aav] .fp-fine, html[data-aav] .air-meta{color:rgba(241,241,238,.62)!important; font-size:13px; margin:0; text-align:right!important;}
+html[data-aav] #ai-readiness .air-consent{margin:0; max-width:46ch; text-align:left; display:flex; gap:10px; align-items:flex-start;}
+html[data-aav] #ai-readiness .air-consent, html[data-aav] #ai-readiness .air-consent span{color:rgba(241,241,238,.8)!important; font-size:13px; line-height:1.45;}
+html[data-aav] #ai-readiness .air-consent input{accent-color:#FF7B00; margin-top:3px;}
+html[data-aav] #ai-readiness #air-priv{color:#FF7B00!important;}
+/* buttons */
+html[data-aav] #free-pilot .fp-btn, html[data-aav] #ai-readiness .air-btn{
+  background:#FF7B00!important; color:#fff!important; border:0!important; border-radius:999px!important;
+  padding:14px 28px!important; font-size:16px!important; font-weight:500!important; min-height:48px;}
+html[data-aav] #free-pilot .fp-link{background:transparent!important; color:#F1F1EE!important; border:1px solid rgba(241,241,238,.35)!important;
+  border-radius:999px!important; padding:13px 27px!important; font-size:16px!important; min-height:48px; display:inline-flex; align-items:center;}
+html[data-aav] #free-pilot .fp-link:hover{border-color:#F1F1EE!important; background:rgba(241,241,238,.08)!important;}
+/* quiz screens after the intro keep their own look */
+html[data-aav] #ai-readiness .air-scr:not(#air-intro){color:#1A1B1F;}
+
+/* ---------- AIQ: the eyes, every variant. Eyes sit upper-right, clear of all three text blocks. ---------- */
+html[data-aav] #ai-readiness.aiq::before{
+  background-image:url("https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6abb29f7321c58263a90df64_cta-eyes-3840-FPO.jpg");
+  inset:0 -18%; background-size:cover; background-position:50% 32%;}   /* layer runs past both edges so the source frame never shows */
+html[data-aav] #ai-readiness.aiq{--aa-scrim:.36;}
+
+/* ---------- OFFER images ---------- */
+/* a: the lit floor (soft source, 979px) pushed up-right */
+html[data-aav="a"] #free-pilot::before{background-image:url("https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6abbb82dccb168702b761185_cta-tower-979-FPO.jpg"); background-size:auto 140%; background-position:100% 15%;}
+html[data-aav="a"] #free-pilot{--aa-scrim:.3;}
+/* c: warm studio, two people at work. Bright windows top-centre; text zones are the dark desk (bottom-left) and wall (right). */
+html[data-aav="c"] #free-pilot::before{background-image:url("https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6abbb811642ed9e671d9009a_cta-office-3200-FPO.jpg"); background-size:cover; background-position:50% 100%;}
+html[data-aav="c"] #free-pilot{--aa-scrim:.6;}
+/* d: copper reeded glass. Bright edge on the right, so the image is flipped to keep the right side dark for the CTA. */
+html[data-aav="d"] #free-pilot::before{background-image:url("https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6abbb81541f61fca02bc8e40_cta-copper-glass-3200-FPO.jpg"); background-size:cover; background-position:50% 60%; transform:scaleX(-1);}
+html[data-aav="d"] #free-pilot{--aa-scrim:.42;}
+/* e: ARTEL Labs racks (own asset). Floor cropped out; racks fill the right half. */
+html[data-aav="e"] #free-pilot::before{background-image:url("https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6abbb8171db7ee717371c224_cta-artel-labs-racks-3200.jpg"); background-size:auto 170%; background-position:55% 34%;}
+html[data-aav="e"] #free-pilot{--aa-scrim:.25;}
+/* f: the man with the books, B&W. Subject right of centre, dark shelves left for the headline. */
+html[data-aav="f"] #free-pilot::before{background-image:url("https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6abbb81adb75f13bb52ac8c2_cta-man-books-3200-FPO.jpg"); background-size:118% auto; background-position:0% 45%;}
+html[data-aav="f"] #free-pilot{--aa-scrim:.5;}
+
+/* ---------- tablets / phones: one column, everything stacks lower-left ---------- */
+@media (max-width:991px){
+  html[data-aav] #free-pilot .fp-inner, html[data-aav] #ai-readiness #air-intro{grid-template-columns:1fr; grid-template-rows:auto 1fr auto auto; padding-top:96px!important;}
+  html[data-aav] .fp-eyebrow, html[data-aav] .air-tag, html[data-aav] .fp-headline, html[data-aav] .air-h{grid-column:1;}
+  html[data-aav] .fp-sub, html[data-aav] .air-sub{grid-column:1; grid-row:3; margin:0 0 24px!important;}
+  html[data-aav] .aa-actions{grid-column:1; grid-row:4; justify-self:start; align-items:flex-start; text-align:left;}
+  html[data-aav] #free-pilot .fp-cta-row{justify-content:flex-start;}
+  html[data-aav] .fp-fine, html[data-aav] .air-meta{text-align:left!important;}
+  html[data-aav] .fp-headline, html[data-aav] .air-h{font-size:clamp(38px,9vw,64px)!important;}
+  html[data-aav] #ai-readiness.aiq::before{background-size:cover; background-position:70% 30%;}
+  html[data-aav="d"] #free-pilot::before{transform:scaleX(-1);}
+}
+@media (prefers-reduced-motion:reduce){ html[data-aav] #free-pilot::before, html[data-aav] #ai-readiness.aiq::before{transition:none;} }

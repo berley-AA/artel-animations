@@ -1,0 +1,18 @@
+/* Nov 11 (Berley): design rules from the "20 design terms" reel, on the How we work timeline.
+   Widow: no lone word or split hyphen on a step's last line. Tabular numbers: Day 1 / Days 2-3 / Days 4-7 line up.
+   Stagger + interruptible: the old step leaves fast, then number, title, line arrive one after another, so two steps never overlap.
+   Affordance + touch target: each dot is a 44px button that takes you to its step. The orange line grows with transform (no layout per scroll frame). */
+.aa-how-step p{text-wrap:wrap!important;max-width:40ch!important}
+.aa-how-dot span,.aa-how-step .n{font-variant-numeric:tabular-nums}
+.aa-how-rail .fl{width:75%!important;transform-origin:0 50%;transform:scaleX(0);will-change:transform}
+.aa-how-step{transform:none!important;transition:opacity .2s ease!important}
+.aa-how-step.on{transition:opacity .2s ease .12s!important}
+.aa-how-step>*{opacity:0;transform:translateY(14px);transition:opacity .18s ease,transform .18s ease}
+.aa-how-step.out>*{transform:translateY(-14px)}
+.aa-how-step.on>*{opacity:1;transform:none;transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1)}
+.aa-how-step.on>:nth-child(1){transition-delay:.12s}.aa-how-step.on>:nth-child(2){transition-delay:.18s}.aa-how-step.on>:nth-child(3){transition-delay:.24s}
+.aa-how-dot{cursor:pointer;min-height:44px;min-width:44px;-webkit-tap-highlight-color:transparent}
+.aa-how-dot:before{content:"";position:absolute;left:50%;top:7px;width:44px;height:44px;transform:translate(-50%,-50%);border-radius:50%}
+@media (hover:hover){.aa-how-dot:hover i{border-color:#FF7B00}.aa-how-dot:hover span{color:#1D1D1F}}
+@media (prefers-reduced-motion:reduce){.aa-how-step>*{opacity:1!important;transform:none!important;transition:none!important}.aa-how-rail .fl{transform:none!important}}
+/* Nov 11, unslop reel: drop the redundant label (the step's "Day 1" repeated the dot under the rail), stronger contrast on the small grey text, more air between the step and its button (group with spacing). */@media (prefers-reduced-motion:no-preference){.aa-how-step .n{display:none}}.aa-how-dot span,.aa-how-cta small{color:#515154}@media (max-width:560px){.aa-how-dot span{font-size:12px}}.aa-how-cta{margin-top:clamp(8px,2vh,24px)}

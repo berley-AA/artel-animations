@@ -1,0 +1,5 @@
+/* Nov 5: switching between the Watch Luz work cards. Apple slides flat cards and shrinks one pill while the next grows. Ours: the card in front comes forward and the others ease back and dim, the clip moves a little slower than its frame, and a dark ink drop stretches from one dot to the next (its front first, then its tail). */
+#highlights .car-bar{position:relative}
+#highlights .car-ink{position:absolute;top:18px;left:0;width:0;height:8px;border-radius:999px;background:#1D1D1F;pointer-events:none;opacity:0;z-index:2}
+#highlights .car-bar.inking .dfill{visibility:hidden}
+@media (prefers-reduced-motion:reduce){#highlights .car-ink{display:none}}

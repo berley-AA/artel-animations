@@ -1,0 +1,125 @@
+<!-- CASE STUDY v3 (Luz page design structure). Content lives in the page embed; this block is the whole look. -->
+<style>
+:root{--cs-m:14.57vw;--cs-w:1240px;--cs-pad:24px;--cs-ink:#1D1D1F;--cs-txt:#3A3A3C;--cs-soft:#515154;--cs-rule:rgba(29,29,31,.12);--cs-o:#FF7B00;--cs-f:"ABC Areal","Helvetica Neue",Helvetica,Arial,sans-serif;--cs-lead:clamp(19px,.47vw + 14px,26px);--cs-h2:clamp(30px,1.5vw + 18px,56px);--cs-hc:clamp(32px,1.9vw + 16px,64px);--cs-sm:clamp(15px,.2vw + 14px,19px);--cs-gap:clamp(72px,7vw,160px)}
+@media (max-width:1199px){:root{--cs-m:5vw}}
+@media (max-width:600px){:root{--cs-m:20px;--cs-pad:20px}}
+body{background:#F5F5F7!important}
+html body #nav-bar-secondary{background:#F5F5F7!important}
+html body #nav-bar-secondary.frosted{background:rgba(245,245,247,.72)!important}
+/* break the embed out of the old narrow column */
+section.section>.w-container{max-width:none!important;width:100%!important;padding:0!important}
+section.section .padding-8{padding:0!important}
+.cs-container,.cs-container *{text-transform:none;box-sizing:border-box}
+.cs-container{max-width:none;margin:0;padding:0;font-family:var(--cs-f);color:var(--cs-txt);font-size:clamp(17px,.25vw + 15px,21px);line-height:1.5;-webkit-font-smoothing:antialiased}
+.cs-container[data-lang="fr"]{display:none}
+.cs-container :is(h1,h2,h3,p,li,a,div,span){font-family:var(--cs-f)!important}
+/* Luz page container: 1240 wide, centered. The hero keeps the site margin. */
+.cs-container>*,.cs-lp>*{width:min(var(--cs-w),calc(100% - 2*var(--cs-pad)));margin-left:auto;margin-right:auto}
+.cs-container>.cs-lp,.cs-lp>.cs2-hero{width:100%}
+
+/* ===== HERO: visual on top, words bottom left ===== */
+.cs-lp{padding:0}
+.cs2-hero{display:flex;flex-direction:column;min-height:100vh;min-height:100svh;padding:clamp(88px,8vh,120px) var(--cs-m) clamp(40px,7vh,96px)}
+.cs2-hero-r{position:relative;margin:auto;height:clamp(220px,44vh,620px);aspect-ratio:16/10;max-width:100%;border-radius:24px;overflow:hidden;background:#E8E8ED}
+.cs2-hero-r video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.cs2-pill{position:absolute;left:14px;bottom:14px;z-index:2;background:#fff;color:var(--cs-ink);border-radius:999px;padding:6px 12px;font-size:12px;font-weight:500;line-height:1.3}
+.cs2-hero-l{margin-top:clamp(28px,4vh,56px)}
+.cs-lp-label{font-size:var(--cs-lead);font-weight:500;line-height:1.15;letter-spacing:-.012em;color:#86868B;margin:0 0 6px}
+.cs-lp-title{font-size:clamp(36px,1.25vw + 32px,64px);font-weight:600;line-height:1.02;letter-spacing:-.035em;color:var(--cs-ink);margin:0 0 clamp(10px,.8vw,16px)}
+.cs-lp-sub{font-size:var(--cs-lead);font-weight:500;line-height:1.2;letter-spacing:-.012em;color:var(--cs-txt);margin:0 0 clamp(20px,1.6vw,32px);max-width:30em}
+.cs-lp-ctarow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.cs2-btn{display:inline-flex;align-items:center;justify-content:center;height:52px;padding:0 30px;border-radius:999px;font-size:17px;line-height:1;font-weight:500;text-decoration:none;white-space:nowrap;transition:background-color .25s ease,border-color .25s ease}
+/* the site squares .cs-aiq-btn; keep the Luz pill here */
+html body .cs-container a.cs2-btn{border-radius:999px!important}
+.cs2-btn-o{background:var(--cs-o);color:#fff!important}
+.cs2-btn-o:hover{background:#E06C00}
+.cs2-btn-g{background:transparent;color:var(--cs-ink)!important;font-weight:400;border:1.5px solid rgba(29,29,31,.35);padding:0 28.5px}
+.cs2-btn-g:hover{border-color:var(--cs-ink)}
+.cs2-btn:focus-visible{outline:2px solid var(--cs-o);outline-offset:3px}
+.cs-lp-statline{margin:14px 0 0;font-size:13px;line-height:1.4;color:var(--cs-soft)}
+
+/* ===== HOW IT WORKS: centered title, four steps on a line ===== */
+.cs-lp-h{margin-top:var(--cs-gap);font-size:var(--cs-hc);font-weight:600;line-height:1.05;letter-spacing:-.03em;color:var(--cs-ink);text-align:center}
+.cs-lp-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:clamp(40px,4vw,88px)}
+.cs-lp-step{position:relative;padding:0 16px;text-align:center}
+.cs-lp-step::before{content:"";position:absolute;top:4.25px;left:0;right:0;border-top:1.5px solid rgba(29,29,31,.35)}
+.cs-lp-step:first-child::before{left:50%}
+.cs-lp-step:last-child::before{right:50%}
+.cs-lp-step-n{position:relative;padding-top:22px;margin-bottom:clamp(20px,2vw,40px);font-size:13px;font-weight:500;color:var(--cs-ink)}
+.cs-lp-step-n::before{content:"";position:absolute;top:0;left:50%;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#F5F5F7;border:1.5px solid rgba(29,29,31,.35)}
+.cs-lp-step:first-child .cs-lp-step-n::before{background:var(--cs-o);border-color:var(--cs-o)}
+.cs-lp-step-t{font-size:clamp(22px,1vw + 12px,38px);font-weight:600;line-height:1.08;letter-spacing:-.03em;color:var(--cs-ink);margin-bottom:10px}
+.cs-lp-step-d{font-size:var(--cs-sm);line-height:1.4;color:var(--cs-txt);max-width:16em;margin:0 auto}
+.cs-lp-steps+.cs-lp-h{margin-top:clamp(48px,4.4vw,96px);font-size:13px;font-weight:500;line-height:1.4;letter-spacing:0;color:var(--cs-soft)}
+.cs-lp-fits{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:14px}
+.cs-lp-chip{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:999px;background:#fff;font-size:15px;color:var(--cs-ink)}
+
+/* ===== THE CASE: centered statement, three numbers ===== */
+.cs-lp-proof{margin-top:var(--cs-gap);margin-bottom:0;padding-top:var(--cs-gap);border-top:1px solid var(--cs-rule);font-size:13px;font-weight:500;line-height:1.4;color:var(--cs-soft);text-align:center}
+.cs-header{text-align:center;padding:6px 0 0;margin-top:0;margin-bottom:0}
+.cs-tag,.cs-date{font-size:13px;font-weight:500;color:var(--cs-soft)}
+.cs-tag::after{content:"\00a0\00b7\00a0"}
+.cs-title{font-size:clamp(34px,2.6vw + 14px,80px);font-weight:600;line-height:1.04;letter-spacing:-.03em;color:var(--cs-ink);margin:clamp(16px,1.4vw,28px) auto clamp(18px,1.6vw,30px);max-width:15em;text-wrap:balance}
+.cs-subtitle{font-size:inherit;line-height:1.5;color:var(--cs-txt);margin:0 auto;max-width:32em}
+.cs-metrics{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(28px,5vw,128px);margin-top:clamp(40px,3.6vw,72px);margin-bottom:0}
+.cs-metric{text-align:center}
+.cs-metric-value{font-size:var(--cs-hc);font-weight:600;line-height:1.05;letter-spacing:-.025em;color:var(--cs-ink);font-variant-numeric:tabular-nums}
+.cs-metric-value span{font-size:.5em;letter-spacing:0}
+.cs-metric-label{font-size:13px;line-height:1.4;color:var(--cs-soft);margin-top:6px}
+.cs-byline{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:clamp(28px,2.4vw,48px);margin-bottom:0}
+.cs-written-by{font-size:12px;color:var(--cs-soft)}
+.cs-author{display:flex;align-items:center;gap:10px;text-align:left}
+.cs-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none}
+.cs-avatar img{width:100%;height:100%;object-fit:cover;display:block}
+.cs-author-name{font-size:13px;font-weight:500;line-height:1.3;color:var(--cs-ink)}
+.cs-author-role{font-size:12px;line-height:1.3;color:var(--cs-soft)}
+.cs-hero{margin-top:var(--cs-gap);margin-bottom:0;border-radius:24px;overflow:hidden}
+.cs-hero img{width:100%;display:block}
+
+/* ===== ARTICLE: left titles, readable column, white cards ===== */
+.cs-body{margin-top:var(--cs-gap);margin-bottom:0}
+.cs-body>p,.cs-body>ul{max-width:36em}
+.cs-body p{font-size:inherit;line-height:1.5;color:var(--cs-txt);margin:0 0 1em}
+.cs-body>p:nth-child(-n+2){font-size:var(--cs-lead);font-weight:500;line-height:1.25;letter-spacing:-.012em;max-width:34em}
+.cs-body>h2{font-size:var(--cs-h2);font-weight:600;line-height:1.07;letter-spacing:-.02em;color:var(--cs-ink);margin:var(--cs-gap) 0 clamp(20px,2vw,40px);max-width:18em;text-wrap:balance}
+.cs-body strong{color:var(--cs-ink);font-weight:600}
+.cs-body ul{list-style:none;margin:0 0 1.2em;padding:0}
+.cs-body ul li{padding:12px 0;margin:0;line-height:1.45;font-size:inherit;border-top:1px solid var(--cs-rule)}
+.cs-body ul li:last-child{border-bottom:1px solid var(--cs-rule)}
+.cs-quote{margin:var(--cs-gap) auto;text-align:center}
+.cs-quote p{font-size:clamp(26px,1.6vw + 12px,52px);font-weight:600;line-height:1.1;letter-spacing:-.025em;color:var(--cs-ink);margin:0 auto;max-width:20em;text-wrap:balance}
+.cs-phases,.cs-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:clamp(24px,2.4vw,48px) 0 0}
+.cs-phase,.cs-card{background:#fff;border-radius:40px;padding:clamp(28px,2.6vw,48px)}
+.cs-phase-label{font-size:13px;font-weight:500;color:var(--cs-ink);margin-bottom:clamp(20px,2.4vw,56px)}
+.cs-phase-title,.cs-card h3{font-size:clamp(22px,.8vw + 14px,34px);font-weight:600;line-height:1.1;letter-spacing:-.025em;color:var(--cs-ink);margin:0 0 clamp(12px,1.2vw,24px)}
+.cs-phase p,.cs-phase li,.cs-card li{font-size:var(--cs-sm);line-height:1.45}
+.cs-phase p{margin:0 0 .9em}
+.cs-phase ul,.cs-card ul{margin:0}
+.cs-phase>:last-child{margin-bottom:0}
+.cs-card:last-child:nth-child(odd){grid-column:1/-1}
+
+/* ===== CLOSE: centered, one orange pill ===== */
+.cs-cta{margin-top:var(--cs-gap);margin-bottom:0;padding:var(--cs-gap) 0 0;border-top:1px solid var(--cs-rule);text-align:center}
+.cs-cta h3{font-size:var(--cs-hc);font-weight:600;line-height:1.05;letter-spacing:-.03em;color:var(--cs-ink);margin:0 auto 12px;max-width:12em;text-wrap:balance}
+.cs-cta p{font-size:inherit;line-height:1.45;color:var(--cs-txt);margin:0 0 clamp(24px,2vw,40px)}
+.cs-footer-note{margin-top:clamp(48px,5vw,96px);padding:0 0 clamp(64px,6vw,120px);text-align:center}
+.cs-footer-note p{font-size:12px;color:var(--cs-soft);margin:0}
+.cs-footer-note a{color:inherit;text-decoration:none}
+
+/* ===== TABLET AND PHONE ===== */
+@media (max-width:991px){
+.cs-lp-steps{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:40px}
+.cs-lp-step::before{display:none}
+.cs-phases,.cs-cards{grid-template-columns:1fr}
+.cs-phase,.cs-card{border-radius:28px}
+}
+@media (max-width:600px){
+.cs2-hero{min-height:0;padding-top:96px}
+.cs2-hero-r{height:auto;width:100%;aspect-ratio:4/5;margin:0 auto}
+.cs-lp-steps{grid-template-columns:1fr;row-gap:32px}
+.cs2-btn{width:100%}
+.cs-metrics{flex-direction:column;gap:24px}
+.cs-byline{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){.cs2-btn{transition:none}}
+</style>

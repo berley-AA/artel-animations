@@ -106,9 +106,7 @@
     var c = document.querySelector('.aa-ctl'); if (!c) return null;
     var k = c.querySelector('.aa-ctl-k');
     if (!k) {
-      var st = document.createElement('style');
-      st.textContent = '.aa-ctl{isolation:isolate}.aa-ctl a{position:relative!important;z-index:2!important}.aa-ctl a.on{background:transparent!important}.aa-ctl-k{position:absolute;z-index:0;border-radius:999px;background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.08);pointer-events:none;will-change:top,height,left,width}';
-      document.head.appendChild(st);
+      c.classList.add('has-knob');   // knob styles: src/parts/modules/lang-picker.css
       k = document.createElement('div'); k.className = 'aa-ctl-k'; c.insertBefore(k, c.firstChild);
     }
     return { c: c, k: k };

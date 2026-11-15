@@ -1,0 +1,2 @@
+/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
+(function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();

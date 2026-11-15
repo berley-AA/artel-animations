@@ -1,0 +1,1 @@
+/* NO AIQ IN NAV (2026-10-20): the AIQ section is hidden, so its nav button is gone. The Lab is already in the nav. */html body .aa-nav-cta,html body .navbar a[href*="ai-readiness"]{display:none!important}

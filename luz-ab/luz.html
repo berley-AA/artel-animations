@@ -9,7 +9,7 @@ window.__aaFilmSet=function(on){window.__aaFilm=!!on;if(!on){var l=q;q=[];l.forE
 @font-face{font-family:'ABC Areal';src:url('https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/fonts/6aca3bcfbdc34936a7d20f74-ABCArealVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 html{-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}body{background:#F5F5F7;overflow-x:hidden}
 #ask iframe{height:100%}
-@media (max-width: 600px){#ask{min-height:620px!important}#ask iframe{min-height:580px!important}}
+@media (max-width: 600px){#ask iframe{min-height:580px!important}}
 
 body{margin:0}
 html.lenis,html.lenis body{height:auto}
@@ -89,7 +89,7 @@ input,select,textarea{font:inherit}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FF7B00;outline-offset:2px}
 
 </style>
-<script src="js/lenis.min.js"></script><script src="js/luz-takeover.js"></script><style>#aa-loop{display:none!important}</style><script>/* Nov 5: the homepage's end-of-page hero copy (#aa-loop) is not for these pages */(function(){function k(){var e=document.getElementById('aa-loop');if(e&&e.parentNode)e.parentNode.removeChild(e);}k();try{new MutationObserver(k).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}})();</script><script src="js/dcrt.js"></script>
+<script src="js/lenis.min.js"></script><script src="js/luz-takeover.js"></script><script src="js/dcrt.js"></script>
 <script>/* the page paints first; the orb engine loads behind it and the orb mounts when it is ready */
 (function(){var stub={mount:function(cv,o){var h={destroy:function(){if(h.r)h.r.destroy()}};(function go(){if(window.ArtelOrb&&window.ArtelOrb!==stub){h.r=window.ArtelOrb.mount(cv,o)}else setTimeout(go,150)})();return h}};window.ArtelOrb=stub;})();</script>
 <script src="js/three.min.js" defer></script><script src="js/orb-live.js" defer></script>
@@ -176,10 +176,11 @@ html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{posi
     <h2 data-m="up" style="margin: 0; font-weight: 600; letter-spacing: -0.03em; line-height: 1.04; font-size: clamp(40px, 5.4vw, 80px);">Every business has one person who answers everything.<br>Usually, it’s you.</h2>
     <p style="margin: 8px 0 0; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; color: #3A3A3C; max-width: 640px;">At 11 p.m., on a Sunday, between two orders. Luz takes those questions, so the business stops waiting on you.</p>
   </div>
-  <style id="aaChatCard">/* Nov 11 (Berley): chat card redone with the reel rules. Hairlines gone. The "Luz" label in the header is dropped (the button and the heading already say Luz); the AI notice moves to the bottom as fine print, darker for contrast. The orb area now ends right under the Talk to Luz button: no white band between the start-state particles and the colours. Phones: the card no longer forces a 620px height (that added white under the orb). */
-#luzWrap{border-radius:23px 23px 0 0}@media (max-width:600px){#ask{min-height:0!important}}
-</style><style id="aaPickOut">/* Nov 11 (Berley): the colour picker and the AI notice sit outside the chat card, under it. The card is just the orb and the button. The page opens on the middle colour (Ember). */
-.aa-ask-col{display:flex;flex-direction:column;gap:18px;min-width:0}.aa-pick-out{display:flex;flex-direction:column;align-items:center;gap:14px}.aa-pick-out .luz-pick{padding:0!important;border:0!important;background:transparent!important}.aa-pick-out .aa-ai-note{margin:0;font-size:12px;line-height:1.4;color:#515154;text-align:center}.aa-pick-out .aa-ai-note a{color:#3A3A3C}#ask{min-height:0!important}#luzWrap{border-radius:23px!important}#ask,#luzWrap,#luzChat{background:#F1F1EE!important}</style><style id="aaStage">/* Nov 11 (Berley: no centred stack; draft from apple.com). Modelled on "Take a closer look." on apple.com/homepod-mini: headline left above one big rounded stage; inside it, a control card on the left ("Colours." + a line + the dots, like Apple's "Colors. Available in five stunning colors. Shown in Green.") and the product (the orb and its button) on the right. Stage is white on the grey page, so the colour filter on the chat never shows a seam. Phones: orb first, card under it. Concentric corners (Berley, Nov 11): stage radius = orb card radius 20px + stage padding, so the corners that sit together share one centre. */
+  <style id="aaChatStage">/* The "Talk to Luz" stage (#book): one rounded white stage, the colour card on the left, the orb and its button on the right.
+   Phones: orb first, card under it. Concentric corners: stage radius = orb card radius 20px + stage padding.
+   Folded together on Nov 15 from three patches (Nov 11 chat card, colours outside the card, Apple stage);
+   rules the later patches had already overridden were dropped. */
+.aa-ask-col{min-width:0}.aa-pick-out{display:flex;flex-direction:column;gap:14px}.aa-pick-out .luz-pick{border:0!important}#ask{min-height:0!important}
 html body section#book>div{display:flex!important;flex-direction:column!important;align-items:stretch!important;gap:clamp(28px,4vh,44px)!important}html body section#book>div>div:first-child{max-width:760px!important;text-align:left;align-items:flex-start;margin:0}html body section#book>div>div:last-child{display:block!important;width:100%}.aa-ask-col{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);align-items:center;gap:clamp(20px,3vw,48px);background:#FFFFFF;--aa-pad:clamp(12px,1.6vw,20px);padding:var(--aa-pad);border-radius:calc(20px + var(--aa-pad))}.aa-pick-out{order:-1;align-items:flex-start!important;padding-left:clamp(0px,1.2vw,16px)}#ask{border:0!important;border-radius:20px!important}#ask,#luzWrap,#luzChat{background:#FFFFFF!important}#luzWrap{border-radius:20px!important}#luzChat{border-radius:20px!important}.aa-pick-out .luz-pick{align-items:flex-start!important;gap:18px!important;background:#F5F5F7!important;border-radius:20px!important;padding:22px 24px 24px!important;max-width:360px;box-sizing:border-box}.aa-pick-copy{margin:0;font-size:17px;line-height:1.45;color:#1D1D1F;text-wrap:pretty}.aa-pick-copy b{font-weight:600}.aa-pick-copy .luz-pick-name{font-size:inherit!important;color:inherit!important}@media (max-width:860px){.aa-ask-col{grid-template-columns:1fr}.aa-pick-out{order:1;align-items:center!important;padding-left:0}.aa-pick-out .luz-pick{max-width:none;width:100%}}.aa-pick-out .aa-ai-note{display:none}.luz-sw{transition:box-shadow .25s ease,transform .12s ease-out!important}.luz-sw:active{transform:scale(.9)!important}#luzChat{transition:filter .35s cubic-bezier(.22,1,.36,1)!important}@media (prefers-reduced-motion:reduce){.luz-sw:active{transform:none!important}#luzChat{transition:none!important}}
 </style><style id="aaCtl">/* Nov 11 (Berley): Apple "Take a closer look" controls. One card open, the rest are pills; tap a pill to open it. Each pill names what Luz does in plain words (like Apple's "Fits right in", "Touch controls"), never a technical term. Every line is something Luz or Artel already does. */
 .aa-luzctl{display:flex;flex-direction:column;align-items:flex-start;gap:10px;width:100%;max-width:360px}.aa-it{display:flex;flex-direction:column;align-items:flex-start;width:100%}.aa-pill{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:0 20px 0 12px;border:0;border-radius:999px!important;background:#F5F5F7;color:#1D1D1F;font:inherit;font-size:17px;cursor:pointer;transition:transform .12s ease-out,background .2s ease}.aa-pill:hover{background:#ECECEF}.aa-pill:active{transform:scale(.96)}.aa-pill:focus-visible{outline:2px solid #1D1D1F;outline-offset:3px}.aa-pill .aa-pill-dot{width:20px;height:20px;border-radius:50%;background:var(--aa-cur,#FF7B00)}.aa-it.is-open>.aa-pill{display:none}.aa-it:not(.is-open)>.aa-card{display:none!important}.aa-voice{display:flex;flex-direction:column;gap:14px;background:#F5F5F7;border-radius:20px;padding:22px 24px 20px;box-sizing:border-box;width:100%}.aa-voice p{margin:0;font-size:17px;line-height:1.45;color:#1D1D1F;text-wrap:pretty}.aa-voice p b{font-weight:600}.aa-voice ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}.aa-voice li{display:flex;align-items:center;gap:12px}.aa-voice li i{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,#d9d9de 45%,#8e8e93 100%)}.aa-voice li span{display:flex;flex-direction:column;font-size:15px;line-height:1.3;color:#1D1D1F}.aa-voice li small{font-size:13px;color:#515154}.aa-it.is-open>.aa-card{animation:aaLuzCtlIn .35s cubic-bezier(.22,1,.36,1)}@keyframes aaLuzCtlIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){.aa-it.is-open>.aa-card{animation:none}}@media (max-width:860px){.aa-luzctl{max-width:none}}
@@ -771,40 +772,79 @@ function scan(){document.querySelectorAll('video.hlv').forEach(function(v){if(!v
   .aanav>*:last-child{justify-self:end!important}
 }
 </style>
-<!-- Guard: the site's homepage scripts can still inject their hero / chat styles after this page replaces the Webflow page. They are not for this page: remove them as they appear. -->
-<script>(function(){var ids={aaHero:1,'luz-chat-fit':1};function sweep(){Object.keys(ids).forEach(function(i){var e=document.getElementById(i);if(e&&e.tagName==='STYLE')e.remove()})}sweep();try{new MutationObserver(sweep).observe(document.documentElement,{childList:true,subtree:true})}catch(e){}})();</script>
 
 <!-- EN/FR language picker, same code as the homepage (site footer + ArtelLangHover + ArtelLocaleHide) -->
-<style>
-  .aa-ctl{ position:fixed; right:12px; top:50%; transform:translateY(-50%); z-index:99999;
-    display:flex; flex-direction:column; align-items:center; gap:1px; padding:5px 4px;
-    border-radius:999px; background:rgba(0,0,0,0.06); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
-    font-family:'Helveticaneue Lt 55 Roman','Epilogue',Helvetica,sans-serif; }
-  .aa-ctl a{ all:unset; box-sizing:border-box; cursor:pointer; font-size:10px; letter-spacing:.04em;
-    text-transform:uppercase; color:#82817b; padding:3px 0; width:24px; border-radius:999px; line-height:1;
-    display:flex; align-items:center; justify-content:center; transition:color .15s, background .15s; }
-  .aa-ctl a.on{ color:#111; background:rgba(255,255,255,.9); }
-  /* hide the old/duplicate switcher markup still present in the navbar component */
-  .lang-toggle-desktop, .lang-toggle-mobile, .aa-langfix { display:none !important; }
+<style>/* EN/FR picker (.aa-ctl). One module owns it: where it sits, when it shows, and the knob.
+   Before Nov 15 six pieces of code steered it (base CSS, a phone patch, a mouse-only script that
+   injected !important rules, a scroll script running every frame, the flip knob, the phone menu).
+
+   Mouse:  tucked away at the right edge; shows when the pointer comes near (html.aa-show) or when it has focus.
+   Touch, 992px and up:  shows; slides out to the right while you scroll down, comes back when you scroll up.
+   Under 992px:  hidden; the phone menu carries the language switch. */
+.aa-ctl{position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:99999;
+  display:flex;flex-direction:column;align-items:center;gap:1px;padding:5px 4px;
+  border-radius:999px;background:rgba(0,0,0,0.06);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+  font-family:'Helveticaneue Lt 55 Roman','Epilogue',Helvetica,sans-serif;isolation:isolate}
+.aa-ctl a{all:unset;box-sizing:border-box;cursor:pointer;font-size:10px;letter-spacing:.04em;
+  text-transform:uppercase;color:#82817b;padding:3px 0;width:24px;border-radius:999px;line-height:1;
+  display:flex;align-items:center;justify-content:center;transition:color .15s,background .15s;position:relative;z-index:2}
+.aa-ctl a.on{color:#111;background:rgba(255,255,255,.9)}
+.aa-ctl.has-knob a.on{background:transparent}
+/* the knob: one white pill behind the active letters, moved by lang-flip.js */
+.aa-ctl-k{position:absolute;z-index:0;border-radius:999px;background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.08);pointer-events:none;will-change:top,height,left,width}
+/* the old switcher markup from the Webflow navbar component */
+.lang-toggle-desktop,.lang-toggle-mobile,.aa-langfix{display:none!important}
+
+@media not all and (hover:none){
+  .aa-ctl{opacity:0;pointer-events:none;transform:translate(14px,-50%);transition:opacity .35s ease,transform .5s cubic-bezier(.22,1,.36,1)}
+  html.aa-show .aa-ctl,.aa-ctl:focus-within{opacity:1;pointer-events:auto;transform:translate(0,-50%)}
+}
+@media (hover:none){
+  .aa-ctl{transition:transform .45s ease,opacity .45s ease}
+  .aa-ctl.is-away{transform:translate(170%,-50%);opacity:0}
+}
+@media (max-width:991px){.aa-ctl{display:none!important}}
 </style>
-<script>
-(function(){
-  function build(){
-    if(document.querySelector('.aa-ctl')) return;
-    var path=location.pathname, isFR=/^\/fr-ca(\/|$)/.test(path);
-    var base=isFR?(path.replace(/^\/fr-ca/,'')||'/'):path;
-    var en=base, fr='/fr-ca'+(base==='/'?'':base);
-    var box=document.createElement('div'); box.className='aa-ctl';
-    box.innerHTML='<a href="'+en+'" class="'+(isFR?'':'on')+'">EN</a>'+
-                  '<a href="'+fr+'" class="'+(isFR?'on':'')+'">FR</a>';
+<script>/* EN/FR picker (.aa-ctl): builds it, then runs the one behaviour each kind of device needs.
+   Styles live in lang-picker.css. The knob and the in-place flip live in js/lang-flip.js. */
+(function () {
+  var html = document.documentElement;
+  function build() {
+    if (document.querySelector('.aa-ctl')) return;
+    var path = location.pathname, isFR = /^\/fr-ca(\/|$)/.test(path);
+    var base = isFR ? (path.replace(/^\/fr-ca/, '') || '/') : path;
+    var en = base, fr = '/fr-ca' + (base === '/' ? '' : base);
+    var box = document.createElement('div'); box.className = 'aa-ctl';
+    box.innerHTML = '<a href="' + en + '" class="' + (isFR ? '' : 'on') + '">EN</a>' +
+                    '<a href="' + fr + '" class="' + (isFR ? 'on' : '') + '">FR</a>';
     document.body.appendChild(box);
   }
-  document.readyState!='loading'?build():document.addEventListener('DOMContentLoaded',build);
+  function mouse() {   // show when the pointer comes within 96px of the right edge, near the picker
+    var t = null;
+    function show(v) { clearTimeout(t); if (v) html.classList.add('aa-show'); else t = setTimeout(function () { html.classList.remove('aa-show'); }, 450); }
+    document.addEventListener('mousemove', function (e) {
+      var c = document.querySelector('.aa-ctl'), n = e.clientX > innerWidth - 96;
+      if (n && c) { var r = c.getBoundingClientRect(); n = e.clientY > r.top - 140 && e.clientY < r.bottom + 140; }
+      show(n);
+    }, { passive: true });
+    html.addEventListener('mouseleave', function () { show(false); });
+  }
+  function touch() {   // slide away while scrolling down past 140px, come back on the way up
+    var last = window.scrollY || 0;
+    window.addEventListener('scroll', function () {
+      var c = document.querySelector('.aa-ctl'); if (!c) return;
+      var y = window.scrollY || 0, d = y - last; if (Math.abs(d) < 2) return;
+      if (d > 0 && y > 140) c.classList.add('is-away'); else if (d < 0) c.classList.remove('is-away');
+      last = y;
+    }, { passive: true });
+  }
+  document.readyState != 'loading' ? build() : document.addEventListener('DOMContentLoaded', build);
+  if (matchMedia('(hover:none)').matches) touch(); else mouse();
 })();
 </script>
-<style>@media (max-width: 767px){ .aa-ctl{ top: auto !important; bottom: 14px !important; right: 12px !important; } }</style>
-<script>(function(){if(matchMedia('(hover:none)').matches)return;var d=document.documentElement,s=document.createElement('style');s.textContent='.aa-ctl{opacity:0!important;pointer-events:none!important;transform:translate(14px,-50%)!important;transition:opacity .35s ease,transform .5s cubic-bezier(.22,1,.36,1)!important}html.aa-show .aa-ctl,.aa-ctl:focus-within{opacity:1!important;pointer-events:auto!important;transform:translate(0,-50%)!important}';document.head.appendChild(s);var t=null;function show(v){clearTimeout(t);if(v)d.classList.add('aa-show');else t=setTimeout(function(){d.classList.remove('aa-show')},450)}document.addEventListener('mousemove',function(e){var c=document.querySelector('.aa-ctl'),n=e.clientX>innerWidth-96;if(n&&c){var r=c.getBoundingClientRect();n=e.clientY>r.top-140&&e.clientY<r.bottom+140}show(n)},{passive:true});document.documentElement.addEventListener('mouseleave',function(){show(false)})})();</script>
-<script>(function(){function init(){var el=document.querySelector('.aa-ctl');if(!el){return setTimeout(init,400);}el.style.transition='transform .45s ease,opacity .45s ease';el.style.willChange='transform';var last=0,hidden=false;function show(){if(hidden){el.style.transform='translateX(0)';el.style.opacity='1';hidden=false;}}function hide(){if(!hidden){el.style.transform='translateX(170%)';el.style.opacity='0';hidden=true;}}function cur(){return window.scrollY||window.pageYOffset||document.documentElement.scrollTop||0;}function update(){var y=cur();var d=y-last;if(Math.abs(d)<2)return;if(d>0&&y>140){hide();}else if(d<0){show();}last=y;}window.addEventListener('scroll',update,{passive:true});window.addEventListener('wheel',function(e){var y=cur();if(e.deltaY>1&&y>140){hide();}else if(e.deltaY<-1){show();}},{passive:true});window.addEventListener('touchmove',update,{passive:true});(function loop(){update();requestAnimationFrame(loop);})();try{var L=window.lenis||window.__lenis;if(L&&L.on){L.on('scroll',function(o){last=(o&&typeof o.scroll==='number')?o.scroll:last;var y=cur();if(y>last+2&&y>140){hide();}else if(y<last-2){show();}});}}catch(e){}}init();})();</script>
+
+
+
 <!-- Film player controls, Apple-style, Artel design language (ABC Areal, square, white on the film). -->
 <style>
 #aafp{position:fixed;z-index:201;pointer-events:none;display:none;font-family:'ABC Areal','Helvetica Neue',Helvetica,sans-serif;color:#F5F5F7}

@@ -1,0 +1,2 @@
+/* ArtelLoopEnd 2.2.0 + LoopHint 1.1 + ScrollLine 1.0 + Glass 1.1 + ArtelCorners 1.1 (rounds before first paint) + Lens 1.1 (inactive), from GitHub berley-AA/artel-animations site/loop-end.js (site-only commit) */
+(function(){var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/gh/berley-AA/artel-animations@ab2cf7ad639de88a68a2a2ec2e9655248906b585/site/loop-end.js';(document.body||document.head).appendChild(s);})();

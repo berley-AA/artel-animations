@@ -1,0 +1,51 @@
+ to roll back. ===== -->
+<style id="aa-design-pass">
+/* 1. TYPE RHYTHM (Apple: tight 500/600 headlines, no 700, balanced wraps) */
+h1,h2,h3{text-wrap:balance;letter-spacing:-0.015em}
+p{text-wrap:pretty}
+.fp-headline,.air-h{font-weight:600!important;line-height:1.02!important}
+#artel-mission .amx-t{text-align:center!important;text-align-last:auto!important}   /* justified rivers -> centred ragged */
+#process p{font-size:16px!important;line-height:1.5!important;letter-spacing:-0.005em;max-width:38ch}
+#process h2{text-align:left!important;text-align-last:auto!important;text-wrap:pretty}     /* justified intro + balance = rivers */
+/* Compliance tile: "C" drop cap + OMPLIANCE small caps were 17/14px in a 778px black tile */
+.section-7 .text-heading-2-bold.c{font-size:44px!important;line-height:1!important}
+.section-7 .txt-wrapper-compliance .text-smal-body-copy.white{font-size:30px!important;line-height:1!important;letter-spacing:.04em;color:#F1F1EE!important}
+.section-7 .txt-wrapper-compliance{align-items:baseline}
+.section-7 .txt-wrapper-compliance._2{margin-top:14px}
+.section-7 .text-smal-body-copy.pt2{font-size:17px!important;line-height:1.47!important;letter-spacing:.02em;color:#B9BFC7!important}
+.footer-link-two{font-size:14px!important;line-height:1.5}
+.fp-fine{color:#5C5C61!important}                                                    /* was #86868B: 2.9:1, now 5.3:1 */
+
+/* 2. BUTTONS (one pill radius, explicit transitions, hover/press/focus states) */
+.fp-btn,.fp-link,.air-btn,.aa-nav-cta,.git-btn{
+  border-radius:999px!important;
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .25s cubic-bezier(.22,1,.36,1)!important}
+.fp-btn:hover,.aa-nav-cta:hover{background-color:#EA580C!important;transform:translateY(-1px)}
+.git-btn{background-color:#FF7B00!important}
+.git-btn:hover{background-color:#EA580C!important;transform:translateY(-1px)}
+.fp-link:hover{background-color:rgba(255,123,0,.08)!important}
+.fp-btn:active,.fp-link:active,.air-btn:active,.aa-nav-cta:active,.git-btn:active{transform:scale(.96)!important}
+.git-btn{padding:0 24px!important;min-height:44px!important}
+.git-btn .git-text{font-size:12px!important;letter-spacing:.14em!important}          /* hero CTA was 9.8px */
+
+/* 3. FOCUS (Vercel WIG: never outline:none without a focus-visible replacement) */
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,input:focus-visible{
+  outline:2px solid #FF7B00!important;outline-offset:3px!important;border-radius:6px}
+.fp-btn:focus-visible,.fp-link:focus-visible,.air-btn:focus-visible,.aa-nav-cta:focus-visible,.git-btn:focus-visible{border-radius:999px}
+
+/* 4. NAV: Apple frosted bar once it leaves the hero (reactive-ink sets the ink colour) */
+@media (min-width:992px){
+  html.rv-on .navbar.frosted.aa-scrolled{
+    background:rgba(229,229,229,.72)!important;
+    -webkit-backdrop-filter:saturate(180%) blur(20px)!important;backdrop-filter:saturate(180%) blur(20px)!important}
+  html.rv-on .navbar.frosted.aa-scrolled.aa-ink-dark{background:rgba(10,16,24,.55)!important}   /* aa-ink-dark = dark bg, white text */
+}
+
+/* 5. RESULTS ROWS: Nike hairline rows, reveal on hover, no lift */
+.res-row{transition:background-color .2s ease!important}
+.res-row:hover{background-color:rgba(255,255,255,.04)!important}
+
+/* 6. MOTION RESTRAINT */
+@media (prefers-reduced-motion:reduce){
+  .fp-btn,.fp-link,.air-btn,.aa-nav-cta,.git-btn,.res-row{transition:none!important;transform:none!important}
+}

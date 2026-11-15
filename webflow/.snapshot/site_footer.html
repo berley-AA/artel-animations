@@ -1,0 +1,499 @@
+<style>
+  .aa-ctl{ position:fixed; right:12px; top:50%; transform:translateY(-50%); z-index:99999;
+    display:flex; flex-direction:column; align-items:center; gap:1px; padding:5px 4px;
+    border-radius:999px; background:rgba(0,0,0,0.06); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+    font-family:'Helveticaneue Lt 55 Roman','Epilogue',Helvetica,sans-serif; }
+  .aa-ctl a{ all:unset; box-sizing:border-box; cursor:pointer; font-size:10px; letter-spacing:.04em;
+    text-transform:uppercase; color:#82817b; padding:3px 0; width:24px; border-radius:999px; line-height:1;
+    display:flex; align-items:center; justify-content:center; transition:color .15s, background .15s; }
+  .aa-ctl a.on{ color:#111; background:rgba(255,255,255,.9); }
+  /* hide the old/duplicate switcher markup still present in the navbar component */
+  .lang-toggle-desktop, .lang-toggle-mobile, .aa-langfix { display:none !important; }
+</style>
+<script>
+(function(){
+  function build(){
+    if(document.querySelector('.aa-ctl')) return;
+    var path=location.pathname, isFR=/^\/fr-ca(\/|$)/.test(path);
+    var base=isFR?(path.replace(/^\/fr-ca/,'')||'/'):path;
+    var en=base, fr='/fr-ca'+(base==='/'?'':base);
+    var box=document.createElement('div'); box.className='aa-ctl';
+    box.innerHTML='<a href="'+en+'" class="'+(isFR?'':'on')+'">EN</a>'+
+                  '<a href="'+fr+'" class="'+(isFR?'on':'')+'">FR</a>';
+    document.body.appendChild(box);
+  }
+  document.readyState!='loading'?build():document.addEventListener('DOMContentLoaded',build);
+})();
+</script>
+<script>
+(function(){
+  var navbar = document.querySelector('.navbar');
+  if (!navbar) return;
+  var p = location.pathname;
+  var isHome = (p === '/' || p === '/fr-ca' || p === '/fr-ca/');
+  var FR = /^\/fr-ca(\/|$)/.test(p);
+  var base = FR ? '/fr-ca' : '';
+  // (A) SUBPAGES: the section links are Webflow page-section links, which collapse
+  //     to href="#" on any page that doesn't contain those sections. Re-point them
+  //     by LABEL to the homepage + section. Locale-aware: French pages get /fr-ca/#...
+  //     Labels cover the current menu (Results / Vision / How) plus legacy names.
+  if (!isHome) {
+    var MAP = [
+      { labels:['vision'],                                 to:'#vision' },
+      { labels:['how','comment','process','processus'],    to:'#process' },
+      { labels:['results','résultats','proof','preuve'],   to:'#case-studies' }
+    ];
+    navbar.querySelectorAll('a').forEach(function(a){
+      var t = (a.textContent || '').trim().toLowerCase();
+      if (!t) return;
+      for (var i=0;i<MAP.length;i++){
+        if (MAP[i].labels.some(function(l){ return t === l || t.indexOf(l) === 0; })){
+          a.setAttribute('href', base + '/' + MAP[i].to);
+          break;
+        }
+      }
+    });
+  }
+  // (B) Home already runs its own navbar script — don't double up there.
+  if (isHome) return;
+  // (C) Scroll behavior, matched to Home: frost after 10px; hide on scroll-down,
+  //     reveal on scroll-up (auto-hides after ~4s). Subpages have no hero, so use a small threshold.
+  var lastY = window.pageYOffset || 0, hideTimer = null, THRESH = 120;
+  function show(){
+    navbar.classList.remove('hidden-nav');
+    navbar.classList.add('visible','frosted');
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(function(){ if ((window.pageYOffset||0) > THRESH) hide(); }, 4000);
+  }
+  function hide(){
+    navbar.classList.add('hidden-nav');
+    navbar.classList.remove('visible');
+  }
+  navbar.addEventListener('mouseenter', function(){ clearTimeout(hideTimer); });
+  window.addEventListener('scroll', function(){
+    var y = window.pageYOffset || 0;
+    navbar.classList.toggle('frosted', y > 10);
+    if (y > THRESH) {
+      if (y < lastY - 2) show();
+      else if (y > lastY + 2) { clearTimeout(hideTimer); hide(); }
+    } else {
+      navbar.classList.remove('hidden-nav');
+      navbar.classList.add('visible');
+    }
+    lastY = y;
+  }, { passive: true });
+})();
+</script>
+<script>
+(function(){
+  function track(n,p){ try{ if(typeof gtag==='function'){ gtag('event',n,p||{}); } else if(window.dataLayer){ window.dataLayer.push(Object.assign({event:n},p||{})); } }catch(e){} }
+  document.addEventListener('click', function(e){
+    var el = e.target && e.target.closest ? e.target.closest('a, button, .git-btn, .air-btn') : null;
+    if(!el) return;
+    var href = (el.getAttribute && el.getAttribute('href')) || '';
+    var txt  = (el.textContent || '').trim().toLowerCase();
+    var loc  = location.pathname;
+    if(/talk to us|parlez-nous/.test(txt)){
+      track('contact_click', { location: loc });
+    } else if(/cta-chatbot/.test(href) || /book my discovery call|réservez mon appel/.test(txt)){
+      track('book_call_click', { location: loc });
+    } else if(/ai-readiness/.test(href) || /get my aiq|obtenez mon aiq/.test(txt)){
+      track('aiq_cta_click', { location: loc });
+    }
+  }, true);
+})();
+</script>
+<script>
+(function () {
+  // On the homepage, keep the #hero scroll behavior
+  if (/^\/(fr-ca\/?)?$/.test(location.pathname)) return;
+  var home = location.pathname.indexOf('/fr-ca') === 0 ? '/fr-ca' : '/';
+  document.querySelectorAll('a').forEach(function (a) {
+    var href = a.getAttribute('href') || '';
+    var isLogo = a.querySelector('img[alt*="Artel"]');   // your logo <img> alt is "Artel Agency"
+    if (isLogo || href.indexOf('#hero') !== -1) a.setAttribute('href', home);
+  });
+})();
+</script>
+<!-- ================================================================
+ ARTEL MOBILE NAV v3.1 (Aug 25) — capsule + expanding menu, phones/tablets only
+ (max-width 991px). Replaces the Webflow navbar and the floating EN/FR pill
+ on those widths. Additive: delete this block to revert.
+ v3: logos are CSS masks (crisp, no filters); open-state pill = Figma spec.
+ v3.1: logo colour pinned to white/black — immune to the global .w--current orange.
+================================================================ -->
+<style>
+:root{--an-ease:cubic-bezier(.22,1,.36,1);--an-top:14px;--an-side:24px;--an-h:54px;
+  --an-mark:url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a8e14492ddb283e245bbaaf_LOGO.svg);
+  --an-word:url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/68c314cd2f42189dbde75934_Txt%20Logo%20Artel.svg)}
+@keyframes aa-fade{from{opacity:0}to{opacity:1}}
+@keyframes aa-up{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes aa-pop{from{opacity:0;transform:scale(.88)}to{opacity:1;transform:scale(1)}}
+.an-header,.an-panel{display:none}
+@media (max-width:991px){
+html body .navbar,html body .aa-ctl{display:none!important}
+.an-header,.an-panel{display:block}
+/* HOME hero entrance — rides the existing aa-bg-ready trigger (hero photo loaded) */
+body.aa-img-hero .an-logo,body.aa-img-hero .an-wordmark,body.aa-img-hero .an-toggle{opacity:0}
+html.aa-bg-ready body.aa-img-hero .an-logo,html.aa-bg-ready body.aa-img-hero .an-wordmark,html.aa-bg-ready body.aa-img-hero .an-toggle{animation:aa-fade .5s linear 1.3s both}
+html.aa-bg-ready body.aa-img-hero #hero>.container-2{animation:aa-fade .01s linear 1.3s both!important}
+html.aa-bg-ready body.aa-img-hero #hero h1,html.aa-bg-ready body.aa-img-hero #hero h2{animation:aa-up .9s linear 1.5s both}
+html.aa-bg-ready body.aa-img-hero #hero .hero-cta{animation:aa-pop .6s linear 2.05s both!important}
+body.aa-img-hero #hero h1 .rvL,body.aa-img-hero #hero h2 .rvL{transform:none!important;opacity:1!important;transition:none!important}
+}
+.an-header{position:fixed;top:var(--an-top);left:var(--an-side);right:var(--an-side);z-index:10001}
+.an-capsule{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:var(--an-h);padding:0 18px;border-radius:999px;background:rgba(37,37,37,.55);color:#fff;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);transition:background .3s var(--an-ease) .35s,color .3s var(--an-ease) .35s,box-shadow .3s var(--an-ease) .35s}
+body.an-open .an-capsule{background:rgba(255,255,255,.9216);color:#000;box-shadow:0 4px 16px rgba(0,0,0,.23);transition-delay:0s,0s,0s}
+/* logos: SVG masks. Colour is pinned here (not currentColor) so the global .w--current orange can't touch them */
+html body .an-capsule .an-logo,html body .an-capsule .an-wordmark{display:block;text-decoration:none;color:inherit!important}
+.an-logo{justify-self:start;width:30px;height:30px}
+.an-wordmark{justify-self:center;width:90px;height:21px}
+html body .an-capsule .an-mask{display:block;width:100%;height:100%;background:#fff!important;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;transition:background .3s var(--an-ease) .35s}
+html body.an-open .an-capsule .an-mask{background:#000!important;transition-delay:0s}
+.an-logo .an-mask{-webkit-mask-image:var(--an-mark);mask-image:var(--an-mark)}
+.an-wordmark .an-mask{-webkit-mask-image:var(--an-word);mask-image:var(--an-word)}
+body.an-open .an-logo,body.an-open .an-wordmark,body.an-open .an-toggle{animation:aa-fade .4s var(--an-ease) .3s both}
+.an-toggle{justify-self:end;display:flex;align-items:center;justify-content:center;width:34px;height:34px;margin-right:-4px;background:none;border:0;padding:0;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.an-burger{position:relative;width:26px;height:18px}
+.an-bar{position:absolute;left:0;width:26px;height:3px;display:flex;transition:transform .3s var(--an-ease) .22s,opacity .2s var(--an-ease) .22s}
+.an-bar.t{top:0}.an-bar.m{top:7.5px}.an-bar.b{top:15px}
+/* two halves per bar; square inner edges at rest so each bar reads as one solid line */
+.an-bar i{display:block;width:50%;height:100%;background:currentColor;border-radius:0;transition:transform .25s var(--an-ease) 0s,border-radius .25s var(--an-ease) 0s}
+.an-bar i:first-child{transform-origin:left center;border-radius:2px 0 0 2px;width:calc(50% + .5px)}
+.an-bar i:last-child{transform-origin:right center;border-radius:0 2px 2px 0}
+body.an-open .an-bar{transition:transform .3s var(--an-ease) 0s,opacity .2s var(--an-ease) 0s}
+body.an-open .an-bar.t{transform:translateY(7.5px) rotate(45deg)}
+body.an-open .an-bar.b{transform:translateY(-7.5px) rotate(-45deg)}
+body.an-open .an-bar.m{opacity:0;transform:scaleX(.4)}
+body.an-open .an-bar.t i,body.an-open .an-bar.b i{transform:scaleX(.58);border-radius:2px;transition:transform .25s var(--an-ease) .28s,border-radius .25s var(--an-ease) .28s}
+.an-toggle:focus-visible,.an-logo:focus-visible,.an-wordmark:focus-visible,.an-item:focus-visible,.an-lang a:focus-visible{outline:2px solid currentColor;outline-offset:4px;border-radius:6px}
+.an-panel{position:fixed;inset:0;z-index:10000;background:#fff;color:#000;padding:200px 0 0 40px;clip-path:inset(var(--an-top) var(--an-side) calc(100% - var(--an-top) - var(--an-h)) var(--an-side) round 999px);transition:clip-path .55s var(--an-ease),visibility 0s linear .55s;visibility:hidden}
+body.an-open .an-panel{clip-path:inset(0 0 0 0 round 0);visibility:visible;transition:clip-path .65s var(--an-ease),visibility 0s}
+body.an-open{overflow:hidden!important}
+.an-list{list-style:none;margin:0;padding:0}.an-list li{height:66px}
+.an-item{display:flex;align-items:center;gap:6px;height:44px;color:#000;text-decoration:none;font-family:'Helveticanowdisplay','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:34px;font-weight:500;line-height:1.15;text-transform:uppercase;opacity:0}
+body.an-open .an-item{animation:aa-up .5s var(--an-ease) both}
+body.an-open li:nth-child(1) .an-item,body.an-open li:nth-child(2) .an-item,body.an-open li:nth-child(3) .an-item{animation-delay:.4s}
+body.an-open li:nth-child(4) .an-item{animation-delay:.45s}
+body.an-open li:nth-child(5) .an-item{animation-delay:.5s}
+.an-num{width:26px;font-size:12px;font-weight:500;line-height:1;color:#666;text-transform:none}
+.an-lang{position:absolute;right:34px;bottom:33px;display:flex;align-items:center;justify-content:center;gap:4px;width:60px;height:29px;padding:0 10px;border-radius:20px;background:rgba(255,255,255,.93);box-shadow:0 4px 16px rgba(0,0,0,.13);font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;font-size:13px;line-height:1;letter-spacing:.01em;opacity:0}
+body.an-open .an-lang{animation:aa-fade .4s var(--an-ease) .65s both}
+.an-lang a{text-decoration:none;font-weight:500;color:#8E8E93}
+.an-lang a.is-active{font-weight:700;color:#FF8A00}
+.an-lang span{width:1px;height:14px;background:#8E8E93;border-radius:1px}
+@media (prefers-reduced-motion:reduce){
+.an-capsule,.an-panel,.an-bar,.an-bar i,.an-mask{transition:none!important}
+.an-logo,.an-wordmark,.an-toggle,.an-item,.an-lang,html.aa-bg-ready body.aa-img-hero #hero h1,html.aa-bg-ready body.aa-img-hero #hero h2,html.aa-bg-ready body.aa-img-hero #hero .hero-cta{animation:none!important;opacity:1!important}
+}
+</style>
+<header class="an-header">
+  <div class="an-capsule">
+    <a class="an-logo" href="/" aria-label="Artel home"><span class="an-mask" aria-hidden="true"></span></a>
+    <a class="an-wordmark" href="/" aria-label="Artel"><span class="an-mask" aria-hidden="true"></span></a>
+    <button class="an-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="an-panel">
+      <span class="an-burger" aria-hidden="true"><span class="an-bar t"><i></i><i></i></span><span class="an-bar m"><i></i><i></i></span><span class="an-bar b"><i></i><i></i></span></span>
+    </button>
+  </div>
+</header>
+<nav class="an-panel" id="an-panel" aria-label="Mobile menu">
+  <ul class="an-list">
+    <li><a class="an-item" data-id="aa-results" data-en="Results" data-fr="Résultats" href="#aa-results"><span class="an-num">01</span><span class="an-lbl">Results</span></a></li>
+    <li><a class="an-item" data-id="about" data-en="About" data-fr="À propos" href="#about"><span class="an-num">02</span><span class="an-lbl">About</span></a></li>
+    <li><a class="an-item" data-id="process" data-en="Process" data-fr="Processus" href="#process"><span class="an-num">03</span><span class="an-lbl">Process</span></a></li>
+    <li><a class="an-item" data-page="/faq" data-en="FAQ" data-fr="FAQ" href="/faq"><span class="an-num">04</span><span class="an-lbl">FAQ</span></a></li>
+    <li><a class="an-item" data-login="1" data-en="Login" data-fr="Connexion" href="#"><span class="an-num">05</span><span class="an-lbl">Login</span></a></li>
+  </ul>
+  <div class="an-lang"><a class="an-en" href="/">EN</a><span aria-hidden="true"></span><a class="an-fr" href="/fr-ca">FR</a></div>
+</nav>
+<script>
+(function(){
+  function init(){
+    var body=document.body, toggle=document.querySelector('.an-toggle'), panel=document.getElementById('an-panel');
+    if(!toggle||!panel) return;
+    var path=location.pathname, FR=/^\/fr-ca(\/|$)/.test(path);
+    var isHome=/^\/(fr-ca\/?)?$/.test(path);
+    var base=FR?(path.replace(/^\/fr-ca/,'')||'/'):path;
+    var home=FR?'/fr-ca/':'/';
+    /* logos go home, locale-aware */
+    document.querySelectorAll('.an-logo,.an-wordmark').forEach(function(a){ a.setAttribute('href',home); });
+    /* section links: same-page anchors on home, home+anchor elsewhere */
+    panel.querySelectorAll('.an-item').forEach(function(a){
+      var lbl=a.querySelector('.an-lbl'); if(lbl) lbl.textContent=FR?a.getAttribute('data-fr'):a.getAttribute('data-en');
+      if(a.getAttribute('data-id')) a.setAttribute('href',(isHome?'':home)+'#'+a.getAttribute('data-id'));
+      else if(a.getAttribute('data-page')) a.setAttribute('href',(FR?'/fr-ca':'')+a.getAttribute('data-page'));
+      else if(a.getAttribute('data-login')){
+        var src=null, links=document.querySelectorAll('.navbar a');
+        for(var i=0;i<links.length;i++){ if(/login|connexion/i.test((links[i].textContent||'').trim())){ src=links[i]; break; } }
+        if(src&&src.getAttribute('href')) a.setAttribute('href',src.getAttribute('href'));
+        if(src&&src.getAttribute('target')) a.setAttribute('target',src.getAttribute('target'));
+      }
+    });
+    /* EN | FR inside the menu only */
+    var en=panel.querySelector('.an-en'), fr=panel.querySelector('.an-fr');
+    if(en){ en.setAttribute('href',base); en.classList.toggle('is-active',!FR); }
+    if(fr){ fr.setAttribute('href','/fr-ca'+(base==='/'?'':base)); fr.classList.toggle('is-active',FR); }
+    function setOpen(o){
+      body.classList.toggle('an-open',o);
+      toggle.setAttribute('aria-expanded',o?'true':'false');
+      toggle.setAttribute('aria-label',o?'Close menu':'Open menu');
+    }
+    toggle.addEventListener('click',function(){ setOpen(!body.classList.contains('an-open')); });
+    panel.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ setOpen(false); }); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') setOpen(false); });
+    window.addEventListener('resize',function(){ if(window.innerWidth>991) setOpen(false); },{passive:true});
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded',init);
+})();
+</script>
+<!-- ARTEL CONSENT CORE v1 (Quebec Law 25) START. Lives in Site Footer code; the ungated ArtelGtagDirect site script was removed so nothing loads GA before this. -->
+<script>
+(function(){
+  var GA_ID = 'G-W6BLN594FM';
+  var ARTEL_LI_PARTNER_ID = ''; // LinkedIn Insight Tag partner ID. Leave '' until known; tag never loads while empty.
+  var KEY = 'artel_consent', VER = 1, MAX_AGE = 365 * 864e5;
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') { window.gtag = function(){ window.dataLayer.push(arguments); }; }
+  var g = window.gtag;
+  /* Google Consent Mode v2: everything optional denied by default */
+  g('consent', 'default', { ad_storage:'denied', analytics_storage:'denied', ad_user_data:'denied', ad_personalization:'denied', functionality_storage:'granted', security_storage:'granted' });
+  g('set', 'ads_data_redaction', true);
+
+  function ck(n){ var m = document.cookie.match('(?:^|; )' + n + '=([^;]*)'); return m ? decodeURIComponent(m[1]) : null; }
+  function read(){
+    var raw = null;
+    try { raw = localStorage.getItem(KEY); } catch(e){}
+    if (!raw) { try { raw = ck(KEY); } catch(e){} }
+    if (!raw) return null;
+    try {
+      var c = JSON.parse(raw);
+      if (!c || c.v !== VER || !c.ts || (Date.now() - c.ts) > MAX_AGE) return null;
+      return { necessary:true, analytics:!!c.analytics, marketing:!!c.marketing, ts:c.ts, v:c.v };
+    } catch(e){ return null; }
+  }
+  function write(c){
+    var s = JSON.stringify(c);
+    try { localStorage.setItem(KEY, s); } catch(e){}
+    try { document.cookie = KEY + '=' + encodeURIComponent(s) + '; max-age=31536000; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : ''); } catch(e){}
+  }
+  function clearGA(){
+    try {
+      var host = location.hostname.split('.'), doms = [''];
+      for (var i = 0; i < host.length - 1; i++) doms.push('; domain=.' + host.slice(i).join('.'));
+      document.cookie.split('; ').forEach(function(p){
+        var n = p.split('=')[0];
+        if (/^(_ga|_gid|_gat|_gcl)/.test(n)) doms.forEach(function(d){ document.cookie = n + '=; max-age=0; path=/' + d; });
+      });
+      for (var k = localStorage.length - 1; k >= 0; k--) { var key = localStorage.key(k); if (/^_gcl/.test(key)) localStorage.removeItem(key); }
+    } catch(e){}
+  }
+  var gaOn = false, liOn = false;
+  function loadGA(){
+    if (gaOn) return; gaOn = true;
+    /* drop events queued before consent so they are never sent retroactively */
+    try { for (var i = window.dataLayer.length - 1; i >= 0; i--) { var e = window.dataLayer[i]; if (e && e[0] === 'event') window.dataLayer.splice(i, 1); } } catch(x){}
+    window['ga-disable-' + GA_ID] = false;
+    g('consent', 'update', { analytics_storage:'granted' });
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+    g('js', new Date()); g('config', GA_ID);
+  }
+  function loadLI(){
+    if (liOn || !ARTEL_LI_PARTNER_ID) return; liOn = true;
+    window._linkedin_partner_id = ARTEL_LI_PARTNER_ID;
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(ARTEL_LI_PARTNER_ID);
+    if (!window.lintrk) { window.lintrk = function(a,b){ window.lintrk.q.push([a,b]); }; window.lintrk.q = []; }
+    var s = document.createElement('script'); s.async = true;
+    s.src = 'https://snap.licdn.com/li.lms-analytics/insight.min.js';
+    document.head.appendChild(s);
+  }
+  function apply(c){ if (c && c.analytics) loadGA(); if (c && c.marketing) loadLI(); }
+  var subs = [];
+  var api = {
+    version: VER, GA_ID: GA_ID, LI_PARTNER_ID: ARTEL_LI_PARTNER_ID,
+    get: function(){ return read(); },
+    has: function(cat){ if (cat === 'necessary') return true; var c = read(); return !!(c && c[cat]); },
+    set: function(o){
+      var prev = read();
+      var c = { v:VER, ts:Date.now(), analytics:!!(o && o.analytics), marketing:!!(o && o.marketing) };
+      write(c);
+      var revoked = prev && ((prev.analytics && !c.analytics) || (prev.marketing && !c.marketing));
+      if (!c.analytics) { window['ga-disable-' + GA_ID] = true; clearGA(); }
+      var out = read() || { necessary:true, analytics:c.analytics, marketing:c.marketing, ts:c.ts, v:VER };
+      subs.forEach(function(f){ try { f(out); } catch(e){} });
+      try { window.dispatchEvent(new CustomEvent('artel:consent', { detail: out })); } catch(e){}
+      if (revoked && (gaOn || liOn)) { setTimeout(function(){ location.reload(); }, 150); return out; }
+      apply(c);
+      return out;
+    },
+    onChange: function(f){ if (typeof f === 'function') subs.push(f); },
+    open: function(){ if (api._ui) api._ui.open(); else api._pendingOpen = true; }
+  };
+  window.ArtelConsent = api;
+  var cur = read();
+  if (cur) apply(cur);
+  if (!cur || !cur.analytics) clearGA();
+})();
+</script>
+<!-- ARTEL CONSENT CORE v1 END -->
+<!-- ARTEL CONSENT UI v1 (Quebec Law 25) START. Needs ARTEL CONSENT CORE (just above). -->
+<style>
+#aa-cc{--cc-bg:#E5E5E5;--cc-ink:#1A1B1F;--cc-mute:#55565B;--cc-or:#FF7B00;position:fixed;left:16px;bottom:16px;z-index:2147483600;width:min(400px,calc(100vw - 32px));box-sizing:border-box;background:var(--cc-bg);color:var(--cc-ink);border-radius:18px;padding:20px 20px 18px;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif;font-size:14px;line-height:1.45;box-shadow:0 10px 40px rgba(26,27,31,.18),0 0 0 1px rgba(26,27,31,.06);opacity:0;transform:translateY(12px);transition:opacity .35s cubic-bezier(.22,1,.36,1),transform .35s cubic-bezier(.22,1,.36,1);max-height:calc(100vh - 32px);overflow:auto;-webkit-font-smoothing:antialiased}
+#aa-cc.on{opacity:1;transform:none}
+#aa-cc[hidden],#aa-cc [hidden]{display:none!important}
+#aa-cc *{box-sizing:border-box;font-family:inherit}
+#aa-cc h2{margin:0 0 6px!important;font-size:16px!important;font-weight:700!important;letter-spacing:-.01em!important;text-transform:none!important;color:var(--cc-ink)!important;line-height:1.25!important;font-family:Helvetica,'Helvetica Neue',Arial,sans-serif!important}
+#aa-cc .cc-btn,#aa-cc .cc-link,#aa-cc p,#aa-cc b{text-transform:none!important;letter-spacing:normal}
+#aa-cc p{margin:0 0 14px;color:var(--cc-mute);font-size:13.5px}
+#aa-cc a{color:var(--cc-ink);text-decoration:underline;text-underline-offset:2px}
+#aa-cc .cc-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#aa-cc .cc-btn{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;justify-content:center;text-align:center;min-height:44px;padding:10px 14px;border-radius:999px;font-size:14px;font-weight:600;line-height:1.1;background:var(--cc-ink);color:#fff;transition:background .15s,color .15s,box-shadow .15s}
+#aa-cc .cc-btn:hover{background:#000}
+#aa-cc .cc-btn:focus-visible,#aa-cc .cc-link:focus-visible,#aa-cc input:focus-visible+.cc-sw{outline:2px solid var(--cc-or);outline-offset:2px}
+#aa-cc .cc-link{all:unset;cursor:pointer;display:block;margin:12px auto 0;font-size:13px;color:var(--cc-ink);text-decoration:underline;text-underline-offset:2px;text-align:center}
+#aa-cc .cc-save{grid-column:1/-1;background:var(--cc-or);color:var(--cc-ink)}
+#aa-cc .cc-save:hover{background:#ff8f26}
+#aa-cc .cc-cats{display:none;margin:0 0 14px;border-top:1px solid rgba(26,27,31,.12)}
+#aa-cc.cc-open .cc-cats{display:block}
+#aa-cc .cc-cat{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(26,27,31,.12)}
+#aa-cc .cc-cat b{display:block;font-size:14px;color:var(--cc-ink)}
+#aa-cc .cc-cat span.cc-d{display:block;font-size:12.5px;color:var(--cc-mute);margin-top:2px}
+#aa-cc label.cc-tg{position:relative;flex:0 0 auto;margin-top:2px;cursor:pointer}
+#aa-cc label.cc-tg input{position:absolute;opacity:0;width:1px;height:1px}
+#aa-cc .cc-sw{display:block;width:40px;height:24px;border-radius:999px;background:#bdbdbd;position:relative;transition:background .2s}
+#aa-cc .cc-sw:after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s cubic-bezier(.22,1,.36,1)}
+#aa-cc input:checked+.cc-sw{background:var(--cc-ink)}
+#aa-cc input:checked+.cc-sw:after{transform:translateX(16px)}
+#aa-cc input:disabled+.cc-sw{opacity:.5;cursor:not-allowed}
+#aa-cc .cc-x{display:none}
+@media (max-width:600px){#aa-cc{left:8px;right:8px;bottom:8px;width:auto;padding:16px 16px 14px;border-radius:16px}#aa-cc.cc-top{top:76px;bottom:auto}#aa-cc p{font-size:13px;margin-bottom:12px}}
+@media (prefers-reduced-motion:reduce){#aa-cc,#aa-cc .cc-sw,#aa-cc .cc-sw:after{transition:none}}
+.aaf-legal-l .aa-cc-foot{all:unset;cursor:pointer;font:inherit;color:inherit;font-size:13px}
+.aaf-legal-l .aa-cc-foot:hover{text-decoration:underline}
+.aa-cc-foot-float{all:unset;cursor:pointer;position:fixed;left:12px;bottom:10px;z-index:9990;font:12px Helvetica,Arial,sans-serif;color:#55565B;background:rgba(229,229,229,.9);padding:4px 10px;border-radius:999px}
+</style>
+<script>
+(function(){
+  var C = window.ArtelConsent; if (!C) return;
+  var FR = /^fr/i.test(document.documentElement.lang || '') || /^\/fr-ca(\/|$)/.test(location.pathname);
+  var T = FR ? {
+    title:'Vos témoins, votre choix', body:'On utilise des témoins (cookies) nécessaires au fonctionnement du site. Avec votre accord, on aimerait aussi mesurer l’audience (Google Analytics) et la performance de nos publicités (LinkedIn). Rien ne s’active sans votre consentement. Vous pouvez changer d’idée en tout temps.',
+    privacy:'Politique de confidentialité', privUrl:'https://artelagency.com/fr-ca/politique-de-confidentialite',
+    accept:'Accepter', refuse:'Refuser', settings:'Paramètres', save:'Enregistrer mes choix',
+    nec:'Nécessaires', necD:'Toujours actifs. Langue, sécurité et mémoire de vos choix.',
+    ana:'Analytique', anaD:'Google Analytics. Statistiques de visite anonymisées.',
+    mkt:'Marketing', mktD:'LinkedIn. Mesure de nos campagnes publicitaires.',
+    foot:'Paramètres des témoins', dlg:'Paramètres des témoins'
+  } : {
+    title:'Your cookies, your choice', body:'We use cookies the site needs to work. With your OK, we’d also like to measure traffic (Google Analytics) and how our ads perform (LinkedIn). Nothing optional runs until you say yes. You can change your mind any time.',
+    privacy:'Privacy policy', privUrl:'https://artelagency.com/privacy-policy',
+    accept:'Accept all', refuse:'Refuse all', settings:'Settings', save:'Save my choices',
+    nec:'Necessary', necD:'Always on. Language, security and remembering your choice.',
+    ana:'Analytics', anaD:'Google Analytics. Anonymous visit statistics.',
+    mkt:'Marketing', mktD:'LinkedIn. Measures our ad campaigns.',
+    foot:'Cookie settings', dlg:'Cookie settings'
+  };
+  var box, lastFocus, chatIO;
+  function tg(id, on, dis){ return '<label class="cc-tg"><input type="checkbox" id="'+id+'"'+(on?' checked':'')+(dis?' disabled':'')+'><span class="cc-sw" aria-hidden="true"></span></label>'; }
+  function build(){
+    if (box) return box;
+    box = document.createElement('div'); box.id = 'aa-cc'; box.hidden = true;
+    box.setAttribute('role','dialog'); box.setAttribute('aria-modal','false');
+    box.setAttribute('aria-labelledby','aa-cc-t'); box.setAttribute('aria-describedby','aa-cc-b'); box.setAttribute('lang', FR ? 'fr-CA' : 'en-CA');
+    box.innerHTML =
+      '<h2 id="aa-cc-t">'+T.title+'</h2>'+
+      '<p id="aa-cc-b">'+T.body+' <a href="'+T.privUrl+'" target="_blank" rel="noopener">'+T.privacy+'</a></p>'+
+      '<div class="cc-cats" id="aa-cc-cats" role="group" aria-label="'+T.dlg+'">'+
+        '<div class="cc-cat"><div><b id="aa-cc-l0">'+T.nec+'</b><span class="cc-d">'+T.necD+'</span></div>'+tg('aa-cc-nec',true,true)+'</div>'+
+        '<div class="cc-cat"><div><b id="aa-cc-l1">'+T.ana+'</b><span class="cc-d">'+T.anaD+'</span></div>'+tg('aa-cc-ana',false,false)+'</div>'+
+        '<div class="cc-cat"><div><b id="aa-cc-l2">'+T.mkt+'</b><span class="cc-d">'+T.mktD+'</span></div>'+tg('aa-cc-mkt',false,false)+'</div>'+
+      '</div>'+
+      '<div class="cc-row">'+
+        '<button type="button" class="cc-btn" data-cc="refuse">'+T.refuse+'</button>'+
+        '<button type="button" class="cc-btn" data-cc="accept">'+T.accept+'</button>'+
+        '<button type="button" class="cc-btn cc-save" data-cc="save" hidden>'+T.save+'</button>'+
+      '</div>'+
+      '<button type="button" class="cc-link" data-cc="settings" aria-expanded="false" aria-controls="aa-cc-cats">'+T.settings+'</button>';
+    document.body.appendChild(box);
+    box.querySelector('#aa-cc-nec').setAttribute('aria-labelledby','aa-cc-l0');
+    box.querySelector('#aa-cc-ana').setAttribute('aria-labelledby','aa-cc-l1');
+    box.querySelector('#aa-cc-mkt').setAttribute('aria-labelledby','aa-cc-l2');
+    box.addEventListener('click', function(e){
+      var b = e.target.closest('[data-cc]'); if (!b) return;
+      var a = b.getAttribute('data-cc');
+      if (a === 'accept') { C.set({analytics:true, marketing:true}); close(); }
+      else if (a === 'refuse') { C.set({analytics:false, marketing:false}); close(); }
+      else if (a === 'save') { C.set({analytics:box.querySelector('#aa-cc-ana').checked, marketing:box.querySelector('#aa-cc-mkt').checked}); close(); }
+      else if (a === 'settings') { settings(!box.classList.contains('cc-open')); }
+    });
+    box.addEventListener('keydown', function(e){ if (e.key === 'Escape' && C.get()) close(); });
+    watchChat();
+    return box;
+  }
+  function settings(on){
+    box.classList.toggle('cc-open', on);
+    box.querySelector('[data-cc="save"]').hidden = !on;
+    box.querySelector('[data-cc="settings"]').setAttribute('aria-expanded', on ? 'true' : 'false');
+    if (on && box && !box.hidden) box.querySelector('#aa-cc-ana').focus({preventScroll:true});
+  }
+  function open(withSettings, userInitiated){
+    build();
+    var c = C.get();
+    box.querySelector('#aa-cc-ana').checked = !!(c && c.analytics);
+    box.querySelector('#aa-cc-mkt').checked = !!(c && c.marketing);
+    settings(!!withSettings);
+    lastFocus = document.activeElement;
+    box.hidden = false;
+    requestAnimationFrame(function(){ box.classList.add('on'); });
+    /* only move focus when the visitor opened it (footer link); on first load the card stays non-modal and no button gets a ring, so Refuse and Accept look identical */
+    if (userInitiated) box.querySelector('#aa-cc-ana').focus({preventScroll:true});
+  }
+  function close(){
+    if (!box) return;
+    box.classList.remove('on');
+    setTimeout(function(){ box.hidden = true; }, 300);
+    if (lastFocus && lastFocus.focus && lastFocus !== document.body) { try { lastFocus.focus({preventScroll:true}); } catch(e){} }
+  }
+  /* Keep the card off the Luz chat: on phones, dock it to the top while the chat embed is on screen */
+  function watchChat(){
+    if (!('IntersectionObserver' in window)) return;
+    var w = document.getElementById('aa-chat-wrap') || (document.querySelector('iframe[src*="artelagency.com/api/w/"]') || {}).parentElement;
+    if (!w) return;
+    chatIO = new IntersectionObserver(function(es){ es.forEach(function(en){ box.classList.toggle('cc-top', en.isIntersecting && innerWidth <= 600); }); }, {threshold:0.15});
+    chatIO.observe(w);
+  }
+  function footLink(){
+    if (document.querySelector('.aa-cc-foot, .aa-cc-foot-float')) return;
+    var b = document.createElement('button'); b.type = 'button'; b.textContent = T.foot;
+    b.setAttribute('aria-haspopup','dialog');
+    b.addEventListener('click', function(e){ e.preventDefault(); open(true, true); });
+    var legal = document.querySelector('.aaf-legal-l');
+    if (legal) {
+      b.className = 'aa-cc-foot aaf-txt-cc';
+      var law = [].filter.call(legal.querySelectorAll('.aaf-txt'), function(s){ return /Law 25|Loi 25/.test(s.textContent); })[0];
+      law ? legal.insertBefore(b, law) : legal.appendChild(b);
+    } else {
+      var f = document.querySelector('footer, .footer-light, .aaf');
+      if (f) { b.className = 'aa-cc-foot'; b.style.cssText = 'all:unset;cursor:pointer;display:inline-block;margin:12px 16px;font:13px Helvetica,Arial,sans-serif;color:#55565B;text-decoration:underline'; f.appendChild(b); }
+      else { b.className = 'aa-cc-foot-float'; document.body.appendChild(b); }
+    }
+  }
+  /* Any link to #cookie-settings also reopens the panel */
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href$="#cookie-settings"],a[href$="#parametres-temoins"],[data-cookie-settings]');
+    if (a) { e.preventDefault(); open(true, true); }
+  });
+  C._ui = { open: function(){ open(true, true); } };
+  function init(){
+    footLink();
+    if (!C.get()) setTimeout(function(){ open(false); }, 600);
+    else if (C._pendingOpen) open(true, true);
+    /* footer may be re-rendered by other scripts; re-add the link if it disappears */
+    setTimeout(footLink, 1500); setTimeout(footLink, 4000);
+  }
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
+})();
+</script>
+<!-- ARTEL CONSENT UI v1 END -->

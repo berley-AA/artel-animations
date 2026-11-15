@@ -1,0 +1,143 @@
+<script>
+(function(){
+  var navbar = document.querySelector('#nav-bar-secondary') || document.querySelector('.navbar');
+  if (!navbar) return;
+ 
+  var p = location.pathname;
+  var isHome = (p === '/' || p === '/fr-ca' || p === '/fr-ca/');
+  var FR = /^\/fr-ca(\/|$)/.test(p);
+  var base = FR ? '/fr-ca' : '';
+ 
+  // Re-point homepage-section links so they work from subpages: dead "#" / "#vision" -> "/#vision"
+  if (!isHome) {
+    var MAP = [
+      { labels:['vision'],              to:'#vision' },
+      { labels:['process','processus'], to:'#process' },
+      { labels:['proof','preuve'],      to:'#case-studies' }
+    ];
+    navbar.querySelectorAll('a').forEach(function(a){
+      var t = (a.textContent || '').trim().toLowerCase();
+      if (!t) return;
+      for (var i=0;i<MAP.length;i++){
+        if (MAP[i].labels.some(function(l){ return t === l || t.indexOf(l) === 0; })){
+          a.setAttribute('href', base + '/' + MAP[i].to);
+          break;
+        }
+      }
+    });
+  }
+ 
+  if (isHome) return; // homepage runs its own navbar script — don't double up
+ 
+  // Scroll behavior (frost + hide on scroll-down, reveal on scroll-up, 4s auto-hide)
+  var navHideTimer = null, lastScrollY = window.scrollY, isPast = false, THRESH = 100;
+  var hoverZone = document.createElement('div');
+  hoverZone.style.cssText = 'position:fixed;top:0;left:0;right:0;height:30px;z-index:1000;pointer-events:all;';
+  document.body.appendChild(hoverZone);
+ 
+  function showNavbar(){
+    navbar.classList.remove('hidden-nav');
+    navbar.classList.add('visible','frosted');
+    clearTimeout(navHideTimer);
+    navHideTimer = setTimeout(function(){ if (isPast) hideNavbar(); }, 4000);
+  }
+  function hideNavbar(){
+    navbar.classList.add('hidden-nav');
+    navbar.classList.remove('visible');
+  }
+  navbar.addEventListener('mouseenter', function(){ clearTimeout(navHideTimer); });
+  navbar.addEventListener('mouseleave', function(){ if (isPast){ navHideTimer = setTimeout(hideNavbar, 4000); } });
+  hoverZone.addEventListener('mouseenter', function(){ if (isPast) showNavbar(); });
+ 
+  window.addEventListener('scroll', function(){
+    var y = window.scrollY;
+    navbar.classList.toggle('frosted', y > 10);
+    if (y > THRESH && !isPast){ isPast = true; hideNavbar(); }
+    else if (y <= THRESH && isPast){ isPast = false; clearTimeout(navHideTimer); showNavbar(); }
+    if (y < lastScrollY && isPast){ showNavbar(); }
+    lastScrollY = y;
+  }, { passive: true });
+})();
+</script>
+
+
+<!-- FAQ MOTION (Nov 12 2026), rules from the "20 ways" reel that fit this page:
+     1 ease-out for entrances · 2 open in ~250 ms · 3 stagger rows by 30 ms · 4 scale 0.97 on press
+     6 stagger as details settle · 9 ease-in-out for moves · 13 no bounce · 15 exits 20% shorter · 17 masks for reveals -->
+<style>
+:root{--fq-out:cubic-bezier(.23,1,.32,1);--fq-inout:cubic-bezier(.77,0,.175,1)}
+/* 9: the + to x turn is a move, so ease-in-out */
+.fq .fq-ic{transition:transform .25s var(--fq-inout),background-color .2s ease,color .2s ease}
+/* 4: press feedback */
+.fq .fq-q:active .fq-ic,.fq .fq-ai a:active,.fq a.fq-btn:active{transform:scale(.97)}
+.fq .fq-row[open] .fq-q:active .fq-ic{transform:rotate(45deg) scale(.97)}
+.fq .fq-ai a,.fq a.fq-btn{transition:background-color .2s ease,transform .15s var(--fq-out)}
+/* on close, the icon and number turn back right away (not after the box shuts) */
+.fq .fq-row.fq-closing .fq-ic{transform:none;background:#fff;color:#1D1D1F}
+.fq .fq-row.fq-closing .fq-n{color:#86868B}
+/* 17: the answer is revealed through a mask (its own height clip), not just faded */
+.fq .fq-a{overflow:hidden}
+/* no text gets selected when the + is clicked twice fast (open then close) */
+.fq .fq-q{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+/* 3: rows arrive one after another, only once JS is ready */
+.fq-js .fq-head,.fq-js .fq-row{opacity:0;transform:translateY(8px)}
+.fq-js .fq-in{opacity:1;transform:none;transition:opacity .4s var(--fq-out),transform .4s var(--fq-out)}
+@media (prefers-reduced-motion:reduce){
+.fq-js .fq-head,.fq-js .fq-row{opacity:1;transform:none}
+.fq .fq-ic,.fq .fq-ai a,.fq a.fq-btn{transition:none}
+.fq .fq-q:active .fq-ic,.fq .fq-ai a:active,.fq a.fq-btn:active{transform:none}
+}
+</style>
+<script>
+(function(){
+  var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var box=[].filter.call(document.querySelectorAll('.fq'),function(e){return getComputedStyle(e).display!=='none'})[0];
+  if(!box) return;
+  var OUT='cubic-bezier(.23,1,.32,1)';
+  /* 1 + 3: entrance, head first, then rows 30 ms apart, ease-out */
+  if(!RM && 'IntersectionObserver' in window){
+    document.documentElement.classList.add('fq-js');
+    var items=[box.querySelector('.fq-head')].concat([].slice.call(box.querySelectorAll('.fq-row')));
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(!e.isIntersecting) return; io.unobserve(e.target);
+        var i=items.indexOf(e.target), first=items.filter(function(x){return x.classList.contains('fq-in')}).length;
+        e.target.style.transitionDelay=Math.min(Math.max(i-first,0),12)*30+'ms';
+        e.target.classList.add('fq-in');
+        setTimeout(function(){e.target.style.transitionDelay=''},800);
+      });
+    },{rootMargin:'0px 0px -5% 0px'});
+    items.forEach(function(x){io.observe(x)});
+  }
+  /* 2, 6, 15, 17: accordion. Open 260 ms, close 240 ms as a true reverse: the box and its bottom padding
+     shrink together (no snap at the end), the text slides back down as it fades. Interrupting mid-way
+     picks up from where the box is. */
+  [].forEach.call(box.querySelectorAll('.fq-row'),function(row){
+    var sum=row.querySelector('.fq-q'), a=row.querySelector('.fq-a'), p=a.querySelector('p'), anim=null, panim=null;
+    var IO='cubic-bezier(.32,.72,0,1)';
+    function now(){var c=getComputedStyle(a);return {h:a.getBoundingClientRect().height,pb:c.paddingBottom}}
+    function stop(){if(anim){anim.onfinish=null;anim.cancel();anim=null} if(panim){panim.cancel();panim=null}}
+    sum.addEventListener('mousedown',function(ev){ if(ev.detail>1) ev.preventDefault(); });
+    sum.addEventListener('click',function(ev){
+      if(RM||!a.animate) return;
+      ev.preventDefault();
+      try{ if(ev.detail>1){ var s=window.getSelection(); if(s&&!s.isCollapsed) s.removeAllRanges(); } }catch(e){}
+      var opening=!row.open||row.classList.contains('fq-closing');
+      var from=(anim?now():null); stop();
+      if(opening){
+        row.classList.remove('fq-closing');
+        row.open=true;
+        var pb=getComputedStyle(a).paddingBottom, h=a.getBoundingClientRect().height;
+        anim=a.animate([{height:(from?from.h:0)+'px',paddingBottom:(from?from.pb:'0px')},{height:h+'px',paddingBottom:pb}],{duration:260,easing:IO});
+        panim=p.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:240,delay:from?0:50,easing:OUT,fill:'backwards'});
+        anim.onfinish=function(){anim=null};
+      }else{
+        var c=from||now();
+        row.classList.add('fq-closing');
+        anim=a.animate([{height:c.h+'px',paddingBottom:c.pb},{height:'0px',paddingBottom:'0px'}],{duration:240,easing:IO,fill:'forwards'});
+        panim=p.animate([{opacity:1,transform:'none'},{opacity:0,transform:'translateY(6px)'}],{duration:170,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'});
+        anim.onfinish=function(){row.open=false;row.classList.remove('fq-closing');stop()};
+      }
+    });
+  });
+})();
+</script>

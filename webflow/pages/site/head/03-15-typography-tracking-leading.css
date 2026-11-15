@@ -1,0 +1,97 @@
+
+/* ——— §15 TYPOGRAPHY — tracking & leading are size-specific ——— */
+/* Generic fallback for custom-coded sub pages: tracking only, no !important,
+   so any page that sets its own letter-spacing keeps winning. */
+h1{letter-spacing:-.02em}
+h2{letter-spacing:-.016em}
+h3{letter-spacing:-.012em}
+/* Display text: negative tracking, tight leading */
+html body #hero h1 strong{letter-spacing:-.022em!important;line-height:1.05!important}
+html body #hero h2 strong{letter-spacing:-.011em!important;line-height:1.24!important}
+html body .text-heading-2-bold{letter-spacing:-.02em;line-height:1.06}
+html body .heading-3{letter-spacing:-.018em;line-height:1.06}
+html body .team-heading{letter-spacing:-.018em}
+html body .bb-headline{letter-spacing:-.016em}
+html body .res-name{letter-spacing:-.016em;line-height:1.18}
+html body .vision-next-h3{letter-spacing:-.014em}
+/* Mid headings */
+html body .text-heading-1-5-bold{letter-spacing:-.014em;line-height:1.14}
+html body .text-heading-3-light{letter-spacing:-.012em}
+html body .aa-about-para{letter-spacing:-.01em!important;line-height:1.24!important}
+/* Body copy: tracking back to ~0, comfortable leading */
+html body .explanation-paragraph{letter-spacing:0;line-height:1.5}
+html body .text-smal-body-copy{letter-spacing:0;line-height:1.45}
+html body .team-name{letter-spacing:-.008em}
+/* Small labels: slight positive tracking for legibility */
+html body .text-smal-body{letter-spacing:.04em}
+html body .team-role{letter-spacing:.01em}
+html body .res-tag{letter-spacing:.01em}
+
+/* ——— §1 RESPONSE — feedback on pointer-DOWN, instant ——— */
+html body .git-btn, html body .team-li, html body .aa-nav-cta, html body .w-button{transition:transform .32s cubic-bezier(.22,1,.36,1)}
+html body .git-btn:active, html body .w-button:active{transform:scale(.97);transition-duration:.09s}
+html body .team-li:active{transform:scale(.94);transition-duration:.09s}
+html body .aa-nav-cta:active{transform:translateY(-50%) scale(.96)!important;transition-duration:.09s!important}
+html body .navbar .nav-link:active{opacity:.55;transition:opacity .06s ease-out}
+html body #aa-results .res-row:active{background:rgba(255,255,255,.12)!important;transition:background 0s!important}
+/* Case study / landing embed buttons (custom-coded classes) — keep their
+   box-shadow hover transition alive while adding the press response */
+html body .get-in-touch-btn, html body .cs-aiq-btn{transition:transform .32s cubic-bezier(.22,1,.36,1), box-shadow .5s ease}
+html body .get-in-touch-btn:active, html body .cs-aiq-btn:active{transform:scale(.97);transition-duration:.09s,.5s}
+
+/* ——— FREE PILOT SECTION — Apple promotional-tile pattern ——— */
+html body .fp-headline{font-family:'Helveticanowdisplay',Helvetica,sans-serif!important}
+html body .fp-eyebrow, html body .fp-link{font-family:'Helveticaneuemed',Helvetica,sans-serif!important}
+html body .fp-sub, html body .fp-fine{font-family:'Helveticaneue Lt 55 Roman','Helvetica Neue',Helvetica,sans-serif!important}
+html body .fp-btn{font-family:'Helveticanowdisplay',Helvetica,sans-serif!important;transition:transform .32s cubic-bezier(.22,1,.36,1), background-color .3s ease}
+html body .fp-btn:hover{background-color:#e66f00}
+html body .fp-btn:active{transform:scale(.97);transition-duration:.09s,.3s}
+html body .fp-link{transition:transform .32s cubic-bezier(.22,1,.36,1), background-color .3s ease}
+html body .fp-link:hover{background-color:rgba(255,123,0,.08)}
+html body .fp-link:active{transform:scale(.97);transition-duration:.09s,.3s}
+
+/* ——— §11 FRAME-LEVEL SMOOTHNESS + crisp restraint timing ———
+   Grandeur = flawlessness, not slowness. Shorter, critically-damped reveals
+   (intentionally overrides the July-21 motion polish durations), and GPU
+   hints on everything that moves during scroll. */
+@media (prefers-reduced-motion: no-preference){
+  html.rv-on body .aa-rev{transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.19,1,.22,1)}
+  html.rv-on body #aa-results .res-row{transition:background .35s ease,color .3s ease,opacity .5s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.19,1,.22,1)}
+  html.rv-on body .team-heading{transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.19,1,.22,1)}
+  html.rv-on body .team-portrait-card{transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.19,1,.22,1)}
+  html.aa-bg-ready body #hero > .container-2{animation-duration:.65s}
+  html.aa-bg-ready body #hero .hero-cta{animation-duration:.65s}
+  html.aa-bg-ready body .navbar{animation-duration:.6s}
+  html.rv-on .aa-rev, html.rv-on .team-portrait-card, html.rv-on #aa-results .res-row{will-change:transform,opacity}
+}
+
+/* ——— §12 MATERIALS — nav becomes a real translucent layer once scrolled;
+       soft shadow instead of a hard divider; ink system keeps working.
+       blur 14px (not 20) — visually near-identical at this bg opacity,
+       meaningfully cheaper per frame on weak GPUs (§11). ——— */
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  html body .navbar.frosted, html.rv-on body .navbar.frosted{
+    background:rgba(250,250,250,.6)!important;
+    -webkit-backdrop-filter:blur(14px) saturate(180%)!important;
+    backdrop-filter:blur(14px) saturate(180%)!important;
+    box-shadow:0 14px 34px -22px rgba(0,0,0,.35)!important;
+    transition:transform .4s cubic-bezier(.16,1,.3,1),color .35s ease,filter .35s ease,background-color .45s ease,box-shadow .45s ease!important;
+  }
+  html body .navbar.frosted.aa-ink-dark, html.rv-on body .navbar.frosted.aa-ink-dark{
+    background:rgba(15,17,21,.5)!important;
+    box-shadow:0 14px 34px -22px rgba(0,0,0,.55)!important;
+  }
+}
+
+/* ——— §14 ACCESSIBILITY — user senses settings win over the material ——— */
+@media (prefers-reduced-transparency: reduce){
+  html body .navbar.frosted{background:#fafafa!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html body .navbar.frosted.aa-ink-dark{background:#0f1115!important}
+}
+@media (prefers-contrast: more){
+  html body .navbar.frosted{background:#fff!important;border-bottom:1px solid #000;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html body .navbar.frosted.aa-ink-dark{background:#000!important;border-bottom-color:#fff}
+}
+@media (prefers-reduced-motion: reduce){
+  html body .git-btn:active, html body .team-li:active, html body .w-button:active, html body .get-in-touch-btn:active, html body .cs-aiq-btn:active, html body .fp-btn:active, html body .fp-link:active{transform:none}
+}

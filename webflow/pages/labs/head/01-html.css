@@ -1,0 +1,130 @@
+
+html:root body{background-color:#ffffff!important}
+/* no browser scroll anchoring on this page: rows must grow DOWN, never shove the page up */
+html,body{overflow-anchor:none}
+/* Labs hero = Figma frame "The Sphere Lab" (7634 x 4578), scaled to FIT the screen like Figma does.
+   Everything sits inside the site frame: min(100vw,1920px), centred (same frame as the nav).
+   --s = 1 Figma unit. Horizontal anchors follow the site grid (2.8 / 26 / 30 / 49.5 / 69 / 74 / 97.2) of that frame. */
+@media screen and (min-width:768px){
+  html body .labs-hero{--s:min(calc(min(100vw,1920px) / 7634),calc(100vh / 4578));height:calc(4578 * var(--s))!important;min-height:0!important}
+  @supports (height:100svh){html body .labs-hero{--s:min(calc(min(100vw,1920px) / 7634),calc(100svh / 4578))}}
+  html body .lx-stage{position:absolute!important;inset:0!important;height:100%!important;padding:0!important}
+  html body .lx-rock{left:calc((100% - min(100%,1920px)) / 2 + min(100%,1920px) * 0.495 - 1507 * var(--s))!important;top:calc(469.5 * var(--s))!important;width:calc(3014 * var(--s))!important;height:calc(3767 * var(--s))!important}
+  html body .lx-title{left:calc((100% - min(100%,1920px)) / 2 + min(100%,1920px) * 0.495)!important;width:auto!important;transform:translateX(-50%)!important;top:calc(2182 * var(--s))!important;font-size:calc(422.92 * var(--s))!important;line-height:calc(338.26 * var(--s))!important;text-align:center!important}
+  /* statement line: full first half, dimmed promise. 17.5% smaller than v1 (360 -> 297) */
+  html body .lx-copy{position:absolute!important;left:calc((100% - min(100%,1920px)) / 2 + min(100%,1920px) * 0.0576)!important;width:calc(min(100%,1920px) * 0.8855)!important;margin:0!important;top:calc(3308 * var(--s))!important;font-size:calc(297 * var(--s))!important;line-height:calc(284 * var(--s))!important;letter-spacing:-0.012em!important}
+}
+@media screen and (max-width:767px){html body .lx-copy{font-size:5.45vw!important;line-height:5.3vw!important}}
+
+/* ===== Systems index (lab-index). Columns sit on the site grid of the 1920 frame: 2.8 / 26 / 30 / 49.5 / 69 / 74 / 97.2 ===== */
+html body .lw{padding:7vw 0 9vw;background:transparent}
+html body .lw-frame{width:min(100%,1920px);margin:0 auto;font-family:'Helveticaneue Lt 55 Roman','Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1b1f}
+html body .lw-strip{display:flex;justify-content:space-between;padding:7px 2.8% 8px;border-top:1px solid rgba(0,0,0,.22);border-bottom:1px solid rgba(0,0,0,.22);font-size:11px;letter-spacing:.01em;margin-bottom:28px}
+html body .lw-head,html body .lw-line{display:grid;grid-template-columns:2.8% 23.2% 4% 19.5% 19.5% 5% 23.2% 2.8%;align-items:start}
+html body .lw-head{padding:0 0 8px;color:#86868b}
+html body .lw-c{font-size:11px;line-height:1.35;letter-spacing:.04em;text-transform:uppercase;padding-right:12px;min-width:0}
+html body .lw-dot{grid-column:2}html body .lw-year{grid-column:3}html body .lw-sys{grid-column:4}html body .lw-eng{grid-column:5}html body .lw-stat{grid-column:6}html body .lw-desc{grid-column:7}
+/* What it does: one-line black summary, then the grey tech line + paragraph.
+   The grey tech line drops by --tg so its top sits level with the top of the image (image top = summary bottom + --tg). */
+html body .lw-frame{--tg:22px}
+html body .lw-short{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+html body .lw-tech{display:block;color:#86868b;margin-top:var(--tg)}
+html body .lw-more{display:grid;grid-template-rows:1fr}
+html body .lw-more-in{display:block;min-height:0;overflow:hidden;text-transform:none;font-size:12px;line-height:1.45;letter-spacing:0;color:#494949;padding-top:6px;max-width:42ch}
+/* B: at rest only the black summary shows. When the row opens, the grey tech line appears level with the image top
+   and the paragraph unfolds under it. */
+html.lw-vb body .lw-tech{max-height:0;opacity:0;overflow:hidden;margin-top:0;transition:max-height .5s cubic-bezier(.22,1,.36,1),margin-top .5s cubic-bezier(.22,1,.36,1),opacity .3s ease}
+html.lw-vb body .lw-row.open .lw-tech{max-height:4em;opacity:1;margin-top:var(--tg);transition:max-height .5s cubic-bezier(.22,1,.36,1),margin-top .5s cubic-bezier(.22,1,.36,1),opacity .35s ease .1s}
+html.lw-vb body .lw-more{grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.22,1,.36,1)}
+html.lw-vb body .lw-more-in{opacity:0;padding-top:0;transition:opacity .35s ease .1s,padding-top .5s cubic-bezier(.22,1,.36,1)}
+html.lw-vb body .lw-row.open .lw-more{grid-template-rows:1fr}
+html.lw-vb body .lw-row.open .lw-more-in{opacity:1;padding-top:6px}
+html body .lw-row{border-top:1px solid rgba(0,0,0,.16);outline:none;cursor:default}
+html body .lw-row:last-child{border-bottom:1px solid rgba(0,0,0,.16)}
+html body .lw-line{padding:9px 0 10px;transition:opacity .35s ease}
+/* desktop: the row under the mouse is full black, the others fade */
+html body .lw-frame.has-cur .lw-row:not(.cur) .lw-line{opacity:.42}
+/* Desktop: image shares the row with the text; its top is level with the grey tech line.
+   --mt is measured per row by the script (fallback = line padding + summary + gap). */
+@media screen and (min-width:768px){
+ html body .lw-row{display:grid;grid-template-columns:100%}
+ html body .lw-line,html body .lw-media{grid-area:1/1}
+ html body .lw-media{align-self:start;margin-top:var(--mt,46px)}
+}
+/* Image placement is shuffled per row. Every edge lands on a grid line, and no image passes the 69 line,
+   so it never runs into the description column (74). --l / --r = left / right margin, --ws = small width, --wb = open width. */
+html body .lw-row{--l:30%;--r:auto;--ws:19.5%;--wb:39%}
+html body .lw-row:nth-child(3){--l:2.8%;--r:auto;--ws:23.2%;--wb:46.7%}
+html body .lw-row:nth-child(4){--l:auto;--r:31%;--ws:19.5%;--wb:39%}
+html body .lw-row:nth-child(5){--l:26%;--r:auto;--ws:23.5%;--wb:43%}
+html body .lw-row:nth-child(6){--l:2.8%;--r:auto;--ws:27.2%;--wb:46.7%}
+html body .lw-row:nth-child(7){--l:30%;--r:auto;--ws:19.5%;--wb:39%}
+html body .lw-row:nth-child(8){--l:auto;--r:31%;--ws:19.5%;--wb:43%}
+html body .lw-row:nth-child(9){--l:2.8%;--r:auto;--ws:23.2%;--wb:46.7%}
+html body .lw-row:nth-child(10){--l:26%;--r:auto;--ws:23.5%;--wb:43%}
+html body .lw-media-in{margin-left:var(--l);margin-right:var(--r);width:var(--ws);padding-bottom:18px;transition:width .6s cubic-bezier(.22,1,.36,1)}
+html body .lw-slides{position:relative;aspect-ratio:16/10;background:#ecece9;overflow:hidden}
+html body .lw-slide{position:absolute;inset:0;opacity:0;transition:opacity .5s ease;background:#ecece9 repeating-linear-gradient(90deg,rgba(0,0,0,.035) 0 1px,transparent 1px 48px) center/cover no-repeat}
+html body .lw-slide.on{opacity:1}
+html body .lw-slide[data-label]:not([style*="background-image"])::after{content:attr(data-label);position:absolute;left:10px;right:10px;bottom:9px;font-size:10px;line-height:1.3;letter-spacing:.06em;text-transform:uppercase;color:#9a9a94}
+html body .lw-count{display:block;margin-top:6px;font-size:10px;letter-spacing:.06em;color:#86868b;opacity:0;transition:opacity .3s ease}
+/* A (default): small image always shown, grows to its open width when the row opens */
+html body .lw-row.open .lw-media-in{width:var(--wb)}
+html body .lw-row.open .lw-count{opacity:1}
+/* B (?w=b): no image until the row opens, then the rows below drop and the carousel shows */
+html.lw-vb body .lw-media{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.22,1,.36,1)}
+html.lw-vb body .lw-media-in{overflow:hidden;min-height:0;width:var(--wb);padding-bottom:0}
+html.lw-vb body .lw-slides{margin-bottom:18px}
+html.lw-vb body .lw-row.open .lw-media{grid-template-rows:1fr}
+/* Desktop + tablet: an open image is never taller than the screen allows, so the whole open row
+   (top line + image + count) fits on short laptops, normal monitors and ultrawides alike. */
+@media screen and (min-width:768px){
+ html body .lw-row.open .lw-media-in{width:max(var(--ws),min(var(--wb),calc((100vh - 230px) * 1.6)))}
+ html.lw-vb body .lw-media-in,html.lw-vb body .lw-row.open .lw-media-in{width:max(18%,min(var(--wb),calc((100vh - 230px) * 1.6)))}
+}
+
+/* ===== Phone (767 and under) =====
+   Row grid: gutter | half | gap | half | gutter.
+   Top three lines = basic info (number, system, year / engine, status / short line).
+   Under them: image on one side, grey tech line + paragraph on the other. Sides alternate row by row. */
+@media screen and (max-width:767px){
+ html body .lw{padding:14vw 0 18vw}
+ html body .lw-strip{padding:7px 5.76vw 8px;margin-bottom:0}
+ html body .lw-head{display:none}
+ html body .lw-row{display:grid;grid-template-columns:5.76vw 1fr 3.5vw 1fr 5.76vw;grid-template-rows:auto auto auto auto auto 1fr;row-gap:0;padding:12px 0 14px}
+ html body .lw-line,html body .lw-desc{display:contents}
+ html body .lw-c{padding-right:0}
+ html body .lw-dot{grid-area:1/2/2/3;justify-self:start}
+ html body .lw-sys{grid-area:1/2/2/5;padding-left:10vw;padding-right:12vw}
+ html body .lw-year{grid-area:1/4/2/5;justify-self:end;color:#86868b}
+ html body .lw-eng{grid-area:2/2/3/5;padding-left:10vw;padding-right:14vw;margin-top:2px;color:#86868b}
+ html body .lw-stat{grid-area:2/4/3/5;justify-self:end;margin-top:2px;padding-right:0;color:#86868b}
+ html body .lw-short{grid-area:3/2/4/5;padding-left:10vw;margin-top:6px;white-space:normal}
+ html body .lw-tech{grid-area:4/4/5/5;margin-top:12px;line-height:1.35}
+ html body .lw-more{grid-area:5/4/6/5}
+ html body .lw-more-in{max-width:none}
+ html body .lw-media{grid-area:4/2/7/3;margin-top:12px}
+ html body .lw-row:nth-child(even) .lw-tech,html body .lw-row:nth-child(even) .lw-more{grid-column:2/3}
+ html body .lw-row:nth-child(even) .lw-media{grid-column:4/5}
+ html body .lw-media-in,html body .lw-row.open .lw-media-in,html.lw-vb body .lw-media-in{margin:0;width:100%;padding-bottom:0}
+ html body .lw-slides,html.lw-vb body .lw-slides{aspect-ratio:4/5;margin-bottom:0}
+ html body .lw-slide[data-label]:not([style*="background-image"])::after{font-size:9px}
+ html body .lw-count{opacity:1}
+ /* A: tap the image to see it full screen */
+ html:not(.lw-vb) body .lw-slides{cursor:zoom-in}
+ /* B: closed rows show only the three basic lines; the open row reveals image + tech + paragraph */
+ html.lw-vb body .lw-tech{max-height:0;opacity:0;overflow:hidden;margin-top:0;transition:max-height .5s cubic-bezier(.22,1,.36,1),opacity .35s ease,margin-top .5s cubic-bezier(.22,1,.36,1)}
+ html.lw-vb body .lw-row.open .lw-tech{max-height:5em;opacity:1;margin-top:12px}
+ html.lw-vb body .lw-media{margin-top:0;transition:grid-template-rows .6s cubic-bezier(.22,1,.36,1),margin-top .6s cubic-bezier(.22,1,.36,1)}
+ html.lw-vb body .lw-row.open .lw-media{margin-top:12px}
+}
+/* full-screen image viewer (version A on phones) */
+html body .lw-lb{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(255,255,255,.97);opacity:0;pointer-events:none;transition:opacity .3s ease;font-family:'Helveticaneue Lt 55 Roman','Helvetica Neue',Helvetica,Arial,sans-serif;color:#1a1b1f}
+html body .lw-lb.on{opacity:1;pointer-events:auto}
+html body .lw-lb-name{position:absolute;left:5.76vw;top:max(22px,env(safe-area-inset-top));font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+html body .lw-lb-x{position:absolute;right:5.76vw;top:max(12px,env(safe-area-inset-top));padding:10px 0;background:none;border:0;font:inherit;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#1a1b1f;cursor:pointer}
+html body .lw-lb-stage{position:relative;width:88.48vw;height:min(72vh,118vw)}
+html body .lw-lb-stage .lw-slide{opacity:1;background-size:contain}
+html body .lw-lb-bar{display:flex;align-items:center;gap:28px;margin-top:18px;font-size:11px;letter-spacing:.06em;color:#86868b}
+html body .lw-lb-bar button{padding:10px 14px;background:none;border:0;font-size:18px;line-height:1;color:#1a1b1f;cursor:pointer}
+@media (prefers-reduced-motion:reduce){html body .lw-media-in,html.lw-vb body .lw-media,html body .lw-slide,html.lw-vb body .lw-more,html.lw-vb body .lw-more-in,html.lw-vb body .lw-tech,html body .lw-lb{transition:none}}

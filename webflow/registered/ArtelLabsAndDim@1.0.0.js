@@ -1,0 +1,2 @@
+/* Labs hero: the joining word ('and' / 'et') takes the dimmed style of the second line. Runs after the /fr-ca line swap. */
+document.addEventListener('DOMContentLoaded',function(){var s=document.querySelector('.lx-copy .lx-dim');if(!s)return;var t=s.previousSibling;if(!t||t.nodeType!==3)return;var m=t.nodeValue.match(/(\s)(and|et)\s*$/);if(!m)return;t.nodeValue=t.nodeValue.slice(0,m.index)+m[1];s.textContent=m[2]+' '+s.textContent;});

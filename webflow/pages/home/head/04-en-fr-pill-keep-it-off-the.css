@@ -1,0 +1,5 @@
+
+/* EN/FR pill — keep it off the hero copy on phones */
+@media (max-width: 767px){
+  .aa-ctl{ top: auto !important; bottom: 14px !important; right: 12px !important; }
+}

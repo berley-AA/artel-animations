@@ -1,0 +1,31 @@
+
+  /* Global navbar — transparent; ink flips to the section behind it */
+  .navbar {
+    position: fixed !important;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    transform: translateY(0);
+    transition: transform .4s cubic-bezier(.16,1,.3,1), color .35s ease, filter .35s ease;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  .navbar.hidden-nav { transform: translateY(-100%); }
+  .navbar.visible    { transform: translateY(0); }
+  .navbar.frosted {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  .w--current { color: #FF7B00 !important; }
+
+  /* reactive ink — white over dark sections, black over light (class set by the script below) */
+  html body .navbar.aa-ink-dark a, html body .navbar.aa-ink-dark .aa-l-t1, html body .navbar.aa-ink-dark .w-nav-link{ color:#fff !important; -webkit-text-fill-color:#fff !important; }
+  html body .navbar.aa-ink-light a, html body .navbar.aa-ink-light .aa-l-t1, html body .navbar.aa-ink-light .w-nav-link{ color:#000 !important; -webkit-text-fill-color:#000 !important; }
+  html body .navbar .aa-l-t2{ color:#FF7B00 !important; -webkit-text-fill-color:#FF7B00 !important; }   /* keep the orange letter-flip */
+  html body .navbar.aa-ink-dark .w-nav-brand img, html body .navbar.aa-ink-dark img{ filter:brightness(0) invert(1) !important; }
+  html body .navbar.aa-ink-light .w-nav-brand img, html body .navbar.aa-ink-light img{ filter:brightness(0) !important; }
+  html body .navbar.aa-ink-dark .w-icon-nav-menu, html body .navbar.aa-ink-dark .w-nav-button{ color:#fff !important; }
+  html body .navbar.aa-ink-light .w-icon-nav-menu, html body .navbar.aa-ink-light .w-nav-button{ color:#000 !important; }

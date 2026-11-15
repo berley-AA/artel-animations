@@ -1,0 +1,258 @@
+<style>
+  /* Global navbar — transparent; ink flips to the section behind it */
+  .navbar {
+    position: fixed !important;
+    top: 0; left: 0; right: 0;
+    z-index: 999;
+    transform: translateY(0);
+    transition: transform .4s cubic-bezier(.16,1,.3,1), color .35s ease, filter .35s ease;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  .navbar.hidden-nav { transform: translateY(-100%); }
+  .navbar.visible    { transform: translateY(0); }
+  .navbar.frosted {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+  .w--current { color: #FF7B00 !important; }
+
+  /* reactive ink — white over dark sections, black over light (class set by the script below) */
+  html body .navbar.aa-ink-dark a, html body .navbar.aa-ink-dark .aa-l-t1, html body .navbar.aa-ink-dark .w-nav-link{ color:#fff !important; -webkit-text-fill-color:#fff !important; }
+  html body .navbar.aa-ink-light a, html body .navbar.aa-ink-light .aa-l-t1, html body .navbar.aa-ink-light .w-nav-link{ color:#000 !important; -webkit-text-fill-color:#000 !important; }
+  html body .navbar .aa-l-t2{ color:#FF7B00 !important; -webkit-text-fill-color:#FF7B00 !important; }   /* keep the orange letter-flip */
+  html body .navbar.aa-ink-dark .w-nav-brand img, html body .navbar.aa-ink-dark img{ filter:brightness(0) invert(1) !important; }
+  html body .navbar.aa-ink-light .w-nav-brand img, html body .navbar.aa-ink-light img{ filter:brightness(0) !important; }
+  html body .navbar.aa-ink-dark .w-icon-nav-menu, html body .navbar.aa-ink-dark .w-nav-button{ color:#fff !important; }
+  html body .navbar.aa-ink-light .w-icon-nav-menu, html body .navbar.aa-ink-light .w-nav-button{ color:#000 !important; }
+</style>
+<script>
+/* Navbar reactive ink v2 (2026-07-17) — same behaviour, cached measuring.
+   OLD: measured every section per scroll tick + 150ms interval (top jank source).
+   NEW: section tones + absolute positions cached; cache rebuilt on resize/aa:vh/
+   every 3s; scroll path is rAF-throttled and only scans the cached array.
+   Force photo-bg sections by id in OVERRIDE (e.g. OVERRIDE['hero']='light'). */
+(function(){
+  var OVERRIDE = { 'artel-mission':'dark' };   /* mission has a dark photo bg -> force white nav ink */
+  var DARK_BELOW = 128;   /* luminance below this = dark bg -> white ink */
+  function start(){
+    var nav = document.querySelector('.navbar') || document.querySelector('.w-nav');
+    if(!nav){ return setTimeout(start, 300); }
+    function lumOf(el){
+      var bg=getComputedStyle(el).backgroundColor, m=bg.match(/rgba?\(([^)]+)\)/);
+      if(!m) return null;
+      var p=m[1].split(',').map(Number), a=(p[3]===undefined?1:p[3]);
+      if(a<0.5) return null;
+      return 0.2126*p[0] + 0.7152*p[1] + 0.0722*p[2];
+    }
+    var cache=[], navB=70;
+    function build(){
+      cache=[];
+      var r0=nav.getBoundingClientRect();
+      if(r0.height>10 && r0.top>-r0.height) navB=r0.bottom+6;
+      var sy=window.pageYOffset||0;
+      var secs=document.querySelectorAll('section, .section, .w-section');
+      for(var i=0;i<secs.length;i++){
+        var s=secs[i];
+        if(getComputedStyle(s).display==='none') continue;
+        var r=s.getBoundingClientRect();
+        if(r.height<40) continue;
+        var tone;
+        if(s.id && OVERRIDE[s.id]) tone=OVERRIDE[s.id];
+        else{
+          var el=s, g=0, L=null;
+          while(el && g++<4){ L=lumOf(el); if(L!=null) break; el=el.parentElement; }
+          if(L==null) L=229;
+          tone = L < DARK_BELOW ? 'dark' : 'light';
+        }
+        cache.push({top:r.top+sy, bottom:r.bottom+sy, tone:tone});
+      }
+    }
+    var last=null;
+    function apply(t){
+      if(t===last) return; last=t;
+      nav.classList.toggle('aa-ink-dark',  t==='dark');
+      nav.classList.toggle('aa-ink-light', t==='light');
+      /* logos are <img> forced white by an old #Home id rule — inline filter is the
+         only thing that outranks it, so set the logo colour straight on the elements */
+      var f = (t==='dark') ? 'brightness(0) invert(1)' : 'brightness(0)';
+      var ims = nav.querySelectorAll('img');
+      for(var k=0;k<ims.length;k++){ ims[k].style.setProperty('filter', f, 'important'); }
+    }
+    function upd(){
+      var y=(window.pageYOffset||0)+navB;
+      var chosen=null;
+      for(var i=0;i<cache.length;i++){
+        var c=cache[i];
+        if(c.top<=y && c.bottom>y) chosen=c;   /* last one spanning the nav = topmost visually */
+      }
+      apply(chosen?chosen.tone:'light');
+    }
+    var tick=false;
+    function onScroll(){
+      if(tick) return; tick=true;
+      requestAnimationFrame(function(){ tick=false; upd(); });
+    }
+    function rebuild(){ build(); upd(); }
+    window.addEventListener('scroll', onScroll, {passive:true});
+    window.addEventListener('resize', rebuild, {passive:true});
+    window.addEventListener('load', rebuild);
+    try{ window.addEventListener('aa:vh', rebuild); }catch(e){}
+    try{ var L=window.lenis||window.__lenis; if(L&&L.on) L.on('scroll', onScroll); }catch(e){}
+    setInterval(rebuild, 3000);
+    rebuild();
+  }
+  if(document.readyState!=='loading') start();
+  else document.addEventListener('DOMContentLoaded', start);
+})();
+</script>
+<!-- ================================================================
+ APPLE DESIGN PASS — staging preview, SITE-WIDE (all pages)
+ Fluid-interface rules from Apple WWDC talks:
+ §15 Typography · §1 Response · §11 Smoothness · §12 Materials · §14 Reduced motion.
+ Additive layer — delete this block to revert everything.
+================================================================ -->
+<style>
+/* ——— §15 TYPOGRAPHY — tracking & leading are size-specific ——— */
+/* Generic fallback for custom-coded sub pages: tracking only, no !important,
+   so any page that sets its own letter-spacing keeps winning. */
+h1{letter-spacing:-.02em}
+h2{letter-spacing:-.016em}
+h3{letter-spacing:-.012em}
+/* Display text: negative tracking, tight leading */
+html body #hero h1 strong{letter-spacing:-.022em!important;line-height:1.05!important}
+html body #hero h2 strong{letter-spacing:-.011em!important;line-height:1.24!important}
+html body .text-heading-2-bold{letter-spacing:-.02em;line-height:1.06}
+html body .heading-3{letter-spacing:-.018em;line-height:1.06}
+html body .team-heading{letter-spacing:-.018em}
+html body .bb-headline{letter-spacing:-.016em}
+html body .res-name{letter-spacing:-.016em;line-height:1.18}
+html body .vision-next-h3{letter-spacing:-.014em}
+/* Mid headings */
+html body .text-heading-1-5-bold{letter-spacing:-.014em;line-height:1.14}
+html body .text-heading-3-light{letter-spacing:-.012em}
+html body .aa-about-para{letter-spacing:-.01em!important;line-height:1.24!important}
+/* Body copy: tracking back to ~0, comfortable leading */
+html body .explanation-paragraph{letter-spacing:0;line-height:1.5}
+html body .text-smal-body-copy{letter-spacing:0;line-height:1.45}
+html body .team-name{letter-spacing:-.008em}
+/* Small labels: slight positive tracking for legibility */
+html body .text-smal-body{letter-spacing:.04em}
+html body .team-role{letter-spacing:.01em}
+html body .res-tag{letter-spacing:.01em}
+
+/* ——— §1 RESPONSE — feedback on pointer-DOWN, instant ——— */
+html body .git-btn, html body .team-li, html body .aa-nav-cta, html body .w-button{transition:transform .32s cubic-bezier(.22,1,.36,1)}
+html body .git-btn:active, html body .w-button:active{transform:scale(.97);transition-duration:.09s}
+html body .team-li:active{transform:scale(.94);transition-duration:.09s}
+html body .aa-nav-cta:active{transform:translateY(-50%) scale(.96)!important;transition-duration:.09s!important}
+html body .navbar .nav-link:active{opacity:.55;transition:opacity .06s ease-out}
+html body #aa-results .res-row:active{background:rgba(255,255,255,.12)!important;transition:background 0s!important}
+/* Case study / landing embed buttons (custom-coded classes) — keep their
+   box-shadow hover transition alive while adding the press response */
+html body .get-in-touch-btn, html body .cs-aiq-btn{transition:transform .32s cubic-bezier(.22,1,.36,1), box-shadow .5s ease}
+html body .get-in-touch-btn:active, html body .cs-aiq-btn:active{transform:scale(.97);transition-duration:.09s,.5s}
+
+/* ——— FREE PILOT SECTION — Apple promotional-tile pattern ——— */
+html body .fp-headline{font-family:'Helveticanowdisplay',Helvetica,sans-serif!important}
+html body .fp-eyebrow, html body .fp-link{font-family:'Helveticaneuemed',Helvetica,sans-serif!important}
+html body .fp-sub, html body .fp-fine{font-family:'Helveticaneue Lt 55 Roman','Helvetica Neue',Helvetica,sans-serif!important}
+html body .fp-btn{font-family:'Helveticanowdisplay',Helvetica,sans-serif!important;transition:transform .32s cubic-bezier(.22,1,.36,1), background-color .3s ease}
+html body .fp-btn:hover{background-color:#e66f00}
+html body .fp-btn:active{transform:scale(.97);transition-duration:.09s,.3s}
+html body .fp-link{transition:transform .32s cubic-bezier(.22,1,.36,1), background-color .3s ease}
+html body .fp-link:hover{background-color:rgba(255,123,0,.08)}
+html body .fp-link:active{transform:scale(.97);transition-duration:.09s,.3s}
+
+/* ——— §11 FRAME-LEVEL SMOOTHNESS + crisp restraint timing ———
+   Grandeur = flawlessness, not slowness. Shorter, critically-damped reveals
+   (intentionally overrides the July-21 motion polish durations), and GPU
+   hints on everything that moves during scroll. */
+@media (prefers-reduced-motion: no-preference){
+  html.rv-on body .aa-rev{transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.19,1,.22,1)}
+  html.rv-on body #aa-results .res-row{transition:background .35s ease,color .3s ease,opacity .5s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.19,1,.22,1)}
+  html.rv-on body .team-heading{transition:opacity .5s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.19,1,.22,1)}
+  html.rv-on body .team-portrait-card{transition:opacity .55s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.19,1,.22,1)}
+  html.aa-bg-ready body #hero > .container-2{animation-duration:.65s}
+  html.aa-bg-ready body #hero .hero-cta{animation-duration:.65s}
+  html.aa-bg-ready body .navbar{animation-duration:.6s}
+  html.rv-on .aa-rev, html.rv-on .team-portrait-card, html.rv-on #aa-results .res-row{will-change:transform,opacity}
+}
+
+/* ——— §12 MATERIALS — nav becomes a real translucent layer once scrolled;
+       soft shadow instead of a hard divider; ink system keeps working.
+       blur 14px (not 20) — visually near-identical at this bg opacity,
+       meaningfully cheaper per frame on weak GPUs (§11). ——— */
+@supports ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){
+  html body .navbar.frosted, html.rv-on body .navbar.frosted{
+    background:rgba(250,250,250,.6)!important;
+    -webkit-backdrop-filter:blur(14px) saturate(180%)!important;
+    backdrop-filter:blur(14px) saturate(180%)!important;
+    box-shadow:0 14px 34px -22px rgba(0,0,0,.35)!important;
+    transition:transform .4s cubic-bezier(.16,1,.3,1),color .35s ease,filter .35s ease,background-color .45s ease,box-shadow .45s ease!important;
+  }
+  html body .navbar.frosted.aa-ink-dark, html.rv-on body .navbar.frosted.aa-ink-dark{
+    background:rgba(15,17,21,.5)!important;
+    box-shadow:0 14px 34px -22px rgba(0,0,0,.55)!important;
+  }
+}
+
+/* ——— §14 ACCESSIBILITY — user senses settings win over the material ——— */
+@media (prefers-reduced-transparency: reduce){
+  html body .navbar.frosted{background:#fafafa!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html body .navbar.frosted.aa-ink-dark{background:#0f1115!important}
+}
+@media (prefers-contrast: more){
+  html body .navbar.frosted{background:#fff!important;border-bottom:1px solid #000;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+  html body .navbar.frosted.aa-ink-dark{background:#000!important;border-bottom-color:#fff}
+}
+@media (prefers-reduced-motion: reduce){
+  html body .git-btn:active, html body .team-li:active, html body .w-button:active, html body .get-in-touch-btn:active, html body .cs-aiq-btn:active, html body .fp-btn:active, html body .fp-link:active{transform:none}
+}
+</style>
+<script>
+/* §1 — makes :active fire instantly on iOS touch */
+document.addEventListener('touchstart',function(){},{passive:true});
+</script>
+<script>
+/* §1 RESPONSE — crisp restraint: slightly reduce smooth-scroll lag.
+   Runs after the page's motion-polish tuner (load + delay) so this value wins. */
+(function(){
+  function tune(){ try{ var L=window.__lenis||window.lenis; if(L&&L.options){ L.options.lerp=0.11; } }catch(e){} }
+  window.addEventListener('load', function(){ setTimeout(tune, 1500); });
+})();
+</script>
+<script>
+/* FREE PILOT — keep the button label (the locale engine rewrites any link to
+   #cta-chatbot into "Book my discovery call"), and localize it on /fr-ca. */
+(function(){
+  var FR=/^\/fr-ca(\/|$)/.test(location.pathname);
+  function fix(){
+    var b=document.querySelector('.fp-btn');
+    if(b) b.textContent = FR ? 'Réserver mon pilote gratuit' : 'Claim my free pilot';
+  }
+  if(document.readyState!=='loading'){ setTimeout(fix,900); } else { document.addEventListener('DOMContentLoaded', function(){ setTimeout(fix,900); }); }
+  window.addEventListener('load', function(){ setTimeout(fix,1200); setTimeout(fix,2500); });
+})();
+</script>
+<style>/* SQUARE CTAs (2026-10-20): every call-to-action button is square, 90-degree corners. Delete this block to go back to pills. */html body :is(.aa-nav-cta,.git-btn,.fp-btn,.fp-link,.air-btn,.air-pill,.aaf-btn,.nx-btn,.get-in-touch-btn,.cs-aiq-btn,.w-button):is(a,button,div,input,span),html body :is(.aa-nav-cta,.git-btn,.fp-btn,.fp-link,.air-btn,.aaf-btn,.nx-btn,.get-in-touch-btn,.cs-aiq-btn,.w-button) *,html body #free-pilot#free-pilot :is(.fp-btn,.fp-link),html body #ai-readiness#ai-readiness :is(.air-btn,.air-pill){border-radius:0!important}</style>
+<!-- TAB ICON (2026-10-21): Artel dots only, transparent background. Black dots in light mode, white dots in dark mode. Safari and Google use the PNG favicon from Site settings. -->
+<link rel="icon" type="image/svg+xml" href="https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6ad83336bc7e710cb07d73e7_artel-favicon-v4.svg">
+<script>(function(){if(/^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent))return;[].forEach.call(document.querySelectorAll('link[rel="shortcut icon"],link[rel="icon"]:not([type="image/svg+xml"])'),function(l){l.parentNode.removeChild(l)})})();</script>
+<style>/* NO AIQ IN NAV (2026-10-20): the AIQ section is hidden, so its nav button is gone. The Lab is already in the nav. */html body .aa-nav-cta,html body .navbar a[href*="ai-readiness"]{display:none!important}</style>
+<script>/* FOOTER (2026-10-20): "Get your AIQ" button becomes "The Lab". */(function(){var FR=/^\/fr-ca(\/|$)/.test(location.pathname);function fix(b){if(b.__lab)return;b.__lab=1;b.setAttribute('href',FR?'/fr-ca/labs':'/labs');b.textContent='The Lab';b.removeAttribute('aria-label')}function scan(){[].forEach.call(document.querySelectorAll('a.aaf-btn'),fix)}var mo=new MutationObserver(scan);mo.observe(document.documentElement,{childList:true,subtree:true});document.addEventListener('DOMContentLoaded',function(){scan();setTimeout(function(){mo.disconnect()},3000)})})();</script>
+<style>/* MOBILE NAV MASTHEAD (2026-10-21): below 992px the pill becomes a full-width bar flush to the top, light gray, black marks, thin line under. The menu opens from that bar. Two thin lines for the menu icon, the same open-middle X when open (thinner lines), mark and wordmark sized to sit level. Logo and menu icon sit 20px from each edge and the wordmark box matches its artwork exactly, so the three marks are equidistant. */@media(max-width:991px){html body .an-header{top:0!important;left:0!important;right:0!important}html body .an-header .an-capsule{border-radius:0!important;box-shadow:none!important;height:56px;padding:0 20px;background:rgba(229,229,229,.94);color:#000;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.14)}html body .an-header .an-capsule .an-mask{background:#000!important}html body .an-header .an-logo{width:24px;height:24px}html body .an-header .an-wordmark{width:78.3px;height:18px}html body .an-panel{clip-path:inset(0 0 calc(100% - 56px) 0)}html body.an-open .an-panel{clip-path:inset(0)}html body .an-header .an-toggle{width:40px;height:40px;margin-right:-8px}html body .an-header .an-burger{width:24px;height:8px}html body .an-header .an-bar{width:24px;height:1.5px}html body .an-header .an-bar.t{top:0}html body .an-header .an-bar.m{display:none}html body .an-header .an-bar.b{top:6.5px}html body .an-header .an-bar i{border-radius:0!important}html body.an-open .an-header .an-bar.t{transform:translateY(3.25px) rotate(45deg)}html body.an-open .an-header .an-bar.b{transform:translateY(-3.25px) rotate(-45deg)}}</style>
+<script>/* CASE STUDY CTA (2026-10-21): "Get my AIQ" buttons on case study pages become "Get my free pilot" and go to the Free pilot section. RESULTS GIF (2026-10-21): below 992px, tapping a result's GIF opens its case study. HASH AFTER LOADER: arriving on the home page with #free-pilot (or any section) lands there once the intro loader ends. */(function(){var H=document.documentElement;function cs(){[].forEach.call(document.querySelectorAll('a.cs-aiq-btn'),function(a){if(a.__fp)return;a.__fp=1;var fr=/\/fr-ca\//.test(a.getAttribute('href')||'');a.setAttribute('href',fr?'/fr-ca/#free-pilot':'/#free-pilot');a.textContent=fr?'Obtenez mon projet pilote gratuit':'Get my free pilot'})}if(document.readyState!=='loading')cs();else document.addEventListener('DOMContentLoaded',cs);window.addEventListener('click',function(e){if(window.innerWidth>=992)return;var m=e.target&&e.target.closest&&e.target.closest('#aa-results .lw-row .lw-media');if(!m)return;var r=m.closest('.lw-row'),h=r&&r.getAttribute('data-href');if(!h||h.charAt(0)!=='/'||h.charAt(1)==='#')return;e.preventDefault();e.stopImmediatePropagation();var F=/^\/fr-ca(\/|$)/.test(location.pathname);location.href=(F&&h.indexOf('/fr-ca')!==0?'/fr-ca':'')+h},true);function go(){var id=location.hash.slice(1);if(!id)return;var t=document.getElementById(id);if(!t)return;var y=0,el=t;while(el){y+=el.offsetTop;el=el.offsetParent}if(window.__aaSnapTo&&window.innerWidth>=992)window.__aaSnapTo(y);else if(window.__lenis)window.__lenis.scrollTo(y,{immediate:true,force:true});else window.scrollTo(0,y)}function arm(){if(!location.hash||!/^\/(fr-ca\/?)?$/.test(location.pathname))return;if(H.classList.contains('aa-in')){var mo=new MutationObserver(function(){if(!H.classList.contains('aa-in')){mo.disconnect();setTimeout(go,150)}});mo.observe(H,{attributes:true,attributeFilter:['class']})}else{window.addEventListener('load',function(){setTimeout(go,500)})}}if(document.readyState!=='loading')arm();else document.addEventListener('DOMContentLoaded',arm)})();</script>
+<style>/* MOBILE MENU DOTS + LIST (2026-10-22): below 992px the menu icon bars are 18px wide (inside the same 24px box, so spacing stays equal). Opening: the two lines cross into an X, then each arm pulls back to its outer tip, leaving four dots with the exact geometry of the Artel logo dots, measured from LOGO.svg: rx 1.95, ry 2.00 in a 24-unit box drawn at 24px, so 3.9 x 4.0 px. Closing runs it in reverse. The open menu list starts right under the bar, 20px from the edge like the logo, with thin lines between items; the EN/FR switch is square. */@media(max-width:991px){html body .an-header .an-bar{width:18px!important;left:3px!important;justify-content:space-between!important;align-items:center!important}html body .an-header .an-bar i,html body .an-header .an-bar i:first-child,html body .an-header .an-bar i:last-child{width:9px!important;height:1.5px!important;flex:none!important;margin:0!important;border-radius:0!important;transform:none!important;transition:width .2s cubic-bezier(.4,0,.2,1) 0s,height .2s cubic-bezier(.4,0,.2,1) 0s,border-radius .2s ease 0s!important}html body.an-open .an-header .an-bar i,html body.an-open .an-header .an-bar i:first-child,html body.an-open .an-header .an-bar i:last-child{width:3.9px!important;height:4px!important;border-radius:50%!important;transform:none!important;transition:width .26s cubic-bezier(.4,0,.2,1) .3s,height .26s cubic-bezier(.4,0,.2,1) .3s,border-radius .2s ease .36s!important}html body .an-panel{padding:96px 20px 0!important}html body .an-panel .an-list{border-top:1px solid rgba(0,0,0,.12)}html body .an-panel .an-list li{height:auto!important;border-bottom:1px solid rgba(0,0,0,.12)}html body .an-panel .an-item{height:60px!important;font-size:28px!important;gap:0!important;letter-spacing:-.01em!important}html body .an-panel .an-num{width:44px!important;font-size:11px!important;letter-spacing:.08em!important;color:#6b6b6b!important}html body .an-panel .an-lang{border-radius:0!important;box-shadow:none!important;border:1px solid rgba(0,0,0,.14)!important;background:#fff!important;right:20px!important;bottom:24px!important}html body .an-panel .an-lang span{border-radius:0!important}}</style>
+<!-- 2026-11-12 FOOTER UNIFY: one footer everywhere, edges on the nav limits, homepage pill button, About to /#team. Also clips the case film cards (no edge ring). -->
+<script>(function(){var d=document,FR=/^\/fr-ca(\/|$)/.test(location.pathname);if(!d.getElementById('aafu')){var s=d.createElement('style');s.id='aafu';s.textContent='html body .aaf a.aaf-btn.aaf-btn{border-radius:999px!important;background:#141518!important;color:#F1F1EE!important;font-family:Helveticanowdisplay,Arial,sans-serif!important;font-size:15px!important;font-weight:500!important;line-height:1!important;letter-spacing:normal!important;text-transform:none!important;height:44px!important;min-height:44px!important;padding:0 20px!important;display:inline-flex!important;align-items:center!important;border:0!important;box-shadow:none!important}html body .aaf a.aaf-btn.aaf-btn *{color:inherit!important;font-family:inherit!important;font-size:inherit!important;font-weight:inherit!important;letter-spacing:inherit!important;text-transform:inherit!important}html body #aa-results#aa-results .lw-slides:has(>video.n1v){background:transparent!important;-webkit-mask-image:-webkit-radial-gradient(white,black);transform:translateZ(0)}html body #aa-results#aa-results .lw-slides:has(>video.n1v)>.lw-slide{background:transparent!important}html body .lw-slides>video.n1v{border-radius:0!important;transform:scale(1.012)}';d.head.appendChild(s)}})();</script>
+<script>(function(){var d=document,FR=/^\/fr-ca(\/|$)/.test(location.pathname);function fit(){var a=d.querySelector('.aaf');if(!a)return 0;a.querySelectorAll('a.aaf-big').forEach(function(l){if(/#(about|team)$/.test(l.getAttribute('href')||''))l.setAttribute('href',(FR?'/fr-ca':'')+'/#team')});var n=d.querySelector('.navbar .w-container')||d.querySelector('.navbar');if(!n)return 1;var L=1e9,R=-1e9;n.querySelectorAll('a,img,button,.w-nav-button').forEach(function(e){var b=e.getBoundingClientRect();if(b.width<2||b.height<2)return;var c=getComputedStyle(e);if(c.visibility=='hidden'||c.display=='none')return;if(b.left<L)L=b.left;if(b.right>R)R=b.right});var st=a.style;st.setProperty('max-width','none','important');st.setProperty('margin-left','0','important');st.setProperty('margin-right','0','important');var ab=a.getBoundingClientRect();if(R-L<240||L<ab.left||R>ab.right)return 1;st.setProperty('padding-left',Math.round(L-ab.left)+'px','important');st.setProperty('padding-right',Math.round(ab.right-R)+'px','important');return 1}
+var k=0;(function t(){if(!fit()&&k++<40)setTimeout(t,150)})();addEventListener('load',fit);d.fonts&&d.fonts.ready.then(fit);var rt;addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(fit,120)},{passive:true})})();
+</script>
+<!-- 2026-11-12 HOME HERO: no auto-jump to section 2 on load (no scroll restore, no snapping before the visitor scrolls). -->
+<script>if(/^\/(fr-ca\/?)?$/.test(location.pathname)){(function(){try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}var W=window,T=1e12;W.__aaUserIn=0;['touchstart','keydown','pointerdown'].forEach(function(t){addEventListener(t,function(){W.__aaUserIn=1},{passive:true,capture:true})});addEventListener('wheel',function(){if(performance.now()>T)W.__aaUserIn=1},{passive:true,capture:true});var ael=W.addEventListener;W.addEventListener=function(t,f,o){if(t=='wheel'&&typeof f=='function'&&/release\(cl\)/.test(String(f))){var g=f;f=function(e){if(performance.now()<T){if(e.cancelable)e.preventDefault();return}return g.apply(this,arguments)}}return ael.apply(this,[t,f].concat([].slice.call(arguments,2)))};function wrap(L){if(!L||L.__aaG||typeof L.on!='function')return L;var on=L.on;L.on=function(ev,cb){if(ev=='scroll'&&typeof cb=='function'&&/findCluster/.test(String(cb))){var f=cb;cb=function(){if(!W.__aaUserIn)return;return f.apply(this,arguments)}}return on.apply(this,[ev,cb].concat([].slice.call(arguments,2)))};L.__aaG=1;return L}var cur=W.__lenis;if(cur)wrap(cur);else try{Object.defineProperty(W,'__lenis',{configurable:true,get:function(){return cur},set:function(v){cur=wrap(v)}})}catch(e){}addEventListener('DOMContentLoaded',function(){T=performance.now()+900;if(!location.hash&&scrollY>0&&scrollY<innerHeight*1.5)scrollTo(0,0)})})();
+}</script>

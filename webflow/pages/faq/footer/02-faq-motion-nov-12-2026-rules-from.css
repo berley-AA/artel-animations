@@ -1,0 +1,23 @@
+
+:root{--fq-out:cubic-bezier(.23,1,.32,1);--fq-inout:cubic-bezier(.77,0,.175,1)}
+/* 9: the + to x turn is a move, so ease-in-out */
+.fq .fq-ic{transition:transform .25s var(--fq-inout),background-color .2s ease,color .2s ease}
+/* 4: press feedback */
+.fq .fq-q:active .fq-ic,.fq .fq-ai a:active,.fq a.fq-btn:active{transform:scale(.97)}
+.fq .fq-row[open] .fq-q:active .fq-ic{transform:rotate(45deg) scale(.97)}
+.fq .fq-ai a,.fq a.fq-btn{transition:background-color .2s ease,transform .15s var(--fq-out)}
+/* on close, the icon and number turn back right away (not after the box shuts) */
+.fq .fq-row.fq-closing .fq-ic{transform:none;background:#fff;color:#1D1D1F}
+.fq .fq-row.fq-closing .fq-n{color:#86868B}
+/* 17: the answer is revealed through a mask (its own height clip), not just faded */
+.fq .fq-a{overflow:hidden}
+/* no text gets selected when the + is clicked twice fast (open then close) */
+.fq .fq-q{-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+/* 3: rows arrive one after another, only once JS is ready */
+.fq-js .fq-head,.fq-js .fq-row{opacity:0;transform:translateY(8px)}
+.fq-js .fq-in{opacity:1;transform:none;transition:opacity .4s var(--fq-out),transform .4s var(--fq-out)}
+@media (prefers-reduced-motion:reduce){
+.fq-js .fq-head,.fq-js .fq-row{opacity:1;transform:none}
+.fq .fq-ic,.fq .fq-ai a,.fq a.fq-btn{transition:none}
+.fq .fq-q:active .fq-ic,.fq .fq-ai a:active,.fq a.fq-btn:active{transform:none}
+}

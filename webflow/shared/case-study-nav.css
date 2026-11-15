@@ -1,0 +1,5 @@
+
+  #nav-bar-secondary{position:fixed!important;top:0;left:0;right:0;z-index:999;transform:translateY(0);transition:transform .4s cubic-bezier(.16,1,.3,1),background .4s ease,backdrop-filter .4s ease;background:rgba(229,229,229,1)!important;backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px)}
+  #nav-bar-secondary.hidden-nav{transform:translateY(-100%)}
+  #nav-bar-secondary.visible{transform:translateY(0)}
+  #nav-bar-secondary.frosted{background:rgba(229,229,229,.6)!important;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}

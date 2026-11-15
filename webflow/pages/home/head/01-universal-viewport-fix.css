@@ -1,0 +1,101 @@
+
+  /* === UNIVERSAL VIEWPORT FIX === */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { overflow-x: hidden; width: 100%; }
+  body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+  /* === ULTRAWIDE / HIGH-RES DISPLAY FIX === */
+  @media (min-width: 1920px) {
+    .w-container, .container { max-width: 1920px !important; margin-left: auto !important; margin-right: auto !important; }
+    section, .section, .w-section { max-width: 100%; }
+    section > *, .section > *, .w-section > * { max-width: 1920px; margin-left: auto; margin-right: auto; }
+  }
+  /* === MISC === */
+  .w--current { color: #FF7B00 !important; }
+  section, .section, .w-section { position: relative; z-index: 1; }
+  /* === HERO — structural first-paint only; ALL desktop hero visuals live in the
+     before-body composer (aaHero); mobile hero lives in ArtelHeroMobile8. === */
+  #hero{ margin-top:0 !important; min-height:100vh; display:flex; flex-direction:column;
+    justify-content:flex-end; padding-bottom:5vh; }
+  #hero .grid{ display:block !important; min-height:0; margin-bottom:7vh !important; }
+  #hero .grid > div{ max-width: 880px; }
+  #hero > .container-2, #hero .grid, #hero .grid > div{
+    width:100% !important; max-width:none !important; margin:0 !important;
+    padding-left:0 !important; padding-right:0 !important; }
+  #hero > .container-2:last-of-type{ height:auto !important; min-height:0 !important; width:100%; }
+  #hero .flex-block-2{ height:auto !important; min-height:0 !important; width:100%; justify-content:stretch !important; }
+  #hero > .container-2:first-of-type{ margin-bottom:7vh; }
+  @media (max-width:991px){
+    #hero h1 strong{ font-size:clamp(1.9rem,7vw,3.2rem) !important; }
+  }
+  /* NOTE: navbar transparency + ink colour + logo are handled entirely by the
+     reactive-ink block in the Head Code. */
+  /* === HERO ENTRANCE — ONE fade after the hero photo fully downloads === */
+  .navbar{ opacity: 0; }
+  .hero-plaza-bg{ opacity: 0; }
+  #hero > .container-2{ opacity: 0; }
+  #hero .hero-cta{ opacity: 0; }
+  html.aa-bg-ready .hero-plaza-bg{ animation: aaHeroBgIn 1.6s ease-in-out 0.05s forwards; }
+  html.aa-bg-ready #hero > .container-2{ animation: aaFadeIn 0.55s ease 1.65s forwards; }
+  html.aa-bg-ready #hero .hero-cta{ animation: aaFadeIn 0.55s ease 1.65s forwards; }
+  html.aa-bg-ready .navbar{ animation: aaNavIn 0.55s ease 1.65s forwards; }
+  @keyframes aaHeroBgIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes aaFadeIn { to { opacity: 1; } }
+  @keyframes aaNavIn { to { opacity: 1; } }
+  /* === HERO SURFACE — photo + white hero copy === */
+  #hero{ background:#121212 !important; }
+  #hero-plaza-bg, .hero-plaza-bg{
+    background-size:cover !important; background-position:60% 42% !important;
+    background-color:#121212 !important;
+  }
+  #hero h1, #hero h2{ color:#fff !important; -webkit-text-fill-color:#fff !important; }
+  #hero .aaS a{ border-color:#fff !important; }
+  #hero .aaS a *{ color:#fff !important; -webkit-text-fill-color:#fff !important; }
+  /* ============================================================
+     PROOF SECTION — billboard band. SINGLE SOURCE for the clients
+     section. The old logo marquee is hidden below until its
+     container is deleted in the Designer.
+     ============================================================ */
+  html body #clients.section-9:not(.description){
+    background:#0a1018 url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a4c40a16e1faa58690f5f10_8f42d4e7388727214a58b8189f4b01b3_artel-billboard-under4mb.jpg) center/cover no-repeat !important;
+    min-height:100svh; display:flex !important; flex-direction:column; justify-content:flex-end;
+    margin:0 !important; padding:36vh 0 calc(0.8vh + 30px) !important; position:relative; z-index:1; }
+  html body #clients.section-9:not(.description) .text-smal-body{ display:none !important; }
+  html body #clients.section-9:not(.description) .marquee-track{ display:none !important; }
+  html body #clients.section-9:not(.description) .container-2{ margin-bottom:0 !important; position:static !important; }
+  /* MOBILE BILLBOARD (July 20) — full-screen takeover instead of the small band:
+     100svh, cropped on the LED screen with the ARTEL mark in frame, headline overlaid. */
+  @media (max-width:767px){
+    html body #clients.section-9:not(.description){
+      min-height:100svh !important; height:auto !important; aspect-ratio:auto !important;
+      background:#0a1018 url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a4c40a16e1faa58690f5f10_8f42d4e7388727214a58b8189f4b01b3_artel-billboard-under4mb.jpg) 72% 42% / cover no-repeat !important;
+      display:flex !important; flex-direction:column; justify-content:flex-end;
+      padding:0 20px 34px !important; }
+    html body #clients .bb-headline{ font-size:1.5rem !important; line-height:1.34 !important; }
+  }
+  /* === MISSION SECTION — woman portrait as the backdrop (replaces the old
+     vision-scrub section; the .amx-scrim over it keeps the text readable) === */
+  #artel-mission .amx-bg{
+    background-image:url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a29e6aff8dc77961012cc08_artel-vision-woman.jpg) !important;
+    background-size:cover !important; background-position:50% 38% !important;
+    background-color:#141414 !important; }
+  /* === MISSION TEXT — centered, Helvetica Neue Medium === */
+  #artel-mission .amx-in, #artel-mission .amx-t, #artel-mission .amx-g{
+    text-align:center !important; justify-content:center !important; flex-wrap:wrap !important; }
+  /* paragraph reads as a justified block on desktop (mobile stays centered) */
+  #artel-mission .amx-t{ text-align:justify !important; text-align-last:center !important; }
+  #artel-mission .amx-t, #artel-mission .amx-t .amx-w,
+  #artel-mission .amx-g, #artel-mission .amx-g span{
+    font-family:'Helvetica Neue',Helvetica,Arial,sans-serif !important;
+    font-weight:500 !important; letter-spacing:-0.01em; }
+  #artel-mission .amx-g .aa-amp.on{ color:#FF7B00 !important; }
+  #artel-mission .amx-scrim{ background:rgba(0,0,0,0.5) !important; }
+  /* === MISSION TIMING (July 21) — stretch the scroll runway so the sequence
+     breathes: fade-in 0–75vh, words 75→200vh, strength hand-off at 200vh,
+     complete by 275vh exactly when the mission unpins. === */
+  @media (min-width:992px) and (prefers-reduced-motion: no-preference){
+    html.rv-on #artel-mission{ height:375vh !important; }
+    html.rv-on #artel-mission .amx-w{ transition:color .45s ease !important; }
+  }
+  /* ABOUT — centre content in the 100vh section */
+  #about{ justify-content:center !important; }
+  #about > .w-layout-blockcontainer{ margin-top:0 !important; }

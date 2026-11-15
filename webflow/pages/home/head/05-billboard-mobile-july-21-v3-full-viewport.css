@@ -1,0 +1,24 @@
+
+/* === BILLBOARD MOBILE (July 21, v3) — full-viewport section (100lvh),
+   transform neutralized so text stays contained (overflow:hidden backstop),
+   dark .stack-wrap kills the white entrance gap. Action lines 24–37%,
+   ARTEL◁ mark zone 45–55% clear, closer at ~66–69%. Bg 80% 42%. === */
+@media (max-width:767px){
+  html body #clients.section-9:not(.description){
+    background-position:80% 42% !important;
+    position:relative !important;
+    min-height:100vh !important; min-height:100lvh !important;
+    height:auto !important;
+    overflow:hidden !important;
+    margin:0 !important; }
+  html body .stack-wrap{ background-color:#0a1018 !important; }
+  html body #clients .bb-headline{
+    position:absolute !important; left:20px !important; right:20px !important;
+    top:24% !important; bottom:31% !important;
+    transform:none !important;
+    margin:0 !important; width:auto !important; max-width:none !important;
+    display:flex !important; flex-direction:column !important;
+    font-size:7vw !important; line-height:1.26 !important; }
+  html body #clients .bb-headline .aa-bb-punch{ margin-top:auto; }
+  html body #clients .bb-headline .aa-bb-punch .rvL{ font-size:.74em; letter-spacing:.01em; }
+}

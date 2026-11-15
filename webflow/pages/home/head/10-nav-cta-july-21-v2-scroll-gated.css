@@ -1,0 +1,24 @@
+
+/* === NAV CTA (July 21, v2 — scroll-gated) — desktop pill, HIDDEN over the
+   hero and billboard; fades in only from the work section (#aa-results)
+   downward, riding the navbar's own show-on-scroll-up behavior. Mobile
+   already carries the orange pill in its navbar. === */
+@media (min-width:992px){
+  .aa-nav-cta{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:6;
+    display:inline-block; line-height:1 !important;
+    background:#FF7B00; color:#fff !important; -webkit-text-fill-color:#fff !important;
+    font-size:12px !important; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap;
+    padding:13px 24px !important; border-radius:999px; text-decoration:none;
+    opacity:0; pointer-events:none; visibility:hidden;
+    transition:opacity .45s cubic-bezier(.22,1,.36,1), visibility 0s linear .45s,
+      transform .35s cubic-bezier(.22,1,.36,1), background .3s ease;
+  }
+  .aa-nav-cta.aa-on{
+    opacity:1; pointer-events:auto; visibility:visible;
+    transition:opacity .45s cubic-bezier(.22,1,.36,1), visibility 0s,
+      transform .35s cubic-bezier(.22,1,.36,1), background .3s ease;
+  }
+  .aa-nav-cta:hover{ transform:translateY(-50%) scale(1.05); background:#e66f00; }
+}
+@media (max-width:991px){ .aa-nav-cta{ display:none !important; } }

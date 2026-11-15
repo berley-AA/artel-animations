@@ -1,0 +1,30 @@
+
+.cs-lp-label{display:none!important}
+.cs-client{display:flex;justify-content:center;margin:0 0 clamp(16px,1.4vw,24px)}
+.cs-client img{height:clamp(32px,2.4vw,48px);width:auto;display:block;filter:brightness(0);opacity:.9}
+.cs-ai{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;margin-top:20px;margin-bottom:0}
+.cs-ai-l{font-size:13px;line-height:1.4;color:#515154;margin-right:4px}
+.cs-ai a{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px 0 12px;border-radius:999px;background:#fff;font-size:14px;font-weight:500;line-height:1;color:#1D1D1F;text-decoration:none;transition:background-color .2s ease}
+.cs-ai a img{width:16px;height:16px;display:block;flex:none;object-fit:contain}
+.cs-ai a:hover{background:#E8E8ED}
+.cs-ai a:focus-visible{outline:2px solid #FF7B00;outline-offset:3px}
+@media (max-width:600px){.cs-ai-l{width:100%;text-align:center;margin:0 0 2px}}
+@media (prefers-reduced-motion:reduce){.cs-ai a{transition:none}}
+
+/* ===== FLOW: one axis down the middle. Add ?old to the URL to see the previous layout. ===== */
+body.cs-flow .cs2-hero-l{text-align:center;margin-left:auto;margin-right:auto;max-width:1100px}
+body.cs-flow .cs-lp-sub{margin-left:auto;margin-right:auto;max-width:32em}
+body.cs-flow .cs-lp-ctarow{justify-content:center}
+body.cs-flow .cs-body>p,body.cs-flow .cs-body>ul,body.cs-flow .cs-body>h2{width:100%;max-width:760px;margin-left:auto;margin-right:auto}
+body.cs-flow .cs-body>p:nth-child(-n+2){max-width:760px}
+body.cs-flow .cs-body>h2{text-wrap:balance}
+body.cs-flow .cs-subtitle{max-width:760px}
+
+/* ===== PHASES: zigzag reading. Phase 1 left, Phase 2 right (tall), Phase 3 left under 1, Phase 4 full width. ===== */
+@media (min-width:992px){
+.cs-phases>.cs-phase:nth-child(1){grid-column:1;grid-row:1}
+.cs-phases>.cs-phase:nth-child(2){grid-column:2;grid-row:1 / span 2}
+.cs-phases>.cs-phase:nth-child(3){grid-column:1;grid-row:2}
+.cs-phases>.cs-phase:nth-child(4){grid-column:1 / -1;grid-row:3}
+.cs-phases>.cs-phase:nth-child(4) .cs-phase-desc{max-width:44em}
+}

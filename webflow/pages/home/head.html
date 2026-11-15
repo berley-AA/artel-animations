@@ -1,0 +1,33 @@
+<style>{{> pages/home/head/01-universal-viewport-fix.css}}</style>
+<script>{{> pages/home/head/02-hero-ready-wait-until-the-hero.js}}</script>
+<script>{{> pages/home/head/03-mission-tag-the-word-amplify-in.js}}</script>
+<style>{{> pages/home/head/04-en-fr-pill-keep-it-off-the.css}}</style>
+<style>{{> pages/home/head/05-billboard-mobile-july-21-v3-full-viewport.css}}</style>
+<script>{{> pages/home/head/06-billboard-mobile-one-sentence-per-line-rebui.js}}</script>
+<script>{{> pages/home/head/07-snap-map-refresher-july-21-keeps-the.js}}</script>
+<style>{{> pages/home/head/08-motion-polish-july-21-timing.css}}</style>
+<script>{{> pages/home/head/09-motion-polish-runtime.js}}</script>
+<style>{{> pages/home/head/10-nav-cta-july-21-v2-scroll-gated.css}}</style>
+<script>{{> pages/home/head/11-nav-cta-v2-injected-at-domcontent-loaded.js}}</script>
+<script>{{> pages/home/head/12-about-paragraph-measured-alignment-start-the.js}}</script>
+<!-- ===== ARTEL DESIGN PASS v1 (2026-09-28) =====
+     Nike/Apple discipline applied to the Artel core. See ARTEL-DESIGN.md.
+     Pure CSS, additive. Delete this whole <style>{{> pages/home/head/13-to.css}}</style>
+
+<!-- ===== ARTEL CTA VARIANTS v2 (2026-09-29) =====
+     One composition (Berley's spec): headline top-left, body bottom-left, consent/CTA bottom-right.
+     Image is cropped per variant so no text sits on a bright area. Holds at 1920+ (content capped at 1760px).
+     Pick with ?v=a|c|d|e|f (offer image changes; AIQ is always the eyes). ?v=off = control.
+     FPO imagery: not licensed for production. Delete this <style>{{> pages/home/head/14-to.css}}</style>
+<script id="aa-cta-v2-js">{{> pages/home/head/15-aa-cta-v2-js.js}}</script>
+
+<!-- ===== ARTEL AIQ START TRANSITION v3 (2026-09-29) =====
+     One continuous take, all timing in CSS (no timers/rAF between beats, so nothing can skip):
+     0.0s  consent + button + body fade; the email note slides to centre (motion blur)
+     0.6s  camera push: photo glides right and in (1.5s), headline + tag fade with it, scrim deepens
+     2.1s  questions fade in
+     The intro never leaves the DOM: it becomes a transparent overlay that only keeps the email note,
+     so the note never re-parents and the section height never changes. Delete this <style>{{> pages/home/head/16-script.css}}</style>
+<script id="aa-aiq-start-js">{{> pages/home/head/17-aa-aiq-start-js.js}}</script>
+
+<style>{{> pages/home/head/18-hero.css}}</style>

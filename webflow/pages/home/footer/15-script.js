@@ -1,0 +1,1 @@
+setTimeout(function(){document.documentElement.classList.add('aa-bg-ready')},1500)

@@ -46,7 +46,6 @@
       '.an-lang{position:absolute;right:20px;bottom:24px;display:flex;align-items:center;justify-content:center;gap:4px;width:60px;height:29px;padding:0 10px;border-radius:20px;border:1px solid rgba(0,0,0,.14);background:#fff;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:13px;line-height:1;letter-spacing:.01em;opacity:0}' +
       'body.an-open .an-lang{animation:aa-an-fade .4s var(--an-ease) .65s both}' +
       '.an-lang a{text-decoration:none;font-weight:500;color:#8E8E93}.an-lang a.is-active{font-weight:700;color:#FF8A00}.an-lang span{width:1px;height:14px;background:#8E8E93}' +
-      '.aa-ctl{display:none!important}' +
     '}' +
     '';   /* Nov 5 (Berley): the lines-to-dots animation and the menu play with Reduce Motion on too, like on the homepage */
   function init() {

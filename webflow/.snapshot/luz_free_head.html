@@ -1,0 +1,472 @@
+<meta name="robots" content="noindex, nofollow">
+<style>
+  /* === UNIVERSAL VIEWPORT FIX === */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { overflow-x: hidden; width: 100%; }
+  body { overflow-x: hidden; width: 100%; max-width: 100vw; }
+  /* === ULTRAWIDE / HIGH-RES DISPLAY FIX === */
+  @media (min-width: 1920px) {
+    .w-container, .container { max-width: 1920px !important; margin-left: auto !important; margin-right: auto !important; }
+    section, .section, .w-section { max-width: 100%; }
+    section > *, .section > *, .w-section > * { max-width: 1920px; margin-left: auto; margin-right: auto; }
+  }
+  /* === MISC === */
+  .w--current { color: #FF7B00 !important; }
+  section, .section, .w-section { position: relative; z-index: 1; }
+  /* === HERO — structural first-paint only; ALL desktop hero visuals live in the
+     before-body composer (aaHero); mobile hero lives in ArtelHeroMobile8. === */
+  #hero{ margin-top:0 !important; min-height:100vh; display:flex; flex-direction:column;
+    justify-content:flex-end; padding-bottom:5vh; }
+  #hero .grid{ display:block !important; min-height:0; margin-bottom:7vh !important; }
+  #hero .grid > div{ max-width: 880px; }
+  #hero > .container-2, #hero .grid, #hero .grid > div{
+    width:100% !important; max-width:none !important; margin:0 !important;
+    padding-left:0 !important; padding-right:0 !important; }
+  #hero > .container-2:last-of-type{ height:auto !important; min-height:0 !important; width:100%; }
+  #hero .flex-block-2{ height:auto !important; min-height:0 !important; width:100%; justify-content:stretch !important; }
+  #hero > .container-2:first-of-type{ margin-bottom:7vh; }
+  @media (max-width:991px){
+    #hero h1 strong{ font-size:clamp(1.9rem,7vw,3.2rem) !important; }
+  }
+  /* NOTE: navbar transparency + ink colour + logo are handled entirely by the
+     reactive-ink block in the Head Code. */
+  /* === HERO ENTRANCE — ONE fade after the hero photo fully downloads === */
+  .navbar{ opacity: 0; }
+  .hero-plaza-bg{ opacity: 0; }
+  #hero > .container-2{ opacity: 0; }
+  #hero .hero-cta{ opacity: 0; }
+  html.aa-bg-ready .hero-plaza-bg{ animation: aaHeroBgIn 1.6s ease-in-out 0.05s forwards; }
+  html.aa-bg-ready #hero > .container-2{ animation: aaFadeIn 0.55s ease 1.65s forwards; }
+  html.aa-bg-ready #hero .hero-cta{ animation: aaFadeIn 0.55s ease 1.65s forwards; }
+  html.aa-bg-ready .navbar{ animation: aaNavIn 0.55s ease 1.65s forwards; }
+  @keyframes aaHeroBgIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes aaFadeIn { to { opacity: 1; } }
+  @keyframes aaNavIn { to { opacity: 1; } }
+  /* === HERO SURFACE — photo + white hero copy === */
+  #hero{ background:#121212 !important; }
+  #hero-plaza-bg, .hero-plaza-bg{
+    background-size:cover !important; background-position:60% 42% !important;
+    background-color:#121212 !important;
+  }
+  #hero h1, #hero h2{ color:#fff !important; -webkit-text-fill-color:#fff !important; }
+  #hero .aaS a{ border-color:#fff !important; }
+  #hero .aaS a *{ color:#fff !important; -webkit-text-fill-color:#fff !important; }
+  /* ============================================================
+     PROOF SECTION — billboard band. SINGLE SOURCE for the clients
+     section. The old logo marquee is hidden below until its
+     container is deleted in the Designer.
+     ============================================================ */
+  html body #clients.section-9:not(.description){
+    background:#0a1018 url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a4c40a16e1faa58690f5f10_8f42d4e7388727214a58b8189f4b01b3_artel-billboard-under4mb.jpg) center/cover no-repeat !important;
+    min-height:100svh; display:flex !important; flex-direction:column; justify-content:flex-end;
+    margin:0 !important; padding:36vh 0 calc(0.8vh + 30px) !important; position:relative; z-index:1; }
+  html body #clients.section-9:not(.description) .text-smal-body{ display:none !important; }
+  html body #clients.section-9:not(.description) .marquee-track{ display:none !important; }
+  html body #clients.section-9:not(.description) .container-2{ margin-bottom:0 !important; position:static !important; }
+  /* MOBILE BILLBOARD (July 20) — full-screen takeover instead of the small band:
+     100svh, cropped on the LED screen with the ARTEL mark in frame, headline overlaid. */
+  @media (max-width:767px){
+    html body #clients.section-9:not(.description){
+      min-height:100svh !important; height:auto !important; aspect-ratio:auto !important;
+      background:#0a1018 url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a4c40a16e1faa58690f5f10_8f42d4e7388727214a58b8189f4b01b3_artel-billboard-under4mb.jpg) 72% 42% / cover no-repeat !important;
+      display:flex !important; flex-direction:column; justify-content:flex-end;
+      padding:0 20px 34px !important; }
+    html body #clients .bb-headline{ font-size:1.5rem !important; line-height:1.34 !important; }
+  }
+  /* === MISSION SECTION — woman portrait as the backdrop (replaces the old
+     vision-scrub section; the .amx-scrim over it keeps the text readable) === */
+  #artel-mission .amx-bg{
+    background-image:url(https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/6a29e6aff8dc77961012cc08_artel-vision-woman.jpg) !important;
+    background-size:cover !important; background-position:50% 38% !important;
+    background-color:#141414 !important; }
+  /* === MISSION TEXT — centered, Helvetica Neue Medium === */
+  #artel-mission .amx-in, #artel-mission .amx-t, #artel-mission .amx-g{
+    text-align:center !important; justify-content:center !important; flex-wrap:wrap !important; }
+  /* paragraph reads as a justified block on desktop (mobile stays centered) */
+  #artel-mission .amx-t{ text-align:justify !important; text-align-last:center !important; }
+  #artel-mission .amx-t, #artel-mission .amx-t .amx-w,
+  #artel-mission .amx-g, #artel-mission .amx-g span{
+    font-family:'Helvetica Neue',Helvetica,Arial,sans-serif !important;
+    font-weight:500 !important; letter-spacing:-0.01em; }
+  #artel-mission .amx-g .aa-amp.on{ color:#FF7B00 !important; }
+  #artel-mission .amx-scrim{ background:rgba(0,0,0,0.5) !important; }
+  /* === MISSION TIMING (July 21) — stretch the scroll runway so the sequence
+     breathes: fade-in 0–75vh, words 75→200vh, strength hand-off at 200vh,
+     complete by 275vh exactly when the mission unpins. === */
+  @media (min-width:992px) and (prefers-reduced-motion: no-preference){
+    html.rv-on #artel-mission{ height:375vh !important; }
+    html.rv-on #artel-mission .amx-w{ transition:color .45s ease !important; }
+  }
+  /* ABOUT — centre content in the 100vh section */
+  #about{ justify-content:center !important; }
+  #about > .w-layout-blockcontainer{ margin-top:0 !important; }
+</style>
+<script>
+/* HERO READY — wait until the hero photo has FULLY downloaded, then trigger
+   the single entrance fade. Safety timeout so the page never stays hidden. */
+(function(){
+  function ready(){
+    var h=document.documentElement;
+    if(h.classList.contains('aa-bg-ready')) return;
+    h.classList.add('aa-bg-ready');
+    window.__aaReadyAt=(window.performance&&performance.now)?performance.now():Date.now();
+  }
+  function gate(){
+    var bg=document.getElementById('hero-plaza-bg');
+    if(!bg){ ready(); return; }
+    var cs='';
+    try{ cs=getComputedStyle(bg).backgroundImage||''; }catch(e){}
+    var m=cs.match(/url\(("|')?([^"')]+)/);
+    if(!m||!m[2]){ ready(); return; }
+    var im=new Image();
+    im.onload=ready; im.onerror=ready;
+    im.src=m[2];
+    if(im.complete) ready();
+    setTimeout(ready,3500);
+  }
+  if(document.readyState!=='loading') gate();
+  else document.addEventListener('DOMContentLoaded',gate);
+})();
+</script>
+<script>
+/* MISSION — tag the word "amplify" in the subline (turns orange via .aa-amp.on). */
+(function(){
+  function paint(){
+    var g=document.querySelector('#artel-mission .amx-g'); if(!g) return;
+    g.querySelectorAll('span').forEach(function(s){
+      if(/amplif/i.test(s.textContent)){ s.classList.add('aa-amp'); }
+    });
+  }
+  paint();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',paint);
+  var n=0, iv=setInterval(function(){ paint(); if(++n>24) clearInterval(iv); },250);
+})();
+</script>
+<style>
+/* EN/FR pill — keep it off the hero copy on phones */
+@media (max-width: 767px){
+  .aa-ctl{ top: auto !important; bottom: 14px !important; right: 12px !important; }
+}
+</style>
+<style>
+/* === BILLBOARD MOBILE (July 21, v3) — full-viewport section (100lvh),
+   transform neutralized so text stays contained (overflow:hidden backstop),
+   dark .stack-wrap kills the white entrance gap. Action lines 24–37%,
+   ARTEL◁ mark zone 45–55% clear, closer at ~66–69%. Bg 80% 42%. === */
+@media (max-width:767px){
+  html body #clients.section-9:not(.description){
+    background-position:80% 42% !important;
+    position:relative !important;
+    min-height:100vh !important; min-height:100lvh !important;
+    height:auto !important;
+    overflow:hidden !important;
+    margin:0 !important; }
+  html body .stack-wrap{ background-color:#0a1018 !important; }
+  html body #clients .bb-headline{
+    position:absolute !important; left:20px !important; right:20px !important;
+    top:24% !important; bottom:31% !important;
+    transform:none !important;
+    margin:0 !important; width:auto !important; max-width:none !important;
+    display:flex !important; flex-direction:column !important;
+    font-size:7vw !important; line-height:1.26 !important; }
+  html body #clients .bb-headline .aa-bb-punch{ margin-top:auto; }
+  html body #clients .bb-headline .aa-bb-punch .rvL{ font-size:.74em; letter-spacing:.01em; }
+}
+</style>
+<script>
+/* BILLBOARD MOBILE — one-sentence-per-line rebuild reusing the reveal engine's
+   .rvLw/.rvL classes; locale-safe sentence split. */
+(function(){
+  function build(){
+    if(window.innerWidth>=768) return;
+    var h=document.querySelector('#clients .bb-headline'); if(!h) return;
+    if(h.querySelector('.aa-bb-punch')) return;
+    var src=(h.dataset&&h.dataset.rvOrig)||h.textContent||'';
+    src=src.replace(/\s+/g,' ').trim(); if(!src) return;
+    h.dataset.rvOrig=src;
+    var parts=src.match(/[^.!?]+[.!?]+/g)||[src];
+    parts=parts.map(function(s){return s.trim();}).filter(Boolean);
+    if(parts.length<2) return;
+    var last=parts.length-1;
+    h.innerHTML=parts.map(function(s,i){
+      var punch=(i===last);
+      var d=(i*0.12).toFixed(2);
+      var txt=s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return '<span class="rvLw'+(punch?' aa-bb-punch':'')+'" style="display:block"><span class="rvL" style="transition:transform .95s cubic-bezier(.19,1,.22,1) '+d+'s, opacity .55s ease '+d+'s">'+txt+'</span></span>';
+    }).join('');
+    var bb=document.querySelector('#clients.section-9');
+    function go(){ h.querySelectorAll('.rvL').forEach(function(l){ l.classList.add('go'); }); }
+    if(!document.documentElement.classList.contains('rv-on')){ h.querySelectorAll('.rvL').forEach(function(l){ l.style.transition='none'; l.classList.add('go'); }); }
+    else if(!bb||bb.classList.contains('rv-in')||!('IntersectionObserver'in window)){ go(); }
+    else{
+      var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ setTimeout(go,250); io.disconnect(); } }); },{threshold:0.18});
+      io.observe(bb);
+    }
+  }
+  function arm(){ var n=0,iv=setInterval(function(){ build(); if(++n>20) clearInterval(iv); },400); build(); }
+  if(document.readyState!=='loading') arm(); else document.addEventListener('DOMContentLoaded',arm);
+  window.addEventListener('resize',function(){ setTimeout(build,350); },{passive:true});
+})();
+</script>
+<script>
+/* === SNAP-MAP REFRESHER (July 21) — keeps the wheel-paging cluster map true
+   after the mission module injects ~200vh of page post-init, and re-arms
+   cluster re-entry on scroll-direction reversals. Verified headless: every
+   snap lands on a true section top in both scroll directions. */
+(function(){
+  function kick(){ try{ window.dispatchEvent(new Event('resize')); }catch(e){} }
+  window.addEventListener('load', function(){ setTimeout(kick,300); });
+  setTimeout(kick,2000); setTimeout(kick,4500); setTimeout(kick,8000);
+  if('MutationObserver' in window){
+    var t=null, mo=new MutationObserver(function(){ clearTimeout(t); t=setTimeout(kick,300); });
+    (function arm(){ if(document.body){ mo.observe(document.body,{childList:true}); } else setTimeout(arm,60); })();
+  }
+  var last=window.pageYOffset||0, dir=0, cool=0;
+  window.addEventListener('scroll', function(){
+    var sc=window.pageYOffset||0, d=sc-last; last=sc;
+    if(!d) return;
+    var nd=d>0?1:-1;
+    if(dir && nd!==dir){ var now=Date.now(); if(now-cool>900){ cool=now; kick(); } }
+    dir=nd;
+  }, {passive:true});
+})();
+</script>
+<style>
+/* === MOTION POLISH (July 21) — timing + easing only; no layout changes. === */
+@media (prefers-reduced-motion: no-preference){
+  html body #aa-results .res-row{
+    transition:background .4s ease,color .35s ease,
+      opacity .95s cubic-bezier(.22,1,.36,1),
+      transform 1.1s cubic-bezier(.19,1,.22,1); }
+  html.rv-on body .team-heading{
+    transition:opacity .9s cubic-bezier(.22,1,.36,1),
+      transform 1.1s cubic-bezier(.19,1,.22,1); }
+  html.rv-on body .team-portrait-card{
+    transition:opacity .95s cubic-bezier(.22,1,.36,1),
+      transform 1.15s cubic-bezier(.19,1,.22,1); }
+  html.aa-bg-ready #hero > .container-2{ animation:aaFadeIn .95s cubic-bezier(.22,1,.36,1) 1.6s forwards; }
+  html.aa-bg-ready #hero .hero-cta{ animation:aaFadeIn .95s cubic-bezier(.22,1,.36,1) 1.75s forwards; }
+  html.aa-bg-ready .navbar{ animation:aaNavIn .8s cubic-bezier(.22,1,.36,1) 1.6s forwards; }
+}
+@media (min-width:992px) and (prefers-reduced-motion: no-preference){
+  html.rv-on body #clients.section-9:not(.description){
+    transition:filter 1.5s cubic-bezier(.22,1,.36,1); }
+}
+@media (prefers-reduced-motion: no-preference){
+  html.rv-on .aa-rev{ opacity:0; transform:translate3d(0,26px,0);
+    transition:opacity .9s cubic-bezier(.22,1,.36,1),
+      transform 1.15s cubic-bezier(.19,1,.22,1); }
+  html.rv-on .aa-rev.aa-in{ opacity:1; transform:none; }
+}
+</style>
+<script>
+/* === MOTION POLISH runtime === */
+(function(){
+  if(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  (function tune(){
+    var L=window.__lenis;
+    if(!L){ setTimeout(tune,150); return; }
+    try{ L.options.lerp=0.09; L.options.wheelMultiplier=1.0; }catch(e){}
+  })();
+  var eoQ=function(t){ return 1-Math.pow(1-t,4); };
+  var eioQ=function(t){ return t<.5 ? 8*t*t*t*t : 1-Math.pow(-2*t+2,4)/2; };
+  (function patch(){
+    if(!window.Lenis||!window.Lenis.prototype){ setTimeout(patch,60); return; }
+    if(window.Lenis.prototype.__aaTuned) return;
+    var o=window.Lenis.prototype.scrollTo;
+    window.Lenis.prototype.scrollTo=function(t,opts){
+      if(opts && opts.lock && opts.force){
+        if(opts.duration===0.55){ opts.duration=1.0;  opts.easing=eoQ;  }
+        else if(opts.duration===0.9){ opts.duration=1.15; opts.easing=eioQ; }
+      }
+      return o.apply(this,arguments);
+    };
+    window.Lenis.prototype.__aaTuned=1;
+  })();
+  function arm(){
+    if(!('IntersectionObserver' in window)) return;
+    var picks=[];
+    ['.fp-section > .fp-inner','#ai-readiness > .w-layout-blockcontainer','#cta-chatbot > .w-layout-blockcontainer',
+     '#compliance > .w-layout-blockcontainer','.footer-light'].forEach(function(s){
+      var el=document.querySelector(s); if(el) picks.push(el);
+    });
+    var abouts=document.querySelectorAll('section[id="about"]');
+    if(abouts.length>1) picks.push(abouts[1]);
+    if(!picks.length) return;
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('aa-in'); io.unobserve(en.target); }
+      });
+    },{threshold:0.12});
+    picks.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.top<innerHeight && r.bottom>0){ el.classList.add('aa-rev','aa-in'); return; }
+      el.classList.add('aa-rev'); io.observe(el);
+    });
+  }
+  if(document.readyState!=='loading'){ setTimeout(arm,600); }
+  else document.addEventListener('DOMContentLoaded',function(){ setTimeout(arm,600); });
+})();
+</script>
+<style>
+/* === NAV CTA (July 21, v2 — scroll-gated) — desktop pill, HIDDEN over the
+   hero and billboard; fades in only from the work section (#aa-results)
+   downward, riding the navbar's own show-on-scroll-up behavior. Mobile
+   already carries the orange pill in its navbar. === */
+@media (min-width:992px){
+  .aa-nav-cta{
+    position:absolute; top:50%; transform:translateY(-50%); z-index:6;
+    display:inline-block; line-height:1 !important;
+    background:#FF7B00; color:#fff !important; -webkit-text-fill-color:#fff !important;
+    font-size:12px !important; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap;
+    padding:13px 24px !important; border-radius:999px; text-decoration:none;
+    opacity:0; pointer-events:none; visibility:hidden;
+    transition:opacity .45s cubic-bezier(.22,1,.36,1), visibility 0s linear .45s,
+      transform .35s cubic-bezier(.22,1,.36,1), background .3s ease;
+  }
+  .aa-nav-cta.aa-on{
+    opacity:1; pointer-events:auto; visibility:visible;
+    transition:opacity .45s cubic-bezier(.22,1,.36,1), visibility 0s,
+      transform .35s cubic-bezier(.22,1,.36,1), background .3s ease;
+  }
+  .aa-nav-cta:hover{ transform:translateY(-50%) scale(1.05); background:#e66f00; }
+}
+@media (max-width:991px){ .aa-nav-cta{ display:none !important; } }
+</style>
+<script>
+/* NAV CTA v2 — injected at DOMContentLoaded BEFORE the reveal engine binds its
+   navbar-link handlers (head scripts register first), so the engine's
+   release-on-click and smooth anchor behavior cover this link too. The
+   pre-set aa-roll class opts it out of the letter-roll rebuild.
+   GATE: the pill only becomes visible once the scroll position has reached
+   the work section (#aa-results) — before that (hero + billboard) it stays
+   hidden even when the navbar itself shows. */
+(function(){
+  function place(a, nb){
+    var host=nb.querySelector('.w-container')||nb;
+    if(getComputedStyle(host).position==='static') host.style.position='relative';
+    var links=nb.querySelectorAll('a'), lg=null;
+    for(var i=0;i<links.length;i++){ if(/login/i.test((links[i].textContent||'').trim())){ lg=links[i]; break; } }
+    var r=host.getBoundingClientRect();
+    var right = lg ? Math.max(24, Math.round(r.right - lg.getBoundingClientRect().left) + 26) : 150;
+    a.style.right = right + 'px';
+    if(a.parentElement!==host) host.appendChild(a);
+  }
+  function gate(){
+    var a=document.querySelector('.aa-nav-cta'); if(!a) return;
+    var w=document.getElementById('aa-results');
+    var sc=window.pageYOffset||0;
+    if(!w){ a.classList.add('aa-on'); return; }
+    var top=w.getBoundingClientRect().top + sc;
+    a.classList.toggle('aa-on', sc >= top - 80);
+  }
+  function add(){
+    if(window.innerWidth<992) return;
+    var nb=document.querySelector('.navbar'); if(!nb) return;
+    var mine=nb.querySelector('.aa-nav-cta');
+    if(!mine){
+      var links=nb.querySelectorAll('a[href*="ai-readiness"]');
+      for(var i=0;i<links.length;i++){
+        var cs=getComputedStyle(links[i]);
+        if(cs.display!=='none' && cs.visibility!=='hidden') return; /* a visible CTA already exists */
+      }
+      mine=document.createElement('a');
+      mine.className='aa-nav-cta aa-roll';
+      mine.href='#ai-readiness';
+      mine.textContent='Get my AIQ';
+    }
+    place(mine, nb);
+    gate();
+  }
+  var tick=false;
+  window.addEventListener('scroll',function(){
+    if(tick) return; tick=true;
+    requestAnimationFrame(function(){ tick=false; gate(); });
+  },{passive:true});
+  if(document.readyState!=='loading'){ add(); } else document.addEventListener('DOMContentLoaded',add);
+  var n=0, iv=setInterval(function(){ add(); if(++n>8) clearInterval(iv); },800);
+  window.addEventListener('resize',function(){ setTimeout(add,300); },{passive:true});
+})();
+</script>
+<script>
+/* ABOUT PARAGRAPH — measured alignment: start the "Artel was born…" text at
+   exactly the navbar logo's left edge on desktop, at any viewport width.
+   (The paragraph sits under layered margins/paddings, so it's aligned by
+   measurement, not arithmetic; re-runs on resize.)
+   NOTE: the chatbot iframe's frame cap now lives INSIDE the Luz chat embed
+   itself (cta-chatbot section) — single source of truth. */
+(function(){
+  function align(){
+    if(window.innerWidth<992) return;
+    var logo=document.querySelector('.navbar .w-nav-brand')||document.querySelector('.navbar img');
+    var para=document.querySelector('#about .aa-about-para')||document.querySelector('section[id="about"] .about-us.paragraph');
+    if(!logo||!para) return;
+    para.style.paddingLeft='';
+    var cs=getComputedStyle(para);
+    var pl=parseFloat(cs.paddingLeft)||0;
+    var delta=logo.getBoundingClientRect().left-(para.getBoundingClientRect().left+pl);
+    if(Math.abs(delta)>1) para.style.paddingLeft=(pl+delta)+'px';
+  }
+  if(document.readyState!=='loading'){ align(); } else document.addEventListener('DOMContentLoaded',align);
+  window.addEventListener('load',function(){ setTimeout(align,250); });
+  setTimeout(align,1500); setTimeout(align,3500);
+  var t; window.addEventListener('resize',function(){ clearTimeout(t); t=setTimeout(align,250); },{passive:true});
+})();
+</script>
+<!-- ===== ARTEL DESIGN PASS v1 (2026-09-28) =====
+     Nike/Apple discipline applied to the Artel core. See ARTEL-DESIGN.md.
+     Pure CSS, additive. Delete this whole <style> to roll back. ===== -->
+<style id="aa-design-pass">
+/* 1. TYPE RHYTHM (Apple: tight 500/600 headlines, no 700, balanced wraps) */
+h1,h2,h3{text-wrap:balance;letter-spacing:-0.015em}
+p{text-wrap:pretty}
+.fp-headline,.air-h{font-weight:600!important;line-height:1.02!important}
+#artel-mission .amx-t{text-align:center!important;text-align-last:auto!important}   /* justified rivers -> centred ragged */
+#process p{font-size:16px!important;line-height:1.5!important;letter-spacing:-0.005em;max-width:38ch}
+#process h2{text-align:left!important;text-align-last:auto!important;text-wrap:pretty}     /* justified intro + balance = rivers */
+/* Compliance tile: "C" drop cap + OMPLIANCE small caps were 17/14px in a 778px black tile */
+.section-7 .text-heading-2-bold.c{font-size:44px!important;line-height:1!important}
+.section-7 .txt-wrapper-compliance .text-smal-body-copy.white{font-size:30px!important;line-height:1!important;letter-spacing:.04em;color:#F1F1EE!important}
+.section-7 .txt-wrapper-compliance{align-items:baseline}
+.section-7 .txt-wrapper-compliance._2{margin-top:14px}
+.section-7 .text-smal-body-copy.pt2{font-size:17px!important;line-height:1.47!important;letter-spacing:.02em;color:#B9BFC7!important}
+.footer-link-two{font-size:14px!important;line-height:1.5}
+.fp-fine{color:#5C5C61!important}                                                    /* was #86868B: 2.9:1, now 5.3:1 */
+
+/* 2. BUTTONS (one pill radius, explicit transitions, hover/press/focus states) */
+.fp-btn,.fp-link,.air-btn,.aa-nav-cta,.git-btn{
+  border-radius:999px!important;
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease,transform .25s cubic-bezier(.22,1,.36,1)!important}
+.fp-btn:hover,.aa-nav-cta:hover{background-color:#EA580C!important;transform:translateY(-1px)}
+.git-btn{background-color:#FF7B00!important}
+.git-btn:hover{background-color:#EA580C!important;transform:translateY(-1px)}
+.fp-link:hover{background-color:rgba(255,123,0,.08)!important}
+.fp-btn:active,.fp-link:active,.air-btn:active,.aa-nav-cta:active,.git-btn:active{transform:scale(.96)!important}
+.git-btn{padding:0 24px!important;min-height:44px!important}
+.git-btn .git-text{font-size:12px!important;letter-spacing:.14em!important}          /* hero CTA was 9.8px */
+
+/* 3. FOCUS (Vercel WIG: never outline:none without a focus-visible replacement) */
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible,input:focus-visible{
+  outline:2px solid #FF7B00!important;outline-offset:3px!important;border-radius:6px}
+.fp-btn:focus-visible,.fp-link:focus-visible,.air-btn:focus-visible,.aa-nav-cta:focus-visible,.git-btn:focus-visible{border-radius:999px}
+
+/* 4. NAV: Apple frosted bar once it leaves the hero (reactive-ink sets the ink colour) */
+@media (min-width:992px){
+  html.rv-on .navbar.frosted.aa-scrolled{
+    background:rgba(229,229,229,.72)!important;
+    -webkit-backdrop-filter:saturate(180%) blur(20px)!important;backdrop-filter:saturate(180%) blur(20px)!important}
+  html.rv-on .navbar.frosted.aa-scrolled.aa-ink-dark{background:rgba(10,16,24,.55)!important}   /* aa-ink-dark = dark bg, white text */
+}
+
+/* 5. RESULTS ROWS: Nike hairline rows, reveal on hover, no lift */
+.res-row{transition:background-color .2s ease!important}
+.res-row:hover{background-color:rgba(255,255,255,.04)!important}
+
+/* 6. MOTION RESTRAINT */
+@media (prefers-reduced-motion:reduce){
+  .fp-btn,.fp-link,.air-btn,.aa-nav-cta,.git-btn,.res-row{transition:none!important;transform:none!important}
+}
+</style>
+
+<style>#hero:not(.nx),#clients:not(.nx){visibility:hidden}
+html body section#hero.nx{background:#E5E5E5!important;justify-content:flex-start!important;margin-top:0!important}html body section#hero.nx-d{padding-bottom:48px!important}html body section#hero.nx-h{padding-bottom:0!important}html body #hero.nx .aa-scrim,html body #hero.nx .aaS,html body #hero.nx #hero-plaza-bg{display:none!important}html body .nx-set{flex:0 0 auto}html body .nx-set img{max-width:none!important;flex:0 0 auto}html body .nx h1,html body .nx h2{text-transform:none!important}html body .nx .nx-idx h2{text-transform:uppercase!important}html body .nx-col{align-items:baseline}html body .nx-lab{padding-top:0}html body .nx-s2h{padding-top:84px}html body .nx-s2h .nx-band{flex:1 1 auto;height:auto;min-height:0}html body .nx-idx{margin-top:28px}@media(max-width:991px){html body .nx-s2h .nx-band{flex:0 0 auto;height:40vh}html body .nx-idx{margin-top:40px}}@media(max-width:991px){html body section#hero.nx,html body section#hero.nx *{text-align:left!important;text-align-last:left!important}html body .nx-strip{font-size:10px;letter-spacing:.08em;gap:12px}html body .nx-strip span{white-space:nowrap}}@media(max-width:359px){html body .nx-strip span:first-child{display:none}}@media(max-width:991px){html body .nx-logos{left:21%;width:42%}html body .nx-bb{left:47%}}html body section#hero.nx{align-items:stretch!important;flex-direction:column!important}html body section#hero.nx-d{padding:108px 40px 48px!important}html body section#hero.nx-h{padding:108px 40px 0!important}@media(max-width:991px){html body section#hero.nx-d,html body section#hero.nx-h{padding:96px 20px 32px!important}}@media(max-width:991px){html body .nx-cap{flex-direction:column;gap:6px;line-height:1.4}html body .nx-cap span span{margin-right:24px}}@media(max-width:991px){html body .nx-d-h1{font-size:clamp(32px,6.4vw,56px)}html body .nx-d-sub{font-size:clamp(19px,3.4vw,30px)}}html body section.nx{--W:min(100vw,1920px);--off:max(0px,calc((100vw - 1920px)/2))}html body section.nx>*{max-width:none!important;margin-left:0;margin-right:0;width:auto}@media(min-width:992px){html body section#hero.nx-d{padding:108px calc(var(--off) + 40px) 48px!important}html body section#hero.nx-h{padding:108px calc(var(--off) + 40px) 0!important}html body section.nx-s2e{padding-left:calc(var(--off) + clamp(20px,5.56vw,80px));padding-right:calc(var(--off) + clamp(20px,5.56vw,80px))}html body section.nx-s2h{padding-left:calc(var(--off) + 40px);padding-right:calc(var(--off) + 40px)}html body .nx-h-h1{font-size:calc(var(--W)*.0819)}html body .nx-h-row{grid-template-columns:calc(var(--W)*.24 - 40px) calc(var(--W)*.255) calc(var(--W)*.311) 1fr}html body section.nx .nx-h-ph,html body section.nx-s2h .nx-band,html body section.nx .nx-cap{margin-left:calc(var(--W)*.0833);margin-right:calc(var(--W)*.0833)}html body .nx-row{grid-template-columns:calc(var(--W)*.16) minmax(0,1fr) calc(var(--W)*.18)}}</style>

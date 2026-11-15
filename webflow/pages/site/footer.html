@@ -1,0 +1,40 @@
+<style>{{> pages/site/footer/01-aa-ctl.css}}</style>
+<script>{{> pages/site/footer/02-aa-ctl.js}}</script>
+<script>{{> pages/site/footer/03-navbar.js}}</script>
+<script>{{> pages/site/footer/04-track.js}}</script>
+<script>{{> pages/site/footer/05-a.js}}</script>
+<!-- ================================================================
+ ARTEL MOBILE NAV v3.1 (Aug 25) — capsule + expanding menu, phones/tablets only
+ (max-width 991px). Replaces the Webflow navbar and the floating EN/FR pill
+ on those widths. Additive: delete this block to revert.
+ v3: logos are CSS masks (crisp, no filters); open-state pill = Figma spec.
+ v3.1: logo colour pinned to white/black — immune to the global .w--current orange.
+================================================================ -->
+<style>{{> pages/site/footer/06-artel-mobile-nav-v3-1-aug-25.css}}</style>
+<header class="an-header">
+  <div class="an-capsule">
+    <a class="an-logo" href="/" aria-label="Artel home"><span class="an-mask" aria-hidden="true"></span></a>
+    <a class="an-wordmark" href="/" aria-label="Artel"><span class="an-mask" aria-hidden="true"></span></a>
+    <button class="an-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="an-panel">
+      <span class="an-burger" aria-hidden="true"><span class="an-bar t"><i></i><i></i></span><span class="an-bar m"><i></i><i></i></span><span class="an-bar b"><i></i><i></i></span></span>
+    </button>
+  </div>
+</header>
+<nav class="an-panel" id="an-panel" aria-label="Mobile menu">
+  <ul class="an-list">
+    <li><a class="an-item" data-id="aa-results" data-en="Results" data-fr="Résultats" href="#aa-results"><span class="an-num">01</span><span class="an-lbl">Results</span></a></li>
+    <li><a class="an-item" data-id="about" data-en="About" data-fr="À propos" href="#about"><span class="an-num">02</span><span class="an-lbl">About</span></a></li>
+    <li><a class="an-item" data-id="process" data-en="Process" data-fr="Processus" href="#process"><span class="an-num">03</span><span class="an-lbl">Process</span></a></li>
+    <li><a class="an-item" data-page="/faq" data-en="FAQ" data-fr="FAQ" href="/faq"><span class="an-num">04</span><span class="an-lbl">FAQ</span></a></li>
+    <li><a class="an-item" data-login="1" data-en="Login" data-fr="Connexion" href="#"><span class="an-num">05</span><span class="an-lbl">Login</span></a></li>
+  </ul>
+  <div class="an-lang"><a class="an-en" href="/">EN</a><span aria-hidden="true"></span><a class="an-fr" href="/fr-ca">FR</a></div>
+</nav>
+<script>{{> pages/site/footer/07-an-toggle.js}}</script>
+<!-- ARTEL CONSENT CORE v1 (Quebec Law 25) START. Lives in Site Footer code; the ungated ArtelGtagDirect site script was removed so nothing loads GA before this. -->
+<script>{{> pages/site/footer/08-artel-consent-core-v1-quebec-law-25.js}}</script>
+<!-- ARTEL CONSENT CORE v1 END -->
+<!-- ARTEL CONSENT UI v1 (Quebec Law 25) START. Needs ARTEL CONSENT CORE (just above). -->
+<style>{{> pages/site/footer/09-artel-consent-ui-v1-quebec-law-25.css}}</style>
+<script>{{> pages/site/footer/10-aa-cc-nec.js}}</script>
+<!-- ARTEL CONSENT UI v1 END -->

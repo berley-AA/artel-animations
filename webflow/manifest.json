@@ -1,0 +1,185 @@
+{
+ "_about": "Registered scripts each page applies, in Webflow's order. Source of each: registered/<name>@<version>.js (ArtelFilms is hosted: law/films.js on jsDelivr).",
+ "site": {
+  "webflowPageId": null,
+  "scripts": [
+   {
+    "script": "ArtelMissionCSS@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelMission@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelGridOverlay@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelCoworkFixesV3@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelGridDesktopV3@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelGridDesktop2V3@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelFooterE8b@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelFooterFr@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelFooterRoll@1.1.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelNavRoll@1.0.1",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelLangHover@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "NavFrame40@1.0.2",
+    "location": "header"
+   },
+   {
+    "script": "ArtelFixLoader2@1.1.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelFooterClearTap6@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelFooterClock@1.13.0",
+    "location": "footer"
+   }
+  ]
+ },
+ "home": {
+  "webflowPageId": "68bf9e7689e7a893477eea7f",
+  "scripts": [
+   {
+    "script": "NavTheme2@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "NavPill3@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelLocaleHide@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelFullBleed@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelHeroMobile8@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelFastBackgrounds@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelLoopToHero@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelResCss3@1.0.0",
+    "location": "header"
+   },
+   {
+    "script": "ArtelResViewer@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelResCss1@1.0.1",
+    "location": "header"
+   },
+   {
+    "script": "ArtelResCss2@1.0.1",
+    "location": "header"
+   },
+   {
+    "script": "ArtelResHover@1.0.2",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelResPin@1.0.6",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelLoopEnd15@1.0.0",
+    "location": "footer"
+   },
+   {
+    "script": "ArtelResCss5@1.0.0",
+    "location": "header"
+   }
+  ]
+ },
+ "labs": {
+  "webflowPageId": "6ac87bbfc761b072a3219e8e",
+  "scripts": [
+   {
+    "script": "ArtelLabsFelixSnap"
+   },
+   {
+    "script": "ArtelLabsFelixCss"
+   },
+   {
+    "script": "ArtelLabsSoon"
+   },
+   {
+    "script": "ArtelLabsFelixJF"
+   },
+   {
+    "script": "ArtelFilms"
+   },
+   {
+    "script": "ArtelLabsAndDim"
+   },
+   {
+    "script": "ArtelLabMobileB"
+   }
+  ]
+ },
+ "luz": {
+  "webflowPageId": "6adab42f415d1f55adefd386",
+  "scripts": [
+   {
+    "script": "ArtelLuzLoader",
+    "location": "header"
+   }
+  ],
+  "note": "The loader replaces the whole page with luz-ab/ (built from luz-ab/src). Nothing else belongs on this page."
+ },
+ "black-friday": {
+  "webflowPageId": "6ae3c8498b74c7bc74225949",
+  "scripts": [
+   {
+    "script": "ArtelLuzLoader",
+    "location": "header"
+   }
+  ]
+ },
+ "pageIds": {
+  "faq": "6a24885108092d82f1779f18",
+  "case-study-montreal-weights": "69babf02501abfa8609ce449",
+  "case-study-nordik": "69cd612818c9226b3ce910f4",
+  "terms": "69cd6c7c63fac50a3cda8651",
+  "privacy": "68bf9e7689e7a893477eea80"
+ }
+}

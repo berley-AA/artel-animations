@@ -1,0 +1,1 @@
+(function(){if(/^((?!chrome|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent))return;[].forEach.call(document.querySelectorAll('link[rel="shortcut icon"],link[rel="icon"]:not([type="image/svg+xml"])'),function(l){l.parentNode.removeChild(l)})})();

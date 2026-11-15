@@ -1,0 +1,6 @@
+(function(){var d=window.devicePixelRatio||1,n=Math.max(innerWidth,innerHeight*1.792)*d,s=[1280,1920,2560,3840],w=3840;for(var i=0;i<4;i++){if(s[i]>=n*.88){w=s[i];break}}
+var b='https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/',H={1280:'6ac8482ed981a0ab72212f5b',1920:'6ac84848bedd8c313e535ba7',2560:'6ac84849bedd8c313e535be3',3840:'6ac84849bedd8c313e535c33'},B={1280:'6ac8484a3aa99f34230d33fc',1920:'6ac8484a47fd0f85c368410a',2560:'6ac8484a47fd0f85c368411f',3840:'6ac8484a7bbdf55e6b1ac3d9'};
+var h=b+H[w]+'_artel-hero-'+w+'.webp',bb=b+B[w]+'_artel-billboard-'+w+'.webp',D=document;
+var l=D.createElement('link');l.rel='preload';l.as='image';l.href=h;l.setAttribute('fetchpriority','high');D.head.appendChild(l);
+var t=D.createElement('style');t.id='aa-fast-bg';t.textContent='html body #hero-plaza-bg.hero-plaza-bg{background-image:url("'+h+'")!important}html body #clients.section-9:not(.description):not(.aa-x){background-image:url("'+bb+'")!important}';D.head.appendChild(t);
+window.__aaBg=w})();
