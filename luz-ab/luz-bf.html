@@ -113,7 +113,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
    ?pin=0     the four "How we work" steps scroll past as a plain list (nothing holds in place) */
 (function(){try{var q=location.search,H=document.documentElement;if(/[?&]reveal=0/.test(q))H.classList.add('aa-noreveal');if(/[?&]pin=0/.test(q))H.classList.add('aa-nopin');if(/[?&]smooth=0/.test(q))window.__aaNoLenis=1;}catch(e){}})();</script>
 <style id="aaFeelCss">html.aa-noreveal .m-on [data-m]{opacity:1!important;transform:none!important;transition:none!important}html.aa-noreveal main > *:not(#hero):not(header){transition:none!important}
-html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{position:static!important;height:auto!important;padding:48px 0!important}html.aa-nopin .aa-how-steps{display:flex!important;flex-direction:column;gap:56px}html.aa-nopin .aa-how-step{opacity:1!important;transform:none!important}</style></head><body>
+html.aa-nopin .aa-how-pin{height:auto!important}html.aa-nopin .aa-how-stage{position:static!important;height:auto!important;padding:48px 0!important}html.aa-nopin .aa-how-steps{display:flex!important;flex-direction:column;gap:56px}html.aa-nopin .aa-how-step{opacity:1!important;transform:none!important}</style><style id="aaNoSideways">/* Nov 14: older phone browsers (no overflow-x:clip) let wide carousels push the page sideways. Clip those sections on their own. */@supports not (overflow-x:clip){#highlights{overflow:hidden}html,body{max-width:100%}}</style></head><body>
 <div id="dc-root"></div>
 <template id="dc-tpl">
 <main class="{{introCls}}" style="background: #F5F5F7; color: #1D1D1F; font-family: 'ABC Areal','Helvetica Neue',Helvetica,sans-serif;">
