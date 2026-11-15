@@ -53,6 +53,7 @@
     var st = document.createElement('style'); st.id = 'aaMobNav'; st.textContent = css; document.head.appendChild(st);
     try { var bg = getComputedStyle(document.body).backgroundColor; if (!bg || /rgba\(0, 0, 0, 0\)|transparent/.test(bg)) bg = getComputedStyle(document.documentElement).backgroundColor; if (bg && !/rgba\(0, 0, 0, 0\)|transparent/.test(bg)) document.documentElement.style.setProperty('--an-bg', bg); } catch (e) {}
     var path = location.pathname, FR = /^\/fr-ca(\/|$)/.test(path), base = FR ? (path.replace(/^\/fr-ca/, '') || '/') : path, pre = FR ? '/fr-ca' : '';
+    /* the Lab item carries data-lab: the site-wide Webflow script ArtelNavRoll adds its own Lab item to .an-list unless one is marked */
     var items = [['The Lab', 'Le Lab', pre + '/labs'], ['Results', 'Résultats', pre + '/#aa-results'], ['About', 'À propos', pre + '/#about'],
       ['Process', 'Processus', pre + '/#process'], ['FAQ', 'FAQ', pre + '/faq'], ['Login', 'Connexion', 'https://app.artelagency.com']];
     var h = document.createElement('header'); h.className = 'an-header';
@@ -60,7 +61,7 @@
       '<a class="an-wordmark" href="' + (pre || '/') + '" aria-label="Artel"><span class="an-mask" aria-hidden="true"></span></a>' +
       '<button class="an-toggle" type="button" aria-label="' + (FR ? 'Ouvrir le menu' : 'Open menu') + '" aria-expanded="false" aria-controls="an-panel"><span class="an-burger" aria-hidden="true"><span class="an-bar t"><i></i><i></i></span><span class="an-bar b"><i></i><i></i></span></span></button></div>';
     var p = document.createElement('nav'); p.className = 'an-panel'; p.id = 'an-panel'; p.setAttribute('aria-label', FR ? 'Menu mobile' : 'Mobile menu');
-    p.innerHTML = '<ul class="an-list">' + items.map(function (it, i) { return '<li><a class="an-item" href="' + it[2] + '"><span class="an-num">0' + (i + 1) + '</span><span class="an-lbl">' + (FR ? it[1] : it[0]) + '</span></a></li>'; }).join('') + '</ul>' +
+    p.innerHTML = '<ul class="an-list">' + items.map(function (it, i) { return '<li><a class="an-item" href="' + it[2] + '"' + (i === 0 ? ' data-lab' : '') + '><span class="an-num">0' + (i + 1) + '</span><span class="an-lbl">' + (FR ? it[1] : it[0]) + '</span></a></li>'; }).join('') + '</ul>' +
       '<div class="an-lang"><a class="an-en' + (FR ? '' : ' is-active') + '" href="' + base + '">EN</a><span aria-hidden="true"></span><a class="an-fr' + (FR ? ' is-active' : '') + '" href="/fr-ca' + (base === '/' ? '' : base) + '">FR</a></div>';
     document.body.appendChild(p); document.body.appendChild(h);
     var t = h.querySelector('.an-toggle'), body = document.body;
