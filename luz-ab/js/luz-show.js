@@ -157,10 +157,10 @@
     '#luzShow .ls-send{flex:none;width:28px;height:28px;margin-left:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:scale(.6);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s ease,background-color .6s ease}' +
     '#luzShow .ls-comp.typing .ls-send{transform:scale(1);opacity:1}#luzShow .ls-comp.sent .ls-send{transform:scale(.86)}' +
     '#luzShow .ls-comp:hover .ls-field{border-color:rgba(29,29,31,.28)}#luzShow .ls-comp:focus-visible{outline:2px solid #1D1D1F;outline-offset:-4px;border-radius:24px}' +
-    '#luzShow .ls-b.a .w{display:inline;opacity:0;filter:blur(4px)}#luzShow .ls-b.a.on .w{animation:lsW .55s cubic-bezier(.22,1,.36,1) both;animation-delay:var(--d)}#luzShow .ls-b.a.done .w{animation:none;opacity:1;filter:none}' +
+    '#luzShow .ls-b.a .w{display:inline;opacity:1}#luzShow .ls-b.a.done .w{animation:none;opacity:1;filter:none}' +
     '@keyframes lsW{from{opacity:0;filter:blur(4px)}to{opacity:1;filter:blur(0)}}' +
     '@media (prefers-reduced-motion:reduce){#luzShow .ls-b.a .w{opacity:1;filter:none;animation:none!important}}' +
-    '#luzShow .ls-b{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.42;letter-spacing:-0.005em;opacity:0;transform:translateY(8px) scale(.98);transform-origin:left bottom;transition:opacity .3s ease,transform .5s cubic-bezier(.22,1,.36,1)}' +
+    '#luzShow .ls-b{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.42;letter-spacing:-0.005em;opacity:0;transform:translateY(12px) scale(.9);transform-origin:left bottom;transition:opacity .22s ease,transform .45s cubic-bezier(.22,1,.36,1)}' +
     '#luzShow .ls-b.q{align-self:flex-end;transform-origin:right bottom;border-bottom-right-radius:6px}#luzShow .ls-b.a{align-self:flex-start;background:#F2F2F7;color:#1D1D1F;border-bottom-left-radius:6px}' +
     '#luzShow .ls-prod{align-self:flex-start;width:min(86%,330px);display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(29,29,31,.12);text-decoration:none;color:#1D1D1F;box-shadow:0 1px 2px rgba(0,0,0,.04);opacity:0;transform:translateY(8px) scale(.98);transition:opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1),border-color .2s ease,box-shadow .2s ease}' +
     '#luzShow .ls-prod.on{opacity:1;transform:none}#luzShow .ls-prod:hover{border-color:rgba(29,29,31,.28);box-shadow:0 4px 14px rgba(0,0,0,.08)}#luzShow .ls-prod:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
@@ -267,17 +267,11 @@
     // nothing below the newest message takes room until it arrives, so the chat grows upward like a real one
     var hide = function (x) { x.style.display = 'none'; }, show = function (x, d) { x.style.display = d || ''; };
     if (instant) { q.classList.add('on'); hide(ty); if (dr) dr.classList.add('on'); if (cp) cp.classList.add('on'); as.forEach(function (x) { x.classList.add('on', 'done'); }); if (pc) pc.classList.add('on'); el['ls-fact'].classList.add('on'); return 0; }
-    hide(q); hide(ty); as.forEach(hide); if (pc) hide(pc); if (dr) hide(dr);
+    hide(q); hide(ty); as.forEach(hide); if (pc) hide(pc); if (dr) hide(dr); if (cp) hide(cp);
     steps = []; var t = 450;
-    // 1. the customer's question types itself into the field (where a message really starts)
-    var qs = D.q, per = Math.max(14, Math.min(34, 1500 / qs.length)), chunks = Math.ceil(qs.length / 2);
-    at(t, function () { el.comp.classList.add('typing'); });
-    for (var c = 1; c <= chunks; c++) (function (c) { at(t + c * per * 2, function () { el.txt.textContent = qs.slice(0, c * 2); }); })(c);
-    t += chunks * per * 2 + 260;
-    // 2. send: the button presses, the field empties, the bubble rises from the field
-    at(t, function () { el.comp.classList.add('sent'); });
-    at(t + 120, function () { el.comp.classList.remove('typing', 'sent'); el.txt.textContent = ''; show(q); requestAnimationFrame(function () { q.classList.add('on'); }); });
-    t += 700;
+    // 1. the field stays empty; the customer's question pops in whole, like a sent iMessage
+    at(t, function () { show(q); requestAnimationFrame(function () { q.classList.add('on'); }); });
+    t += 900;
     // 3. Luz types, then answers stream in word by word, one bubble after the other
     at(t, function () { show(ty, 'flex'); requestAnimationFrame(function () { ty.classList.add('on'); }); }); t += 1000;
     at(t, function () { hide(ty); });
@@ -285,9 +279,9 @@
     as.forEach(function (x, i) {
       at(t, function () { show(x); requestAnimationFrame(function () { x.classList.add('on'); }); });
       if (i === 0) at(t + 500, function () { el['ls-fact'].classList.add('on'); });
-      t += streams[i] * 38 + 550 + words(D.a[i]) / 200 * 60000 * 0.35;
+      t += 700 + words(D.a[i]) / 200 * 60000 * 0.35;
     });
-    if (cp) { at(t, function () { cp.classList.add('on'); }); t += 900; at(t, function () { cp.classList.add('press'); }); at(t + 160, function () { cp.classList.remove('press'); cp.classList.add('ok'); cp.querySelector('span').textContent = D.copied + ' ✓'; }); t += 900; }
+    if (cp) { at(t, function () { show(cp, 'inline-flex'); requestAnimationFrame(function () { cp.classList.add('on'); }); }); t += 900; at(t, function () { cp.classList.add('press'); }); at(t + 160, function () { cp.classList.remove('press'); cp.classList.add('ok'); cp.querySelector('span').textContent = D.copied + ' ✓'; }); t += 900; }
     if (pc) { at(t, function () { show(pc, 'flex'); requestAnimationFrame(function () { pc.classList.add('on'); }); }); t += 900; }
     var read = (words(D.q) + D.a.reduce(function (n, a) { return n + words(a); }, 0)) / 200 * 60000;   // reading pace: 200 wpm, the slow end
     return Math.max(10000, Math.min(19000, Math.max(t, 3200 + read) + 2000));
