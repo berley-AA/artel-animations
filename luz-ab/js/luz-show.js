@@ -184,7 +184,7 @@
     '#luzShow .ls-tab:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
     '@media (max-width:600px){#luzShow .ls-prod{width:100%;gap:10px;padding-right:12px}#luzShow .ls-pimg{width:48px;height:48px;border-radius:10px}#luzShow .ls-ptx{overflow:hidden}#luzShow .ls-ptx i{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}' +
     '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:0;margin-top:16px;perspective:none}#luzShow .ls-orb{height:clamp(140px,19vh,190px);margin:0 0 -28px}#luzShow .ls-right{transform:none}#luzShow .ls-side{margin:16px 0 0;transform:scale(.94);justify-content:center}' +
-    '#luzShow .ls-tabs{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:0 2px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}#luzShow .ls-tabs::-webkit-scrollbar{display:none}#luzShow .ls-tab{flex:none}}' +
+    '#luzShow .ls-tabs{flex-wrap:wrap;justify-content:center;gap:6px;padding:0 4px}#luzShow .ls-tab{flex:none}}' +
     '@media (max-width:600px){#luzShow .ls-body{height:340px}#luzShow .ls-b{font-size:14px}}';
 
   var sec, el = {}, orb = null, tex = null, texCv = null, cur = [], from = null, to = null, mix = 1, mixT0 = 0;
@@ -303,7 +303,6 @@
       if (!reduce) steps.forEach(function (s) { timers.push(setTimeout(s.fn, s.t)); }); loop(); };
     roundDur = 1e9; roundT0 = performance.now();
     if (swap) { R.classList.add('ls-out'); timers.push(setTimeout(run, 320)); } else run();
-    if (user) { var b = el.tabs.children[idx]; if (b && b.scrollIntoView && innerWidth < 861) try { b.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' }); } catch (e) {} }
   }
   function loop() {
     cancelAnimationFrame(raf);
