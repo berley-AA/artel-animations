@@ -36,15 +36,15 @@
       'body.an-open .an-bar i{width:3.9px;height:4px;border-radius:50%;transition:width .26s cubic-bezier(.4,0,.2,1) .3s,height .26s cubic-bezier(.4,0,.2,1) .3s,border-radius .2s ease .36s}' +
       '.an-toggle:focus-visible,.an-logo:focus-visible,.an-wordmark:focus-visible,.an-item:focus-visible,.an-lang a:focus-visible{outline:2px solid currentColor;outline-offset:4px}' +
       '.an-panel{position:fixed;inset:0;z-index:10000;background:#fff;color:#000;padding:96px 20px 0;clip-path:inset(0 0 calc(100% - 56px) 0);transition:clip-path .55s var(--an-ease),visibility 0s linear .55s;visibility:hidden}' +
-      'body.an-open .an-panel{clip-path:inset(0);visibility:visible;transition:clip-path .65s var(--an-ease),visibility 0s}' +
+      'body.an-open .an-panel{clip-path:inset(0);visibility:visible;transition:clip-path .6s var(--an-ease),visibility 0s}' +
       'body.an-open{overflow:hidden!important}' +
       '.an-list{list-style:none;margin:0;padding:0;border-top:1px solid rgba(0,0,0,.12)}.an-list li{border-bottom:1px solid rgba(0,0,0,.12)}' +
       '.an-item{display:flex;align-items:center;height:60px;color:#000;text-decoration:none;font-family:"Helveticanowdisplay","Helvetica Neue",Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;line-height:1.15;letter-spacing:-.01em;text-transform:uppercase;opacity:0}' +
-      'body.an-open .an-item{animation:aa-an-up .5s var(--an-ease) both}' +
-      'body.an-open li:nth-child(-n+3) .an-item{animation-delay:.4s}body.an-open li:nth-child(4) .an-item{animation-delay:.45s}body.an-open li:nth-child(5) .an-item{animation-delay:.5s}body.an-open li:nth-child(6) .an-item{animation-delay:.55s}' +
+      'body.an-open .an-item{animation:aa-an-up .38s var(--an-ease) both}' +
+      '' +
       '.an-num{width:44px;font-size:11px;font-weight:500;line-height:1;letter-spacing:.08em;color:#6b6b6b;text-transform:none}' +
       '.an-lang{position:absolute;right:20px;bottom:24px;display:flex;align-items:center;justify-content:center;gap:4px;width:60px;height:29px;padding:0 10px;border-radius:20px;border:1px solid rgba(0,0,0,.14);background:#fff;font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:13px;line-height:1;letter-spacing:.01em;opacity:0}' +
-      'body.an-open .an-lang{animation:aa-an-fade .4s var(--an-ease) .65s both}' +
+      '.an-toggle{transition:transform .16s var(--an-ease)}.an-toggle:active{transform:scale(.88)}.an-item{transition:color .16s var(--an-ease)}.an-item:active{color:#86868B}body.an-open li:nth-child(1) .an-item{animation-delay:.1s}body.an-open li:nth-child(2) .an-item{animation-delay:.135s}body.an-open li:nth-child(3) .an-item{animation-delay:.17s}body.an-open li:nth-child(4) .an-item{animation-delay:.205s}body.an-open li:nth-child(5) .an-item{animation-delay:.24s}body.an-open li:nth-child(6) .an-item{animation-delay:.275s}body.an-open li:nth-child(7) .an-item{animation-delay:.31s}body.an-open .an-lang{animation:aa-an-fade .3s var(--an-ease) .35s both}' +
       '.an-lang a{text-decoration:none;font-weight:500;color:#8E8E93}.an-lang a.is-active{font-weight:700;color:#FF8A00}.an-lang span{width:1px;height:14px;background:#8E8E93}' +
     '}' +
     '';   /* Nov 5 (Berley): the lines-to-dots animation and the menu play with Reduce Motion on too, like on the homepage */
