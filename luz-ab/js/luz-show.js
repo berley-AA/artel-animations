@@ -167,6 +167,7 @@
     '#luzShow .ls-pimg{flex:none;width:56px;height:56px;border-radius:12px;background:#F5F5F7;display:flex;align-items:center;justify-content:center;overflow:hidden}#luzShow .ls-pimg img{width:100%;height:100%;object-fit:contain}' +
     '#luzShow .ls-ptx{min-width:0;display:flex;flex-direction:column;gap:2px;flex:1}#luzShow .ls-ptx b{font-size:14px;font-weight:600;line-height:1.25}#luzShow .ls-ptx i{font-style:normal;font-size:12px;color:#6E6E73}#luzShow .ls-pgo{flex:none;font-size:13px;font-weight:600;white-space:nowrap}' +
     '#luzShow .ls-b.dr{max-width:92%;align-self:flex-start;display:flex;flex-direction:column;gap:8px;background:#F2F2F7;border-bottom-left-radius:6px;padding:10px 14px 10px}#luzShow .ls-b.dr .ls-b.a{max-width:none;padding:0;background:none;border-radius:0}' +
+    '#luzShow .ls-dlink{display:flex;width:fit-content;align-items:center;gap:5px;margin-top:8px;font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}#luzShow .ls-dlink svg{flex:none}#luzShow .ls-dlink:after{content:"";display:block}' +
     '#luzShow .ls-drh{font-size:11px;font-weight:600;letter-spacing:.02em;color:#6E6E73;text-transform:uppercase}' +
     '#luzShow .ls-copy{align-self:flex-end;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 12px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(29,29,31,.14);font-size:13px;font-weight:600;color:#1D1D1F;opacity:0;transform:translateY(4px);transition:opacity .3s ease,transform .4s cubic-bezier(.22,1,.36,1),background-color .25s ease,color .25s ease}' +
     '#luzShow .ls-copy.on{opacity:1;transform:none}#luzShow .ls-copy.press{transform:scale(.94)}#luzShow .ls-copy.ok{background:#1D1D1F;color:#FFFFFF;border-color:#1D1D1F}' +
@@ -183,7 +184,7 @@
     '#luzShow .ls-tab b{position:absolute;left:0;top:0;bottom:0;width:0;opacity:.13;pointer-events:none}#luzShow .ls-tab.on{border-color:rgba(29,29,31,.4)}' +
     '#luzShow .ls-tab:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
     '@media (max-width:600px){#luzShow .ls-prod{width:100%;gap:10px;padding-right:12px}#luzShow .ls-pimg{width:48px;height:48px;border-radius:10px}#luzShow .ls-ptx{overflow:hidden}#luzShow .ls-ptx i{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}' +
-    '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:0;margin-top:16px;perspective:none}#luzShow .ls-orb{height:clamp(140px,19vh,190px);margin:0 0 -28px}#luzShow .ls-right{transform:none}#luzShow .ls-side{margin:16px 0 0;transform:scale(.94);justify-content:center}' +
+    '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:0;margin-top:16px;perspective:none}#luzShow .ls-orb{height:clamp(140px,19vh,190px);margin:0 0 20px}#luzShow .ls-right{transform:none}#luzShow .ls-side{margin:16px 0 0;transform:scale(.94);justify-content:center}' +
     '#luzShow .ls-tabs{flex-wrap:wrap;justify-content:center;gap:6px;padding:0 4px}#luzShow .ls-tab{flex:none}}' +
     '@media (max-width:600px){#luzShow .ls-body{height:340px}#luzShow .ls-b{font-size:14px}}';
 
@@ -254,10 +255,11 @@
     el.comp.classList.remove('typing', 'sent'); el.txt.textContent = '';
     var html = '<div class="ls-b q" style="background:' + s.bub + ';color:' + s.ink + '">' + esc(D.q) + '</div><div class="ls-typing" aria-label="' + TX[L].typing + '"><i></i><i></i><i></i></div>', streams = [];
     if (s.draft) html += '<div class="ls-b dr"><span class="ls-drh">' + esc(D.dr) + '</span>';
-    D.a.forEach(function (a) { var st = streamHTML(a, s.acc); streams.push(st.n); html += '<div class="ls-b a">' + st.html + '</div>'; });
+    var P = PROD[k], LK = '';
+    if (s.draft && P && P.href) LK = '<a class="ls-dlink" href="' + (L === 'fr' && P.frHref ? P.frHref : P.href) + '" target="_blank" rel="noopener" style="color:' + s.acc + '"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5M14 10a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' + esc(P[L][0]) + '</a>';
+    D.a.forEach(function (a, i) { var st = streamHTML(a, s.acc); streams.push(st.n); html += '<div class="ls-b a">' + st.html + (LK && i === D.a.length - 1 ? LK : '') + '</div>'; });
     if (s.draft) html += '<span class="ls-copy"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>' + esc(D.copy) + '</span></span></div>';
-    var P = PROD[k];
-    if (P) { var ex = !P.href, nm = ex ? D.card[0] : P[L][0], sb = ex ? (L === 'fr' ? 'Produit d’exemple' : 'Example product') : P[L][1],
+    if (P && !s.draft) { var ex = !P.href, nm = ex ? D.card[0] : P[L][0], sb = ex ? (L === 'fr' ? 'Produit d’exemple' : 'Example product') : P[L][1],
         go = ex ? (L === 'fr' ? 'Votre produit ici ›' : 'Your product here ›') : P[L][2] + ' ›', href = ex ? '#ask' : (L === 'fr' && P.frHref ? P.frHref : P.href);
       html += '<a class="ls-prod" href="' + href + '"' + (ex ? '' : ' target="_blank" rel="noopener"') + '><span class="ls-pimg">' + (P.img ? '<img src="' + P.img + '" alt="" loading="lazy">' : drawn(P.draw, s.acc)) + '</span><span class="ls-ptx"><b>' + esc(nm) + '</b><i>' + esc(sb) + '</i></span><span class="ls-pgo" style="color:' + s.acc + '">' + esc(go) + '</span></a>'; }
     el.msgs.innerHTML = html;
