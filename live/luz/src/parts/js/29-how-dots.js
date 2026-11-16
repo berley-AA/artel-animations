@@ -1,0 +1,3 @@
+(function(){function go(){var sec=document.querySelector('.aa-how');if(!sec)return setTimeout(go,300);var pin=sec.querySelector('.aa-how-pin'),dots=[].slice.call(sec.querySelectorAll('.aa-how-dot')),N=dots.length;if(!pin||!N)return;
+dots.forEach(function(d,k){d.addEventListener('click',function(){var h=window.innerHeight||800,run=pin.offsetHeight-h,top=pin.getBoundingClientRect().top+(window.pageYOffset||0);window.scrollTo({top:Math.round(top+run*(k+0.5)/N),behavior:'smooth'});});});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',go);else go();})();

@@ -1,0 +1,329 @@
+/* Luz · "She becomes your store" (Nov 14, 2026, Berley).
+   Second section of the Luz pages. One live orb, one chat. Each round the orb takes a store's colours
+   and the chat answers one of that store's real questions in its tone.
+   Montreal Weights and Nordik Recovery: real conversations, word for word (trimmed, never reworded).
+   The rest: example stores, fictional, labelled as such. Same conversations as the niche ads.
+   The ad a visitor came from plays first (?angle=<key> or a utm_* value naming the niche), then the others.
+   Nothing plays until the section is on screen. EN/FR follows the page path, live with the language switch. */
+(function () {
+  if (window.__aaShow) return; window.__aaShow = 1;
+  var SRC = (document.currentScript && document.currentScript.src) || '';
+  var reduce = false; try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  function isFR() { return /^\/fr-ca(\/|$)/.test(location.pathname); }
+
+  /* ---------- the stores ---------- */
+  var S = {
+    mw: { real: 1, orb: '#EC2E33', bub: '#2B2B2B', ink: '#FFFFFF', acc: '#D3262B',
+      en: { tab: 'Montreal Weights', who: 'Ava · Montreal Weights', tag: 'Real client', cap: 'Real conversation · Montreal Weights, 2026',
+        q: 'Setting up a basement gym with a 7 ft ceiling. Should I get the Ascend Power Cage 3.0 or the compact squat rack?',
+        a: ['For a 7 ft ceiling, the **Ascend Compact Squat Rack** is the safer choice. It adjusts from **37 to 55 inches**, holds **500 lbs**, and includes safety arms and plate storage.'],
+        card: ['Ascend Compact Squat Rack', [['Height', '37 to 55 in'], ['Holds', '500 lbs'], ['Includes', 'Safety arms']]] },
+      fr: { tab: 'Montreal Weights', who: 'Ava · Montreal Weights', tag: 'Vrai client', cap: 'Vraie conversation, en anglais · Montreal Weights, 2026',
+        card: ['Ascend Compact Squat Rack', [['Hauteur', '37 à 55 po'], ['Charge', '500 lb'], ['Inclus', 'Bras de sécurité']]] } },
+    nordik: { real: 1, draft: 1, orb: ['#C9BFA6', '#3E5443'], bub: '#282D27', ink: '#F2F1EA', acc: '#3E5443',
+      en: { tab: 'Nordik Recovery', who: 'Sales assistant · Nordik Recovery', tag: 'Real client', cap: 'Real conversation · Nordik Recovery sales team, 2026', dr: 'Draft reply · ready to send', copy: 'Copy', copied: 'Copied',
+        q: 'What is the internal height of the 2 person outdoor sauna? I’m 6ft 2.',
+        a: ['The internal height of the 2-3 Person Sanctuary Outdoor Sauna is **200cm**, which is approximately **6 ft 7 in**.', 'At 6 ft 2, you’ll have plenty of headroom to stand up comfortably inside.'],
+        card: ['Sanctuary Outdoor Sauna', [['Inside height', '200 cm · 6 ft 7'], ['Customer', '6 ft 2'], ['Headroom', 'Stands up inside']]] },
+      fr: { tab: 'Nordik Recovery', who: 'Assistant de vente · Nordik Recovery', tag: 'Vrai client', cap: 'Vraie conversation, en anglais · équipe de vente Nordik Recovery, 2026', dr: 'Réponse prête à envoyer', copy: 'Copier', copied: 'Copié',
+        card: ['Sauna extérieur Sanctuary', [['Hauteur intérieure', '200 cm · 6 pi 7'], ['Client', '6 pi 2'], ['Espace', 'Debout à l’intérieur']]] } },
+    ling: { orb: '#B0102B', bub: '#B0102B', ink: '#FFFFFF', acc: '#B0102B',
+      en: { tab: 'Lingerie', who: 'Luz · Lingerie store', tag: 'Example store', cap: 'Example store · fictional',
+        q: 'I’m a 34C in most brands. What size should I take in the Mila bra?',
+        a: ['Good news: the **Mila** runs true to size. Take your **34C**.', 'Between two cups? Go up one. The lace doesn’t stretch.', 'Free exchanges for **30 days**, so you can try it at home.'],
+        card: ['Mila lace bra', [['Fit', 'True to size'], ['Your size', '34C'], ['Exchanges', '30 days']]] },
+      fr: { tab: 'Lingerie', who: 'Luz · Boutique de lingerie', tag: 'Boutique d’exemple', cap: 'Boutique d’exemple · fictive',
+        q: 'Je porte un 34C dans la plupart des marques. Je prends quoi pour le Mila?',
+        a: ['Bonne nouvelle: le **Mila** taille juste. Prenez votre **34C**.', 'Entre deux bonnets? Montez d’un. La dentelle ne s’étire pas.', 'Échange gratuit pendant **30 jours**, pour l’essayer tranquille à la maison.'],
+        card: ['Soutien-gorge Mila', [['Taille', 'Juste'], ['Votre taille', '34C'], ['Échanges', '30 jours']]] } },
+    kids: { orb: ['#22C7D8', '#2F6BFF'], bub: '#2F6BFF', ink: '#FFFFFF', acc: '#1F5AE0',
+      en: { tab: 'Kids’ toys', who: 'Luz · Toy store', tag: 'Example store', cap: 'Example store · fictional',
+        q: 'Is the Pompon stacker OK for my 18-month-old?',
+        a: ['Yes. The **Pompon** stacker is made for **12 months and up**.', 'No small parts, and the paint is **non-toxic and water-based**.', 'When she’s ready for more, the **Grand Pompon** is for 3 years and up.'],
+        card: ['Pompon stacker', [['Ages', '12 months +'], ['Small parts', 'None'], ['Paint', 'Non-toxic']]] },
+      fr: { tab: 'Jouets', who: 'Luz · Boutique de jouets', tag: 'Boutique d’exemple', cap: 'Boutique d’exemple · fictive',
+        q: 'La tour Pompon, c’est correct pour mon bébé de 18 mois?',
+        a: ['Oui. La tour **Pompon** est faite pour les **12 mois et plus**.', 'Aucune petite pièce, et la peinture est **non toxique, à base d’eau**.', 'Quand elle sera prête pour plus, la **Grand Pompon** est pour les 3 ans et plus.'],
+        card: ['Tour Pompon', [['Âge', '12 mois et +'], ['Petites pièces', 'Aucune'], ['Peinture', 'Non toxique']]] } },
+    chat: { orb: '#7A2340', bub: '#7A2340', ink: '#FFFFFF', acc: '#7A2340',
+      en: { tab: 'Cats', who: 'Luz · Cat supply store', tag: 'Example store', cap: 'Example store · fictional',
+        q: 'My cat is 12 and picky. How do I switch her to the Senior formula?',
+        a: ['Slowly, and she’ll thank you. Mix **25% new** with 75% old for 3 days.', 'Then **50/50**, then **75/25**. Full switch in about **10 days**.', 'Still not eating after 2 days? Write us, we’ll help.'],
+        card: ['Senior formula', [['Days 1 to 3', '25% new'], ['Then', '50/50, 75/25'], ['Full switch', 'About 10 days']]] },
+      fr: { tab: 'Chats', who: 'Luz · Boutique pour chats', tag: 'Boutique d’exemple', cap: 'Boutique d’exemple · fictive',
+        q: 'Ma chatte a 12 ans et elle est difficile. Comment la passer à la formule Senior?',
+        a: ['Doucement, elle vous remerciera. Mélangez **25 % de nouvelle** à 75 % d’ancienne pendant 3 jours.', 'Puis **50/50**, puis **75/25**. Transition complète en **10 jours** environ.', 'Elle ne mange toujours pas après 2 jours? Écrivez-nous, on vous aide.'],
+        card: ['Formule Senior', [['Jours 1 à 3', '25 % nouvelle'], ['Ensuite', '50/50, 75/25'], ['Transition', '10 jours environ']]] } },
+    dog: { orb: '#B5651D', bub: '#8A4B16', ink: '#FFFFFF', acc: '#8A4B16',
+      en: { tab: 'Dogs', who: 'Luz · Dog supply store', tag: 'Example store', cap: 'Example store · fictional',
+        q: 'My beagle is 32 lb. Which harness should I take, the M or the L?',
+        a: ['For a **32 lb beagle**, take the **M**. It fits chests from **20 to 28 in**.', 'Measure right behind the front legs to be sure. Two fingers should slide under the strap.', 'Wrong size? **Free exchange** within 30 days.'],
+        card: ['Walk harness', [['Size', 'M'], ['Chest', '20 to 28 in'], ['Exchange', '30 days, free']]] },
+      fr: { tab: 'Chiens', who: 'Luz · Boutique pour chiens', tag: 'Boutique d’exemple', cap: 'Boutique d’exemple · fictive',
+        q: 'Mon beagle pèse 32 lb. Je prends le harnais M ou L?',
+        a: ['Pour un **beagle de 32 lb**, prenez le **M**. Il convient aux poitrines de **20 à 28 po**.', 'Mesurez juste derrière les pattes avant pour être sûr. Deux doigts doivent passer sous la sangle.', 'Mauvaise taille? **Échange gratuit** pendant 30 jours.'],
+        card: ['Harnais de marche', [['Taille', 'M'], ['Poitrine', '20 à 28 po'], ['Échange', '30 jours, gratuit']]] } },
+    intim: { orb: '#B4467A', bub: '#B4467A', ink: '#FFFFFF', acc: '#9C3566',
+      en: { tab: 'Intimate wellness', who: 'Luz · Wellness store', tag: 'Example store', cap: 'Example store · fictional',
+        q: 'Is shipping discreet? And what is the Lune made of?',
+        a: ['Always. A plain box, no logo, and the label just says **LM Distribution**.', 'The **Lune** is **body-safe medical silicone**, phthalate-free.', 'Clean it with warm water and a mild soap. That’s it.'],
+        card: ['Lune', [['Material', 'Medical silicone'], ['Phthalates', 'None'], ['Shipping', 'Plain box']]] },
+      fr: { tab: 'Bien-être intime', who: 'Luz · Boutique bien-être', tag: 'Boutique d’exemple', cap: 'Boutique d’exemple · fictive',
+        q: 'La livraison est-elle discrète? Et le Lune est fait de quoi?',
+        a: ['Toujours. Une boîte neutre, sans logo, et l’étiquette dit seulement **LM Distribution**.', 'Le **Lune** est en **silicone médical**, sans phtalates.', 'Nettoyez-le à l’eau tiède avec un savon doux. C’est tout.'],
+        card: ['Lune', [['Matériau', 'Silicone médical'], ['Phtalates', 'Aucun'], ['Livraison', 'Boîte neutre']]] } },
+    mode: { orb: '#F25C9A', bub: '#C8306F', ink: '#FFFFFF', acc: '#C8306F',
+      en: { tab: 'Clothing', who: 'Luz · Clothing store', tag: 'Example store', cap: 'Example store · fictional',
+        q: 'Would the Romy blazer work for a wedding this fall?',
+        a: ['Absolutely. In **burgundy wool**, the **Romy** steals the show at a fall wedding.', 'Pair it with the wide-leg **Lou** pants for the full look.', 'Ships in **2 days** anywhere in Quebec.'],
+        card: ['Romy blazer', [['Fabric', 'Burgundy wool'], ['Goes with', 'Lou pants'], ['Shipping', '2 days']]] },
+      fr: { tab: 'Mode', who: 'Luz · Boutique de mode', tag: 'Boutique d’exemple', cap: 'Boutique d’exemple · fictive',
+        q: 'Le blazer Romy, ça passe pour un mariage cet automne?',
+        a: ['Absolument. En **laine bordeaux**, le **Romy** vole la vedette à un mariage d’automne.', 'Agencez-le avec le pantalon large **Lou** pour le look complet.', 'Livré en **2 jours** partout au Québec.'],
+        card: ['Blazer Romy', [['Tissu', 'Laine bordeaux'], ['Avec', 'Pantalon Lou'], ['Livraison', '2 jours']]] } }
+  };
+  ['mw', 'nordik'].forEach(function (k) { S[k].fr.q = S[k].en.q; S[k].fr.a = S[k].en.a; });   // real chats stay as they were written
+  /* Product under the answer: the real product page for the two clients, a drawn stand-in for the example stores (they link to the Luz chat). */
+  var PROD = {
+    mw: { img: 'https://cdn.shopify.com/s/files/1/0400/0930/2175/files/MW_ECOM_1309.png?width=200', href: 'https://montrealweights.ca/products/ascend-compact-squat-rack', en: ['Ascend Compact Squat Rack', 'montrealweights.ca', 'View product'], fr: ['Ascend Compact Squat Rack', 'montrealweights.ca', 'Voir le produit'] },
+    nordik: { img: 'https://cdn.shopify.com/s/files/1/0562/0039/6866/files/Havre_SM_Front_2_Less-Shadow.png?width=200', href: 'https://nordikrecovery.com/products/sanctuary-2-3-person-outdoor-sauna', en: ['Sanctuary Outdoor Sauna', '2-3 person · nordikrecovery.com', 'View product'], fr: ['Sauna extérieur Sanctuary', '2 à 3 places · nordikrecovery.com', 'Voir le produit'], frHref: 'https://nordikrecovery.com/fr/products/sanctuary-2-3-person-outdoor-sauna' },
+    ling: { draw: 'bra' }, kids: { draw: 'stack' }, chat: { draw: 'bag' }, dog: { draw: 'harness' }, intim: { draw: 'pebble' }, mode: { draw: 'blazer' }
+  };
+  function drawn(kind, c) {   // simple product drawings for the fictional stores, in the store's colour
+    var P = {
+      bra: '<path d="M14 26c4 12 14 16 18 6c4 10 14 6 18-6" fill="none" stroke="@c" stroke-width="3" stroke-linecap="round"/><path d="M16 28c2 9 9 12 16 4c7 8 14 5 16-4c-6 3-11 3-16 6c-5-3-10-3-16-6z" fill="@c" opacity=".85"/><path d="M14 26l-2-10M50 26l2-10" stroke="@c" stroke-width="2" stroke-linecap="round"/>',
+      stack: '<rect x="31" y="12" width="2.5" height="38" rx="1.2" fill="#C9A26B"/><ellipse cx="32" cy="46" rx="15" ry="5" fill="#2EC4D6"/><ellipse cx="32" cy="38" rx="12" ry="4.5" fill="#2F6BFF"/><ellipse cx="32" cy="31" rx="9.5" ry="4" fill="#FF8A65"/><ellipse cx="32" cy="24.5" rx="7" ry="3.5" fill="#8BC34A"/><circle cx="32" cy="17" r="4" fill="#2EC4D6"/><rect x="16" y="50" width="32" height="3" rx="1.5" fill="#C9A26B"/>',
+      bag: '<path d="M20 18h24l3 34H17z" fill="@c"/><path d="M20 18l2-6h20l2 6" fill="none" stroke="@c" stroke-width="2"/><circle cx="32" cy="34" r="7" fill="#fff" opacity=".9"/><path d="M28 32l1.5-3 1.5 2h2l1.5-2 1.5 3" fill="none" stroke="@c" stroke-width="1.2"/><rect x="24" y="44" width="16" height="2.5" rx="1.2" fill="#fff" opacity=".7"/>',
+      harness: '<ellipse cx="32" cy="26" rx="14" ry="8" fill="none" stroke="@c" stroke-width="4"/><path d="M22 32c-2 8 0 14 10 16c10-2 12-8 10-16" fill="none" stroke="@c" stroke-width="4"/><circle cx="32" cy="18" r="3.5" fill="none" stroke="#9AA0A6" stroke-width="2"/><rect x="29" y="44" width="6" height="6" rx="1.5" fill="#1D1D1F" opacity=".7"/>',
+      pebble: '<ellipse cx="32" cy="34" rx="17" ry="12" fill="@c"/><ellipse cx="26" cy="29" rx="7" ry="3.5" fill="#fff" opacity=".35"/><ellipse cx="32" cy="49" rx="14" ry="2.2" fill="#000" opacity=".08"/>',
+      blazer: '<path d="M22 14l10 8 10-8 8 6v32H14V20z" fill="@c"/><path d="M22 14l6 20 4-12 4 12 6-20" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="1.6"/><circle cx="32" cy="40" r="1.6" fill="#fff" opacity=".8"/><circle cx="32" cy="46" r="1.6" fill="#fff" opacity=".8"/>'
+    };
+    return '<svg viewBox="0 0 64 64" width="56" height="56" aria-hidden="true">' + P[kind].replace(/@c/g, c) + '</svg>';
+  }
+  var ORDER = ['mw', 'nordik', 'ling', 'kids', 'chat', 'dog', 'intim', 'mode'];
+  var TX = {
+    en: { label: 'One Luz, any store', h: 'She becomes your store.', sub: 'Real clients and example stores. The same Luz, in their colours and their voice.', aria: 'Luz in every store', typing: 'Luz is typing' },
+    fr: { label: 'Une Luz, toutes les boutiques', h: 'Elle devient votre boutique.', sub: 'De vrais clients et des boutiques d’exemple. La même Luz, à leurs couleurs et à leur voix.', aria: 'Luz dans chaque boutique', typing: 'Luz écrit' }
+  };
+
+  /* ---------- which ad did they come from ---------- */
+  function fromAd() {
+    var K = { ling: /lingerie|\bling\b|bra\b|soutien/, kids: /kids|toys?|jouets?|enfants?|bebe|baby/, chat: /(^|[^a-z])(cats?|chats?)([^a-z]|$)|feline|chaton/, dog: /dogs?|chiens?|canin/,
+      intim: /intim|wellness|bien[-_ ]?etre/, mode: /mode|clothing|fashion|vetements?|apparel/, mw: /\bmw\b|gym|weights|fitness/, nordik: /nordik|sauna|plunge|recovery/ };
+    var key = null;
+    try {
+      var p = new URLSearchParams(location.search), vals = [p.get('angle'), p.get('niche'), p.get('utm_content'), p.get('utm_campaign'), p.get('utm_term')];
+      for (var i = 0; i < vals.length && !key; i++) { var v = (vals[i] || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); if (!v) continue; if (S[v]) { key = v; break; }
+        for (var k in K) if (K[k].test(v)) { key = k; break; } }
+      if (key) sessionStorage.setItem('aaShowFirst', key); else key = sessionStorage.getItem('aaShowFirst');
+    } catch (e) {}
+    return S[key] ? key : null;
+  }
+  var first = fromAd(), order = first ? [first].concat(ORDER.filter(function (k) { return k !== first; })) : ORDER.slice();
+
+  /* ---------- colour for the orb ---------- */
+  function hex(h) { h = h.replace('#', ''); return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)]; }
+  var KS = [[0, 0.94], [0.15, 0.82], [0.3, 0.55], [0.42, 0.15], [0.5, 0], [0.58, -0.3], [0.68, -0.6], [0.8, -0.8], [1, -0.88]];
+  function kAt(s) { for (var i = 1; i < KS.length; i++) if (s <= KS[i][0]) { var a = KS[i - 1], b = KS[i], f = (s - a[0]) / (b[0] - a[0]); return a[1] + (b[1] - a[1]) * f; } return -0.88; }
+  function ramp(spec) {   // 512 samples (same as the line-up's brandGrad), light end to dark end, like the line-up's brand orbs; two colours blend across the middle
+    var A = hex(Array.isArray(spec) ? spec[0] : spec), B = hex(Array.isArray(spec) ? spec[1] : spec), out = [];
+    for (var i = 0; i < 512; i++) { var s = i / 511, m = Math.min(1, Math.max(0, (s - 0.3) / 0.4)), mm = m * m * (3 - 2 * m), k = kAt(s); if (Array.isArray(spec)) k = k > 0 ? k * 0.8 : k * 0.8;   // two-tone: keep the top colour bright (yellow stays sunny, not olive)
+      var c = [0, 1, 2].map(function (j) { var v = A[j] + (B[j] - A[j]) * mm; return k >= 0 ? v + (255 - v) * k : v * (1 + k); }); out.push(c); }
+    return out;
+  }
+
+  /* ---------- markup ---------- */
+  var CSS = '#luzShow{padding:clamp(72px,10vh,120px) clamp(20px,4vw,64px) clamp(56px,8vh,96px);box-sizing:border-box}' +
+    '#luzShow .ls-in{max-width:1240px;margin:0 auto}' +
+    '#luzShow .ls-head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px}' +
+    '#luzShow .ls-label{font-size:15px;color:#6E6E73;letter-spacing:-0.005em}' +
+    '#luzShow h2{margin:0;font-weight:600;letter-spacing:-0.025em;line-height:1.05;font-size:clamp(36px,4.4vw,64px);color:#1D1D1F}' +
+    '#luzShow .ls-sub{margin:4px 0 0;max-width:620px;font-size:clamp(17px,1.35vw,20px);line-height:1.5;color:#3A3A3C}' +
+    '#luzShow .ls-stage{margin-top:clamp(36px,5vh,56px);display:grid;grid-template-columns:minmax(0,0.95fr) minmax(0,1.25fr) minmax(0,0.8fr);align-items:center;min-height:clamp(460px,54vh,580px);perspective:1800px;perspective-origin:50% 40%}' +
+    '#luzShow .ls-orb{position:relative;height:clamp(320px,40vh,460px);margin-right:-4%;z-index:0}#luzShow .ls-orb canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;cursor:grab}' +
+    '#luzShow .ls-side{position:relative;z-index:0;margin-left:52px;transform:translate3d(0,28px,-170px) rotateY(-14deg);transform-origin:left center;display:flex;justify-content:flex-start}' +
+    '#luzShow .ls-right>*{transition:opacity .3s ease}#luzShow .ls-stage.ls-out .ls-right>*,#luzShow .ls-stage.ls-out .ls-fact{opacity:0!important}#luzShow .ls-right{position:relative;z-index:2;display:flex;flex-direction:column;gap:12px;align-items:center}' +
+    '#luzShow .ls-card{position:relative;width:min(100%,520px);background:#FFFFFF;border-radius:28px;box-shadow:0 1px 2px rgba(0,0,0,.05),0 18px 50px rgba(0,0,0,.10),0 40px 90px rgba(0,0,0,.06);overflow:hidden}' +
+    '#luzShow .ls-top{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid rgba(29,29,31,.08);font-size:13px;color:#1D1D1F}' +
+    '#luzShow .ls-dot{width:9px;height:9px;border-radius:50%;flex:none;transition:background-color .6s ease}' +
+    '#luzShow .ls-who{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
+    '#luzShow .ls-tag{margin-left:auto;flex:none;font-size:11px;color:#515154;border:1px solid rgba(29,29,31,.14);border-radius:999px;padding:3px 9px}' +
+    '#luzShow .ls-body{position:relative;height:376px;overflow:hidden;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 28px);mask-image:linear-gradient(to bottom,transparent 0,#000 28px)}' +
+    '#luzShow .ls-msgs{position:absolute;left:0;right:0;bottom:0;padding:18px 16px 12px;display:flex;flex-direction:column;gap:8px}' +
+    '#luzShow .ls-comp{display:flex;align-items:center;gap:10px;padding:10px 12px 14px;text-decoration:none;color:inherit}' +
+    '#luzShow .ls-plus{flex:none;width:34px;height:34px;border-radius:50%;background:#F2F2F7;color:#6E6E73;display:flex;align-items:center;justify-content:center}' +
+    '#luzShow .ls-field{flex:1;min-width:0;min-height:36px;display:flex;align-items:center;gap:8px;padding:0 6px 0 14px;border-radius:18px;border:1px solid rgba(29,29,31,.14);background:#FFFFFF;font-size:15px;line-height:1.3;color:#1D1D1F;overflow:hidden}' +
+    '#luzShow .ls-txt{white-space:nowrap;overflow:hidden;min-width:0;flex:0 1 auto;display:flex;justify-content:flex-end}#luzShow .ls-txt:empty{display:none}#luzShow .ls-ph{color:#AEAEB2;white-space:nowrap}#luzShow .ls-txt:not(:empty)~.ls-ph{display:none}' +
+    '#luzShow .ls-send{flex:none;width:28px;height:28px;margin-left:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;transform:scale(.6);opacity:0;transition:transform .35s cubic-bezier(.22,1,.36,1),opacity .2s ease,background-color .6s ease}' +
+    '#luzShow .ls-comp.typing .ls-send{transform:scale(1);opacity:1}#luzShow .ls-comp.sent .ls-send{transform:scale(.86)}' +
+    '#luzShow .ls-comp:hover .ls-field{border-color:rgba(29,29,31,.28)}#luzShow .ls-comp:focus-visible{outline:2px solid #1D1D1F;outline-offset:-4px;border-radius:24px}' +
+    '#luzShow .ls-b.a .w{display:inline;opacity:1}#luzShow .ls-b.a.done .w{animation:none;opacity:1;filter:none}' +
+    '@keyframes lsW{from{opacity:0;filter:blur(4px)}to{opacity:1;filter:blur(0)}}' +
+    '@media (prefers-reduced-motion:reduce){#luzShow .ls-b.a .w{opacity:1;filter:none;animation:none!important}}' +
+    '#luzShow .ls-b{max-width:86%;padding:10px 14px;border-radius:20px;font-size:15px;line-height:1.42;letter-spacing:-0.005em;opacity:0;transform:translateY(12px) scale(.9);transform-origin:left bottom;transition:opacity .22s ease,transform .45s cubic-bezier(.22,1,.36,1)}' +
+    '#luzShow .ls-b.q{align-self:flex-end;transform-origin:right bottom;border-bottom-right-radius:6px}#luzShow .ls-b.a{align-self:flex-start;background:#F2F2F7;color:#1D1D1F;border-bottom-left-radius:6px}' +
+    '#luzShow .ls-prod{align-self:flex-start;width:min(86%,330px);display:flex;align-items:center;gap:12px;padding:8px 14px 8px 8px;border-radius:18px;background:#FFFFFF;border:1px solid rgba(29,29,31,.12);text-decoration:none;color:#1D1D1F;box-shadow:0 1px 2px rgba(0,0,0,.04);opacity:0;transform:translateY(8px) scale(.98);transition:opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1),border-color .2s ease,box-shadow .2s ease}' +
+    '#luzShow .ls-prod.on{opacity:1;transform:none}#luzShow .ls-prod:hover{border-color:rgba(29,29,31,.28);box-shadow:0 4px 14px rgba(0,0,0,.08)}#luzShow .ls-prod:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
+    '#luzShow .ls-pimg{flex:none;width:56px;height:56px;border-radius:12px;background:#F5F5F7;display:flex;align-items:center;justify-content:center;overflow:hidden}#luzShow .ls-pimg img{width:100%;height:100%;object-fit:contain}' +
+    '#luzShow .ls-ptx{min-width:0;display:flex;flex-direction:column;gap:2px;flex:1}#luzShow .ls-ptx b{font-size:14px;font-weight:600;line-height:1.25}#luzShow .ls-ptx i{font-style:normal;font-size:12px;color:#6E6E73}#luzShow .ls-pgo{flex:none;font-size:13px;font-weight:600;white-space:nowrap}' +
+    '#luzShow .ls-b.dr{max-width:92%;align-self:flex-start;display:flex;flex-direction:column;gap:8px;background:#F2F2F7;border-bottom-left-radius:6px;padding:10px 14px 10px}#luzShow .ls-b.dr .ls-b.a{max-width:none;padding:0;background:none;border-radius:0}' +
+    '#luzShow .ls-dlink{display:flex;width:fit-content;align-items:center;gap:5px;margin-top:8px;font-weight:600;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}#luzShow .ls-dlink svg{flex:none}#luzShow .ls-dlink:after{content:"";display:block}' +
+    '#luzShow .ls-drh{font-size:11px;font-weight:600;letter-spacing:.02em;color:#6E6E73;text-transform:uppercase}' +
+    '#luzShow .ls-copy{align-self:flex-end;display:inline-flex;align-items:center;gap:6px;min-height:30px;padding:0 12px;border-radius:999px;background:#FFFFFF;border:1px solid rgba(29,29,31,.14);font-size:13px;font-weight:600;color:#1D1D1F;opacity:0;transform:translateY(4px);transition:opacity .3s ease,transform .4s cubic-bezier(.22,1,.36,1),background-color .25s ease,color .25s ease}' +
+    '#luzShow .ls-copy.on{opacity:1;transform:none}#luzShow .ls-copy.press{transform:scale(.94)}#luzShow .ls-copy.ok{background:#1D1D1F;color:#FFFFFF;border-color:#1D1D1F}' +
+    '#luzShow .ls-b.on{opacity:1;transform:none}#luzShow .ls-b b{font-weight:600}' +
+    '#luzShow .ls-typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:#F2F2F7;border-radius:20px;border-bottom-left-radius:6px;opacity:0;transition:opacity .25s ease}#luzShow .ls-typing.on{opacity:1}' +
+    '#luzShow .ls-typing i{width:6px;height:6px;border-radius:50%;background:#8E8E93;animation:lsT 1s infinite ease-in-out}#luzShow .ls-typing i:nth-child(2){animation-delay:.15s}#luzShow .ls-typing i:nth-child(3){animation-delay:.3s}' +
+    '@keyframes lsT{0%,60%,100%{opacity:.35;transform:none}30%{opacity:1;transform:translateY(-3px)}}' +
+    '#luzShow .ls-fact{width:min(100%,290px);background:rgba(255,255,255,.86);border-radius:20px;box-shadow:0 1px 2px rgba(0,0,0,.03),0 8px 24px rgba(0,0,0,.05);padding:16px 18px 14px;font-size:13px;color:#1D1D1F;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .6s cubic-bezier(.16,1,.3,1)}' +
+    '#luzShow .ls-fact.on{opacity:1;transform:none}#luzShow .ls-fact p{margin:0 0 8px;font-weight:600;font-size:14px}#luzShow .ls-fact div{display:flex;justify-content:space-between;gap:12px;padding:5px 0;border-top:1px solid rgba(29,29,31,.08)}#luzShow .ls-fact span:first-child{color:#6E6E73}#luzShow .ls-fact span:last-child{font-weight:600;text-align:right}' +
+    '#luzShow .ls-cap{font-size:12px;color:#6E6E73;min-height:1.4em;text-align:center}' +
+    '#luzShow .ls-tabs{margin:clamp(28px,4vh,44px) auto 0;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;max-width:1240px}' +
+    '#luzShow .ls-tab{position:relative;overflow:hidden;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(29,29,31,.14);background:#FFFFFF;color:#1D1D1F;font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:border-color .3s ease}' +
+    '#luzShow .ls-tab i{width:8px;height:8px;border-radius:50%;flex:none}#luzShow .ls-tab span{position:relative}' +
+    '#luzShow .ls-tab b{position:absolute;left:0;top:0;bottom:0;width:0;opacity:.13;pointer-events:none}#luzShow .ls-tab.on{border-color:rgba(29,29,31,.4)}' +
+    '#luzShow .ls-tab:focus-visible{outline:2px solid #1D1D1F;outline-offset:2px}' +
+    '@media (max-width:600px){#luzShow .ls-prod{width:100%;gap:10px;padding-right:12px}#luzShow .ls-pimg{width:48px;height:48px;border-radius:10px}#luzShow .ls-ptx{overflow:hidden}#luzShow .ls-ptx i{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}' +
+    '@media (max-width:860px){#luzShow .ls-stage{grid-template-columns:1fr;min-height:0;gap:0;margin-top:16px;perspective:none}#luzShow .ls-orb{height:clamp(140px,19vh,190px);margin:0 0 20px}#luzShow .ls-right{transform:none}#luzShow .ls-side{margin:16px 0 0;transform:scale(.94);justify-content:center}' +
+    '#luzShow .ls-tabs{flex-wrap:wrap;justify-content:center;gap:6px;padding:0 4px}#luzShow .ls-tab{flex:none}}' +
+    '@media (max-width:600px){#luzShow .ls-body{height:340px}#luzShow .ls-b{font-size:14px}}';
+
+  var sec, el = {}, orb = null, tex = null, texCv = null, cur = [], from = null, to = null, mix = 1, mixT0 = 0;
+  var idx = 0, started = false, inView = false, paused = false, roundT0 = 0, roundDur = 10000, steps = [], raf = 0, timers = [], pausedAt = 0;
+
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function rich(s, acc) { return esc(s).replace(/\*\*(.+?)\*\*/g, '<b style="color:' + acc + '">$1</b>'); }
+  function lang() { return isFR() ? 'fr' : 'en'; }
+
+  function build() {
+    sec = document.getElementById('luzShow'); if (!sec || sec.__built) return !!sec; sec.__built = 1;
+    var st = document.createElement('style'); st.id = 'luzShowCss'; st.textContent = CSS; document.head.appendChild(st);
+    sec.innerHTML = '<div class="ls-in"><div class="ls-head"><span class="ls-label"></span><h2></h2><p class="ls-sub"></p></div>' +
+      '<div class="ls-stage"><div class="ls-orb"><canvas aria-hidden="true"></canvas></div><div class="ls-right" aria-live="polite">' +
+      '<div class="ls-card"><div class="ls-top"><span class="ls-dot"></span><span class="ls-who"></span></div><div class="ls-body"><div class="ls-msgs"></div></div><a class="ls-comp" href="#ask"><span class="ls-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="ls-field"><span class="ls-txt"></span><span class="ls-ph"></span><span class="ls-send" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 19V6M6.5 11.5L12 6l5.5 5.5" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span></a></div>' +
+      '<div class="ls-cap"></div></div><div class="ls-side"><div class="ls-fact"></div></div></div><div class="ls-tabs" role="tablist"></div></div>';
+    ['ls-label', 'ls-sub', 'ls-orb', 'ls-dot', 'ls-who', 'ls-body', 'ls-fact', 'ls-cap', 'ls-tabs'].forEach(function (c) { el[c] = sec.querySelector('.' + c); });
+    el.h2 = sec.querySelector('h2'); el.cv = sec.querySelector('canvas'); el.tabs = el['ls-tabs']; el.msgs = sec.querySelector('.ls-msgs'); el.comp = sec.querySelector('.ls-comp'); el.txt = sec.querySelector('.ls-txt'); el.ph = sec.querySelector('.ls-ph'); el.send = sec.querySelector('.ls-send');
+    el.tabs.addEventListener('click', function (e) { var b = e.target.closest('.ls-tab'); if (!b) return; go(+b.getAttribute('data-i'), true); });
+    texts(); return true;
+  }
+  function texts() {
+    var L = lang(), O = (window.LUZ_TX && window.LUZ_TX[L]) || {}, T = Object.assign({}, TX[L], O); sec.setAttribute('aria-label', T.aria);
+    el['ls-label'].textContent = T.label; el.h2.textContent = T.h; el['ls-sub'].textContent = T.sub;
+    el['ls-label'].style.display = T.label ? '' : 'none'; el['ls-sub'].style.display = T.sub ? '' : 'none';
+    el.tabs.innerHTML = order.map(function (k, i) { var s = S[k], c = Array.isArray(s.orb) ? 'linear-gradient(135deg,' + s.orb[0] + ',' + s.orb[1] + ')' : s.orb;
+      return '<button type="button" role="tab" class="ls-tab' + (i === idx ? ' on' : '') + '" data-i="' + i + '" aria-selected="' + (i === idx) + '"><b style="background:' + s.acc + '"></b><i style="background:' + c + '"></i><span>' + esc(s[L].tab) + '</span></button>'; }).join('');
+  }
+
+  /* ---------- orb ---------- */
+  function orbUp() {
+    if (orb || !window.ArtelLineup || !window.ArtelLineup.solo || !window.THREE) return !!orb;
+    orb = window.ArtelLineup.solo(el.cv, {}); if (!orb || !orb.U) { orb = null; return false; }
+    texCv = document.createElement('canvas'); texCv.width = 512; texCv.height = 1;
+    tex = new window.THREE.CanvasTexture(texCv); tex.minFilter = tex.magFilter = window.THREE.LinearFilter; orb.U.uGradient.value = tex;
+    cur = ramp(S[order[idx]].orb); paint(cur); return true;
+  }
+  function needOrb() {
+    if (orbUp()) return;
+    if (!window.ArtelLineup && !document.getElementById('luScript')) { var s = document.createElement('script'); s.id = 'luScript'; s.src = SRC ? SRC.replace(/luz-show\.js[^]*$/, 'orb-lineup.js') : 'js/orb-lineup.js'; document.head.appendChild(s); }
+    setTimeout(needOrb, 250);
+  }
+  function paint(c) { if (!texCv) return; var g = texCv.getContext('2d'), im = g.createImageData(512, 1); for (var i = 0; i < 512; i++) { im.data[i * 4] = c[i][0]; im.data[i * 4 + 1] = c[i][1]; im.data[i * 4 + 2] = c[i][2]; im.data[i * 4 + 3] = 255; } g.putImageData(im, 0, 0); tex.needsUpdate = true; }
+  function recolour(spec, instant) {
+    var target = ramp(spec); if (!orb) { cur = target; return; }
+    if (instant || reduce) { cur = target; paint(cur); return; }
+    from = cur.map(function (c) { return c.slice(); }); to = target; mix = 0; mixT0 = performance.now(); orb.kick(3);
+    (function step(now) { var f = Math.min(1, (now - mixT0) / 900), e = f < .5 ? 4 * f * f * f : 1 - Math.pow(-2 * f + 2, 3) / 2;
+      cur = from.map(function (c, i) { return [0, 1, 2].map(function (j) { return c[j] + (to[i][j] - c[j]) * e; }); }); paint(cur); if (f < 1) requestAnimationFrame(step); })(mixT0);
+  }
+
+  /* ---------- a round ---------- */
+  function clear() { timers.forEach(clearTimeout); timers = []; }
+  function at(ms, fn) { steps.push({ t: ms, fn: fn }); }
+  function words(s) { return s.replace(/\*\*/g, '').split(/\s+/).length; }
+  function streamHTML(a, acc) {   // each word in its own span, bold kept, so the answer can stream in word by word
+    var out = '', n = 0;
+    a.split(/(\*\*.+?\*\*)/).forEach(function (part) {
+      if (!part) return; var bold = /^\*\*.+\*\*$/.test(part), t = bold ? part.slice(2, -2) : part;
+      var ws = t.split(/(\s+)/).map(function (w) { if (!w) return ''; if (/^\s+$/.test(w)) return ' '; return '<span class="w" style="--d:' + (n++ * 38) + 'ms">' + esc(w) + '</span>'; }).join('');
+      out += bold ? '<b style="color:' + acc + '">' + ws + '</b>' : ws; });
+    return { html: out, n: n };
+  }
+  function render(k, instant) {
+    var s = S[k], L = lang(), D = s[L];
+    el['ls-dot'].style.backgroundColor = Array.isArray(s.orb) ? s.orb[1] : s.orb; el['ls-who'].textContent = D.who; el['ls-cap'].textContent = D.cap;
+    el.send.style.backgroundColor = s.bub; el.ph.textContent = D.ph || 'Message'; el.comp.setAttribute('aria-label', L === 'fr' ? 'Écrire à Luz' : 'Talk to Luz');
+    el.comp.classList.remove('typing', 'sent'); el.txt.textContent = '';
+    var html = '<div class="ls-b q" style="background:' + s.bub + ';color:' + s.ink + '">' + esc(D.q) + '</div><div class="ls-typing" aria-label="' + TX[L].typing + '"><i></i><i></i><i></i></div>', streams = [];
+    if (s.draft) html += '<div class="ls-b dr"><span class="ls-drh">' + esc(D.dr) + '</span>';
+    var P = PROD[k], LK = '';
+    if (s.draft && P && P.href) LK = '<a class="ls-dlink" href="' + (L === 'fr' && P.frHref ? P.frHref : P.href) + '" target="_blank" rel="noopener" style="color:' + s.acc + '"><svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.07 0l3-3a5 5 0 0 0-7.07-7.07l-1.5 1.5M14 10a5 5 0 0 0-7.07 0l-3 3a5 5 0 0 0 7.07 7.07l1.5-1.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>' + esc(P[L][0]) + '</a>';
+    D.a.forEach(function (a, i) { var st = streamHTML(a, s.acc); streams.push(st.n); html += '<div class="ls-b a">' + st.html + (LK && i === D.a.length - 1 ? LK : '') + '</div>'; });
+    if (s.draft) html += '<span class="ls-copy"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>' + esc(D.copy) + '</span></span></div>';
+    if (P && !s.draft) { var ex = !P.href, nm = ex ? D.card[0] : P[L][0], sb = ex ? (L === 'fr' ? 'Produit d’exemple' : 'Example product') : P[L][1],
+        go = ex ? (L === 'fr' ? 'Votre produit ici ›' : 'Your product here ›') : P[L][2] + ' ›', href = ex ? '#ask' : (L === 'fr' && P.frHref ? P.frHref : P.href);
+      html += '<a class="ls-prod" href="' + href + '"' + (ex ? '' : ' target="_blank" rel="noopener"') + '><span class="ls-pimg">' + (P.img ? '<img src="' + P.img + '" alt="" loading="lazy">' : drawn(P.draw, s.acc)) + '</span><span class="ls-ptx"><b>' + esc(nm) + '</b><i>' + esc(sb) + '</i></span><span class="ls-pgo" style="color:' + s.acc + '">' + esc(go) + '</span></a>'; }
+    el.msgs.innerHTML = html;
+    el['ls-fact'].innerHTML = '<p>' + esc(D.card[0]) + '</p>' + D.card[1].map(function (r) { return '<div><span>' + esc(r[0]) + '</span><span>' + esc(r[1]) + '</span></div>'; }).join('');
+    el['ls-fact'].classList.remove('on');
+    var q = el.msgs.querySelector('.q'), ty = el.msgs.querySelector('.ls-typing'), as = [].slice.call(el.msgs.querySelectorAll('.a')), pc = el.msgs.querySelector('.ls-prod'), dr = el.msgs.querySelector('.dr'), cp = el.msgs.querySelector('.ls-copy');
+    // nothing below the newest message takes room until it arrives, so the chat grows upward like a real one
+    var hide = function (x) { x.style.display = 'none'; }, show = function (x, d) { x.style.display = d || ''; };
+    if (instant) { q.classList.add('on'); hide(ty); if (dr) dr.classList.add('on'); if (cp) cp.classList.add('on'); as.forEach(function (x) { x.classList.add('on', 'done'); }); if (pc) pc.classList.add('on'); el['ls-fact'].classList.add('on'); return 0; }
+    hide(q); hide(ty); as.forEach(hide); if (pc) hide(pc); if (dr) hide(dr); if (cp) hide(cp);
+    steps = []; var t = 450;
+    // 1. the field stays empty; the customer's question pops in whole, like a sent iMessage
+    at(t, function () { show(q); requestAnimationFrame(function () { q.classList.add('on'); }); });
+    t += 900;
+    // 3. Luz types, then answers stream in word by word, one bubble after the other
+    at(t, function () { show(ty, 'flex'); requestAnimationFrame(function () { ty.classList.add('on'); }); }); t += 1000;
+    at(t, function () { hide(ty); });
+    if (dr) at(t, function () { show(dr); requestAnimationFrame(function () { dr.classList.add('on'); }); });
+    as.forEach(function (x, i) {
+      at(t, function () { show(x); requestAnimationFrame(function () { x.classList.add('on'); }); });
+      if (i === 0) at(t + 500, function () { el['ls-fact'].classList.add('on'); });
+      t += 700 + words(D.a[i]) / 200 * 60000 * 0.35;
+    });
+    if (cp) { at(t, function () { show(cp, 'inline-flex'); requestAnimationFrame(function () { cp.classList.add('on'); }); }); t += 900; at(t, function () { cp.classList.add('press'); }); at(t + 160, function () { cp.classList.remove('press'); cp.classList.add('ok'); cp.querySelector('span').textContent = D.copied + ' ✓'; }); t += 900; }
+    if (pc) { at(t, function () { show(pc, 'flex'); requestAnimationFrame(function () { pc.classList.add('on'); }); }); t += 900; }
+    var read = (words(D.q) + D.a.reduce(function (n, a) { return n + words(a); }, 0)) / 200 * 60000;   // reading pace: 200 wpm, the slow end
+    return Math.max(10000, Math.min(19000, Math.max(t, 3200 + read) + 2000));
+  }
+  function setTab() {
+    [].slice.call(el.tabs.children).forEach(function (b, i) { var on = i === idx; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); b.querySelector('b').style.width = on ? '0%' : '0'; });
+  }
+  function go(i, user) {
+    idx = (i + order.length) % order.length; clear(); setTab();
+    var k = order[idx], R = sec.querySelector('.ls-stage'), swap = started && !reduce && !!el.msgs.firstChild;
+    recolour(S[k].orb, !started);
+    var run = function () { roundDur = render(k, reduce); R.classList.remove('ls-out'); roundT0 = performance.now(); pausedAt = 0;
+      if (!reduce) steps.forEach(function (s) { timers.push(setTimeout(s.fn, s.t)); }); loop(); };
+    roundDur = 1e9; roundT0 = performance.now();
+    if (swap) { R.classList.add('ls-out'); timers.push(setTimeout(run, 320)); } else run();
+  }
+  function loop() {
+    cancelAnimationFrame(raf);
+    (function tick(now) { if (paused) return; var f = Math.min(1, (now - roundT0) / roundDur), b = el.tabs.children[idx] && el.tabs.children[idx].querySelector('b'); if (b) b.style.width = (f * 100).toFixed(2) + '%';
+      if (f >= 1) { go(idx + 1); return; } raf = requestAnimationFrame(tick); })(performance.now());
+  }
+  function pause() { if (paused || !started) return; paused = true; pausedAt = performance.now(); cancelAnimationFrame(raf); clear();
+    var done = pausedAt - roundT0; steps = steps.filter(function (s) { if (s.t <= done) { return false; } return true; }); steps.forEach(function (s) { s.t -= done; }); }
+  function resume() { if (!paused) return; paused = false; if (roundDur === 1e9) { go(idx); return; } var off = performance.now() - pausedAt; roundT0 += off; steps.forEach(function (s) { timers.push(setTimeout(s.fn, s.t)); }); loop(); }
+
+  function start() { if (started) { resume(); return; } started = true; go(0); }
+
+  function boot() {
+    if (!build()) return setTimeout(boot, 200);
+    needOrb();
+    render(order[0], false); setTab();   // the first store waits, chat empty, until the section is on screen; then it plays from the top
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) {
+      inView = en.isIntersecting && en.intersectionRatio > 0.3;
+      if (inView && !document.hidden) start(); else if (!en.isIntersecting || en.intersectionRatio < 0.1) pause(); }); }, { threshold: [0, 0.1, 0.3, 0.5] });
+    io.observe(sec);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); else if (inView) start(); });
+    var lastL = lang();
+    new MutationObserver(function () { var L = lang(); if (L === lastL) return; lastL = L; texts(); setTab(); var k = order[idx]; clear(); render(k, true); if (started && !paused) { roundT0 = performance.now() - roundDur * 0.35; loop(); } })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  }
+  document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', boot) : boot();
+})();

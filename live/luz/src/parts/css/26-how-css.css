@@ -1,0 +1,30 @@
+/* Nov 4: "How we work" as a pinned scroll, built like the rooms section on apple.com/apple-tv-4k: the stage holds in the middle of the screen while the four steps play through, the week rail fills in orange. */
+.aa-how-head{max-width:1100px;margin:0 auto;padding:clamp(72px,10vh,120px) 0 0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.aa-how-head h2{margin:0;font-weight:600;letter-spacing:-.03em;line-height:1.05;font-size:clamp(36px,4.6vw,64px);text-wrap:balance;max-width:18ch}
+.aa-how-head p{margin:0;font-size:clamp(17px,1.6vw,21px);line-height:1.45;color:#3A3A3C}
+.aa-how-pin{position:relative}
+.aa-how-stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(36px,6vh,72px)}
+.aa-how-rail{position:relative;width:min(100%,760px);display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.aa-how-rail .ln,.aa-how-rail .fl{position:absolute;left:12.5%;right:12.5%;top:6px;height:2px;border-radius:2px;background:rgba(29,29,31,.14)}
+.aa-how-rail .fl{background:#FF7B00;right:auto;width:0}
+.aa-how-dot{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px}
+.aa-how-dot i{width:14px;height:14px;border-radius:50%;background:#F5F5F7;border:1.5px solid rgba(29,29,31,.35);box-sizing:border-box;transition:background .4s ease,border-color .4s ease,transform .4s ease}
+.aa-how-dot span{font-size:13px;color:#6E6E73;transition:color .4s ease;white-space:nowrap}
+.aa-how-dot.done i{background:#FF7B00;border-color:#FF7B00}
+.aa-how-dot.now i{transform:scale(1.25)}
+.aa-how-dot.now span{color:#1D1D1F;font-weight:500}
+.aa-how-steps{position:relative;width:min(100%,820px);display:grid}
+.aa-how-step{grid-area:1/1;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;opacity:0;transform:translateY(28px);transition:opacity .55s ease,transform .8s cubic-bezier(.16,1,.3,1)}
+.aa-how-step.out{transform:translateY(-28px)}
+.aa-how-step.on{opacity:1;transform:none}
+.aa-how-step .n{font-size:15px;font-weight:500;color:#FF7B00}
+.aa-how-step h3{margin:0;font-weight:600;letter-spacing:-.035em;line-height:1.02;font-size:clamp(40px,6.4vw,88px);text-wrap:balance}
+.aa-how-step p{margin:0;font-size:clamp(17px,1.7vw,22px);line-height:1.45;color:#3A3A3C;max-width:30ch}
+.aa-how-cta{display:flex;flex-direction:column;align-items:center;gap:10px;padding:0}
+.aa-how{padding-bottom:clamp(24px,4vh,48px)!important}
+.aa-how-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 30px;border-radius:999px!important;background:#FF7B00;color:#FFFFFF;text-decoration:none;font-size:17px;font-weight:500;transition:background .25s ease}
+.aa-how-cta a:hover{background:#E86F00}
+.aa-how-cta a:focus-visible{outline:2px solid #1D1D1F;outline-offset:3px}
+.aa-how-cta small{font-size:13px;color:#6E6E73}
+@media (max-width:560px){.aa-how-dot span{font-size:11px}.aa-how-step h3{font-size:40px}}
+@media (prefers-reduced-motion:reduce){.aa-how-stage{position:static;height:auto;padding:48px 0}.aa-how-steps{display:flex;flex-direction:column;gap:40px}.aa-how-step{opacity:1!important;transform:none!important;transition:none}.aa-how-step .n{display:block}}

@@ -1,0 +1,83 @@
+
+@font-face{font-family:'ABC Areal';src:url('https://cdn.prod.website-files.com/68bf9e7489e7a893477eea27/fonts/6aca3bcfbdc34936a7d20f74-ABCArealVariable.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+html{-webkit-text-size-adjust:100%}*,*::before,*::after{box-sizing:border-box}img,video{max-width:100%}body{background:#F5F5F7;overflow-x:hidden}
+#ask iframe{height:100%}
+@media (max-width: 600px){#ask iframe{min-height:580px!important}}
+
+body{margin:0}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+a{color:#1D1D1F}a:hover{color:#FF7B00}
+*{border-radius:0}
+.roll{display:inline-block;overflow:hidden;height:1em;line-height:1;vertical-align:middle}
+.roll-c{display:block;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.roll-c span{display:block;height:1em;line-height:1}
+a:hover .roll-c,a:focus-visible .roll-c{transform:translateY(-1em)}
+@keyframes k1{0%,3%{opacity:0;transform:translateY(8px)}7%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes k2{0%,19%{opacity:0;transform:translateY(8px)}23%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes k3{0%,35%{opacity:0;transform:translateY(8px)}39%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes k4{0%,51%{opacity:0;transform:translateY(8px)}55%,91%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+.cv .k1,.cv .k2,.cv .k3,.cv .k4{opacity:0;animation-duration:13s;animation-iteration-count:infinite;animation-timing-function:cubic-bezier(.22,1,.36,1)}
+.cv .k1{animation-name:k1}.cv .k2{animation-name:k2}.cv .k3{animation-name:k3}.cv .k4{animation-name:k4}
+@media (prefers-reduced-motion: reduce){.cv .k1,.cv .k2,.cv .k3,.cv .k4{animation:none;opacity:1}.roll-c{transition:none}}
+.dot{box-sizing:content-box!important;padding:18px 10px!important;background-clip:content-box!important}
+@media (pointer: coarse){footer .aaf-sm{min-height:44px;min-width:44px}}
+/* motion: only when the script has started (no script = everything visible) */
+.m-on [data-m]{opacity:0;transition:opacity .9s ease,transform 1.2s cubic-bezier(.22,1,.36,1);will-change:opacity,transform}
+.m-on [data-m="up"]{transform:translate3d(0,44px,0)}
+.m-on [data-m="left"]{transform:translate3d(-90px,0,0)}
+.m-on [data-m="right"]{transform:translate3d(90px,0,0)}
+.m-on [data-m="scale"]{transform:scale(.94)}
+.m-on [data-m].m-in{opacity:1;transform:none}
+main{overflow-x:clip}
+[data-fill]{will-change:clip-path}
+@media (prefers-reduced-motion: reduce){.m-on [data-m]{opacity:1!important;transform:none!important;transition:none!important}[data-fill]{clip-path:none!important}}
+/* homepage footer (.aaf), copied */
+.aaf{display:flex;flex-direction:column;gap:64px;padding:96px clamp(20px,5vw,72px) 16px;max-width:1920px;margin:0 auto;box-sizing:border-box}
+.aaf-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:end;gap:48px 32px}
+.aaf-left{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:34ch;padding-bottom:8px}
+.aaf-pitch{margin:0;color:#2A2B2F;font-size:15px;line-height:1.5}
+.aaf-btn{display:inline-flex;align-items:center;height:44px;padding:0 20px;background:#141518;color:#F1F1EE!important;font-size:15px;font-weight:500;text-decoration:none;transition:transform .1s ease-out}
+.aaf-btn:active{transform:scale(.97)}
+.aaf-idx{display:flex;flex-direction:column;align-items:flex-start;gap:0 8px}
+.aaf-big{color:#141518;font-size:clamp(40px,5.6vw,92px);font-weight:500;letter-spacing:-.045em;line-height:1.1;text-decoration:none}
+.aaf-legal{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 24px;padding-top:12px;border-top:1px solid rgba(20,21,24,.14);color:#55565B;font-size:13px}
+.aaf-legal-l,.aaf-legal-r{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px}
+.aaf-sm,.aaf-txt{display:inline-flex;align-items:center;color:#55565B;line-height:1.3;text-decoration:none}
+.aaf-l{display:inline-block;height:1.3em;line-height:1.3;vertical-align:bottom;clip-path:inset(0 -.3em)}
+.aaf-big .aaf-l{height:1.1em;line-height:1.1}
+.aaf-lc{display:block;transition:transform .35s cubic-bezier(.22,1,.36,1)}
+.aaf-lt{display:block;height:1.3em}
+.aaf-big .aaf-lt{height:1.1em}
+.aaf-lt2{color:#FF7B00;-webkit-text-fill-color:#FF7B00}
+.aaf-roll:hover .aaf-lc,.aaf-roll:focus-visible .aaf-lc{transform:translateY(-1.3em)}
+.aaf-big.aaf-roll:hover .aaf-lc,.aaf-big.aaf-roll:focus-visible .aaf-lc{transform:translateY(-1.1em)}
+.aaf-roll:not(:hover) .aaf-lc{transition-delay:0s!important}
+.aaf-btn .aaf-lt2{color:#FF7B00;-webkit-text-fill-color:#FF7B00}
+@media (max-width: 767px){.aaf{gap:48px;padding-top:72px}.aaf-grid{grid-template-columns:minmax(0,1fr)}.aaf-idx{order:-1}}
+@media (pointer: coarse){.aaf-sm{min-height:44px}}
+@media (prefers-reduced-motion: reduce){.aaf-lc{transition:none}}
+/* colour line-up */
+.lu-w{display:inline-block;opacity:0;transform:translate3d(0,.28em,0);filter:blur(.12em);color:#FF7B00;transition-property:opacity,transform,filter,color;transition-duration:.34s,.34s,.34s,.65s;transition-timing-function:cubic-bezier(.33,1,.68,1),cubic-bezier(.33,1,.68,1),ease-out,linear}
+.lu-go .lu-w{opacity:1;transform:none;filter:none;color:#1D1D1F}
+.lu-reset .lu-w,[data-m].m-reset{transition:none!important}
+@media (prefers-reduced-motion: reduce){.lu-w{opacity:1;transform:none;filter:none;color:#1D1D1F;transition:none}}
+/* carousel controls */
+@keyframes lpfill{from{width:0}to{width:28px}}
+.car-bar.is-paused .dfill,.car-bar:hover .dfill,section:has(.track:hover) .dfill{animation-play-state:paused!important}
+.car-arr svg{transition:stroke .2s ease}.car-arr:hover svg{stroke:#FF7B00}.car-arr:focus-visible{outline:2px solid #FF7B00;outline-offset:-6px}
+/* intro hold */
+main > *:not(#hero):not(header){transition:opacity .9s ease}
+@media (max-width: 767px){.hero-peek{height:max(560px, 88vh)!important;height:max(560px, 88svh)!important}}
+main.intro-hold > *:not(#hero):not(header){opacity:0;pointer-events:none}
+/* during the intro the ink is a full-screen loader: it may spill past the shorter hero */
+main.intro-hold #hero{overflow:visible!important}
+/* film player on short screens (phones turned sideways): the film takes the full height, the close button sits in the side margin */
+@media (orientation: portrait) and (max-width: 820px){#filmPlayer{aspect-ratio:4/5!important;width:min(100%, calc((100vh - 120px) * 4 / 5))!important;width:min(100%, calc((100svh - 120px) * 4 / 5))!important}}
+@media (max-height: 500px){#filmLayer{padding:8px 64px!important}#filmPlayer{width:min(100%, calc((100vh - 16px) * 16 / 9))!important;width:min(100%, calc((100svh - 16px) * 16 / 9))!important}}
+.track{scrollbar-width:none}.track::-webkit-scrollbar{display:none}
+.navlinks{display:flex}.navburger{display:none}
+@media (max-width: 991px){.navlinks{display:none}.navburger{display:inline-flex}.navmark{display:none}.aanav{grid-template-columns:minmax(0,1fr) auto!important;column-gap:16px!important;padding:0 20px!important}}
+input,select,textarea{font:inherit}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{outline:2px solid #FF7B00;outline-offset:2px}
+

@@ -1,0 +1,1 @@
+/* Nov 10: no lone last words. Headings balance their lines, paragraphs avoid a one-word last line. The hero is left alone because the orb is sized from its paragraph. */main section:not(#hero) :is(h2,h3){text-wrap:balance}main section:not(#hero) :is(p,li,blockquote,small){text-wrap:pretty}

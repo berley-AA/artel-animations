@@ -1,0 +1,1 @@
+.aanav a{white-space:nowrap}@media (pointer:coarse),(max-width:1024px){a.aaf-sm,a.an-logo,a.an-wordmark{position:relative}a.aaf-sm::after,a.an-logo::after,a.an-wordmark::after{content:"";position:absolute;left:50%;top:50%;width:calc(100% + 16px);height:44px;transform:translate(-50%,-50%)}a.an-logo::after{min-width:44px}}
