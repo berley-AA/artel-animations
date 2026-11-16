@@ -184,8 +184,8 @@
   "fr-bf": "Chaque client a sa réponse, jour et nuit, en français et en anglais. Vos soirées sont à vous."
  },
  "hero.6": {
-  "en": "8 stores. We choose.",
-  "fr": "8 boutiques. Nous choisissons.",
+  "en": "<b style=\"font-weight:600\">$6,000</b> + <b style=\"font-weight:600\">$412</b>/mo.",
+  "fr": "<b style=\"font-weight:600\">6&nbsp;000&nbsp;$</b> + <b style=\"font-weight:600\">412&nbsp;$</b>/mois",
   "en-bf": "8 spots before Black Friday.",
   "fr-bf": "8 places avant le Black Friday."
  },
@@ -607,8 +607,8 @@
   "fr": "<footer aria-label=\"Pied de page du site\" class=\"aaf\">"
  },
  "site-footer.1": {
-  "en": "A Montréal AI company.<br>208-4239 Rue Jean-Talon O, Montréal, QC",
-  "fr": "Une entreprise d’IA montréalaise.<br>208-4239, rue Jean-Talon O., Montréal (Québec)",
+  "en": "A Montréal AI company.",
+  "fr": "Une entreprise d’IA montréalaise.",
   "en-bf": "Four minutes, a few questions, one report on where AI pays first in your business.",
   "fr-bf": "Quatre minutes, quelques questions, un rapport sur l’endroit où l’IA rapporte en premier dans votre entreprise."
  },
@@ -907,8 +907,8 @@
   "fr-bf": "Chaque client a sa réponse, jour et nuit, en français et en anglais. Vos soirées sont à vous."
  },
  "loop.3": {
-  "en": "8 stores. We choose.",
-  "fr": "8 boutiques. Nous choisissons.",
+  "en": "<b style=\"font-weight:600\">$6,000</b> + <b style=\"font-weight:600\">$412</b>/mo.",
+  "fr": "<b style=\"font-weight:600\">6&nbsp;000&nbsp;$</b> + <b style=\"font-weight:600\">412&nbsp;$</b>/mois",
   "en-bf": "8 spots before Black Friday.",
   "fr-bf": "8 places avant le Black Friday."
  },
@@ -1003,8 +1003,8 @@
   "fr-bf": "2. Nordik Recovery."
  },
  "trust.2": {
-  "en": "<p class=\"aa-price\"><b>$6,000</b> to set up. <b>$412</b> a month after that.<span>Not an app you install yourself. Not a $25,000 project. CAD, plus tax.</span></p>",
-  "fr": "<p class=\"aa-price\"><b>6&nbsp;000&nbsp;$</b> pour l’installation. <b>412&nbsp;$</b> par mois ensuite.<span>Pas une appli à installer soi-même. Pas un projet à 25&nbsp;000&nbsp;$. En dollars canadiens, taxes en sus.</span></p>",
+  "en": "<p class=\"aa-price\"><b>$6,000</b> to set up. <b>$412</b> a month.</p>",
+  "fr": "<p class=\"aa-price\"><b>6&nbsp;000&nbsp;$</b> pour l’installation. <b>412&nbsp;$</b> par mois.</p>",
   "en-bf": "",
   "fr-bf": ""
  },
