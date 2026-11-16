@@ -208,8 +208,9 @@
     texts(); return true;
   }
   function texts() {
-    var L = lang(), T = TX[L]; sec.setAttribute('aria-label', T.aria);
+    var L = lang(), O = (window.LUZ_TX && window.LUZ_TX[L]) || {}, T = Object.assign({}, TX[L], O); sec.setAttribute('aria-label', T.aria);
     el['ls-label'].textContent = T.label; el.h2.textContent = T.h; el['ls-sub'].textContent = T.sub;
+    el['ls-label'].style.display = T.label ? '' : 'none'; el['ls-sub'].style.display = T.sub ? '' : 'none';
     el.tabs.innerHTML = order.map(function (k, i) { var s = S[k], c = Array.isArray(s.orb) ? 'linear-gradient(135deg,' + s.orb[0] + ',' + s.orb[1] + ')' : s.orb;
       return '<button type="button" role="tab" class="ls-tab' + (i === idx ? ' on' : '') + '" data-i="' + i + '" aria-selected="' + (i === idx) + '"><b style="background:' + s.acc + '"></b><i style="background:' + c + '"></i><span>' + esc(s[L].tab) + '</span></button>'; }).join('');
   }

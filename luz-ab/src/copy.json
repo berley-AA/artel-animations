@@ -292,8 +292,10 @@
   "fr": "Ce que disent nos clients."
  },
  "words.2": {
-  "en": "CEO and co-founder, Montreal Weights",
-  "fr": "PDG et cofondateur, Montreal Weights"
+  "en": "CEO and co-founder",
+  "fr": "PDG et cofondateur",
+  "en-bf": "CEO and co-founder, Montreal Weights",
+  "fr-bf": "PDG et cofondateur, Montreal Weights"
  },
  "words.3": {
   "en": "Before",
@@ -316,8 +318,10 @@
   "fr": ". Je le recommande à quiconque cherche une expérience semblable. »"
  },
  "words.8": {
-  "en": "Co-founder, Nordik Recovery",
-  "fr": "Cofondateur, Nordik Recovery"
+  "en": "Co-founder",
+  "fr": "Cofondateur",
+  "en-bf": "Co-founder, Nordik Recovery",
+  "fr-bf": "Cofondateur, Nordik Recovery"
  },
  "words.9": {
   "en": "“",
@@ -348,8 +352,10 @@
   "fr": "« Berley vient du milieu créatif, alors il tient à l’effet que les choses produisent, pas seulement à ce qu’elles fonctionnent. Bien des gens vous montrent une démo. <span class=\"aa-q-win\">Lui vous montre quelque chose que vous seriez fier de signer.</span> »"
  },
  "words.16": {
-  "en": "CEO and founder, Department",
-  "fr": "PDG et fondateur, Department"
+  "en": "CEO and founder",
+  "fr": "PDG et fondateur",
+  "en-bf": "CEO and founder, Department",
+  "fr-bf": "PDG et fondateur, Department"
  },
  "words.17": {
   "en": "",
@@ -1015,8 +1021,8 @@
   "fr-bf": ""
  },
  "trust.4": {
-  "en": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style><style>@media (min-width:861px){.aa-words{grid-template-columns:repeat(3,minmax(0,1fr))}}</style>",
-  "fr": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style><style>@media (min-width:861px){.aa-words{grid-template-columns:repeat(3,minmax(0,1fr))}}</style>",
+  "en": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}.why-foot,.why-st sup{display:none}@media (min-width:861px){.aa-words{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto auto auto;grid-auto-rows:auto;row-gap:0}.aa-q-card{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:16px;padding:28px 28px 30px}.aa-q-who{grid-row:1}.aa-q-before{grid-row:2}.aa-q-card blockquote{grid-row:3;align-self:start;font-size:clamp(18px,1.45vw,21px)}.aa-q-src{grid-row:4;margin:0;align-self:start}}</style>",
+  "fr": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}.why-foot,.why-st sup{display:none}@media (min-width:861px){.aa-words{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto auto auto;grid-auto-rows:auto;row-gap:0}.aa-q-card{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:16px;padding:28px 28px 30px}.aa-q-who{grid-row:1}.aa-q-before{grid-row:2}.aa-q-card blockquote{grid-row:3;align-self:start;font-size:clamp(18px,1.45vw,21px)}.aa-q-src{grid-row:4;margin:0;align-self:start}}</style>",
   "en-bf": "",
   "fr-bf": ""
  },
@@ -1025,5 +1031,11 @@
   "fr": "",
   "en-bf": "<figure class=\"aa-q-card\" data-m=\"up\"><figcaption class=\"aa-q-who\"><span class=\"aa-q-id\"><span>Raphaël Caron</span><span>CEO and founder, I.C. Production</span></span><img src=\"assets/5a20ddca7e69de9e037b225f913706b4.png\" alt=\"I.C. Production\" class=\"aa-q-logo\"></figcaption><blockquote>“He asked a lot of questions before he proposed anything. <span class=\"aa-q-win\">The audit was clear enough to show my team</span>, and the tool he scoped fits how we already work.”</blockquote></figure>",
   "fr-bf": "<figure class=\"aa-q-card\" data-m=\"up\"><figcaption class=\"aa-q-who\"><span class=\"aa-q-id\"><span>Raphaël Caron</span><span>PDG et fondateur, I.C. Production</span></span><img src=\"assets/5a20ddca7e69de9e037b225f913706b4.png\" alt=\"I.C. Production\" class=\"aa-q-logo\"></figcaption><blockquote>« Il a posé beaucoup de questions avant de proposer quoi que ce soit. <span class=\"aa-q-win\">L’audit était assez clair pour le montrer à mon équipe</span>, et l’outil qu’il a défini colle à notre façon de travailler. »</blockquote></figure>"
+ },
+ "trust.6": {
+  "en": "<script>window.LUZ_TX={en:{h:'One Luz. Every store.',label:'',sub:''}}</script>",
+  "fr": "<script>window.LUZ_TX={fr:{h:'Une Luz. Toutes les boutiques.',label:'',sub:''}}</script>",
+  "en-bf": "",
+  "fr-bf": ""
  }
 }
