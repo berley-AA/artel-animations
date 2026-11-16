@@ -1015,9 +1015,15 @@
   "fr-bf": ""
  },
  "trust.4": {
-  "en": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style>",
-  "fr": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style>",
+  "en": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style><style>@media (min-width:861px){.aa-words{grid-template-columns:repeat(3,minmax(0,1fr))}}</style>",
+  "fr": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style><style>@media (min-width:861px){.aa-words{grid-template-columns:repeat(3,minmax(0,1fr))}}</style>",
   "en-bf": "",
   "fr-bf": ""
+ },
+ "trust.5": {
+  "en": "",
+  "fr": "",
+  "en-bf": "<figure class=\"aa-q-card\" data-m=\"up\"><figcaption class=\"aa-q-who\"><span class=\"aa-q-id\"><span>Raphaël Caron</span><span>CEO and founder, I.C. Production</span></span><img src=\"assets/5a20ddca7e69de9e037b225f913706b4.png\" alt=\"I.C. Production\" class=\"aa-q-logo\"></figcaption><blockquote>“He asked a lot of questions before he proposed anything. <span class=\"aa-q-win\">The audit was clear enough to show my team</span>, and the tool he scoped fits how we already work.”</blockquote></figure>",
+  "fr-bf": "<figure class=\"aa-q-card\" data-m=\"up\"><figcaption class=\"aa-q-who\"><span class=\"aa-q-id\"><span>Raphaël Caron</span><span>PDG et fondateur, I.C. Production</span></span><img src=\"assets/5a20ddca7e69de9e037b225f913706b4.png\" alt=\"I.C. Production\" class=\"aa-q-logo\"></figcaption><blockquote>« Il a posé beaucoup de questions avant de proposer quoi que ce soit. <span class=\"aa-q-win\">L’audit était assez clair pour le montrer à mon équipe</span>, et l’outil qu’il a défini colle à notre façon de travailler. »</blockquote></figure>"
  }
 }
