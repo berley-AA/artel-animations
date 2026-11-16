@@ -214,24 +214,34 @@
   "fr": "des questions arrivent après la fermeture"
  },
  "why.6": {
-  "en": "<small class=\"pre\">Under</small> 1 week",
-  "fr": "1 semaine"
+  "en": "15,000+",
+  "fr": "15&nbsp;000+",
+  "en-bf": "<small class=\"pre\">Under</small> 1 week",
+  "fr-bf": "1 semaine"
  },
  "why.7": {
-  "en": "from first call to live",
-  "fr": "ou moins, du premier appel à la mise en ligne"
+  "en": "customer chats answered",
+  "fr": "conversations avec des clients",
+  "en-bf": "from first call to live",
+  "fr-bf": "ou moins, du premier appel à la mise en ligne"
  },
  "why.8": {
-  "en": "3 in 4",
-  "fr": "3 sur 4"
+  "en": "3 s",
+  "fr": "3&nbsp;s",
+  "en-bf": "3 in 4",
+  "fr-bf": "3 sur 4"
  },
  "why.9": {
-  "en": "chats end without a live agent",
-  "fr": "conversations se règlent sans agent humain"
+  "en": "average first reply",
+  "fr": "première réponse, en moyenne",
+  "en-bf": "chats end without a live agent",
+  "fr-bf": "conversations se règlent sans agent humain"
  },
  "why.10": {
-  "en": "3. A live store, October 2026.",
-  "fr": "3. Une vraie boutique, octobre 2026."
+  "en": "3. Montreal Weights, July to September 2026.",
+  "fr": "3. Montreal Weights, juillet à septembre 2026.",
+  "en-bf": "3. A live store, October 2026.",
+  "fr-bf": "3. Une vraie boutique, octobre 2026."
  },
  "why.11": {
   "en": "<section id=\"highlights\" aria-label=\"Watch Luz work\" style=\"padding: clamp(72px, 10vh, 120px) 0 clamp(56px, 8vh, 96px); box-sizing: border-box;\">",
@@ -597,8 +607,10 @@
   "fr": "<footer aria-label=\"Pied de page du site\" class=\"aaf\">"
  },
  "site-footer.1": {
-  "en": "Four minutes, a few questions, one report on where AI pays first in your business.",
-  "fr": "Quatre minutes, quelques questions, un rapport sur l’endroit où l’IA rapporte en premier dans votre entreprise."
+  "en": "A Montréal AI company.<br>208-4239 Rue Jean-Talon O, Montréal, QC",
+  "fr": "Une entreprise d’IA montréalaise.<br>208-4239, rue Jean-Talon O., Montréal (Québec)",
+  "en-bf": "Four minutes, a few questions, one report on where AI pays first in your business.",
+  "fr-bf": "Quatre minutes, quelques questions, un rapport sur l’endroit où l’IA rapporte en premier dans votre entreprise."
  },
  "site-footer.2": {
   "en": "<a href=\"/labs\" class=\"aaf-btn aaf-roll\" aria-label=\"The Lab\">",
@@ -845,8 +857,10 @@
   "fr": "<span class=\"aaf-lc\" style=\"transition-delay: 0.630s;\">"
  },
  "footer.51": {
-  "en": "Law 25 · PIPEDA",
-  "fr": "Loi 25 · LPRPDE"
+  "en": "<span class=\"aa-reg\" aria-label=\"Law 25, PIPEDA, GDPR\"><i>Law 25</i><i>PIPEDA</i><i>GDPR</i></span>",
+  "fr": "<span class=\"aa-reg\" aria-label=\"Loi 25, LPRPDE, RGPD\"><i>Loi 25</i><i>LPRPDE</i><i>RGPD</i></span>",
+  "en-bf": "Law 25 · PIPEDA",
+  "fr-bf": "Loi 25 · LPRPDE"
  },
  "footer.52": {
   "en": "<a href=\"https://app.artelagency.com\" class=\"aaf-sm aaf-roll\" aria-label=\"Client login\">",
@@ -981,5 +995,29 @@
  "loop.23": {
   "en": "  var PK=-1;function paint(){var v=V();if(!v)return;var d=v.duration||0,t=v.currentTime||0;var a=mm(t),b='-'+mm(d-t);if(cur.textContent!==a)cur.textContent=a;if(rem.textContent!==b)rem.textContent=b;var p=d?t/d*100:0;fill.style.width=p+'%';var f=!!(document.fullscreenElement||document.webkitFullscreenElement),k=(v.paused?1:0)+(v.muted?2:0)+(f?4:0);if(k!==PK){PK=k;trk.setAttribute('aria-valuenow',Math.round(p));big.innerHTML=v.paused?IC.play:IC.pause;mu.innerHTML=v.muted?IC.mute:IC.vol;mu.setAttribute('aria-label',v.muted?'Unmute':'Mute');fs.innerHTML=f?IC.fsx:IC.fs;fs.setAttribute('aria-label',f?'Exit full screen':'Full screen')}}\n",
   "fr": "  var PK=-1;function paint(){var v=V();if(!v)return;var d=v.duration||0,t=v.currentTime||0;var a=mm(t),b='-'+mm(d-t);if(cur.textContent!==a)cur.textContent=a;if(rem.textContent!==b)rem.textContent=b;var p=d?t/d*100:0;fill.style.width=p+'%';var f=!!(document.fullscreenElement||document.webkitFullscreenElement),k=(v.paused?1:0)+(v.muted?2:0)+(f?4:0);if(k!==PK){PK=k;trk.setAttribute('aria-valuenow',Math.round(p));big.innerHTML=v.paused?IC.play:IC.pause;mu.innerHTML=v.muted?IC.mute:IC.vol;mu.setAttribute('aria-label',v.muted?'Remettre le son':'Couper le son');fs.innerHTML=f?IC.fsx:IC.fs;fs.setAttribute('aria-label',f?'Quitter le plein écran':'Plein écran')}}\n"
+ },
+ "trust.1": {
+  "en": "2. Montreal Weights, since 2024.",
+  "fr": "2. Montreal Weights, depuis 2024.",
+  "en-bf": "2. Nordik Recovery.",
+  "fr-bf": "2. Nordik Recovery."
+ },
+ "trust.2": {
+  "en": "<p class=\"aa-price\"><b>$6,000</b> to set up. <b>$412</b> a month after that.<span>Not an app you install yourself. Not a $25,000 project. CAD, plus tax.</span></p>",
+  "fr": "<p class=\"aa-price\"><b>6&nbsp;000&nbsp;$</b> pour l’installation. <b>412&nbsp;$</b> par mois ensuite.<span>Pas une appli à installer soi-même. Pas un projet à 25&nbsp;000&nbsp;$. En dollars canadiens, taxes en sus.</span></p>",
+  "en-bf": "",
+  "fr-bf": ""
+ },
+ "trust.3": {
+  "en": "<div class=\"aa-it\" data-k=\"data\"><button type=\"button\" class=\"aa-pill\" aria-expanded=\"false\"><svg viewBox=\"0 0 20 20\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"9.25\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M10 6v8M6 10h8\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>Your data</button><div class=\"aa-voice aa-card\"><p><b>Your data.</b> Your customers’ chats are used to answer them and to improve your Luz. Nothing else. We follow Quebec’s Law&nbsp;25, PIPEDA and GDPR.</p></div></div>",
+  "fr": "<div class=\"aa-it\" data-k=\"data\"><button type=\"button\" class=\"aa-pill\" aria-expanded=\"false\"><svg viewBox=\"0 0 20 20\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"9.25\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"/><path d=\"M10 6v8M6 10h8\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg>Vos données</button><div class=\"aa-voice aa-card\"><p><b>Vos données.</b> Les conversations de vos clients servent à leur répondre et à améliorer votre Luz. Rien d’autre. On respecte la Loi&nbsp;25, la LPRPDE et le RGPD.</p></div></div>",
+  "en-bf": "",
+  "fr-bf": ""
+ },
+ "trust.4": {
+  "en": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style>",
+  "fr": "<style>.aaf a[href$=\"#free-pilot\"]{display:none}</style>",
+  "en-bf": "",
+  "fr-bf": ""
  }
 }
