@@ -617,7 +617,7 @@ class Component extends DCLogic {
     const fit = () => { const w = wrap.clientWidth;
       const crop = Math.round(lerp(LEDE, w) + 14 + 44 /* Nov 11: 44px less white above the orb, so the orb and button sit centred in the card by eye */), end = Math.floor(btnBottom(w) + 9);
       if (this._chatOpen) { f.style.top = '0px'; f.style.height = '100%'; let ph = false; try { ph = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768; } catch (x) { ph = window.innerWidth < 768; }
-        /* Nov 11 (Berley): on computers the open chat keeps the same height as the closed card */ wrap.style.minHeight = (ph ? 620 : Math.max(440, end - crop)) + 'px'; if (!ph) wrap.style.height = Math.max(440, end - crop) + 'px'; return; }
+        /* Nov 11 (Berley): on computers the open chat keeps the height of the closed card. Nov 20: but never under 560 px, or the voice view crops the top of the orb */ wrap.style.minHeight = (ph ? 620 : Math.max(560, end - crop)) + 'px'; if (!ph) wrap.style.height = Math.max(560, end - crop) + 'px'; return; }
       wrap.style.height = ''; /* Nov 11: the orb area runs 9px under the button, right to the card's bottom edge (the app's small line starts 10px under the button) */
       wrap.style.minHeight = (end - crop) + 'px'; /* Nov 11: particles reach the card's bottom edge, no white band (Berley) */ f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     // Nov 5 (Berley): the full-screen takeover is for phones and tablets only. On desktop the chat opens inside its card.
