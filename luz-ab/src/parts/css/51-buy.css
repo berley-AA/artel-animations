@@ -1,11 +1,11 @@
 /* Price + action, the Apple way (measured on apple.com/ca/homepod-mini and /iphone-duo, Nov 19 2026).
    Wide (1069 px and up): a frosted capsule beside the headline. 64 px tall, 10 px inset, price 14/600 ink, 17 px button.
    1068 px and down: a full-width frosted band at the bottom of the hero. 72 px tall, price left on the text edge, 14 px button.
-   Button label is ink on orange (floor F1: white on #FF7B00 is 2.6:1). */
+   Button: black pill, white label (Berley chose version B, Nov 20 2026; 16.8:1). */
 .aa-buy{background:rgba(232,232,237,.72)!important;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);border:0!important;border-radius:999px!important;padding:10px!important;gap:0!important;min-height:64px;box-sizing:border-box}
 .aa-buy-p{padding:0 34px 0 14px;font-size:14px!important;font-weight:600;line-height:18px!important;letter-spacing:-.016em;color:#1D1D1F!important;font-variant-numeric:tabular-nums;white-space:nowrap}
 .aa-buy-p b{font-weight:600!important}
-.aa-buy-b{position:relative;min-height:44px!important;padding:0 21px!important;border-radius:999px!important;background:#FF7B00!important;color:#1D1D1F!important;font-size:17px!important;font-weight:400!important;letter-spacing:-.022em;white-space:nowrap;transition:transform 160ms cubic-bezier(.22,1,.36,1)}
+.aa-buy-b{position:relative;min-height:44px!important;padding:0 21px!important;border-radius:999px!important;background:#1D1D1F!important;color:#FFFFFF!important;font-size:17px!important;font-weight:400!important;letter-spacing:-.022em;white-space:nowrap;transition:transform 160ms cubic-bezier(.22,1,.36,1)}
 .aa-buy-b:active{transform:scale(.96)}
 .aa-buy-b:focus-visible{outline:2px solid #1D1D1F;outline-offset:3px}
 @media (max-width:1068px){
