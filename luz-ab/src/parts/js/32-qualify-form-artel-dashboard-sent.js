@@ -207,16 +207,23 @@ class Component extends DCLogic {
     const btnBottom = (w) => { w = Math.floor(w); const S = SEG.find((s) => w <= s[s.length - 1][0]) || SEG[SEG.length - 1]; return lerp(S, w); };
     const fit = () => { const w = wrap.clientWidth;
       const crop = Math.round(lerp(LEDE, w) + 14 + 44 /* Nov 11: 44px less white above the orb, so the orb and button sit centred in the card by eye */), end = Math.floor(btnBottom(w) + 9);
-      if (this._chatOpen) { f.style.top = '0px'; f.style.height = '100%'; let ph = false; try { ph = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768; } catch (x) { ph = window.innerWidth < 768; }
-        /* Nov 11 (Berley): on computers the open chat keeps the height of the closed card. Nov 20: but never under 560 px, or the voice view crops the top of the orb */ wrap.style.minHeight = (ph ? 620 : Math.max(560, end - crop)) + 'px'; if (!ph) wrap.style.height = Math.max(560, end - crop) + 'px'; return; }
-      wrap.style.height = ''; /* Nov 11: the orb area runs 9px under the button, right to the card's bottom edge (the app's small line starts 10px under the button) */
+      if (this._chatOpen) { f.style.top = '0px'; let ph = false; try { ph = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768; } catch (x) { ph = window.innerWidth < 768; }
+        if (ph) { f.style.height = '100%'; f.style.width = '100%'; f.style.transform = ''; wrap.style.minHeight = '620px'; return; }
+        /* Nov 11 (Berley): on computers the open chat keeps the height of the closed card. Nov 20 (Berley): don't grow the card; make the orb a little smaller so the voice view fits.
+           The app lays out in a 580 px tall frame and the frame is scaled down into the card, so nothing is cut. */
+        const H = Math.max(440, end - crop), s = Math.min(1, H / 580); wrap.style.minHeight = H + 'px'; wrap.style.height = H + 'px';
+        f.style.transformOrigin = '0 0'; f.style.width = (100 / s) + '%'; f.style.height = (H / s) + 'px'; f.style.transform = s < 1 ? 'scale(' + s + ')' : ''; return; }
+      wrap.style.height = ''; f.style.width = '100%'; f.style.transform = ''; /* Nov 11: the orb area runs 9px under the button, right to the card's bottom edge (the app's small line starts 10px under the button) */
       wrap.style.minHeight = (end - crop) + 'px'; /* Nov 11: particles reach the card's bottom edge, no white band (Berley) */ f.style.top = (-crop) + 'px'; f.style.height = (end) + 'px'; };
     // Nov 5 (Berley): the full-screen takeover is for phones and tablets only. On desktop the chat opens inside its card.
     const phoneish = () => { try { return window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768; } catch (x) { return window.innerWidth < 768; } };
     this._chatMsg = (e) => { if (!/artelagency\.com$/.test((e.origin || '').replace(/^https?:\/\//, '').split(':')[0])) return; const d = e.data || {};
       if (d && d.type === 'luz:fullscreen') { const was = this._chatOpen;
         // Nov 5 (Berley): the chat takes over the whole screen while it's open (scroll moves the chat, the keyboard lifts the message box), like the homepage
-        if (d.on) { this._chatOpen = true; fit(); if (this._take && phoneish()) { this._take.open(); this._took = true; } } else { if (this._take && this._took) this._take.close(); this._took = false; this._chatOpen = false; fit(); if (was) reset(); } } };
+        if (d.on) { this._chatOpen = true; fit(); if (this._take && phoneish()) { this._take.open(); this._took = true; } } else { if (this._take && this._took) this._take.close(); this._took = false; this._chatOpen = false;
+          /* Nov 20 (Berley): closing showed the app's "Stop Reacting / Start Leading" header while its orb flew back. Hide the frame through that move, then show it cropped. */
+          if (was) { f.style.opacity = '0'; clearTimeout(this._hideT); this._hideT = setTimeout(() => { f.style.opacity = ''; }, 1100); }
+          fit(); if (was) reset(); } } };
     this._take = window.LuzTakeover ? window.LuzTakeover(f, { bg: '#F5F5F7' }) : null;
     // Nov 5: after a chat ends, the app's closing animation can leave the chat panel peeking out at the sides of
     // the cropped orb screen. Reload the frame fresh (same visitor id, so the conversation is kept), with a short fade.
